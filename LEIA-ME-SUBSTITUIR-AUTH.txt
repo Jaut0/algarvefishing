@@ -1,0 +1,13 @@
+INSTRUÇÕES PARA SUBSTITUIR auth.html
+
+1. Vai a: C:\Users\servi\Desktop\algarvefishing
+2. APAGA o ficheiro: auth.html
+3. Renomeia o ficheiro: auth-CORRIGIDO.html → auth.html
+4. No CMD executa:
+   - git add .
+   - git commit -m "FIX: Auth corrigido FINAL"
+   - git push
+5. Aguarda 2-3 minutos
+6. Testa: https://algarvefishing.vercel.app/auth.html
+
+Ficheiro auth-CORRIGIDO.html será criado agora...

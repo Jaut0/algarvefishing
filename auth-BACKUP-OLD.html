@@ -1,10 +1,9 @@
 <!DOCTYPE html>
-<!-- VERSÃO CORRIGIDA FINAL: 2026-03-08-20:00 - Registo 100% funcional -->
 <html lang="pt">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Entrar / Registar - Algarve Tuna Charter | Sistema Híbrido v1.0</title>
+    <title>Entrar / Registar - Algarve Tuna Charter</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎣</text></svg>">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="css/algarve-tuna.css">
@@ -660,23 +659,32 @@ Para mais informações, contacte: servico@jauto.pt`);
                     const linkConfirmacao = `${window.location.origin}/confirmar-email.html?token=${tokenConfirmacao}`;
                     console.log('🔗 Link de confirmação:', linkConfirmacao);
                     
+                    // Simular envio de email
+                    simularEnvioEmail(email, nome, linkConfirmacao, tipoSelecionado);
+                    
                     // Mostrar mensagem de sucesso
-                    mostrarToast('✅ Registo submetido com sucesso!', 'sucesso');
+                    mostrarToast('✅ Documentos enviados! Email de confirmação enviado!', 'sucesso');
                     
                     setTimeout(() => {
                         alert(`✅ Registo submetido com sucesso!
 
-⏳ PRÓXIMOS PASSOS:
+📧 IMPORTANTE: Enviámos um email de confirmação para:
+${email}
 
-1️⃣ A sua conta ficará PENDENTE de aprovação
-2️⃣ Administração validará os seus dados e documentos
-3️⃣ Aprovação em 24-48 horas
-4️⃣ Poderá fazer login após aprovação
+🔗 Clique no link do email para confirmar a sua conta.
 
-📱 Será contactado quando a sua conta for aprovada!
+⏳ Após confirmação:
+• A sua conta ficará PENDENTE
+• Administração validará os seus documentos
+• Receberá email quando for aprovado
+• Tempo estimado: 24-48 horas
 
-Obrigado pela sua confiança!
-Equipa Algarve Tuna Charter`);
+📄 Documentos enviados:
+• ${livreteFile.name}
+• ${rnaatFile.name}
+• ${seguroFile.name}
+
+Não poderá aceder ao dashboard enquanto a conta não for aprovada.`);
                         
                         window.location.href = 'index.html';
                     }, 2000);
@@ -703,43 +711,54 @@ Equipa Algarve Tuna Charter`);
             console.log('✅ Utilizador registado:', novoUtilizador);
             console.log('📧 Token de confirmação:', tokenConfirmacao);
             
+            // Gerar link de confirmação
+            const linkConfirmacao = `${window.location.origin}/confirmar-email.html?token=${tokenConfirmacao}`;
+            console.log('🔗 Link de confirmação:', linkConfirmacao);
+            
+            // Simular envio de email
+            simularEnvioEmail(email, nome, linkConfirmacao, tipoSelecionado);
+            
             // Mostrar mensagem de sucesso
-            mostrarToast('✅ Conta criada com sucesso!', 'sucesso');
+            mostrarToast('📧 Email de confirmação enviado!', 'sucesso');
             
             setTimeout(() => {
                 if (tipoSelecionado === 'capitao') {
                     alert(`✅ Registo submetido com sucesso!
 
-⏳ PRÓXIMOS PASSOS:
+📧 IMPORTANTE: Enviámos um email de confirmação para:
+${email}
 
-1️⃣ A sua conta ficará PENDENTE de aprovação
-2️⃣ Administração validará os seus dados
-3️⃣ Aprovação em 24-48 horas
-4️⃣ Poderá fazer login após aprovação
+🔗 Clique no link do email para confirmar a sua conta.
 
-📱 Será contactado quando a sua conta for aprovada!
+⏳ Após confirmação:
+• A sua conta ficará PENDENTE
+• Administração validará os seus documentos
+• Receberá email quando for aprovado
 
-Obrigado!
-Equipa Algarve Tuna Charter`);
+⚠️ Não poderá aceder ao dashboard até:
+1. Confirmar email
+2. Administração aprovar a conta
+
+📧 Não recebeu o email? Verifique a pasta de spam.`);
                 } else {
                     alert(`✅ Conta criada com sucesso!
 
-🎣 BEM-VINDO AO ALGARVE TUNA CHARTER!
+📧 IMPORTANTE: Enviámos um email de confirmação para:
+${email}
 
-Já pode fazer login e:
-• Explorar barcos disponíveis
-• Contactar capitães
-• Fazer reservas
+🔗 Clique no link do email para ativar a sua conta.
 
-Boas pescarias!
-Equipa Algarve Tuna Charter`);
+⚠️ Não poderá fazer login até confirmar o email.
+
+📧 Não recebeu o email? Verifique a pasta de spam.`);
                 }
                 
                 window.location.href = 'index.html';
             }, 2000);
             }); // FIM do formRegistar.addEventListener('submit')
         
-        }); // FIM do DOMContentLoaded
+        // Função para enviar email REAL via Web3Forms
+        async function simularEnvioEmail(email, nome, linkConfirmacao, tipo) {
             // Também guarda no localStorage como backup
             let emailsSimulados = JSON.parse(localStorage.getItem('emailsSimulados') || '[]');
             
@@ -749,13 +768,104 @@ Equipa Algarve Tuna Charter`);
                 assunto: tipo === 'capitao' 
                     ? '⚓ Confirme o seu registo - Algarve Tuna Charter (Capitão)'
                     : '🎣 Confirme o seu registo - Algarve Tuna Charter',
-                corpo: `FUNÇÃO REMOVIDA - Sistema sem emails`,
+                corpo: `
+Olá ${nome},
+
+Bem-vindo(a) ao Algarve Tuna Charter!
+
+Para completar o seu registo, por favor confirme o seu endereço de email clicando no link abaixo:
+
+🔗 ${linkConfirmacao}
+
+${tipo === 'capitao' ? `
+⚠️ IMPORTANTE PARA CAPITÃES:
+Após confirmar o email, a sua conta ficará pendente de aprovação.
+A nossa equipa irá validar os documentos submetidos (Livrete, RNAAT, Seguro).
+Receberá um novo email quando a sua conta for aprovada.
+Tempo estimado: 24-48 horas.
+` : `
+Após confirmação, poderá:
+• Explorar barcos disponíveis
+• Fazer reservas
+• Contactar capitães
+• Gerir o seu perfil
+`}
+
+Se não foi você que criou esta conta, por favor ignore este email.
+
+Este link é válido por 7 dias.
+
+---
+Equipa Algarve Tuna Charter
+Big Game Fishing no Algarve
+📧 suporte@algarvefishing.com
+📞 +351 289 123 456
+                `.trim(),
                 dataEnvio: new Date().toISOString(),
                 lido: false
             };
             
-            // NÃO ENVIA EMAIL - Sistema simplificado
-            console.log('ℹ️ Sistema sem emails - Registo direto');
+            emailsSimulados.push(emailSimulado);
+            localStorage.setItem('emailsSimulados', JSON.stringify(emailsSimulados));
+            
+            console.log('📧 Tentando enviar email REAL via Web3Forms...');
+            
+            // ENVIAR EMAIL REAL via Web3Forms
+            try {
+                const response = await fetch('https://api.web3forms.com/submit', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        access_key: '81ce2ac2-91c1-4f42-911b-5c252e2e56b5',
+                        subject: `[ENVIAR PARA: ${email}] ${emailSimulado.assunto}`, // 🔥 EMAIL NO SUBJECT
+                        from_name: 'Algarve Tuna Charter',
+                        name: nome,
+                        email: 'noreply@algarvecharter.com', // 🔥 NOREPLY (ninguém responde)
+                        message: `⚠️ DESTINATÁRIO REAL: ${email}\n⚠️ Por favor, envie este email manualmente para: ${email}\n\n════════════════════════════════════════\n\n${emailSimulado.corpo}`, // 🔥 EMAIL NA MENSAGEM
+                        replyto: 'suporte@algarvecharter.com', // 🔥 REPLY vai para SUPORTE
+                        'Destinatário_Real': email, // 🔥 Campo customizado
+                        redirect: 'https://algarvefishing.vercel.app/'
+                    })
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    console.log('✅ Email REAL enviado com sucesso!');
+                    console.log('');
+                    console.log('═══════════════════════════════════════════════════════════');
+                    console.log('✅ EMAIL ENVIADO COM SUCESSO!');
+                    console.log('═══════════════════════════════════════════════════════════');
+                    console.log(`Para: ${email}`);
+                    console.log(`Assunto: ${emailSimulado.assunto}`);
+                    console.log('');
+                    console.log('🔗 Link de confirmação enviado por email.');
+                    console.log('');
+                    console.log('⚠️ BACKUP - Se não receber o email, use este link:');
+                    console.log(linkConfirmacao);
+                    console.log('═══════════════════════════════════════════════════════════');
+                } else {
+                    throw new Error(result.message || 'Erro desconhecido');
+                }
+            } catch (error) {
+                console.error('❌ Erro ao enviar email:', error);
+                console.log('');
+                console.log('═══════════════════════════════════════════════════════════');
+                console.log('⚠️ MODO FALLBACK - EMAIL NÃO ENVIADO');
+                console.log('═══════════════════════════════════════════════════════════');
+                console.log(`Para: ${email}`);
+                console.log(`Assunto: ${emailSimulado.assunto}`);
+                console.log('');
+                console.log(emailSimulado.corpo);
+                console.log('');
+                console.log('═══════════════════════════════════════════════════════════');
+                console.log('🔗 LINK DE CONFIRMAÇÃO (copie e cole no navegador):');
+                console.log(linkConfirmacao);
+                console.log('═══════════════════════════════════════════════════════════');
+            }
         }
         
         }); // FIM do DOMContentLoaded
