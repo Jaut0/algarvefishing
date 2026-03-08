@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Entrar / Registar - Algarve Tuna Charter | Sistema Híbrido v1.0</title>
+    <title>Entrar / Registar - Algarve Tuna Charter</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎣</text></svg>">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="css/algarve-tuna.css">
@@ -738,25 +738,6 @@ Equipa Algarve Tuna Charter`);
                 window.location.href = 'index.html';
             }, 2000);
             }); // FIM do formRegistar.addEventListener('submit')
-        
-        }); // FIM do DOMContentLoaded
-            // Também guarda no localStorage como backup
-            let emailsSimulados = JSON.parse(localStorage.getItem('emailsSimulados') || '[]');
-            
-            const emailSimulado = {
-                id: 'EMAIL_' + Date.now(),
-                para: email,
-                assunto: tipo === 'capitao' 
-                    ? '⚓ Confirme o seu registo - Algarve Tuna Charter (Capitão)'
-                    : '🎣 Confirme o seu registo - Algarve Tuna Charter',
-                corpo: `FUNÇÃO REMOVIDA - Sistema sem emails`,
-                dataEnvio: new Date().toISOString(),
-                lido: false
-            };
-            
-            // NÃO ENVIA EMAIL - Sistema simplificado
-            console.log('ℹ️ Sistema sem emails - Registo direto');
-        }
         
         }); // FIM do DOMContentLoaded
         
