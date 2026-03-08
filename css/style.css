@@ -1186,3 +1186,114 @@ p {
     font-size: 0.9rem;
   }
 }
+
+/* ============================================
+   SAÍDAS GRID
+   ============================================ */
+.saidas-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.saida-card {
+  background: var(--cor-branco);
+  border-radius: var(--radius-medio);
+  box-shadow: var(--sombra-pequena);
+  overflow: hidden;
+  transition: var(--transicao-normal);
+  cursor: pointer;
+}
+
+.saida-card:hover {
+  box-shadow: var(--sombra-media);
+  transform: translateY(-5px);
+}
+
+.saida-card-imagem {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.saida-card-conteudo {
+  padding: 1.5rem;
+}
+
+.saida-card-titulo {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--cor-primaria);
+  margin-bottom: 0.5rem;
+}
+
+.saida-card-descricao {
+  color: var(--cor-cinza-escuro);
+  font-size: 0.95rem;
+  margin-bottom: 1rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.saida-card-info {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+  color: var(--cor-cinza-escuro);
+}
+
+.saida-card-info-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.saida-card-info-item i {
+  color: var(--cor-destaque);
+}
+
+.saida-card-tipos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.saida-card-tipo-badge {
+  background: rgba(255, 143, 0, 0.1);
+  color: var(--cor-destaque);
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.saida-card-preco {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 1rem;
+  border-top: 1px solid var(--cor-cinza-claro);
+}
+
+.saida-card-preco-valor {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--cor-destaque);
+}
+
+.saida-card-preco-label {
+  font-size: 0.85rem;
+  color: var(--cor-cinza-escuro);
+}
+
+@media (max-width: 768px) {
+  .saidas-grid {
+    grid-template-columns: 1fr;
+  }
+}

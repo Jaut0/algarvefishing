@@ -812,6 +812,7 @@
     padding: var(--espacamento-sm);
     width: 100%;
     max-width: 100%;
+    box-sizing: border-box;
   }
   
   .dashboard-header-top {
@@ -850,6 +851,35 @@
   
   .filtros-grupo {
     grid-template-columns: 1fr;
+  }
+  
+  /* Card de perfil responsivo */
+  .card {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box;
+    padding: 1rem !important;
+  }
+  
+  .form-grid {
+    grid-template-columns: 1fr !important;
+  }
+  
+  .form-input,
+  .form-select,
+  .form-textarea {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box;
+  }
+  
+  .form-acoes {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .form-acoes .btn {
+    width: 100%;
   }
 }
 

@@ -193,8 +193,11 @@ document.addEventListener('DOMContentLoaded', () => {
 // RENDERIZAR SAÍDAS
 // ============================================
 function renderizarSaidas() {
-    const container = document.getElementById('saidasContainer');
-    if (!container) return;
+    const container = document.getElementById('resultadosSaidas');
+    if (!container) {
+        console.error('Container #resultadosSaidas não encontrado!');
+        return;
+    }
     
     if (saidasFiltradas.length === 0) {
         container.innerHTML = `
@@ -213,89 +216,59 @@ function renderizarSaidas() {
     }
     
     container.innerHTML = saidasFiltradas.map(saida => `
-        <div class="barco-card fade-in ${saida.partilhada ? 'card-partilhada' : ''}">
-            <div class="barco-card-imagem">
-                <img src="${saida.imagem}" alt="${saida.titulo}">
-                ${saida.partilhada ? 
-                    `<div class="barco-card-badge" style="background: linear-gradient(135deg, #0EA5E9, #06B6D4); font-weight: 700; box-shadow: 0 4px 12px rgba(6, 182, 212, 0.4);">
-                        <i class="fas fa-users"></i> SAÍDA PARTILHADA
-                    </div>` :
-                    saida.vagas === 0 ? 
-                    '<div class="barco-card-badge" style="background-color: var(--cor-cinza-escuro);">Esgotado</div>' :
-                    saida.vagas <= 2 ?
-                    '<div class="barco-card-badge">Últimas Vagas</div>' : ''
-                }
-            </div>
-            <div class="barco-card-info">
-                <div class="barco-card-localizacao">
-                    <i class="fas fa-map-marker-alt"></i>
-                    <span>${saida.localizacao}</span>
-                </div>
-                <h3 class="card-titulo">${saida.titulo}</h3>
+        <div class="saida-card fade-in">
+            <img src="${saida.imagem}" alt="${saida.titulo}" class="saida-card-imagem">
+            <div class="saida-card-conteudo">
+                <h3 class="saida-card-titulo">${saida.titulo}</h3>
+                <p class="saida-card-descricao">
+                    Saída de pesca com o Capitão ${saida.capitao} a bordo do barco "${saida.barco}".
+                </p>
                 
-                ${saida.partilhada ? `
-                    <div style="background: linear-gradient(135deg, #E0F2FE 0%, #DBEAFE 100%); border-left: 4px solid #0284C7; padding: 0.8rem; border-radius: 6px; margin: 0.75rem 0;">
-                        <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
-                            <i class="fas fa-users" style="color: #0284C7; font-size: 1.1rem;"></i>
-                            <strong style="color: #0C4A6E; font-size: 0.95rem;">Custos Partilhados</strong>
-                        </div>
-                        <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; color: #075985;">
-                            <span><i class="fas fa-chair"></i> ${saida.vagasOcupadas}/${saida.vagasDisponiveis} ocupadas</span>
-                            <span><strong style="color: #0C4A6E;">${saida.vagas} vagas livres</strong></span>
-                        </div>
-                        <div style="margin-top: 0.5rem; font-size: 0.8rem; color: #0E7490;">
-                            💰 Total: €${saida.precoTotal} ÷ ${saida.vagasDisponiveis} pessoas
-                        </div>
+                <div class="saida-card-info">
+                    <div class="saida-card-info-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>${saida.localizacao}</span>
                     </div>
-                ` : ''}
-                
-                <div class="barco-card-rating">
-                    <span class="estrelas">
-                        ${gerarEstrelas(saida.rating)}
-                    </span>
-                    <span class="texto-cinza">(${saida.avaliacoes} avaliações)</span>
-                </div>
-                
-                <div class="barco-card-info-item" style="margin: 0.5rem 0;">
-                    <i class="fas fa-user-tie"></i>
-                    <span>Capitão: ${saida.capitao}</span>
-                </div>
-                
-                <div class="barco-card-info-item">
-                    <i class="fas fa-calendar-alt"></i>
-                    <span>${formatarDataPT(saida.data)} às ${saida.hora}</span>
-                </div>
-                
-                <div class="barco-card-info-item">
-                    <i class="fas fa-clock"></i>
-                    <span>${saida.duracao} horas</span>
-                </div>
-                
-                ${!saida.partilhada ? `
-                    <div class="barco-card-info-item">
-                        <i class="fas fa-users"></i>
-                        <span>${saida.vagas} vagas de ${saida.lotacao}</span>
+                    <div class="saida-card-info-item">
+                        <i class="fas fa-calendar-alt"></i>
+                        <span>${formatarDataPT(saida.data)}</span>
                     </div>
-                ` : ''}
+                    <div class="saida-card-info-item">
+                        <i class="fas fa-clock"></i>
+                        <span>${saida.duracao}h</span>
+                    </div>
+                    ${!saida.partilhada ? `
+                        <div class="saida-card-info-item">
+                            <i class="fas fa-users"></i>
+                            <span>${saida.vagas}/${saida.lotacao} vagas</span>
+                        </div>
+                    ` : `
+                        <div class="saida-card-info-item">
+                            <i class="fas fa-user-friends"></i>
+                            <span>Partilhada (${saida.vagasOcupadas}/${saida.vagasDisponiveis})</span>
+                        </div>
+                    `}
+                    <div class="saida-card-info-item">
+                        <i class="fas fa-star"></i>
+                        <span>${saida.rating} (${saida.avaliacoes})</span>
+                    </div>
+                </div>
                 
-                <div class="barco-card-tags">
-                    ${saida.tipos.map(tipo => `
-                        <span class="tag">
-                            <i class="fas fa-fish"></i> ${tipo}
-                        </span>
+                <div class="saida-card-tipos">
+                    ${saida.tipos.slice(0, 3).map(tipo => `
+                        <span class="saida-card-tipo-badge">${tipo}</span>
                     `).join('')}
                 </div>
                 
-                <div class="barco-card-preco" style="${saida.partilhada ? 'background: linear-gradient(135deg, #0EA5E9, #06B6D4); color: white; box-shadow: 0 4px 12px rgba(6, 182, 212, 0.3);' : ''}">
-                    ${saida.preco}€ <span>/ pessoa</span>
-                    ${saida.partilhada ? `<div style="font-size: 0.75rem; opacity: 0.95; margin-top: 0.2rem;">Preço partilhado</div>` : ''}
+                <div class="saida-card-preco">
+                    <div>
+                        <div class="saida-card-preco-valor">€${saida.preco}</div>
+                        <div class="saida-card-preco-label">por pessoa</div>
+                    </div>
+                    <a href="detalhe-saida.html?id=${saida.id}" class="btn btn-primario btn-pequeno">
+                        ${saida.vagas === 0 ? '<i class="fas fa-ban"></i> Esgotado' : '<i class="fas fa-arrow-right"></i> Ver Detalhes'}
+                    </a>
                 </div>
-                
-                <a href="detalhe-saida.html?id=${saida.id}" 
-                   class="btn ${saida.partilhada ? 'btn-secundario' : 'btn-primario'} btn-bloco ${saida.vagas === 0 ? 'btn:disabled' : ''}">
-                    <i class="fas ${saida.partilhada ? 'fa-user-plus' : 'fa-info-circle'}"></i>
-                    ${saida.vagas === 0 ? 'Esgotado' : saida.partilhada ? 'Juntar-me à Saída' : 'Ver Detalhes e Contactar'}
-                </a>
             </div>
         </div>
     `).join('');
