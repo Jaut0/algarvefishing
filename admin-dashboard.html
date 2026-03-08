@@ -1,13 +1,147 @@
 <!DOCTYPE html>
+<!-- VERSÃO FINAL SEM PEDRO: 2026-03-08-16-00 -->
 <html lang="pt">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
     <title>Admin - Algarve Tuna Charter</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>⚓</text></svg>">
+    
+    <!-- 💀 MATADOR DE PEDRO SILVA - EXECUTA PRIMEIRO QUE TUDO -->
+    <script>
+    (function(){
+        console.log('%c💀 MATADOR DE PEDRO SILVA ATIVO', 'color: red; font-size: 20px; font-weight: bold;');
+        
+        // Limpar localStorage IMEDIATAMENTE
+        try {
+            let u = JSON.parse(localStorage.getItem('utilizadores')||'[]');
+            u = u.filter(x => x.nome !== 'Pedro Silva' && x.email !== 'pedro.silva@email.com');
+            localStorage.setItem('utilizadores', JSON.stringify(u));
+            console.log('✅ localStorage limpo!');
+        } catch(e) {}
+        
+        // Interceptar carregamento de capitães pendentes
+        window.BLOCK_PEDRO = true;
+        
+        // Observer que mata qualquer Pedro que apareça
+        const killPedro = () => {
+            document.querySelectorAll('.card, .capitao-pendente-item, [class*="card"]').forEach(el => {
+                if(el.textContent.includes('Pedro Silva') || 
+                   el.textContent.includes('pedro.silva') ||
+                   el.textContent.includes('CM123456')) {
+                    el.remove();
+                    console.log('🔥 Pedro Silva card DESTRUÍDO!');
+                }
+            });
+        };
+        
+        setInterval(killPedro, 100);
+        
+        new MutationObserver(killPedro).observe(document.documentElement, {
+            childList: true, 
+            subtree: true
+        });
+    })();
+    </script>
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/style.css?v=20260308160000">
+    <link rel="stylesheet" href="css/dashboard.css?v=20260308160000">
+    
+    <script>
+    // 🔥 SCRIPT DE AUTO-DESTRUIÇÃO DO PEDRO SILVA - VERSÃO NUCLEAR
+    // Executa ANTES de qualquer outra coisa
+    (function() {
+        console.log('🔥🔥🔥 Script NUCLEAR anti-Pedro Silva ATIVO');
+        
+        // 1. Remover do localStorage
+        let users = JSON.parse(localStorage.getItem('utilizadores') || '[]');
+        const before = users.length;
+        users = users.filter(u => {
+            return u.nome !== 'Pedro Silva' && 
+                   u.email !== 'pedro.silva@email.com' &&
+                   u.telefone !== '+351 912 345 678' &&
+                   !u.email?.includes('pedro.silva');
+        });
+        if (users.length < before) {
+            localStorage.setItem('utilizadores', JSON.stringify(users));
+            console.log('✅ Pedro Silva REMOVIDO do localStorage');
+        }
+        
+        // 2. Função para destruir Pedro no DOM
+        function destroyPedro() {
+            let destroyed = 0;
+            
+            // Procurar em TODOS os elementos
+            document.querySelectorAll('*').forEach(el => {
+                const text = el.textContent || '';
+                if (text.includes('Pedro Silva') || 
+                    text.includes('pedro.silva@email.com') ||
+                    text.includes('CM123456')) {
+                    
+                    // Encontrar o card pai
+                    const card = el.closest('.card');
+                    if (card) {
+                        console.log('🔥 DESTRUINDO card do Pedro Silva!', card);
+                        card.remove();
+                        destroyed++;
+                    }
+                }
+            });
+            
+            if (destroyed > 0) {
+                console.log(`💥 ${destroyed} card(s) do Pedro Silva DESTRUÍDO(S)!`);
+            }
+            
+            return destroyed;
+        }
+        
+        // 3. Executar destruição a cada 500ms durante 5 segundos
+        let attempts = 0;
+        const maxAttempts = 10;
+        const interval = setInterval(() => {
+            attempts++;
+            const destroyed = destroyPedro();
+            
+            if (destroyed > 0) {
+                console.log(`✅ Tentativa ${attempts}: ${destroyed} Pedro(s) destruído(s)`);
+            }
+            
+            if (attempts >= maxAttempts) {
+                clearInterval(interval);
+                console.log('✅ Varredura anti-Pedro concluída!');
+            }
+        }, 500);
+        
+        // 4. Observer para destruição contínua
+        const observer = new MutationObserver(() => {
+            destroyPedro();
+        });
+        
+        // Iniciar observação quando DOM carregar
+        if (document.body) {
+            observer.observe(document.body, {
+                childList: true,
+                subtree: true
+            });
+            console.log('👁️ Observer anti-Pedro ATIVO');
+            // Primeira varredura
+            destroyPedro();
+        } else {
+            document.addEventListener('DOMContentLoaded', () => {
+                observer.observe(document.body, {
+                    childList: true,
+                    subtree: true
+                });
+                console.log('👁️ Observer anti-Pedro ATIVO');
+                destroyPedro();
+            });
+        }
+    })();
+    </script>
 </head>
 <body>
     <header class="header">
@@ -195,30 +329,10 @@
                             </h2>
                         </div>
                         
-                        <div style="display: flex; flex-direction: column; gap: 0.75rem;">
-                            <div style="padding: 0.75rem; background: var(--cor-cinza-claro); border-radius: var(--radius-pequeno);">
-                                <div style="font-size: 0.875rem; margin-bottom: 0.25rem;">
-                                    <i class="fas fa-user-plus" style="color: var(--cor-sucesso);"></i>
-                                    <strong>Pedro Silva</strong> registou-se como capitão
-                                </div>
-                                <div class="texto-pequeno texto-cinza">Há 2 horas</div>
-                            </div>
-                            
-                            <div style="padding: 0.75rem; background: var(--cor-cinza-claro); border-radius: var(--radius-pequeno);">
-                                <div style="font-size: 0.875rem; margin-bottom: 0.25rem;">
-                                    <i class="fas fa-ship" style="color: var(--cor-secundaria);"></i>
-                                    <strong>Barco "Mar Azul"</strong> adicionado por João Costa
-                                </div>
-                                <div class="texto-pequeno texto-cinza">Há 4 horas</div>
-                            </div>
-                            
-                            <div style="padding: 0.75rem; background: var(--cor-cinza-claro); border-radius: var(--radius-pequeno);">
-                                <div style="font-size: 0.875rem; margin-bottom: 0.25rem;">
-                                    <i class="fas fa-check" style="color: var(--cor-sucesso);"></i>
-                                    Aprovado: <strong>Capitão Manuel Fernandes</strong>
-                                </div>
-                                <div class="texto-pequeno texto-cinza">Ontem</div>
-                            </div>
+                        <div class="estado-vazio">
+                            <i class="fas fa-clock estado-vazio-icon"></i>
+                            <h3 class="estado-vazio-titulo">Sem Atividade Recente</h3>
+                            <p class="estado-vazio-texto">A atividade da plataforma aparecerá aqui</p>
                         </div>
                     </div>
                 </div>
@@ -234,84 +348,10 @@
                 
                 <div class="dashboard-secao">
                     <div style="display: flex; flex-direction: column; gap: 1.5rem;">
-                        <!-- Capitão Pendente 1 -->
-                        <div class="card" style="border-left: 4px solid var(--cor-destaque);">
-                            <div class="card-conteudo">
-                                <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem;">
-                                    <div style="display: flex; align-items: center; gap: 1rem;">
-                                        <div style="width: 60px; height: 60px; border-radius: 50%; background: linear-gradient(135deg, var(--cor-destaque), #FFB74D); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: 700; color: white;">
-                                            PS
-                                        </div>
-                                        <div>
-                                            <h3 style="margin-bottom: 0.25rem;">Pedro Silva</h3>
-                                            <div class="texto-pequeno texto-cinza">Registado há 2 horas</div>
-                                            <div class="badge badge-destaque" style="margin-top: 0.5rem;">Pendente</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <div class="grid grid-2 gap-md mb-3">
-                                    <div>
-                                        <div class="texto-pequeno texto-cinza">Email</div>
-                                        <div style="font-weight: 500;">pedro.silva@email.com</div>
-                                    </div>
-                                    <div>
-                                        <div class="texto-pequeno texto-cinza">Telefone</div>
-                                        <div style="font-weight: 500;">+351 912 345 678</div>
-                                    </div>
-                                    <div>
-                                        <div class="texto-pequeno texto-cinza">Cédula Marítima</div>
-                                        <div style="font-weight: 500;">CM123456</div>
-                                    </div>
-                                    <div>
-                                        <div class="texto-pequeno texto-cinza">Anos de Experiência</div>
-                                        <div style="font-weight: 500;">15 anos</div>
-                                    </div>
-                                    <div>
-                                        <div class="texto-pequeno texto-cinza">Porto de Origem</div>
-                                        <div style="font-weight: 500;">Porto de Lisboa</div>
-                                    </div>
-                                    <div>
-                                        <div class="texto-pequeno texto-cinza">Data de Registo</div>
-                                        <div style="font-weight: 500;">08/03/2026 - 14:30</div>
-                                    </div>
-                                </div>
-                                
-                                <div style="background: var(--cor-cinza-claro); padding: 1rem; border-radius: var(--radius-medio); margin-bottom: 1rem;">
-                                    <h4 style="margin-bottom: 0.75rem;">
-                                        <i class="fas fa-file-alt"></i> Documentos Submetidos
-                                    </h4>
-                                    <div style="display: flex; flex-direction: column; gap: 0.5rem;">
-                                        <div style="display: flex; align-items: center; justify-content: space-between;">
-                                            <span><i class="fas fa-check-circle" style="color: var(--cor-sucesso);"></i> Livrete RNAAT</span>
-                                            <button class="btn btn-outline btn-pequeno" onclick="window.open('#', '_blank')">
-                                                <i class="fas fa-download"></i> Ver
-                                            </button>
-                                        </div>
-                                        <div style="display: flex; align-items: center; justify-content: space-between;">
-                                            <span><i class="fas fa-check-circle" style="color: var(--cor-sucesso);"></i> Certificado Seguro</span>
-                                            <button class="btn btn-outline btn-pequeno" onclick="window.open('#', '_blank')">
-                                                <i class="fas fa-download"></i> Ver
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <div style="display: flex; gap: 0.75rem;">
-                                    <button class="btn btn-sucesso" style="flex: 1; background-color: var(--cor-sucesso); color: white;" onclick="aprovarCapitao(1)">
-                                        <i class="fas fa-check"></i> Aprovar Capitão
-                                    </button>
-                                    <button class="btn btn-outline" onclick="abrirModalRejeitar(1)">
-                                        <i class="fas fa-times"></i> Rejeitar
-                                    </button>
-                                    <button class="btn btn-outline" onclick="window.location.href='mailto:pedro.silva@email.com'">
-                                        <i class="fas fa-envelope"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
+                        <!-- ✅ Capitães carregados dinamicamente via JavaScript (função carregarCapitaesPendentes) -->
+                        <!-- 🔄 Cache busted: v2.0 - 08/03/2026 14:35 -->
                         
-                        <!-- Mais 2 capitães pendentes... (similar structure) -->
+                        <!-- Estado vazio (quando não há pendentes) -->
                         <div class="estado-vazio" style="display: none;" id="semPendentes">
                             <i class="fas fa-check-circle estado-vazio-icon" style="color: var(--cor-sucesso);"></i>
                             <h3 class="estado-vazio-titulo">Tudo em Dia!</h3>
@@ -497,7 +537,137 @@
             // Carregar dados específicos da seção
             if (secao === 'usuarios') {
                 carregarUsuarios();
+            } else if (secao === 'capitaes') {
+                verificarExpiracaoCapitoes(); // Verificar expiração antes de carregar
+                carregarCapitaesAprovados();
+            } else if (secao === 'pendentes') {
+                // 🔥 CARREGAR CAPITÃES PENDENTES (SEM MOCKADOS)
+                carregarSecaoPendentes();
             }
+        }
+        
+        // 🔥 NOVA FUNÇÃO: Carregar seção de Capitães Pendentes (página específica)
+        function carregarSecaoPendentes() {
+            console.log('🔍 Carregando seção Capitães Pendentes...');
+            const utilizadores = JSON.parse(localStorage.getItem('utilizadores') || '[]');
+            
+            // FILTRAR mockados
+            const emailsMock = ['pedro.silva@email.com', 'teste@teste.com'];
+            const telefonesMock = ['+351 912 345 678', '912345678'];
+            const nomesMock = ['Pedro Silva'];
+            
+            const capitaesPendentes = utilizadores.filter(u => {
+                return u.tipo === 'capitao' && 
+                       u.status === 'pendente' &&
+                       !emailsMock.includes(u.email) &&
+                       !telefonesMock.includes(u.telefone) &&
+                       !nomesMock.includes(u.nome);
+            });
+            
+            console.log('📊 Capitães pendentes encontrados:', capitaesPendentes.length);
+            
+            const container = document.querySelector('#secao-pendentes .dashboard-secao > div');
+            
+            if (!container) {
+                console.error('❌ Container da seção pendentes não encontrado');
+                return;
+            }
+            
+            if (capitaesPendentes.length === 0) {
+                container.innerHTML = `
+                    <div class="estado-vazio">
+                        <i class="fas fa-check-circle estado-vazio-icon" style="color: var(--cor-sucesso);"></i>
+                        <h3 class="estado-vazio-titulo">Tudo em Dia!</h3>
+                        <p class="estado-vazio-texto">Não há capitães pendentes de aprovação no momento</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            // Renderizar cards dos capitães pendentes
+            container.innerHTML = capitaesPendentes.map(capitao => `
+                <div class="card" style="border-left: 4px solid var(--cor-destaque);">
+                    <div class="card-conteudo">
+                        <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem;">
+                            <div style="display: flex; align-items: center; gap: 1rem;">
+                                <div style="width: 60px; height: 60px; border-radius: 50%; background: linear-gradient(135deg, var(--cor-destaque), #FFB74D); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: 700; color: white;">
+                                    ${capitao.nome.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase()}
+                                </div>
+                                <div>
+                                    <h3 style="margin-bottom: 0.25rem;">${capitao.nome}</h3>
+                                    <div class="texto-pequeno texto-cinza">Registado em ${new Date(capitao.dataCriacao).toLocaleString('pt-PT')}</div>
+                                    <div class="badge badge-destaque" style="margin-top: 0.5rem;">Pendente</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="grid grid-2 gap-md mb-3">
+                            <div>
+                                <div class="texto-pequeno texto-cinza">Email</div>
+                                <div style="font-weight: 500;">${capitao.email}</div>
+                            </div>
+                            <div>
+                                <div class="texto-pequeno texto-cinza">Telefone</div>
+                                <div style="font-weight: 500;">${capitao.telefone}</div>
+                            </div>
+                            <div>
+                                <div class="texto-pequeno texto-cinza">Anos de Experiência</div>
+                                <div style="font-weight: 500;">${capitao.experiencia} anos</div>
+                            </div>
+                            <div>
+                                <div class="texto-pequeno texto-cinza">Porto de Origem</div>
+                                <div style="font-weight: 500;">${capitao.porto}</div>
+                            </div>
+                        </div>
+                        
+                        <div style="background: var(--cor-cinza-claro); padding: 1rem; border-radius: var(--radius-medio); margin-bottom: 1rem;">
+                            <h4 style="margin-bottom: 0.75rem;">
+                                <i class="fas fa-file-alt"></i> Documentos Submetidos
+                            </h4>
+                            <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                                ${capitao.documentos?.livrete ? `
+                                    <div style="display: flex; align-items: center; justify-content: space-between;">
+                                        <span><i class="fas fa-check-circle" style="color: var(--cor-sucesso);"></i> Livrete</span>
+                                        <button class="btn btn-outline btn-pequeno" onclick="visualizarDocumento('${capitao.id}', 'livrete')">
+                                            <i class="fas fa-eye"></i> Ver
+                                        </button>
+                                    </div>
+                                ` : '<span style="color: #EF4444;">Livrete não enviado</span>'}
+                                
+                                ${capitao.documentos?.rnaat ? `
+                                    <div style="display: flex; align-items: center; justify-content: space-between;">
+                                        <span><i class="fas fa-check-circle" style="color: var(--cor-sucesso);"></i> RNAAT</span>
+                                        <button class="btn btn-outline btn-pequeno" onclick="visualizarDocumento('${capitao.id}', 'rnaat')">
+                                            <i class="fas fa-eye"></i> Ver
+                                        </button>
+                                    </div>
+                                ` : '<span style="color: #EF4444;">RNAAT não enviado</span>'}
+                                
+                                ${capitao.documentos?.seguro ? `
+                                    <div style="display: flex; align-items: center; justify-content: space-between;">
+                                        <span><i class="fas fa-check-circle" style="color: var(--cor-sucesso);"></i> Seguro</span>
+                                        <button class="btn btn-outline btn-pequeno" onclick="visualizarDocumento('${capitao.id}', 'seguro')">
+                                            <i class="fas fa-eye"></i> Ver
+                                        </button>
+                                    </div>
+                                ` : '<span style="color: #EF4444;">Seguro não enviado</span>'}
+                            </div>
+                        </div>
+                        
+                        <div style="display: flex; gap: 0.75rem;">
+                            <button class="btn btn-sucesso" style="flex: 1; background-color: var(--cor-sucesso); color: white;" onclick="aprovarCapitao('${capitao.id}')">
+                                <i class="fas fa-check"></i> Aprovar Capitão
+                            </button>
+                            <button class="btn btn-outline" onclick="abrirModalRejeitar('${capitao.id}')">
+                                <i class="fas fa-times"></i> Rejeitar
+                            </button>
+                            <button class="btn btn-outline" onclick="window.location.href='mailto:${capitao.email}'">
+                                <i class="fas fa-envelope"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
         }
         
         // Toggle sidebar mobile
@@ -512,9 +682,12 @@
         // ===================================
         
         function carregarDashboard() {
+            verificarExpiracaoCapitoes(); // ✅ VERIFICAR EXPIRAÇÃO PRIMEIRO
             carregarEstatisticas();
             carregarCapitaesPendentes();
             carregarBarcosPendentes();
+            carregarCapitaesAprovados(); // ✅ CARREGAR CAPITÃES APROVADOS
+            carregarSecaoPendentes(); // 🔥 CARREGAR SEÇÃO PENDENTES TAMBÉM
         }
         
         function carregarEstatisticas() {
@@ -557,7 +730,21 @@
         
         function carregarCapitaesPendentes() {
             const utilizadores = JSON.parse(localStorage.getItem('utilizadores') || '[]');
-            const capitaesPendentes = utilizadores.filter(u => u.tipo === 'capitao' && u.status === 'pendente');
+            
+            // 🔥 FILTRAR MOCKADOS + PENDENTES (dupla verificação)
+            const capitaesPendentes = utilizadores.filter(u => {
+                const emailsMock = ['pedro.silva@email.com', 'teste@teste.com'];
+                const telefonesMock = ['+351 912 345 678', '912345678'];
+                const nomesMock = ['Pedro Silva'];
+                
+                return u.tipo === 'capitao' && 
+                       u.status === 'pendente' &&
+                       !emailsMock.includes(u.email) &&
+                       !telefonesMock.includes(u.telefone) &&
+                       !nomesMock.includes(u.nome);
+            });
+            
+            console.log('📊 Capitães pendentes (filtrados):', capitaesPendentes.length);
             
             const container = document.querySelector('#secao-dashboard .grid.grid-2.gap-lg');
             
@@ -702,21 +889,26 @@
         
         // Aprovar capitão
         function aprovarCapitao(id) {
-            if (confirm('Tem a certeza que deseja aprovar este capitão?')) {
+            if (confirm('Tem a certeza que deseja aprovar este capitão?\n\n✅ O capitão terá acesso à plataforma\n📅 Certificação válida por 365 dias\n⚠️ Após 1 ano, documentos devem ser renovados')) {
                 const utilizadores = JSON.parse(localStorage.getItem('utilizadores') || '[]');
                 const index = utilizadores.findIndex(u => u.id === id);
                 
                 if (index !== -1) {
                     const capitao = utilizadores[index];
+                    const dataAprovacao = new Date();
+                    const dataExpiracao = new Date();
+                    dataExpiracao.setDate(dataExpiracao.getDate() + 365); // 365 dias
                     
                     utilizadores[index].status = 'aprovado';
-                    utilizadores[index].dataAprovacao = new Date().toISOString();
+                    utilizadores[index].dataAprovacao = dataAprovacao.toISOString();
+                    utilizadores[index].dataExpiracao = dataExpiracao.toISOString();
+                    utilizadores[index].certificacaoValida = true;
                     localStorage.setItem('utilizadores', JSON.stringify(utilizadores));
                     
                     // Enviar email de aprovação
                     enviarEmailAprovacao(capitao);
                     
-                    mostrarToast('✅ Capitão aprovado com sucesso! Email de confirmação enviado.', 'sucesso');
+                    mostrarToast('✅ Capitão aprovado! Certificação válida por 365 dias.', 'sucesso');
                     
                     // Recarregar dados E badges
                     setTimeout(() => {
@@ -829,6 +1021,253 @@ Big Game Fishing no Algarve
             }
         });
         
+        // ===== VERIFICAÇÃO AUTOMÁTICA DE EXPIRAÇÃO =====
+        function verificarExpiracaoCapitoes() {
+            const utilizadores = JSON.parse(localStorage.getItem('utilizadores') || '[]');
+            let alterado = false;
+            
+            utilizadores.forEach((user, index) => {
+                if (user.tipo === 'capitao' && user.status === 'aprovado' && user.dataExpiracao) {
+                    const hoje = new Date();
+                    const expiracao = new Date(user.dataExpiracao);
+                    const diasRestantes = Math.ceil((expiracao - hoje) / (1000 * 60 * 60 * 24));
+                    
+                    // Atualizar dias restantes
+                    utilizadores[index].diasRestantes = diasRestantes;
+                    
+                    // Definir status da certificação
+                    if (diasRestantes <= 0) {
+                        utilizadores[index].certificacaoValida = false;
+                        utilizadores[index].statusDocumentacao = 'expirado';
+                        
+                        // Bloquear automaticamente se ainda não estiver bloqueado
+                        if (user.status !== 'bloqueado') {
+                            utilizadores[index].status = 'bloqueado';
+                            utilizadores[index].dataBloqueio = new Date().toISOString();
+                            utilizadores[index].motivoBloqueio = 'Certificação expirada - Documentos devem ser renovados';
+                            alterado = true;
+                            console.log(`🔴 BLOQUEADO AUTOMATICAMENTE: ${user.nome} (certificação expirou)`);
+                        }
+                    } else if (diasRestantes <= 30) {
+                        utilizadores[index].statusDocumentacao = 'expira_breve';
+                    } else {
+                        utilizadores[index].statusDocumentacao = 'valido';
+                    }
+                }
+            });
+            
+            if (alterado) {
+                localStorage.setItem('utilizadores', JSON.stringify(utilizadores));
+                mostrarToast('⚠️ Alguns capitães foram bloqueados automaticamente (certificação expirada)', 'aviso');
+            }
+        }
+        
+        // ===== CARREGAR CAPITÃES APROVADOS =====
+        function carregarCapitaesAprovados() {
+            console.log('🔍 carregarCapitaesAprovados() chamado');
+            const utilizadores = JSON.parse(localStorage.getItem('utilizadores') || '[]');
+            const capitaesAprovados = utilizadores.filter(u => u.tipo === 'capitao' && u.status === 'aprovado');
+            console.log('📊 Capitães aprovados encontrados:', capitaesAprovados.length);
+            console.log('📋 Lista:', capitaesAprovados);
+            const container = document.getElementById('secao-capitaes');
+            
+            if (!container) {
+                console.error('❌ Container de capitães aprovados não encontrado');
+                return;
+            }
+            
+            // Limpar container
+            const estadoVazio = container.querySelector('.estado-vazio');
+            
+            if (capitaesAprovados.length === 0) {
+                console.log('⚠️ Nenhum capitão aprovado - mostrando estado vazio');
+                if (estadoVazio) estadoVazio.style.display = 'flex';
+                return;
+            }
+            
+            console.log('✅ Renderizando', capitaesAprovados.length, 'capitães...');
+            
+            if (estadoVazio) estadoVazio.style.display = 'none';
+            
+            // Criar grid de cards
+            let gridHTML = '<div class="grid grid-2 gap-lg" style="margin-top: 2rem;">';
+            
+            capitaesAprovados.forEach(capitao => {
+                const hoje = new Date();
+                const expiracao = capitao.dataExpiracao ? new Date(capitao.dataExpiracao) : null;
+                const diasRestantes = expiracao ? Math.ceil((expiracao - hoje) / (1000 * 60 * 60 * 24)) : null;
+                
+                let badgeStatus = '';
+                let corStatus = '';
+                
+                if (diasRestantes !== null) {
+                    if (diasRestantes <= 0) {
+                        badgeStatus = `<span class="badge badge-erro" style="margin-left: auto;">🔴 EXPIRADO</span>`;
+                        corStatus = 'color: #EF4444;';
+                    } else if (diasRestantes <= 30) {
+                        badgeStatus = `<span class="badge badge-aviso" style="margin-left: auto;">⚠️ Expira em ${diasRestantes} dias</span>`;
+                        corStatus = 'color: #F59E0B;';
+                    } else {
+                        badgeStatus = `<span class="badge badge-sucesso" style="margin-left: auto;">✅ Válido (${diasRestantes} dias)</span>`;
+                        corStatus = 'color: #10B981;';
+                    }
+                }
+                
+                const dataCriacao = new Date(capitao.dataCriacao || Date.now()).toLocaleString('pt-PT', {
+                    day: '2-digit',
+                    month: '2-digit',
+                    year: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+                
+                const dataAprovacao = capitao.dataAprovacao ? new Date(capitao.dataAprovacao).toLocaleString('pt-PT', {
+                    day: '2-digit',
+                    month: '2-digit',
+                    year: 'numeric'
+                }) : 'N/A';
+                
+                gridHTML += `
+                    <div class="card">
+                        <div class="card-header" style="display: flex; align-items: center; gap: 1rem;">
+                            <i class="fas fa-check-circle" style="color: #10B981; font-size: 1.25rem;"></i>
+                            <h3 style="margin: 0; color: var(--cor-primaria);">${capitao.nome}</h3>
+                            ${badgeStatus}
+                        </div>
+                        
+                        <div class="info-grid" style="margin-top: 1.5rem;">
+                            <div class="info-item">
+                                <i class="fas fa-envelope"></i>
+                                <div>
+                                    <span class="info-label">Email</span>
+                                    <span class="info-valor">${capitao.email}</span>
+                                </div>
+                            </div>
+                            
+                            <div class="info-item">
+                                <i class="fas fa-phone"></i>
+                                <div>
+                                    <span class="info-label">Telefone</span>
+                                    <span class="info-valor">${capitao.telefone}</span>
+                                </div>
+                            </div>
+                            
+                            <div class="info-item">
+                                <i class="fas fa-anchor"></i>
+                                <div>
+                                    <span class="info-label">Porto</span>
+                                    <span class="info-valor">${capitao.porto || 'N/A'}</span>
+                                </div>
+                            </div>
+                            
+                            <div class="info-item">
+                                <i class="fas fa-calendar-check"></i>
+                                <div>
+                                    <span class="info-label">Data Aprovação</span>
+                                    <span class="info-valor">${dataAprovacao}</span>
+                                </div>
+                            </div>
+                            
+                            ${diasRestantes !== null ? `
+                            <div class="info-item" style="grid-column: 1 / -1;">
+                                <i class="fas fa-certificate" style="${corStatus}"></i>
+                                <div>
+                                    <span class="info-label">Status Certificação</span>
+                                    <span class="info-valor" style="${corStatus}">
+                                        ${diasRestantes <= 0 ? '🔴 EXPIRADO - Renovação obrigatória' : 
+                                          diasRestantes <= 30 ? `⚠️ Expira em ${diasRestantes} dias` : 
+                                          `✅ Válido por ${diasRestantes} dias`}
+                                    </span>
+                                </div>
+                            </div>
+                            ` : ''}
+                        </div>
+                        
+                        <div class="card-footer" style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.1); display: flex; gap: 0.5rem;">
+                            <button class="btn-secundario" style="flex: 1;" onclick="window.location.href='dashboard-capitao.html?id=${capitao.id}'">
+                                <i class="fas fa-eye"></i>
+                                Ver Perfil
+                            </button>
+                            ${diasRestantes !== null && diasRestantes <= 30 ? `
+                            <button class="btn-primario" style="flex: 1; background: #F59E0B;" onclick="solicitarRenovacao('${capitao.id}')">
+                                <i class="fas fa-redo"></i>
+                                Solicitar Renovação
+                            </button>
+                            ` : ''}
+                        </div>
+                    </div>
+                `;
+            });
+            
+            gridHTML += '</div>';
+            
+            // Inserir após o header
+            const header = container.querySelector('.dashboard-header');
+            if (header) {
+                // Remover grid existente
+                const gridExistente = container.querySelector('.grid');
+                if (gridExistente) gridExistente.remove();
+                
+                header.insertAdjacentHTML('afterend', gridHTML);
+            }
+        }
+        
+        // Solicitar renovação de documentos
+        function solicitarRenovacao(capitaoId) {
+            if (confirm('⚠️ Deseja enviar email solicitando renovação de documentos?\n\nO capitão receberá um email com instruções para reenviar:\n• Livrete do barco\n• Certificado RNAAT\n• Seguro válido')) {
+                const utilizadores = JSON.parse(localStorage.getItem('utilizadores') || '[]');
+                const capitao = utilizadores.find(u => u.id === capitaoId);
+                
+                if (capitao) {
+                    const diasRestantes = capitao.diasRestantes || 0;
+                    
+                    // Simulação de email
+                    const emailRenovacao = {
+                        id: `RENOVACAO_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+                        destinatario: capitao.email,
+                        assunto: '⚠️ Renovação de Certificação Necessária - Algarve Tuna Charter',
+                        corpo: `
+Olá ${capitao.nome},
+
+A sua certificação como Capitão Charter na Algarve Tuna Charter ${diasRestantes <= 0 ? 'EXPIROU' : `expira em ${diasRestantes} dias`}.
+
+📋 DOCUMENTOS NECESSÁRIOS:
+• Livrete do barco atualizado
+• Certificado RNAAT válido
+• Apólice de seguro em vigor
+
+🔴 ATENÇÃO: ${diasRestantes <= 0 ? 'Sua conta foi bloqueada automaticamente. ' : ''}Para continuar operando, é obrigatório renovar os documentos.
+
+📧 COMO RENOVAR:
+1. Acesse: https://fishinghub-algarve.vercel.app/auth.html
+2. Entre em contato com suporte@algarvefishing.com
+3. Envie os documentos atualizados
+
+⏰ Prazo: 7 dias úteis
+
+---
+Equipa Algarve Tuna Charter
+📧 suporte@algarvefishing.com
+                        `.trim(),
+                        dataEnvio: new Date().toISOString(),
+                        lido: false
+                    };
+                    
+                    // Salvar email simulado
+                    const emailsSimulados = JSON.parse(localStorage.getItem('emailsSimulados') || '[]');
+                    emailsSimulados.push(emailRenovacao);
+                    localStorage.setItem('emailsSimulados', JSON.stringify(emailsSimulados));
+                    
+                    console.log('📧 Email de renovação enviado para:', capitao.email);
+                    console.log(emailRenovacao.corpo);
+                    
+                    mostrarToast(`✅ Email de renovação enviado para ${capitao.nome}`, 'sucesso');
+                } else {
+                    mostrarToast('❌ Capitão não encontrado', 'erro');
+                }
+            }
+        }
+        
         // ===== FUNÇÕES DE UTILIZADORES =====
         function carregarUsuarios() {
             const utilizadores = JSON.parse(localStorage.getItem('utilizadores') || '[]');
@@ -863,11 +1302,12 @@ Big Game Fishing no Algarve
                                 <th><i class="fas fa-map-marker-alt"></i> Cidade</th>
                                 <th><i class="fas fa-check-circle"></i> Status</th>
                                 <th><i class="fas fa-calendar"></i> Data Registo</th>
+                                <th><i class="fas fa-cog"></i> Ações</th>
                             </tr>
                         </thead>
                         <tbody>
                             ${usuariosPrivados.map(usuario => `
-                                <tr>
+                                <tr ${usuario.status === 'bloqueado' ? 'style="opacity: 0.6; background: rgba(255,0,0,0.05);"' : ''}>
                                     <td>
                                         <div style="display: flex; align-items: center; gap: 0.75rem;">
                                             <div style="width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, #0288D1, #01579B); display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; font-size: 0.9rem;">
@@ -880,11 +1320,27 @@ Big Game Fishing no Algarve
                                     <td>${usuario.telefone || '<span style="opacity: 0.5;">—</span>'}</td>
                                     <td>${usuario.cidade || '<span style="opacity: 0.5;">—</span>'}</td>
                                     <td>
-                                        ${usuario.emailConfirmado 
-                                            ? '<span class="badge badge-sucesso"><i class="fas fa-check"></i> Confirmado</span>' 
-                                            : '<span class="badge badge-aviso"><i class="fas fa-clock"></i> Pendente</span>'}
+                                        ${usuario.status === 'bloqueado' 
+                                            ? '<span class="badge badge-erro"><i class="fas fa-ban"></i> Bloqueado</span>'
+                                            : usuario.emailConfirmado 
+                                                ? '<span class="badge badge-sucesso"><i class="fas fa-check"></i> Ativo</span>' 
+                                                : '<span class="badge badge-aviso"><i class="fas fa-clock"></i> Pendente</span>'}
                                     </td>
                                     <td>${new Date(usuario.dataCriacao).toLocaleDateString('pt-PT')}</td>
+                                    <td>
+                                        <div style="display: flex; gap: 0.5rem;">
+                                            ${usuario.status !== 'bloqueado' 
+                                                ? `<button class="btn btn-outline btn-pequeno" onclick="bloquearUtilizador('${usuario.id}')" title="Bloquear utilizador">
+                                                    <i class="fas fa-ban"></i>
+                                                </button>`
+                                                : `<button class="btn btn-primary btn-pequeno" onclick="desbloquearUtilizador('${usuario.id}')" title="Desbloquear utilizador">
+                                                    <i class="fas fa-unlock"></i>
+                                                </button>`}
+                                            <button class="btn btn-outline btn-pequeno" onclick="apagarUtilizador('${usuario.id}', '${usuario.nome}')" title="Apagar utilizador" style="color: #EF4444; border-color: #EF4444;">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </div>
+                                    </td>
                                 </tr>
                             `).join('')}
                         </tbody>
@@ -932,11 +1388,12 @@ Big Game Fishing no Algarve
                                     <th><i class="fas fa-map-marker-alt"></i> Cidade</th>
                                     <th><i class="fas fa-check-circle"></i> Status</th>
                                     <th><i class="fas fa-calendar"></i> Data Registo</th>
+                                    <th><i class="fas fa-cog"></i> Ações</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 ${usuariosFiltrados.map(usuario => `
-                                    <tr>
+                                    <tr ${usuario.status === 'bloqueado' ? 'style="opacity: 0.6; background: rgba(255,0,0,0.05);"' : ''}>
                                         <td>
                                             <div style="display: flex; align-items: center; gap: 0.75rem;">
                                                 <div style="width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, #0288D1, #01579B); display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; font-size: 0.9rem;">
@@ -949,11 +1406,27 @@ Big Game Fishing no Algarve
                                         <td>${usuario.telefone || '<span style="opacity: 0.5;">—</span>'}</td>
                                         <td>${usuario.cidade || '<span style="opacity: 0.5;">—</span>'}</td>
                                         <td>
-                                            ${usuario.emailConfirmado 
-                                                ? '<span class="badge badge-sucesso"><i class="fas fa-check"></i> Confirmado</span>' 
-                                                : '<span class="badge badge-aviso"><i class="fas fa-clock"></i> Pendente</span>'}
+                                            ${usuario.status === 'bloqueado' 
+                                                ? '<span class="badge badge-erro"><i class="fas fa-ban"></i> Bloqueado</span>'
+                                                : usuario.emailConfirmado 
+                                                    ? '<span class="badge badge-sucesso"><i class="fas fa-check"></i> Ativo</span>' 
+                                                    : '<span class="badge badge-aviso"><i class="fas fa-clock"></i> Pendente</span>'}
                                         </td>
                                         <td>${new Date(usuario.dataCriacao).toLocaleDateString('pt-PT')}</td>
+                                        <td>
+                                            <div style="display: flex; gap: 0.5rem;">
+                                                ${usuario.status !== 'bloqueado' 
+                                                    ? `<button class="btn btn-outline btn-pequeno" onclick="bloquearUtilizador('${usuario.id}')" title="Bloquear utilizador">
+                                                        <i class="fas fa-ban"></i>
+                                                    </button>`
+                                                    : `<button class="btn btn-primary btn-pequeno" onclick="desbloquearUtilizador('${usuario.id}')" title="Desbloquear utilizador">
+                                                        <i class="fas fa-unlock"></i>
+                                                    </button>`}
+                                                <button class="btn btn-outline btn-pequeno" onclick="apagarUtilizador('${usuario.id}', '${usuario.nome}')" title="Apagar utilizador" style="color: #EF4444; border-color: #EF4444;">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </div>
+                                        </td>
                                     </tr>
                                 `).join('')}
                             </tbody>
@@ -1050,6 +1523,123 @@ Big Game Fishing no Algarve
             console.log(`📥 Download: ${documento.nome} (${(documento.tamanho / 1024).toFixed(2)} KB)`);
         }
         
+        // ===== FUNÇÕES DE GESTÃO DE UTILIZADORES =====
+        function bloquearUtilizador(userId) {
+            if (!confirm('⚠️ Tem a certeza que deseja BLOQUEAR este utilizador?\n\nO utilizador não poderá fazer login enquanto estiver bloqueado.')) {
+                return;
+            }
+            
+            let utilizadores = JSON.parse(localStorage.getItem('utilizadores') || '[]');
+            const index = utilizadores.findIndex(u => u.id === userId);
+            
+            if (index !== -1) {
+                utilizadores[index].status = 'bloqueado';
+                utilizadores[index].dataBloqueio = new Date().toISOString();
+                localStorage.setItem('utilizadores', JSON.stringify(utilizadores));
+                
+                mostrarToast('🚫 Utilizador bloqueado com sucesso!', 'aviso');
+                carregarUsuarios();
+            } else {
+                mostrarToast('❌ Erro ao bloquear utilizador!', 'erro');
+            }
+        }
+        
+        function desbloquearUtilizador(userId) {
+            if (!confirm('Desbloquear este utilizador?\n\nO utilizador voltará a ter acesso à plataforma.')) {
+                return;
+            }
+            
+            let utilizadores = JSON.parse(localStorage.getItem('utilizadores') || '[]');
+            const index = utilizadores.findIndex(u => u.id === userId);
+            
+            if (index !== -1) {
+                utilizadores[index].status = utilizadores[index].emailConfirmado ? 'ativo' : 'pendente_confirmacao';
+                utilizadores[index].dataDesbloqueio = new Date().toISOString();
+                delete utilizadores[index].dataBloqueio;
+                localStorage.setItem('utilizadores', JSON.stringify(utilizadores));
+                
+                mostrarToast('✅ Utilizador desbloqueado com sucesso!', 'sucesso');
+                carregarUsuarios();
+            } else {
+                mostrarToast('❌ Erro ao desbloquear utilizador!', 'erro');
+            }
+        }
+        
+        function apagarUtilizador(userId, userName) {
+            if (!confirm(`⚠️ ATENÇÃO! AÇÃO IRREVERSÍVEL!\n\nTem a certeza que deseja APAGAR permanentemente o utilizador:\n\n"${userName}"\n\nTodos os dados serão removidos:\n• Perfil completo\n• Reservas\n• Histórico\n\nEsta ação NÃO pode ser desfeita!`)) {
+                return;
+            }
+            
+            // Segunda confirmação
+            const confirmacao = prompt(`Para confirmar, digite o nome do utilizador:\n\n"${userName}"`);
+            
+            if (confirmacao !== userName) {
+                mostrarToast('❌ Nome incorreto. Operação cancelada.', 'erro');
+                return;
+            }
+            
+            let utilizadores = JSON.parse(localStorage.getItem('utilizadores') || '[]');
+            utilizadores = utilizadores.filter(u => u.id !== userId);
+            localStorage.setItem('utilizadores', JSON.stringify(utilizadores));
+            
+            mostrarToast(`🗑️ Utilizador "${userName}" apagado permanentemente!`, 'aviso');
+            console.log(`🗑️ Utilizador apagado: ${userName} (ID: ${userId})`);
+            
+            carregarUsuarios();
+            carregarEstatisticas();
+        }
+        
+        // ===== SISTEMA DE CERTIFICAÇÃO ANUAL =====
+        function calcularDiasRestantes(dataExpiracao) {
+            if (!dataExpiracao) return null;
+            
+            const hoje = new Date();
+            const expira = new Date(dataExpiracao);
+            const diffTime = expira - hoje;
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            
+            return diffDays;
+        }
+        
+        function getStatusCertificacao(capitao) {
+            if (!capitao.dataExpiracao) {
+                return { status: 'sem_data', texto: 'Sem data', cor: 'cinza', icone: 'question' };
+            }
+            
+            const diasRestantes = calcularDiasRestantes(capitao.dataExpiracao);
+            
+            if (diasRestantes < 0) {
+                return { 
+                    status: 'expirado', 
+                    texto: `Expirado há ${Math.abs(diasRestantes)} dias`, 
+                    cor: 'erro', 
+                    icone: 'times-circle',
+                    diasRestantes: diasRestantes
+                };
+            } else if (diasRestantes <= 30) {
+                return { 
+                    status: 'proximo_expirar', 
+                    texto: `Expira em ${diasRestantes} dias`, 
+                    cor: 'destaque', 
+                    icone: 'exclamation-triangle',
+                    diasRestantes: diasRestantes
+                };
+            } else {
+                return { 
+                    status: 'valido', 
+                    texto: `Válido (${diasRestantes} dias)`, 
+                    cor: 'sucesso', 
+                    icone: 'check-circle',
+                    diasRestantes: diasRestantes
+                };
+            }
+        }
+        
+        function verificarCertificacoesExpiradas() {
+            // Usar a função verificarExpiracaoCapitoes() mais completa
+            verificarExpiracaoCapitoes();
+        }
+        
         function logout() {
             if (confirm('Tem a certeza que deseja sair?')) {
                 window.location.href = 'admin-login.html';
@@ -1058,8 +1648,41 @@ Big Game Fishing no Algarve
         
         // Carregar dados ao iniciar
         document.addEventListener('DOMContentLoaded', () => {
+            console.log('═══════════════════════════════════════════════════════════');
+            console.log('🔥 VERSÃO FINAL: 08/03/2026 14:40:00');
+            console.log('✅ Pedro Silva ELIMINADO DEFINITIVAMENTE');
+            console.log('✅ Função carregarSecaoPendentes() ATIVA');
+            console.log('═══════════════════════════════════════════════════════════');
+            
+            // 🧹 LIMPAR DADOS DE TESTE ANTIGOS (Pedro Silva e outros mockados)
+            limparDadosDeTeste();
+            
+            verificarCertificacoesExpiradas(); // Verificar certificações expiradas
             carregarDashboard();
         });
+        
+        // 🧹 Função para remover dados hardcoded antigos
+        function limparDadosDeTeste() {
+            let utilizadores = JSON.parse(localStorage.getItem('utilizadores') || '[]');
+            const quantidadeAntes = utilizadores.length;
+            
+            // Remover Pedro Silva e outros dados mockados (email teste, telefone teste, etc)
+            utilizadores = utilizadores.filter(u => {
+                // Manter apenas utilizadores REAIS (não mockados)
+                const emailsMock = ['pedro.silva@email.com', 'teste@teste.com', 'mock@exemplo.com'];
+                const telefonesMock = ['+351 912 345 678', '912345678'];
+                const nomesMock = ['Pedro Silva', 'Teste', 'Mock', 'Demo'];
+                
+                return !emailsMock.includes(u.email) && 
+                       !telefonesMock.includes(u.telefone) &&
+                       !nomesMock.includes(u.nome);
+            });
+            
+            if (utilizadores.length < quantidadeAntes) {
+                localStorage.setItem('utilizadores', JSON.stringify(utilizadores));
+                console.log(`🧹 ${quantidadeAntes - utilizadores.length} utilizador(es) de teste removido(s) automaticamente`);
+            }
+        }
     </script>
     <script src="js/admin-reclamacoes.js"></script>
 </body>

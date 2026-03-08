@@ -103,6 +103,9 @@
                     </div>
                 </div>
                 
+                <!-- ALERTA DE CERTIFICAÇÃO -->
+                <div id="alertaCertificacao" style="display: none; margin-bottom: 2rem;"></div>
+                
                 <!-- ESTATÍSTICAS -->
                 <div class="stats-grid">
                     <div class="stat-card">
@@ -522,6 +525,90 @@
         
         sidebarToggle.addEventListener('click', () => {
             sidebar.classList.toggle('ativo');
+        });
+        
+        // VERIFICAR CERTIFICAÇÃO
+        document.addEventListener('DOMContentLoaded', () => {
+            const usuarioStr = localStorage.getItem('usuarioLogado');
+            if (!usuarioStr) {
+                window.location.href = 'auth.html';
+                return;
+            }
+            
+            const capitao = JSON.parse(usuarioStr);
+            
+            if (capitao.tipo !== 'capitao') {
+                window.location.href = 'dashboard-usuario.html';
+                return;
+            }
+            
+            // Verificar certificação
+            if (capitao.dataExpiracao) {
+                const hoje = new Date();
+                const expira = new Date(capitao.dataExpiracao);
+                const diffTime = expira - hoje;
+                const diasRestantes = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                
+                const alertaDiv = document.getElementById('alertaCertificacao');
+                
+                if (diasRestantes < 0) {
+                    // EXPIRADO
+                    alertaDiv.innerHTML = `
+                        <div class="card" style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(220, 38, 38, 0.1)); border-left: 4px solid #EF4444;">
+                            <div class="card-conteudo">
+                                <div style="display: flex; align-items: center; gap: 1rem;">
+                                    <div style="font-size: 3rem; color: #EF4444;">
+                                        <i class="fas fa-times-circle"></i>
+                                    </div>
+                                    <div style="flex: 1;">
+                                        <h3 style="color: #EF4444; margin-bottom: 0.5rem;">
+                                            <i class="fas fa-exclamation-triangle"></i> CERTIFICAÇÃO EXPIRADA!
+                                        </h3>
+                                        <p style="margin: 0;">
+                                            A sua certificação como Charter Oficial expirou há <strong>${Math.abs(diasRestantes)} dias</strong>.
+                                        </p>
+                                        <p style="margin-top: 0.5rem; font-size: 0.9rem; opacity: 0.9;">
+                                            📄 Necessita renovar os documentos (Livrete, RNAAT, Seguro) para continuar operacional.
+                                        </p>
+                                        <a href="mailto:servico@jauto.pt" class="btn btn-primary" style="margin-top: 1rem; display: inline-block;">
+                                            <i class="fas fa-envelope"></i> Contactar Administração
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    alertaDiv.style.display = 'block';
+                } else if (diasRestantes <= 30) {
+                    // PRÓXIMO DE EXPIRAR
+                    alertaDiv.innerHTML = `
+                        <div class="card" style="background: linear-gradient(135deg, rgba(255, 143, 0, 0.1), rgba(255, 111, 0, 0.1)); border-left: 4px solid #FF8F00;">
+                            <div class="card-conteudo">
+                                <div style="display: flex; align-items: center; gap: 1rem;">
+                                    <div style="font-size: 3rem; color: #FF8F00;">
+                                        <i class="fas fa-exclamation-triangle"></i>
+                                    </div>
+                                    <div style="flex: 1;">
+                                        <h3 style="color: #FF8F00; margin-bottom: 0.5rem;">
+                                            <i class="fas fa-clock"></i> Certificação Próxima de Expirar
+                                        </h3>
+                                        <p style="margin: 0;">
+                                            A sua certificação como Charter Oficial expira em <strong>${diasRestantes} ${diasRestantes === 1 ? 'dia' : 'dias'}</strong>!
+                                        </p>
+                                        <p style="margin-top: 0.5rem; font-size: 0.9rem; opacity: 0.9;">
+                                            ⏰ Prepare os documentos atualizados (Livrete, RNAAT, Seguro) para renovação.
+                                        </p>
+                                        <a href="mailto:servico@jauto.pt" class="btn btn-primary" style="margin-top: 1rem; display: inline-block; background: #FF8F00;">
+                                            <i class="fas fa-file-upload"></i> Iniciar Renovação
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    alertaDiv.style.display = 'block';
+                }
+            }
         });
         
         function logout() {

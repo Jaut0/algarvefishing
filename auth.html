@@ -437,6 +437,34 @@ Receberá um email quando a sua conta for aprovada.`);
                 return;
             }
             
+            // Verificar certificação expirada (capitães)
+            if (utilizador.tipo === 'capitao' && utilizador.status === 'expirado') {
+                mostrarToast('⚠️ Certificação expirada!', 'erro');
+                alert(`⚠️ CERTIFICAÇÃO CHARTER EXPIRADA
+
+A sua certificação como Charter Oficial expirou.
+
+📄 Necessita renovar os documentos:
+• Livrete RNAAT
+• Certificado de Seguro  
+• Cédula Marítima (se aplicável)
+
+📧 Contacte a administração: servico@jauto.pt
+
+Não pode aceder à plataforma até renovar a certificação.`);
+                return;
+            }
+            
+            if (utilizador.status === 'bloqueado') {
+                mostrarToast('🚫 Conta bloqueada pela administração!', 'erro');
+                alert(`🚫 Conta Bloqueada
+
+A sua conta foi bloqueada pela administração.
+
+Para mais informações, contacte: servico@jauto.pt`);
+                return;
+            }
+            
             // Login bem-sucedido
             localStorage.setItem('usuarioLogado', JSON.stringify(utilizador));
             
