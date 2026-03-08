@@ -66,7 +66,7 @@
                 <a href="#pedidos" class="sidebar-menu-item" data-section="pedidos">
                     <i class="fas fa-clock"></i>
                     <span>Pedidos Pendentes</span>
-                    <span class="badge badge-destaque" style="margin-left: auto;">3</span>
+                    <span class="badge badge-destaque" id="badgePendentes" style="margin-left: auto; display: none;">0</span>
                 </a>
                 <a href="#reservas" class="sidebar-menu-item" data-section="reservas">
                     <i class="fas fa-check-circle"></i>
@@ -557,13 +557,6 @@
                         <div class="form-grid">
                             <div class="form-grupo">
                                 <label class="form-label">
-                                    <i class="fas fa-id-card"></i> Licença Marítima *
-                                </label>
-                                <input type="text" id="capitaoPerfilLicenca" class="form-input" placeholder="CM123456" required>
-                            </div>
-                            
-                            <div class="form-grupo">
-                                <label class="form-label">
                                     <i class="fas fa-calendar"></i> Anos de Experiência *
                                 </label>
                                 <input type="number" id="capitaoPerfilExperiencia" class="form-input" placeholder="15" min="0" required>
@@ -724,7 +717,35 @@
                     alertaDiv.style.display = 'block';
                 }
             }
+            
+            // 🧹 LIMPAR BARCOS MOCK/TESTE
+            limparBarcosMock();
         });
+        
+        // 🧹 FUNÇÃO PARA LIMPAR BARCOS MOCK/TESTE
+        function limparBarcosMock() {
+            const barcos = JSON.parse(localStorage.getItem('barcos') || '[]');
+            const barcosReais = barcos.filter(barco => {
+                const nomeTeste = (barco.nome || '').toLowerCase();
+                const matriculaTeste = (barco.matricula || '').toLowerCase();
+                
+                // Remover barcos com nomes/dados de teste
+                return !nomeTeste.includes('teste') &&
+                       !nomeTeste.includes('test') &&
+                       !nomeTeste.includes('mar azul') && // Exemplo mock
+                       !nomeTeste.includes('oceano bravo') && // Exemplo mock
+                       !matriculaTeste.includes('teste') &&
+                       !matriculaTeste.includes('test') &&
+                       barco.nome && // Deve ter nome
+                       barco.tipo && // Deve ter tipo
+                       barco.comprimento; // Deve ter comprimento
+            });
+            
+            if (barcos.length !== barcosReais.length) {
+                console.log(`🧹 Limpeza: ${barcos.length - barcosReais.length} barcos mock removidos`);
+                localStorage.setItem('barcos', JSON.stringify(barcosReais));
+            }
+        }
         
         // FUNÇÕES DE EDIÇÃO DE PERFIL DO CAPITÃO
         function carregarPerfilCapitao() {
@@ -739,7 +760,6 @@
             document.getElementById('capitaoPerfilMorada').value = capitao.morada || '';
             document.getElementById('capitaoPerfilCidade').value = capitao.cidade || '';
             document.getElementById('capitaoPerfilCodigoPostal').value = capitao.codigoPostal || '';
-            document.getElementById('capitaoPerfilLicenca').value = capitao.licencaMaritima || '';
             document.getElementById('capitaoPerfilExperiencia').value = capitao.experiencia || '';
             document.getElementById('capitaoPerfilPorto').value = capitao.porto || '';
             document.getElementById('capitaoPerfilNIF').value = capitao.nif || '';
@@ -770,7 +790,6 @@
             capitao.morada = document.getElementById('capitaoPerfilMorada').value;
             capitao.cidade = document.getElementById('capitaoPerfilCidade').value;
             capitao.codigoPostal = document.getElementById('capitaoPerfilCodigoPostal').value;
-            capitao.licencaMaritima = document.getElementById('capitaoPerfilLicenca').value;
             capitao.experiencia = parseInt(document.getElementById('capitaoPerfilExperiencia').value) || 0;
             capitao.porto = document.getElementById('capitaoPerfilPorto').value;
             capitao.nif = document.getElementById('capitaoPerfilNIF').value;

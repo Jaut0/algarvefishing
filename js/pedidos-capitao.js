@@ -1,6 +1,29 @@
 // Dashboard Capitão - Gestão de Pedidos de Reserva
 // Load pending reservations and display them
 
+// 🧹 LIMPEZA AUTOMÁTICA DE DADOS MOCK/TESTE
+(function limparDadosMock() {
+    // Limpar reservas pendentes mock/teste
+    const reservas = JSON.parse(localStorage.getItem('reservasPendentes') || '[]');
+    const reservasReais = reservas.filter(r => {
+        // Remover reservas de teste
+        const emailTeste = r.cliente?.email?.toLowerCase() || '';
+        const nomeTeste = r.cliente?.nome?.toLowerCase() || '';
+        return !emailTeste.includes('teste') && 
+               !emailTeste.includes('test') && 
+               !nomeTeste.includes('teste') &&
+               !nomeTeste.includes('test') &&
+               r.cliente?.telefone && // Deve ter telefone
+               r.cliente?.email && // Deve ter email
+               r.dias && r.dias.length > 0; // Deve ter dias
+    });
+    
+    if (reservas.length !== reservasReais.length) {
+        console.log(`🧹 Limpeza: ${reservas.length - reservasReais.length} reservas mock removidas`);
+        localStorage.setItem('reservasPendentes', JSON.stringify(reservasReais));
+    }
+})();
+
 function loadPedidosPendentes() {
     const reservas = JSON.parse(localStorage.getItem('reservasPendentes') || '[]');
     const container = document.getElementById('pedidosPendentesList');

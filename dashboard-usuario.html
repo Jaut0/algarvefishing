@@ -12,12 +12,12 @@
 <body>
     <header class="header">
         <div class="header-content container">
-            <a href="index.html" class="logo">
+            <a href="#dashboard" class="logo" onclick="event.preventDefault();">
                 <span class="logo-icon">⚓</span>
                 <span>Algarve Tuna Charter</span>
             </a>
             <nav class="nav-menu">
-                <a href="index.html" class="nav-link">Início</a>
+                <a href="#dashboard" class="nav-link" onclick="event.preventDefault(); document.querySelector('[data-section=dashboard]').click();">Início</a>
                 <a href="explorar.html" class="nav-link">Explorar</a>
                 <a href="dashboard-usuario.html" class="nav-link ativo">Dashboard</a>
                 <button class="btn btn-outline btn-pequeno" onclick="logout()">

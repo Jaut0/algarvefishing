@@ -10,6 +10,9 @@
   min-height: 100vh;
   margin-top: 70px;
   background-color: var(--cor-cinza-claro);
+  overflow-x: hidden;
+  width: 100%;
+  max-width: 100vw;
 }
 
 /* ============================================
@@ -795,6 +798,8 @@
   
   .dashboard-conteudo {
     margin-left: 0;
+    width: 100%;
+    max-width: 100%;
   }
   
   .stats-grid {
@@ -805,6 +810,8 @@
 @media (max-width: 768px) {
   .dashboard-conteudo {
     padding: var(--espacamento-sm);
+    width: 100%;
+    max-width: 100%;
   }
   
   .dashboard-header-top {
