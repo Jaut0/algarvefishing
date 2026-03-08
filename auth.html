@@ -479,18 +479,40 @@ Para mais informações, contacte: servico@jauto.pt`);
             }, 1500);
         });
         
-        document.getElementById('formRegistar').addEventListener('submit', async (e) => {
-            e.preventDefault();
+        // 🔥 SISTEMA DE REGISTO - Aguarda DOM carregar
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('✅ Sistema de registo pronto!');
             
-            // BLOQUEAR DUPLO CLIQUE
-            const btnSubmit = e.target.querySelector('button[type="submit"]');
-            if (btnSubmit.disabled) {
-                console.log('⚠️ Botão já está processando...');
+            // FLAG ANTI-DUPLO-CLIQUE
+            let registoEmProcessamento = false;
+
+            const formRegistar = document.getElementById('formRegistar');
+            
+            if (!formRegistar) {
+                console.error('❌ Formulário de registo não encontrado!');
                 return;
             }
+
+            formRegistar.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                
+                console.log('🔍 Estado flag:', registoEmProcessamento);
+                
+                // 🔥 BLOQUEIO ABSOLUTO DE DUPLO CLIQUE
+                if (registoEmProcessamento) {
+                    console.log('🛑 BLOQUEADO: Registo já em processamento!');
+                    return;
+                }
+                
+                console.log('✅ Iniciando registo...');
+                registoEmProcessamento = true;
             
+            const btnSubmit = e.target.querySelector('button[type="submit"]');
+            const textoOriginal = btnSubmit.innerHTML;
             btnSubmit.disabled = true;
             btnSubmit.innerHTML = '<i class="fas fa-spinner fa-spin"></i> A processar...';
+            btnSubmit.style.opacity = '0.5';
+            btnSubmit.style.pointerEvents = 'none';
             
             const tipoSelecionado = document.querySelector('input[name="tipoConta"]:checked').value;
             
@@ -502,42 +524,58 @@ Para mais informações, contacte: servico@jauto.pt`);
             const passwordConfirm = document.getElementById('registarPasswordConfirm').value;
             
             // Verificar se email já existe
-            const utilizadores = JSON.parse(localStorage.getItem('utilizadores') || '[]');
+            let utilizadores = JSON.parse(localStorage.getItem('utilizadores') || '[]');
             if (utilizadores.some(u => u.email === email)) {
                 mostrarToast('❌ Este email já está registado! Use outro ou faça login.', 'erro');
+                registoEmProcessamento = false;
                 btnSubmit.disabled = false;
-                btnSubmit.innerHTML = '<i class="fas fa-user-plus"></i> Criar Conta';
+                btnSubmit.innerHTML = textoOriginal;
+                btnSubmit.style.opacity = '1';
+                btnSubmit.style.pointerEvents = 'auto';
                 return;
             }
             
             // Validações
             if (!nome || !email || !telefone || !password) {
                 mostrarToast('❌ Por favor, preencha todos os campos obrigatórios!', 'erro');
+                registoEmProcessamento = false;
                 btnSubmit.disabled = false;
-                btnSubmit.innerHTML = '<i class="fas fa-user-plus"></i> Criar Conta';
+                btnSubmit.innerHTML = textoOriginal;
+                btnSubmit.style.opacity = '1';
+                btnSubmit.style.pointerEvents = 'auto';
                 return;
             }
             
             if (password !== passwordConfirm) {
                 mostrarToast('❌ As passwords não coincidem!', 'erro');
+                registoEmProcessamento = false;
                 btnSubmit.disabled = false;
-                btnSubmit.innerHTML = '<i class="fas fa-user-plus"></i> Criar Conta';
+                btnSubmit.innerHTML = textoOriginal;
+                btnSubmit.style.opacity = '1';
+                btnSubmit.style.pointerEvents = 'auto';
                 return;
             }
             
             if (password.length < 6) {
                 mostrarToast('❌ A password deve ter pelo menos 6 caracteres!', 'erro');
+                registoEmProcessamento = false;
                 btnSubmit.disabled = false;
-                btnSubmit.innerHTML = '<i class="fas fa-user-plus"></i> Criar Conta';
+                btnSubmit.innerHTML = textoOriginal;
+                btnSubmit.style.opacity = '1';
+                btnSubmit.style.pointerEvents = 'auto';
                 return;
             }
             
             // Gerar token único de confirmação
             const tokenConfirmacao = 'TOKEN_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
             
+            // 🔥 ID ÚNICO GARANTIDO (timestamp + random + email hash)
+            const emailHash = email.split('').reduce((a, b) => ((a << 5) - a + b.charCodeAt(0)) | 0, 0);
+            const uniqueId = 'USER_' + Date.now() + '_' + Math.abs(emailHash).toString(36);
+            
             // Criar objeto do utilizador
             const novoUtilizador = {
-                id: 'USER_' + Date.now(),
+                id: uniqueId,
                 nome: nome,
                 email: email,
                 telefone: telefone,
@@ -610,7 +648,7 @@ Para mais informações, contacte: servico@jauto.pt`);
                     };
                     
                     // Guardar no localStorage
-                    let utilizadores = JSON.parse(localStorage.getItem('utilizadores') || '[]');
+                    utilizadores = JSON.parse(localStorage.getItem('utilizadores') || '[]');
                     utilizadores.push(novoUtilizador);
                     localStorage.setItem('utilizadores', JSON.stringify(utilizadores));
                     
@@ -654,8 +692,11 @@ Não poderá aceder ao dashboard enquanto a conta não for aprovada.`);
                 }).catch(error => {
                     console.error('Erro ao fazer upload:', error);
                     mostrarToast('❌ Erro ao fazer upload dos documentos. Tente novamente.', 'erro');
+                    registoEmProcessamento = false;
                     btnSubmit.disabled = false;
-                    btnSubmit.innerHTML = '<i class="fas fa-user-plus"></i> Criar Conta';
+                    btnSubmit.innerHTML = textoOriginal;
+                    btnSubmit.style.opacity = '1';
+                    btnSubmit.style.pointerEvents = 'auto';
                 });
                 
                 return; // Importante: para parar execução até Promise resolver
@@ -663,7 +704,7 @@ Não poderá aceder ao dashboard enquanto a conta não for aprovada.`);
             
             // Se não for capitão, continua normalmente
             // Guardar no localStorage
-            let utilizadores = JSON.parse(localStorage.getItem('utilizadores') || '[]');
+            utilizadores = JSON.parse(localStorage.getItem('utilizadores') || '[]');
             utilizadores.push(novoUtilizador);
             localStorage.setItem('utilizadores', JSON.stringify(utilizadores));
             
@@ -714,7 +755,7 @@ ${email}
                 
                 window.location.href = 'index.html';
             }, 2000);
-        });
+            }); // FIM do formRegistar.addEventListener('submit')
         
         // Função para enviar email REAL via Web3Forms
         async function simularEnvioEmail(email, nome, linkConfirmacao, tipo) {
@@ -826,6 +867,8 @@ Big Game Fishing no Algarve
                 console.log('═══════════════════════════════════════════════════════════');
             }
         }
+        
+        }); // FIM do DOMContentLoaded
         
         // Função para converter ficheiro para Base64
         function converterParaBase64(file) {

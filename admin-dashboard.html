@@ -10,37 +10,69 @@
     <title>Admin - Algarve Tuna Charter</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>⚓</text></svg>">
     
-    <!-- 💀 MATADOR DE PEDRO SILVA - EXECUTA PRIMEIRO QUE TUDO -->
+    <!-- 💀 LIMPEZA AUTOMÁTICA DE DADOS MOCK E DUPLICADOS -->
     <script>
     (function(){
-        console.log('%c💀 MATADOR DE PEDRO SILVA ATIVO', 'color: red; font-size: 20px; font-weight: bold;');
+        console.log('%c🧹 SISTEMA DE LIMPEZA AUTOMÁTICA ATIVO', 'color: blue; font-size: 20px; font-weight: bold;');
+        
+        // Lista de emails MOCK para remover automaticamente
+        const emailsMock = [
+            'pedro.silva@email.com',
+            'ana.costa@email.com',
+            'joao.santos@email.com',
+            'maria.oliveira@email.com',
+            'demo@test.com',
+            'test@test.com',
+            'exemplo@exemplo.com'
+        ];
         
         // Limpar localStorage IMEDIATAMENTE
         try {
-            let u = JSON.parse(localStorage.getItem('utilizadores')||'[]');
-            u = u.filter(x => x.nome !== 'Pedro Silva' && x.email !== 'pedro.silva@email.com');
-            localStorage.setItem('utilizadores', JSON.stringify(u));
-            console.log('✅ localStorage limpo!');
-        } catch(e) {}
-        
-        // Interceptar carregamento de capitães pendentes
-        window.BLOCK_PEDRO = true;
-        
-        // Observer que mata qualquer Pedro que apareça
-        const killPedro = () => {
-            document.querySelectorAll('.card, .capitao-pendente-item, [class*="card"]').forEach(el => {
-                if(el.textContent.includes('Pedro Silva') || 
-                   el.textContent.includes('pedro.silva') ||
-                   el.textContent.includes('CM123456')) {
-                    el.remove();
-                    console.log('🔥 Pedro Silva card DESTRUÍDO!');
+            let utilizadores = JSON.parse(localStorage.getItem('utilizadores') || '[]');
+            const totalAntes = utilizadores.length;
+            
+            // Remover MOCK users
+            utilizadores = utilizadores.filter(u => !emailsMock.includes(u.email));
+            
+            // Remover DUPLICADOS (mesmo email)
+            const emailsVistos = new Set();
+            utilizadores = utilizadores.filter(u => {
+                if (emailsVistos.has(u.email)) {
+                    console.log('🗑️ Duplicado removido:', u.email);
+                    return false;
                 }
+                emailsVistos.add(u.email);
+                return true;
+            });
+            
+            localStorage.setItem('utilizadores', JSON.stringify(utilizadores));
+            
+            const totalDepois = utilizadores.length;
+            const removidos = totalAntes - totalDepois;
+            
+            if (removidos > 0) {
+                console.log(`✅ ${removidos} utilizador(es) mock/duplicado(s) removido(s)!`);
+            }
+        } catch(e) {
+            console.error('❌ Erro na limpeza:', e);
+        }
+        
+        // Observer que remove cards mock do DOM
+        const limparDOM = () => {
+            document.querySelectorAll('.card, .capitao-pendente-item, [class*="card"]').forEach(el => {
+                const texto = el.textContent.toLowerCase();
+                emailsMock.forEach(email => {
+                    if (texto.includes(email.toLowerCase())) {
+                        el.remove();
+                        console.log('🔥 Card mock destruído:', email);
+                    }
+                });
             });
         };
         
-        setInterval(killPedro, 100);
+        setInterval(limparDOM, 500);
         
-        new MutationObserver(killPedro).observe(document.documentElement, {
+        new MutationObserver(limparDOM).observe(document.documentElement, {
             childList: true, 
             subtree: true
         });
