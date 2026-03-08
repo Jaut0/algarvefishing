@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registar Barco - FishingHub</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>⚓</text></svg>">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body>
+    <header class="header">
+        <div class="header-content container">
+            <a href="index.html" class="logo">
+                <span class="logo-icon">⚓</span>
+                <span>FishingHub</span>
+            </a>
+            <nav class="nav-menu">
+                <a href="dashboard-capitao.html" class="nav-link">
+                    <i class="fas fa-arrow-left"></i> Voltar ao Dashboard
+                </a>
+            </nav>
+        </div>
+    </header>
+    
+    <section class="secao" style="margin-top: 90px; background-color: var(--cor-cinza-claro);">
+        <div class="container container-estreito">
+            <h1 class="texto-centro mb-2">Registar Novo Barco</h1>
+            <p class="texto-centro texto-cinza mb-5">Preencha os dados do seu barco</p>
+            
+            <div class="form-multistep">
+                <div class="form-steps">
+                    <div class="form-steps-progresso" style="width: 0%;"></div>
+                    
+                    <div class="form-step ativo">
+                        <div class="form-step-numero">1</div>
+                        <div class="form-step-titulo">Informações Básicas</div>
+                    </div>
+                    <div class="form-step">
+                        <div class="form-step-numero">2</div>
+                        <div class="form-step-titulo">Motor</div>
+                    </div>
+                    <div class="form-step">
+                        <div class="form-step-numero">3</div>
+                        <div class="form-step-titulo">Extras</div>
+                    </div>
+                    <div class="form-step">
+                        <div class="form-step-numero">4</div>
+                        <div class="form-step-titulo">Fotos</div>
+                    </div>
+                    <div class="form-step">
+                        <div class="form-step-numero">5</div>
+                        <div class="form-step-titulo">Documentação</div>
+                    </div>
+                </div>
+                
+                <form id="formRegistarBarco">
+                    <!-- ETAPA 1 -->
+                    <div class="form-step-conteudo ativo">
+                        <div class="form-grupo">
+                            <label class="form-label obrigatorio">Nome do Barco</label>
+                            <input type="text" class="form-input" placeholder="Ex: Mar Azul" required>
+                        </div>
+                        
+                        <div class="form-grupo">
+                            <label class="form-label obrigatorio">Tipo de Barco</label>
+                            <select class="form-select" required>
+                                <option value="">Selecione...</option>
+                                <option value="lancha">Lancha</option>
+                                <option value="veleiro">Veleiro</option>
+                                <option value="pesca">Barco de Pesca</option>
+                                <option value="catamara">Catamarã</option>
+                                <option value="iate">Iate</option>
+                                <option value="semirigido">Semi-Rígido</option>
+                            </select>
+                        </div>
+                        
+                        <div class="grid grid-2">
+                            <div class="form-grupo">
+                                <label class="form-label obrigatorio">Comprimento (metros)</label>
+                                <input type="number" class="form-input" placeholder="12" min="1" required>
+                            </div>
+                            <div class="form-grupo">
+                                <label class="form-label obrigatorio">Ano de Fabrico</label>
+                                <input type="number" class="form-input" placeholder="2020" min="1950" max="2026" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-grupo">
+                            <label class="form-label">Marca/Modelo</label>
+                            <input type="text" class="form-input" placeholder="Ex: Bayliner 285">
+                        </div>
+                        
+                        <div class="form-grupo">
+                            <label class="form-label obrigatorio">Porto de Amarração</label>
+                            <input type="text" class="form-input" placeholder="Porto de Lisboa" required>
+                        </div>
+                        
+                        <div class="form-grupo">
+                            <label class="form-label obrigatorio">Lotação Máxima</label>
+                            <input type="number" class="form-input" placeholder="8" min="1" required>
+                        </div>
+                    </div>
+                    
+                    <!-- ETAPA 2 -->
+                    <div class="form-step-conteudo">
+                        <div class="form-grupo">
+                            <label class="form-label obrigatorio">Tipo de Motor</label>
+                            <select class="form-select" required>
+                                <option value="">Selecione...</option>
+                                <option value="interior-diesel">Interior - Diesel</option>
+                                <option value="interior-gasolina">Interior - Gasolina</option>
+                                <option value="exterior-diesel">Exterior - Diesel</option>
+                                <option value="exterior-gasolina">Exterior - Gasolina</option>
+                            </select>
+                        </div>
+                        
+                        <div class="grid grid-2">
+                            <div class="form-grupo">
+                                <label class="form-label obrigatorio">Número de Motores</label>
+                                <input type="number" class="form-input" placeholder="2" min="1" required>
+                            </div>
+                            <div class="form-grupo">
+                                <label class="form-label obrigatorio">Potência Total (CV)</label>
+                                <input type="number" class="form-input" placeholder="250" min="1" required>
+                            </div>
+                        </div>
+                        
+                        <div class="grid grid-2">
+                            <div class="form-grupo">
+                                <label class="form-label">Velocidade Máxima (nós)</label>
+                                <input type="number" class="form-input" placeholder="30" min="1">
+                            </div>
+                            <div class="form-grupo">
+                                <label class="form-label">Autonomia (milhas náuticas)</label>
+                                <input type="number" class="form-input" placeholder="200" min="1">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- ETAPA 3 -->
+                    <div class="form-step-conteudo">
+                        <p class="mb-3">Selecione os extras disponíveis no seu barco:</p>
+                        
+                        <div class="checkbox-visual-grid">
+                            <div class="checkbox-visual">
+                                <input type="checkbox" id="extra1" name="extras" value="ar_condicionado">
+                                <label for="extra1" class="checkbox-visual-label">
+                                    <span class="checkbox-visual-icon">❄️</span>
+                                    <span class="checkbox-visual-texto">Ar Condicionado</span>
+                                </label>
+                            </div>
+                            
+                            <div class="checkbox-visual">
+                                <input type="checkbox" id="extra2" name="extras" value="frigorifico">
+                                <label for="extra2" class="checkbox-visual-label">
+                                    <span class="checkbox-visual-icon">🧊</span>
+                                    <span class="checkbox-visual-texto">Frigorífico</span>
+                                </label>
+                            </div>
+                            
+                            <div class="checkbox-visual">
+                                <input type="checkbox" id="extra3" name="extras" value="camas">
+                                <label for="extra3" class="checkbox-visual-label">
+                                    <span class="checkbox-visual-icon">🛏️</span>
+                                    <span class="checkbox-visual-texto">Camas/Beliches</span>
+                                </label>
+                            </div>
+                            
+                            <div class="checkbox-visual">
+                                <input type="checkbox" id="extra4" name="extras" value="casa_banho">
+                                <label for="extra4" class="checkbox-visual-label">
+                                    <span class="checkbox-visual-icon">🚿</span>
+                                    <span class="checkbox-visual-texto">Casa de Banho</span>
+                                </label>
+                            </div>
+                            
+                            <div class="checkbox-visual">
+                                <input type="checkbox" id="extra5" name="extras" value="cozinha">
+                                <label for="extra5" class="checkbox-visual-label">
+                                    <span class="checkbox-visual-icon">🍳</span>
+                                    <span class="checkbox-visual-texto">Cozinha</span>
+                                </label>
+                            </div>
+                            
+                            <div class="checkbox-visual">
+                                <input type="checkbox" id="extra6" name="extras" value="gps">
+                                <label for="extra6" class="checkbox-visual-label">
+                                    <span class="checkbox-visual-icon">📡</span>
+                                    <span class="checkbox-visual-texto">GPS/Chartplotter</span>
+                                </label>
+                            </div>
+                            
+                            <div class="checkbox-visual">
+                                <input type="checkbox" id="extra7" name="extras" value="radio">
+                                <label for="extra7" class="checkbox-visual-label">
+                                    <span class="checkbox-visual-icon">📻</span>
+                                    <span class="checkbox-visual-texto">VHF/Rádio</span>
+                                </label>
+                            </div>
+                            
+                            <div class="checkbox-visual">
+                                <input type="checkbox" id="extra8" name="extras" value="sonar">
+                                <label for="extra8" class="checkbox-visual-label">
+                                    <span class="checkbox-visual-icon">🔊</span>
+                                    <span class="checkbox-visual-texto">Sonar</span>
+                                </label>
+                            </div>
+                            
+                            <div class="checkbox-visual">
+                                <input type="checkbox" id="extra9" name="extras" value="snorkel">
+                                <label for="extra9" class="checkbox-visual-label">
+                                    <span class="checkbox-visual-icon">🤿</span>
+                                    <span class="checkbox-visual-texto">Equip. Snorkel</span>
+                                </label>
+                            </div>
+                            
+                            <div class="checkbox-visual">
+                                <input type="checkbox" id="extra10" name="extras" value="coletes">
+                                <label for="extra10" class="checkbox-visual-label">
+                                    <span class="checkbox-visual-icon">🦺</span>
+                                    <span class="checkbox-visual-texto">Coletes</span>
+                                </label>
+                            </div>
+                            
+                            <div class="checkbox-visual">
+                                <input type="checkbox" id="extra11" name="extras" value="toldo">
+                                <label for="extra11" class="checkbox-visual-label">
+                                    <span class="checkbox-visual-icon">☀️</span>
+                                    <span class="checkbox-visual-texto">Toldo</span>
+                                </label>
+                            </div>
+                            
+                            <div class="checkbox-visual">
+                                <input type="checkbox" id="extra12" name="extras" value="som">
+                                <label for="extra12" class="checkbox-visual-label">
+                                    <span class="checkbox-visual-icon">🎵</span>
+                                    <span class="checkbox-visual-texto">Sistema Som</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- ETAPA 4 -->
+                    <div class="form-step-conteudo">
+                        <p class="mb-3">Adicione fotos do seu barco (mínimo 3 fotos):</p>
+                        
+                        <div class="upload-fotos-container" id="uploadContainer">
+                            <i class="fas fa-cloud-upload-alt upload-fotos-icon"></i>
+                            <div class="upload-fotos-texto">Clique ou arraste fotos para aqui</div>
+                            <div class="upload-fotos-ajuda">Formatos aceites: JPG, PNG (máx. 5MB cada)</div>
+                            <input type="file" id="inputFotos" accept="image/*" multiple style="display: none;">
+                        </div>
+                        
+                        <div id="fotosPreview" class="fotos-preview"></div>
+                    </div>
+                    
+                    <!-- ETAPA 5 -->
+                    <div class="form-step-conteudo">
+                        <div style="background: #FEF2F2; border-left: 4px solid var(--cor-destaque); padding: 1rem; border-radius: var(--radius-pequeno); margin-bottom: 1.5rem;">
+                            <h4 style="margin-bottom: 0.5rem; color: var(--cor-primaria);">
+                                <i class="fas fa-exclamation-triangle" style="color: var(--cor-destaque);"></i>
+                                Documentos Obrigatórios
+                            </h4>
+                            <p class="texto-pequeno" style="margin: 0;">
+                                O seu barco só será aprovado após validação dos documentos pela administração.
+                            </p>
+                        </div>
+                        
+                        <div class="form-grupo">
+                            <label class="form-label obrigatorio">Número de Matrícula</label>
+                            <input type="text" class="form-input" placeholder="ABC-123-DE" required>
+                        </div>
+                        
+                        <div class="form-grupo">
+                            <label class="form-label obrigatorio">
+                                <i class="fas fa-file-pdf"></i> Livrete do Barco (PDF)
+                            </label>
+                            <p class="form-ajuda">Documento de identificação do barco</p>
+                            <input type="file" class="form-input" accept=".pdf,.jpg,.jpeg,.png" required>
+                        </div>
+                        
+                        <div class="form-grupo">
+                            <label class="form-label obrigatorio">
+                                <i class="fas fa-file-pdf"></i> Certificado RNAAT (PDF)
+                            </label>
+                            <p class="form-ajuda">Registo Nacional de Alojamento e Animação Turística</p>
+                            <input type="file" class="form-input" accept=".pdf,.jpg,.jpeg,.png" required>
+                        </div>
+                        
+                        <div class="form-grupo">
+                            <label class="form-label obrigatorio">
+                                <i class="fas fa-file-pdf"></i> Certificado de Seguro (PDF)
+                            </label>
+                            <p class="form-ajuda">Apólice de seguro marítimo válida</p>
+                            <input type="file" class="form-input" accept=".pdf,.jpg,.jpeg,.png" required>
+                        </div>
+                        
+                        <div class="form-grupo">
+                            <label class="form-label">Número da Apólice de Seguro</label>
+                            <input type="text" class="form-input" placeholder="123456789">
+                        </div>
+                        
+                        <div class="form-grupo">
+                            <label class="form-label">Observações</label>
+                            <textarea class="form-textarea" placeholder="Informações adicionais sobre o barco..."></textarea>
+                        </div>
+                        
+                        <div style="background: var(--cor-cinza-claro); padding: 1rem; border-radius: var(--radius-pequeno); margin-top: 1rem;">
+                            <div style="display: flex; align-items: start; gap: 0.75rem;">
+                                <i class="fas fa-info-circle" style="color: var(--cor-secundaria); margin-top: 0.25rem;"></i>
+                                <div class="texto-pequeno">
+                                    <strong>Nota:</strong> Após submeter o registo, o barco ficará com estado <strong>"Pendente"</strong> 
+                                    até que a administração valide todos os documentos. Receberá um email quando o barco for aprovado.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-navegacao">
+                        <button type="button" class="btn btn-outline" id="btnAnterior" style="display: none;">
+                            <i class="fas fa-arrow-left"></i> Anterior
+                        </button>
+                        <button type="button" class="btn btn-primario" id="btnProximo">
+                            Próximo <i class="fas fa-arrow-right"></i>
+                        </button>
+                        <button type="submit" class="btn btn-secundario btn-grande" id="btnSubmit" style="display: none;">
+                            <i class="fas fa-check"></i> Registar Barco
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+    
+    <script src="js/main.js"></script>
+    <script src="js/forms.js"></script>
+</body>
+</html>

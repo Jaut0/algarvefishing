@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alertas de Segurança - Algarve Tuna Charter</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚠️</text></svg>">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/algarve-tuna.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <style>
+        .header-alertas {
+            background: linear-gradient(135deg, #D32F2F, #F57C00);
+            padding: 3rem 2rem;
+            text-align: center;
+            border-bottom: 4px solid var(--tuna-orange);
+        }
+        
+        .header-alertas h1 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 3rem;
+            color: var(--cor-branco);
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.3);
+        }
+        
+        .header-alertas .subtitulo {
+            color: rgba(255,255,255,0.9);
+            font-size: 1.1rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .aviso-confidencial {
+            background: linear-gradient(135deg, rgba(211, 47, 47, 0.1), rgba(245, 124, 0, 0.1));
+            border-left: 4px solid var(--tuna-red);
+            padding: 1.5rem;
+            border-radius: var(--radius-medio);
+            margin: 2rem auto;
+            max-width: 900px;
+        }
+        
+        .aviso-confidencial h3 {
+            color: var(--tuna-red);
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .tabs-alertas {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin: 2rem auto;
+            max-width: 600px;
+            background: rgba(18, 39, 64, 0.3);
+            padding: 0.5rem;
+            border-radius: var(--radius-grande);
+        }
+        
+        .tab-alerta {
+            flex: 1;
+            padding: 1rem;
+            background: transparent;
+            border: 2px solid transparent;
+            border-radius: var(--radius-medio);
+            color: rgba(255,255,255,0.7);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            text-align: center;
+        }
+        
+        .tab-alerta:hover {
+            color: var(--cor-branco);
+            background: rgba(255, 107, 53, 0.1);
+        }
+        
+        .tab-alerta.ativo {
+            background: var(--tuna-orange);
+            color: var(--cor-branco);
+            border-color: var(--tuna-orange);
+        }
+        
+        .conteudo-tab {
+            display: none;
+        }
+        
+        .conteudo-tab.ativo {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .formulario-incidente {
+            max-width: 900px;
+            margin: 0 auto;
+            background: rgba(18, 39, 64, 0.6);
+            padding: 2rem;
+            border-radius: var(--radius-grande);
+            border: 2px solid rgba(255, 107, 53, 0.3);
+        }
+        
+        .nivel-gravidade {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .nivel-opcao {
+            position: relative;
+        }
+        
+        .nivel-opcao input {
+            position: absolute;
+            opacity: 0;
+        }
+        
+        .nivel-label {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem 1rem;
+            border: 2px solid rgba(255,255,255,0.2);
+            border-radius: var(--radius-medio);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            gap: 0.5rem;
+            background: rgba(255,255,255,0.05);
+        }
+        
+        .nivel-opcao input:checked + .nivel-label {
+            border-width: 3px;
+            transform: scale(1.05);
+        }
+        
+        .nivel-opcao input:checked + .nivel-label.baixo {
+            border-color: #10B981;
+            background: rgba(16, 185, 129, 0.15);
+        }
+        
+        .nivel-opcao input:checked + .nivel-label.medio {
+            border-color: #FF8F00;
+            background: rgba(255, 143, 0, 0.15);
+        }
+        
+        .nivel-opcao input:checked + .nivel-label.alto {
+            border-color: #EF4444;
+            background: rgba(239, 68, 68, 0.15);
+        }
+        
+        .nivel-opcao input:checked + .nivel-label.critico {
+            border-color: #DC2626;
+            background: rgba(220, 38, 38, 0.2);
+            box-shadow: 0 0 20px rgba(220, 38, 38, 0.3);
+        }
+        
+        .nivel-icon {
+            font-size: 2rem;
+        }
+        
+        .nivel-label.baixo .nivel-icon { color: #10B981; }
+        .nivel-label.medio .nivel-icon { color: #FF8F00; }
+        .nivel-label.alto .nivel-icon { color: #EF4444; }
+        .nivel-label.critico .nivel-icon { color: #DC2626; }
+        
+        .categoria-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .chip-categoria {
+            position: relative;
+        }
+        
+        .chip-categoria input {
+            position: absolute;
+            opacity: 0;
+        }
+        
+        .chip-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.25rem;
+            background: rgba(255,255,255,0.1);
+            border: 2px solid rgba(255,255,255,0.2);
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: rgba(255,255,255,0.8);
+        }
+        
+        .chip-categoria input:checked + .chip-label {
+            background: var(--tuna-orange);
+            border-color: var(--tuna-orange);
+            color: var(--cor-branco);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 107, 53, 0.4);
+        }
+        
+        .lista-alertas {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .filtros-alertas {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: rgba(18, 39, 64, 0.4);
+            border-radius: var(--radius-medio);
+        }
+        
+        .alerta-card {
+            background: rgba(18, 39, 64, 0.7);
+            border-radius: var(--radius-medio);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-left: 5px solid;
+            transition: all 0.3s ease;
+        }
+        
+        .alerta-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+        
+        .alerta-card.baixo { border-left-color: #10B981; }
+        .alerta-card.medio { border-left-color: #FF8F00; }
+        .alerta-card.alto { border-left-color: #EF4444; }
+        .alerta-card.critico { border-left-color: #DC2626; }
+        
+        .alerta-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .alerta-info-cliente {
+            flex: 1;
+        }
+        
+        .alerta-nome {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--cor-branco);
+            margin-bottom: 0.5rem;
+        }
+        
+        .alerta-contactos {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            color: rgba(255,255,255,0.8);
+            font-size: 0.9rem;
+        }
+        
+        .badge-gravidade {
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .badge-gravidade.baixo {
+            background: rgba(16, 185, 129, 0.2);
+            color: #10B981;
+            border: 2px solid #10B981;
+        }
+        
+        .badge-gravidade.medio {
+            background: rgba(255, 143, 0, 0.2);
+            color: #FF8F00;
+            border: 2px solid #FF8F00;
+        }
+        
+        .badge-gravidade.alto {
+            background: rgba(239, 68, 68, 0.2);
+            color: #EF4444;
+            border: 2px solid #EF4444;
+        }
+        
+        .badge-gravidade.critico {
+            background: rgba(220, 38, 38, 0.3);
+            color: #DC2626;
+            border: 2px solid #DC2626;
+            animation: pulse 2s infinite;
+        }
+        
+        .alerta-categorias {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .alerta-categorias .badge {
+            background: rgba(255, 107, 53, 0.2);
+            color: var(--tuna-orange);
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        
+        .alerta-descricao {
+            color: rgba(255,255,255,0.9);
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+        
+        .alerta-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: rgba(255,255,255,0.6);
+            font-size: 0.85rem;
+        }
+        
+        .alerta-reportado-por {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .stats-alertas {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            max-width: 1200px;
+            margin: 2rem auto;
+        }
+        
+        .stat-card-alerta {
+            background: rgba(18, 39, 64, 0.6);
+            padding: 1.5rem;
+            border-radius: var(--radius-medio);
+            border-left: 4px solid;
+            text-align: center;
+        }
+        
+        .stat-card-alerta.total { border-left-color: var(--tuna-orange); }
+        .stat-card-alerta.criticos { border-left-color: #DC2626; }
+        .stat-card-alerta.mes { border-left-color: #10B981; }
+        
+        .stat-numero {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--cor-branco);
+            font-family: 'Bebas Neue', sans-serif;
+        }
+        
+        .stat-label {
+            color: rgba(255,255,255,0.7);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        
+        @media (max-width: 768px) {
+            .header-alertas h1 {
+                font-size: 2rem;
+            }
+            
+            .nivel-gravidade {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .alerta-header {
+                flex-direction: column;
+            }
+            
+            .alerta-meta {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- HEADER -->
+    <header class="header-principal">
+        <div class="container">
+            <div class="header-content">
+                <a href="index.html" class="logo">
+                    <i class="fas fa-fish" style="color: var(--tuna-orange);"></i>
+                    <span>Algarve Tuna Charter</span>
+                </a>
+                <nav class="nav-principal" id="navPrincipal">
+                    <a href="dashboard-capitao.html"><i class="fas fa-chart-line"></i> Dashboard</a>
+                    <a href="gerir-agenda.html"><i class="fas fa-calendar-alt"></i> Agenda</a>
+                    <a href="alertas-seguranca.html" class="ativo"><i class="fas fa-shield-alt"></i> Alertas</a>
+                    <button class="btn btn-outline btn-pequeno" onclick="logout()">
+                        <i class="fas fa-sign-out-alt"></i> Sair
+                    </button>
+                </nav>
+                <button class="menu-toggle" id="menuToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- HEADER ALERTAS -->
+    <div class="header-alertas">
+        <h1><i class="fas fa-shield-alt"></i> ALERTAS DE SEGURANÇA</h1>
+        <p class="subtitulo">
+            Sistema de partilha de incidentes entre capitães para proteger a comunidade profissional
+        </p>
+    </div>
+
+    <!-- AVISO CONFIDENCIAL -->
+    <div class="container">
+        <div class="aviso-confidencial">
+            <h3>
+                <i class="fas fa-lock"></i>
+                Acesso Restrito - Apenas Capitães
+            </h3>
+            <p style="color: rgba(0,0,0,0.7); margin: 0; line-height: 1.6;">
+                <strong>Esta área é confidencial e exclusiva para capitães verificados.</strong><br>
+                As informações aqui partilhadas têm como objetivo proteger a comunidade profissional de pesca. 
+                Use este sistema de forma responsável e ética. Reporte apenas incidentes reais e comprovados.
+                <strong>Uso indevido pode resultar na suspensão da conta.</strong>
+            </p>
+        </div>
+    </div>
+
+    <!-- STATS -->
+    <div class="container">
+        <div class="stats-alertas">
+            <div class="stat-card-alerta total">
+                <div class="stat-numero" id="statTotal">0</div>
+                <div class="stat-label">Total de Alertas</div>
+            </div>
+            <div class="stat-card-alerta criticos">
+                <div class="stat-numero" id="statCriticos">0</div>
+                <div class="stat-label">Alertas Críticos</div>
+            </div>
+            <div class="stat-card-alerta mes">
+                <div class="stat-numero" id="statMes">0</div>
+                <div class="stat-label">Este Mês</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TABS -->
+    <div class="container">
+        <div class="tabs-alertas">
+            <div class="tab-alerta ativo" data-tab="consultar">
+                <i class="fas fa-search"></i> Consultar Alertas
+            </div>
+            <div class="tab-alerta" data-tab="reportar">
+                <i class="fas fa-exclamation-triangle"></i> Reportar Incidente
+            </div>
+        </div>
+
+        <!-- TAB: CONSULTAR ALERTAS -->
+        <div class="conteudo-tab ativo" id="tabConsultar">
+            <div class="lista-alertas">
+                <div class="filtros-alertas">
+                    <div class="form-grupo" style="flex: 1; min-width: 200px;">
+                        <input type="text" id="filtroNome" class="form-input" placeholder="🔍 Pesquisar por nome do cliente...">
+                    </div>
+                    <div class="form-grupo" style="min-width: 150px;">
+                        <select id="filtroGravidade" class="form-input">
+                            <option value="">Todas as Gravidades</option>
+                            <option value="critico">🔴 Crítico</option>
+                            <option value="alto">🟠 Alto</option>
+                            <option value="medio">🟡 Médio</option>
+                            <option value="baixo">🟢 Baixo</option>
+                        </select>
+                    </div>
+                    <div class="form-grupo" style="min-width: 150px;">
+                        <select id="filtroCategoria" class="form-input">
+                            <option value="">Todas as Categorias</option>
+                            <option value="nao-pagamento">Não Pagamento</option>
+                            <option value="comportamento">Comportamento</option>
+                            <option value="danos">Danos ao Barco</option>
+                            <option value="seguranca">Segurança</option>
+                            <option value="embriaguez">Embriaguez</option>
+                            <option value="cancelamento">Cancelamento</option>
+                            <option value="outro">Outro</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div id="listaAlertasContainer">
+                    <!-- Alertas serão carregados via JS -->
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB: REPORTAR INCIDENTE -->
+        <div class="conteudo-tab" id="tabReportar">
+            <form class="formulario-incidente" id="formReportar">
+                <h2 style="text-align: center; color: var(--cor-branco); margin-bottom: 2rem;">
+                    <i class="fas fa-exclamation-triangle"></i> Reportar Novo Incidente
+                </h2>
+
+                <div class="form-grupo">
+                    <label class="form-label obrigatorio">Nível de Gravidade</label>
+                    <div class="nivel-gravidade">
+                        <div class="nivel-opcao">
+                            <input type="radio" name="gravidade" id="gravBaixo" value="baixo" required>
+                            <label for="gravBaixo" class="nivel-label baixo">
+                                <i class="fas fa-info-circle nivel-icon"></i>
+                                <strong>Baixo</strong>
+                                <small style="color: rgba(255,255,255,0.6);">Incidente menor</small>
+                            </label>
+                        </div>
+                        <div class="nivel-opcao">
+                            <input type="radio" name="gravidade" id="gravMedio" value="medio">
+                            <label for="gravMedio" class="nivel-label medio">
+                                <i class="fas fa-exclamation-circle nivel-icon"></i>
+                                <strong>Médio</strong>
+                                <small style="color: rgba(255,255,255,0.6);">Requer atenção</small>
+                            </label>
+                        </div>
+                        <div class="nivel-opcao">
+                            <input type="radio" name="gravidade" id="gravAlto" value="alto">
+                            <label for="gravAlto" class="nivel-label alto">
+                                <i class="fas fa-exclamation-triangle nivel-icon"></i>
+                                <strong>Alto</strong>
+                                <small style="color: rgba(255,255,255,0.6);">Incidente grave</small>
+                            </label>
+                        </div>
+                        <div class="nivel-opcao">
+                            <input type="radio" name="gravidade" id="gravCritico" value="critico">
+                            <label for="gravCritico" class="nivel-label critico">
+                                <i class="fas fa-skull-crossbones nivel-icon"></i>
+                                <strong>Crítico</strong>
+                                <small style="color: rgba(255,255,255,0.6);">Evitar cliente</small>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-grupo">
+                    <label class="form-label obrigatorio">Categoria(s) do Incidente</label>
+                    <div class="categoria-chips">
+                        <div class="chip-categoria">
+                            <input type="checkbox" name="categorias" id="catNaoPagamento" value="nao-pagamento">
+                            <label for="catNaoPagamento" class="chip-label">
+                                <i class="fas fa-money-bill-wave"></i> Não Pagamento / Burla
+                            </label>
+                        </div>
+                        <div class="chip-categoria">
+                            <input type="checkbox" name="categorias" id="catComportamento" value="comportamento">
+                            <label for="catComportamento" class="chip-label">
+                                <i class="fas fa-user-times"></i> Comportamento Inadequado
+                            </label>
+                        </div>
+                        <div class="chip-categoria">
+                            <input type="checkbox" name="categorias" id="catDanos" value="danos">
+                            <label for="catDanos" class="chip-label">
+                                <i class="fas fa-wrench"></i> Danos ao Barco/Equipamento
+                            </label>
+                        </div>
+                        <div class="chip-categoria">
+                            <input type="checkbox" name="categorias" id="catSeguranca" value="seguranca">
+                            <label for="catSeguranca" class="chip-label">
+                                <i class="fas fa-life-ring"></i> Risco de Segurança
+                            </label>
+                        </div>
+                        <div class="chip-categoria">
+                            <input type="checkbox" name="categorias" id="catEmbriaguez" value="embriaguez">
+                            <label for="catEmbriaguez" class="chip-label">
+                                <i class="fas fa-glass-whiskey"></i> Embriaguez / Substâncias
+                            </label>
+                        </div>
+                        <div class="chip-categoria">
+                            <input type="checkbox" name="categorias" id="catCancelamento" value="cancelamento">
+                            <label for="catCancelamento" class="chip-label">
+                                <i class="fas fa-ban"></i> Cancelamento de Última Hora
+                            </label>
+                        </div>
+                        <div class="chip-categoria">
+                            <input type="checkbox" name="categorias" id="catOutro" value="outro">
+                            <label for="catOutro" class="chip-label">
+                                <i class="fas fa-ellipsis-h"></i> Outro
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-grupo">
+                    <label class="form-label obrigatorio">Nome do Cliente</label>
+                    <input type="text" id="nomeCliente" class="form-input" placeholder="Nome completo do cliente" required>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-grupo">
+                        <label class="form-label obrigatorio">Email do Cliente</label>
+                        <input type="email" id="emailCliente" class="form-input" placeholder="email@exemplo.com" required>
+                    </div>
+                    <div class="form-grupo">
+                        <label class="form-label obrigatorio">Contacto Telefónico</label>
+                        <input type="tel" id="telefoneCliente" class="form-input" placeholder="+351 912 345 678" required>
+                    </div>
+                </div>
+
+                <div class="form-grupo">
+                    <label class="form-label obrigatorio">Descrição Detalhada do Incidente</label>
+                    <textarea id="descricaoIncidente" class="form-input" rows="6" 
+                        placeholder="Descreva o incidente de forma clara e objetiva. Inclua: data, local, tipo de saída, o que aconteceu, testemunhas (se houver), evidências, etc." 
+                        required></textarea>
+                    <small style="color: rgba(255,255,255,0.6); display: block; margin-top: 0.5rem;">
+                        Mínimo 50 caracteres. Seja específico e profissional.
+                    </small>
+                </div>
+
+                <div class="form-grupo">
+                    <label class="form-label">Data do Incidente</label>
+                    <input type="date" id="dataIncidente" class="form-input" required>
+                </div>
+
+                <div style="background: rgba(239, 68, 68, 0.1); border: 2px solid rgba(239, 68, 68, 0.3); border-radius: var(--radius-medio); padding: 1.5rem; margin: 1.5rem 0;">
+                    <h4 style="color: #EF4444; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+                        <i class="fas fa-gavel"></i> Declaração de Responsabilidade
+                    </h4>
+                    <div class="form-grupo" style="margin: 0;">
+                        <label class="form-checkbox-label" style="color: rgba(255,255,255,0.9); align-items: flex-start;">
+                            <input type="checkbox" class="form-checkbox" id="concordoTermos" required>
+                            <span style="line-height: 1.6;">
+                                Declaro que as informações fornecidas são <strong>verdadeiras e comprovadas</strong>. 
+                                Compreendo que este sistema é para proteção da comunidade e que <strong>reportes falsos 
+                                resultarão na suspensão imediata da minha conta</strong> e possíveis ações legais.
+                            </span>
+                        </label>
+                    </div>
+                </div>
+
+                <div style="display: flex; gap: 1rem; justify-content: center; margin-top: 2rem;">
+                    <button type="button" class="btn btn-outline" onclick="limparFormulario()">
+                        <i class="fas fa-times"></i> Cancelar
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-paper-plane"></i> Enviar Alerta
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="footer" style="margin-top: 4rem;">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-secao">
+                    <h3><i class="fas fa-fish"></i> Algarve Tuna Charter</h3>
+                    <p>Sistema profissional de gestão e segurança para capitães de pesca desportiva.</p>
+                </div>
+                <div class="footer-secao">
+                    <h4>Suporte</h4>
+                    <p><i class="fas fa-envelope"></i> suporte@algarvetunacharter.com</p>
+                    <p><i class="fas fa-phone"></i> +351 289 123 456</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Algarve Tuna Charter. Sistema de Alertas Confidencial.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/alertas-seguranca.js"></script>
+</body>
+</html>

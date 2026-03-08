@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📧 Caixa de Email (Simulação) - Algarve Tuna Charter</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📧</text></svg>">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/algarve-tuna.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #0B1929, #1B4965);
+            min-height: 100vh;
+            padding: 2rem;
+        }
+        
+        .container-email {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header-email {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .header-email h1 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 3rem;
+            color: var(--tuna-orange);
+            margin-bottom: 0.5rem;
+        }
+        
+        .header-email p {
+            color: rgba(245, 245, 245, 0.8);
+            font-size: 1.1rem;
+        }
+        
+        .email-card {
+            background: rgba(18, 39, 64, 0.9);
+            border: 2px solid rgba(255, 107, 53, 0.3);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .email-card:hover {
+            transform: translateY(-2px);
+            border-color: var(--tuna-orange);
+            box-shadow: 0 8px 24px rgba(255, 107, 53, 0.3);
+        }
+        
+        .email-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .email-para {
+            color: var(--cor-branco);
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+        
+        .email-data {
+            color: rgba(245, 245, 245, 0.6);
+            font-size: 0.9rem;
+        }
+        
+        .email-assunto {
+            font-size: 1.4rem;
+            color: var(--tuna-orange);
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+        
+        .email-corpo {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-left: 4px solid var(--tuna-orange);
+            color: rgba(245, 245, 245, 0.9);
+            line-height: 1.8;
+            white-space: pre-wrap;
+            font-family: monospace;
+            font-size: 0.95rem;
+        }
+        
+        .email-link {
+            background: var(--tuna-orange);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .email-link:hover {
+            background: #F57C00;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 107, 53, 0.4);
+        }
+        
+        .estado-vazio {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: rgba(245, 245, 245, 0.6);
+        }
+        
+        .estado-vazio i {
+            font-size: 5rem;
+            margin-bottom: 1.5rem;
+            opacity: 0.3;
+        }
+        
+        .acoes {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        @media (max-width: 768px) {
+            .email-header {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container-email">
+        <div class="header-email">
+            <h1><i class="fas fa-inbox"></i> Caixa de Email (Simulação)</h1>
+            <p>Emails de confirmação enviados pela plataforma (apenas para testes)</p>
+        </div>
+        
+        <div id="listaEmails"></div>
+        
+        <div class="acoes">
+            <a href="index.html" class="btn btn-outline">
+                <i class="fas fa-home"></i> Voltar ao Início
+            </a>
+            <a href="auth.html" class="btn btn-outline">
+                <i class="fas fa-user-plus"></i> Fazer Registo
+            </a>
+            <button class="btn btn-outline" onclick="limparEmails()">
+                <i class="fas fa-trash"></i> Limpar Todos
+            </button>
+        </div>
+    </div>
+    
+    <script src="js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            carregarEmails();
+        });
+        
+        function carregarEmails() {
+            const emails = JSON.parse(localStorage.getItem('emailsSimulados') || '[]');
+            const container = document.getElementById('listaEmails');
+            
+            if (emails.length === 0) {
+                container.innerHTML = `
+                    <div class="estado-vazio">
+                        <i class="fas fa-inbox"></i>
+                        <h2 style="color: var(--cor-branco); margin-bottom: 1rem;">Nenhum Email</h2>
+                        <p>Ainda não foram enviados emails de confirmação.</p>
+                        <p style="margin-top: 1rem;">
+                            <a href="auth.html" style="color: var(--tuna-orange);">
+                                Faça um registo para ver emails aqui
+                            </a>
+                        </p>
+                    </div>
+                `;
+                return;
+            }
+            
+            // Ordenar por mais recente
+            emails.sort((a, b) => new Date(b.dataEnvio) - new Date(a.dataEnvio));
+            
+            container.innerHTML = emails.map(email => {
+                // Extrair link de confirmação do corpo
+                const linkMatch = email.corpo.match(/🔗 (http[^\s]+)/);
+                const linkConfirmacao = linkMatch ? linkMatch[1] : null;
+                
+                return `
+                    <div class="email-card">
+                        <div class="email-header">
+                            <div>
+                                <div class="email-para">
+                                    <i class="fas fa-envelope"></i> Para: ${email.para}
+                                </div>
+                            </div>
+                            <div class="email-data">
+                                <i class="fas fa-clock"></i> ${formatarData(email.dataEnvio)}
+                            </div>
+                        </div>
+                        
+                        <div class="email-assunto">
+                            ${email.assunto}
+                        </div>
+                        
+                        <div class="email-corpo">
+${email.corpo}
+                        </div>
+                        
+                        ${linkConfirmacao ? `
+                            <div style="margin-top: 1.5rem; text-align: center;">
+                                <a href="${linkConfirmacao}" class="email-link">
+                                    <i class="fas fa-check-circle"></i> Confirmar Email
+                                </a>
+                                <div style="margin-top: 1rem; font-size: 0.85rem; color: rgba(245, 245, 245, 0.6);">
+                                    Ou copie o link: <code style="color: var(--tuna-orange); background: rgba(0,0,0,0.3); padding: 0.25rem 0.5rem; border-radius: 4px;">${linkConfirmacao}</code>
+                                </div>
+                            </div>
+                        ` : ''}
+                    </div>
+                `;
+            }).join('');
+        }
+        
+        function formatarData(dataString) {
+            const data = new Date(dataString);
+            return data.toLocaleString('pt-PT', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+        
+        function limparEmails() {
+            if (confirm('⚠️ Tem a certeza que deseja limpar todos os emails?\n\nEsta ação não pode ser desfeita.')) {
+                localStorage.removeItem('emailsSimulados');
+                carregarEmails();
+                mostrarToast('🗑️ Emails limpos com sucesso!', 'sucesso');
+            }
+        }
+    </script>
+</body>
+</html>

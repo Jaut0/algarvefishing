@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agenda do Barco - FishingHub</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>⚓</text></svg>">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .barco-header {
+            background: linear-gradient(135deg, rgba(10, 22, 40, 0.95), rgba(21, 101, 192, 0.9)),
+                        url('https://sspark.genspark.ai/cfimages?u1=w77hVJQr%2FyTjhxt4ZA4kn5IpRPQfvtq10%2FyUHqJBJEwJZnAPlCEtLAtJItXX3iIp5O9UQsHjZIivJUxyudWV0mpolUrQ1o6RUB4isb%2FChf8jUkCH57eNsJpyPek%3D&u2=D0PmC4bUCLFb6USw&width=2560&v=2026') center/cover;
+            padding: 3rem 0;
+            margin-top: 70px;
+            color: white;
+        }
+        
+        .calendario-container {
+            background: white;
+            padding: 2rem;
+            border-radius: var(--radius-grande);
+            box-shadow: var(--sombra-media);
+            margin-bottom: 2rem;
+        }
+        
+        .calendario-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .calendario-mes {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--cor-primaria);
+        }
+        
+        .calendario-nav {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .calendario-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 0.5rem;
+        }
+        
+        .calendario-dia-semana {
+            text-align: center;
+            font-weight: 600;
+            padding: 1rem 0.5rem;
+            color: var(--cor-secundaria);
+            font-size: 0.875rem;
+            background: var(--cor-cinza-claro);
+            border-radius: var(--radius-pequeno);
+        }
+        
+        .calendario-dia {
+            aspect-ratio: 1;
+            border: 2px solid var(--cor-cinza);
+            border-radius: var(--radius-medio);
+            padding: 0.5rem;
+            cursor: pointer;
+            transition: var(--transicao-normal);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            background: white;
+        }
+        
+        .calendario-dia:hover:not(.indisponivel):not(.outro-mes) {
+            border-color: var(--cor-secundaria);
+            transform: translateY(-2px);
+            box-shadow: var(--sombra-media);
+        }
+        
+        .calendario-dia.outro-mes {
+            opacity: 0.3;
+            pointer-events: none;
+        }
+        
+        .calendario-dia.hoje {
+            border-color: var(--cor-destaque);
+            border-width: 3px;
+        }
+        
+        .calendario-dia.disponivel {
+            background: white;
+        }
+        
+        .calendario-dia.indisponivel {
+            background: linear-gradient(135deg, #FEE2E2, #FECACA);
+            border-color: var(--cor-erro);
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+        
+        .calendario-dia.selecionado {
+            background: linear-gradient(135deg, #DBEAFE, #BFDBFE);
+            border-color: var(--cor-secundaria);
+            border-width: 3px;
+        }
+        
+        .dia-numero {
+            font-weight: 700;
+            font-size: 1.125rem;
+            margin-bottom: 0.25rem;
+        }
+        
+        .dia-status {
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-top: auto;
+        }
+        
+        .resumo-reserva {
+            position: sticky;
+            top: 90px;
+            background: white;
+            padding: 2rem;
+            border-radius: var(--radius-grande);
+            box-shadow: var(--sombra-grande);
+        }
+        
+        .dias-selecionados {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin: 1rem 0;
+        }
+        
+        .dia-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: var(--cor-cinza-claro);
+            border-radius: var(--radius-pequeno);
+            font-size: 0.9rem;
+        }
+        
+        .dia-tag button {
+            background: none;
+            border: none;
+            color: var(--cor-erro);
+            cursor: pointer;
+            padding: 0;
+            display: flex;
+            align-items: center;
+        }
+        
+        .legenda {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+            padding: 1rem;
+            background: var(--cor-cinza-claro);
+            border-radius: var(--radius-medio);
+        }
+        
+        .legenda-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+        }
+        
+        .legenda-cor {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+            border: 2px solid;
+        }
+        
+        @media (max-width: 768px) {
+            .calendario-grid {
+                gap: 0.25rem;
+            }
+            
+            .calendario-dia {
+                padding: 0.25rem;
+                font-size: 0.8rem;
+            }
+            
+            .dia-numero {
+                font-size: 0.9rem;
+            }
+            
+            .dia-status {
+                font-size: 0.6rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header" id="header">
+        <div class="header-content container">
+            <a href="index.html" class="logo">
+                <span class="logo-icon">⚓</span>
+                <span>FishingHub</span>
+            </a>
+            <nav class="nav-menu" id="navMenu">
+                <a href="index.html" class="nav-link">Início</a>
+                <a href="explorar.html" class="nav-link">Explorar</a>
+                <a href="auth.html" class="btn btn-primario btn-pequeno">Entrar</a>
+            </nav>
+            <div class="menu-toggle" id="menuToggle">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Header do Barco -->
+    <div class="barco-header">
+        <div class="container">
+            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                <a href="explorar.html" style="color: white;">
+                    <i class="fas fa-arrow-left"></i> Voltar
+                </a>
+            </div>
+            <h1 style="margin-bottom: 0.5rem;">Mar Azul</h1>
+            <div style="display: flex; align-items: center; gap: 2rem; flex-wrap: wrap; opacity: 0.9;">
+                <div><i class="fas fa-ship"></i> Lancha de Pesca</div>
+                <div><i class="fas fa-ruler-combined"></i> 12 metros</div>
+                <div><i class="fas fa-users"></i> 8 pessoas</div>
+                <div><i class="fas fa-user-tie"></i> Capitão Pedro Costa</div>
+            </div>
+        </div>
+    </div>
+    
+    <section class="secao">
+        <div class="container">
+            <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 2rem;">
+                <div>
+                    <div style="background: #EFF6FF; border-left: 4px solid var(--cor-secundaria); padding: 1rem; border-radius: var(--radius-pequeno); margin-bottom: 2rem;">
+                        <h3 style="margin-bottom: 0.5rem; color: var(--cor-primaria);">
+                            <i class="fas fa-info-circle"></i> Como Funciona
+                        </h3>
+                        <ol style="margin-left: 1.5rem; line-height: 1.8;">
+                            <li>Selecione os dias pretendidos no calendário (até 5 dias)</li>
+                            <li>Preencha o formulário de pedido de reserva</li>
+                            <li>O capitão receberá o seu pedido e entrará em contacto</li>
+                            <li>Após acordarem os detalhes, o capitão confirmará a reserva</li>
+                        </ol>
+                    </div>
+                    
+                    <!-- Calendário -->
+                    <div class="calendario-container">
+                        <div class="calendario-header">
+                            <div class="calendario-mes" id="calendarioMes">
+                                Março 2026
+                            </div>
+                            <div class="calendario-nav">
+                                <button class="btn btn-outline btn-pequeno" onclick="mesAnterior()">
+                                    <i class="fas fa-chevron-left"></i>
+                                </button>
+                                <button class="btn btn-outline btn-pequeno" onclick="hoje()">
+                                    Hoje
+                                </button>
+                                <button class="btn btn-outline btn-pequeno" onclick="mesSeguinte()">
+                                    <i class="fas fa-chevron-right"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="calendario-grid">
+                            <!-- Dias da semana -->
+                            <div class="calendario-dia-semana">Dom</div>
+                            <div class="calendario-dia-semana">Seg</div>
+                            <div class="calendario-dia-semana">Ter</div>
+                            <div class="calendario-dia-semana">Qua</div>
+                            <div class="calendario-dia-semana">Qui</div>
+                            <div class="calendario-dia-semana">Sex</div>
+                            <div class="calendario-dia-semana">Sáb</div>
+                        </div>
+                        
+                        <!-- Legenda -->
+                        <div class="legenda">
+                            <div class="legenda-item">
+                                <div class="legenda-cor" style="background: white; border-color: var(--cor-cinza);"></div>
+                                <span>Disponível</span>
+                            </div>
+                            <div class="legenda-item">
+                                <div class="legenda-cor" style="background: linear-gradient(135deg, #FEE2E2, #FECACA); border-color: var(--cor-erro);"></div>
+                                <span>Indisponível</span>
+                            </div>
+                            <div class="legenda-item">
+                                <div class="legenda-cor" style="background: linear-gradient(135deg, #DBEAFE, #BFDBFE); border-color: var(--cor-secundaria); border-width: 3px;"></div>
+                                <span>Selecionado</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Resumo da Reserva -->
+                <div>
+                    <div class="resumo-reserva">
+                        <h3 style="margin-bottom: 1rem;">
+                            <i class="fas fa-calendar-check"></i> Pedido de Reserva
+                        </h3>
+                        
+                        <div id="diasSelecionadosContainer">
+                            <p class="texto-cinza">Selecione até 5 dias no calendário</p>
+                        </div>
+                        
+                        <div class="dias-selecionados" id="diasSelecionados" style="display: none;"></div>
+                        
+                        <div style="border-top: 1px solid var(--cor-cinza); margin: 1.5rem 0; padding-top: 1.5rem;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                <span>Dias selecionados:</span>
+                                <strong id="totalDias">0</strong>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; font-size: 0.875rem; color: var(--cor-cinza-escuro);">
+                                <span>Máximo permitido:</span>
+                                <span>5 dias</span>
+                            </div>
+                        </div>
+                        
+                        <button class="btn btn-primario btn-bloco btn-grande" id="btnContinuar" onclick="abrirModalReserva()" disabled style="margin-bottom: 0.75rem;">
+                            <i class="fas fa-arrow-right"></i>
+                            Continuar para Pedido
+                        </button>
+                        
+                        <p class="texto-pequeno texto-cinza texto-centro">
+                            <i class="fas fa-shield-alt"></i> Sem pagamento online. Combine diretamente com o capitão.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Modal Pedido de Reserva -->
+    <div class="modal" id="modalReserva">
+        <div class="modal-conteudo" style="max-width: 600px;">
+            <button class="modal-fechar" onclick="fecharModal('modalReserva')">&times;</button>
+            <h2 class="mb-3">
+                <i class="fas fa-calendar-check"></i> Pedido de Reserva
+            </h2>
+            <p class="texto-cinza mb-4">Preencha os seus dados para enviar o pedido ao capitão</p>
+            
+            <form id="formPedidoReserva">
+                <div style="background: var(--cor-cinza-claro); padding: 1rem; border-radius: var(--radius-pequeno); margin-bottom: 1.5rem;">
+                    <div style="font-weight: 600; margin-bottom: 0.5rem;">Dias Selecionados:</div>
+                    <div id="diasResumo" style="font-size: 0.9rem;"></div>
+                </div>
+                
+                <div class="form-grupo">
+                    <label class="form-label obrigatorio">Nome Completo</label>
+                    <input type="text" class="form-input" id="nomeCliente" placeholder="João Silva" required>
+                </div>
+                
+                <div class="form-grupo">
+                    <label class="form-label obrigatorio">Email</label>
+                    <input type="email" class="form-input" id="emailCliente" placeholder="joao@exemplo.com" required>
+                </div>
+                
+                <div class="form-grupo">
+                    <label class="form-label obrigatorio">Telefone</label>
+                    <input type="tel" class="form-input" id="telefoneCliente" placeholder="+351 912 345 678" required>
+                </div>
+                
+                <div class="form-grupo">
+                    <label class="form-label obrigatorio">Número de Pessoas</label>
+                    <input type="number" class="form-input" id="numeroPessoas" placeholder="4" min="1" max="8" required>
+                </div>
+                
+                <div class="form-grupo">
+                    <label class="form-label">Mensagem / Observações</label>
+                    <textarea class="form-textarea" id="mensagemCliente" placeholder="Informações adicionais, horário preferido, etc."></textarea>
+                </div>
+                
+                <div style="background: #FEF3C7; border-left: 4px solid var(--cor-destaque); padding: 1rem; border-radius: var(--radius-pequeno); margin-bottom: 1.5rem;">
+                    <div style="display: flex; align-items: start; gap: 0.75rem;">
+                        <i class="fas fa-info-circle" style="color: var(--cor-destaque); margin-top: 0.25rem;"></i>
+                        <div class="texto-pequeno">
+                            <strong>Nota Importante:</strong> Este é apenas um pedido de reserva. O capitão entrará em contacto para confirmar disponibilidade e combinar os detalhes. Não há pagamento online.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="flex gap-md">
+                    <button type="button" class="btn btn-outline" onclick="fecharModal('modalReserva')">
+                        Cancelar
+                    </button>
+                    <button type="submit" class="btn btn-primario" style="flex: 1;">
+                        <i class="fas fa-paper-plane"></i>
+                        Enviar Pedido
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2026 FishingHub. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+    
+    <script src="js/main.js"></script>
+    <script src="js/reserva-cliente.js"></script>
+</body>
+</html>

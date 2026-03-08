@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Admin - FishingHub</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>⚓</text></svg>">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .admin-login-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 1rem;
+            background: linear-gradient(135deg, rgba(10, 22, 40, 0.95), rgba(220, 38, 38, 0.8)), 
+                        url('https://sspark.genspark.ai/cfimages?u1=7YWsG%2Bn%2B7ngw8DWgn6rS%2FgFRYAZSctoDYUfgs5tbptuVqt0zEZZVpJry6tK81oovfWVMfoZEYWFl61%2FWuwB1IvJXKPLSjceAo3PV9%2BgZdoKGPzhhUvPlKQ26ow%2Bfv0ayhVZ7eZDw3Y%2B%2FvvqPAjPEWk07yhGLi5rdGU7P348GKfXrFYghQNlI6Z%2Bz9Wy43S%2Bq&u2=QMeqLEKYEcWu0kkE&width=2560&v=2026') center/cover fixed;
+        }
+        
+        .admin-login-card {
+            background: var(--cor-branco);
+            border-radius: var(--radius-grande);
+            box-shadow: var(--sombra-extra);
+            width: 100%;
+            max-width: 450px;
+            overflow: hidden;
+        }
+        
+        .admin-login-header {
+            background: linear-gradient(135deg, #EF4444, #DC2626);
+            padding: 2rem;
+            text-align: center;
+            color: white;
+        }
+        
+        .admin-login-header i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .admin-login-content {
+            padding: 2rem;
+        }
+        
+        .voltar-home {
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+        
+        .voltar-home a {
+            color: var(--cor-branco);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: var(--radius-medio);
+            font-weight: 600;
+            backdrop-filter: blur(10px);
+            transition: var(--transicao-normal);
+        }
+        
+        .voltar-home a:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        
+        .admin-warning {
+            background-color: #FEF2F2;
+            border-left: 4px solid #EF4444;
+            padding: 1rem;
+            border-radius: var(--radius-pequeno);
+            margin-bottom: 1.5rem;
+        }
+        
+        .admin-warning i {
+            color: #EF4444;
+            margin-right: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-login-container">
+        <div style="max-width: 450px; width: 100%;">
+            <div class="voltar-home">
+                <a href="index.html">
+                    <i class="fas fa-arrow-left"></i>
+                    Voltar ao Site
+                </a>
+            </div>
+            
+            <div class="admin-login-card">
+                <div class="admin-login-header">
+                    <i class="fas fa-user-shield"></i>
+                    <h2 style="margin: 0; color: white;">Área de Administração</h2>
+                    <p style="margin: 0.5rem 0 0; opacity: 0.9; font-size: 0.9rem;">FishingHub</p>
+                </div>
+                
+                <div class="admin-login-content">
+                    <div class="admin-warning">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <strong>Acesso Restrito:</strong> Esta área é exclusiva para administradores.
+                    </div>
+                    
+                    <form id="formAdminLogin">
+                        <div class="form-grupo">
+                            <label class="form-label obrigatorio">
+                                <i class="fas fa-envelope"></i> Email de Admin
+                            </label>
+                            <input type="email" class="form-input" id="adminEmail" placeholder="admin@fishinghub.pt" required autocomplete="username">
+                        </div>
+                        
+                        <div class="form-grupo">
+                            <label class="form-label obrigatorio">
+                                <i class="fas fa-lock"></i> Password
+                            </label>
+                            <input type="password" class="form-input" id="adminPassword" placeholder="••••••••" required autocomplete="current-password">
+                        </div>
+                        
+                        <div class="form-grupo">
+                            <label class="form-checkbox-label">
+                                <input type="checkbox" class="form-checkbox">
+                                <span>Lembrar-me neste dispositivo</span>
+                            </label>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-bloco btn-grande" style="background: linear-gradient(135deg, #EF4444, #DC2626); color: white; margin-top: 1rem;">
+                            <i class="fas fa-sign-in-alt"></i>
+                            Entrar como Admin
+                        </button>
+                        
+                        <div style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--cor-cinza); text-align: center;">
+                            <p class="texto-pequeno texto-cinza">
+                                <i class="fas fa-info-circle"></i>
+                                Apenas utilizadores autorizados podem aceder
+                            </p>
+                        </div>
+                    </form>
+                    
+                    <!-- Credenciais de teste (remover em produção) -->
+                    <div style="margin-top: 1.5rem; padding: 1rem; background: var(--cor-cinza-claro); border-radius: var(--radius-pequeno); font-size: 0.85rem;">
+                        <div style="font-weight: 600; margin-bottom: 0.5rem; color: var(--cor-primaria);">
+                            <i class="fas fa-key"></i> Credenciais de Acesso:
+                        </div>
+                        <div style="font-family: 'Courier New', monospace; background: white; padding: 0.75rem; border-radius: 4px; margin-top: 0.5rem;">
+                            <div><strong>Email:</strong> servico@jauto.pt</div>
+                            <div style="margin-top: 0.25rem;"><strong>Password:</strong> 12345678</div>
+                        </div>
+                        <div style="margin-top: 0.5rem; color: var(--cor-erro); font-size: 0.8rem;">
+                            <i class="fas fa-exclamation-circle"></i> Alterar password após primeiro acesso
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="js/main.js"></script>
+    <script>
+        document.getElementById('formAdminLogin').addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const email = document.getElementById('adminEmail').value;
+            const password = document.getElementById('adminPassword').value;
+            
+            // Validação simples (em produção usar backend)
+            if (email === 'servico@jauto.pt' && password === '12345678') {
+                mostrarLoading();
+                setTimeout(() => {
+                    esconderLoading();
+                    mostrarToast('Login bem-sucedido! Bem-vindo, Admin.', 'sucesso');
+                    setTimeout(() => {
+                        window.location.href = 'admin-dashboard.html';
+                    }, 1000);
+                }, 1000);
+            } else {
+                mostrarToast('Email ou password incorretos!', 'erro');
+            }
+        });
+        
+        // Auto-preencher para demo (remover em produção)
+        document.getElementById('adminEmail').value = 'servico@jauto.pt';
+        document.getElementById('adminPassword').value = '12345678';
+    </script>
+</body>
+</html>

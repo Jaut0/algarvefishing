@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Criar Saída - FishingHub</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>⚓</text></svg>">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body>
+    <header class="header">
+        <div class="header-content container">
+            <a href="index.html" class="logo">
+                <span class="logo-icon">⚓</span>
+                <span>FishingHub</span>
+            </a>
+            <nav class="nav-menu">
+                <a href="dashboard-capitao.html" class="nav-link">
+                    <i class="fas fa-arrow-left"></i> Voltar ao Dashboard
+                </a>
+            </nav>
+        </div>
+    </header>
+    
+    <section class="secao" style="margin-top: 90px; background-color: var(--cor-cinza-claro);">
+        <div class="container container-estreito">
+            <h1 class="texto-centro mb-2">Criar Nova Saída de Pesca</h1>
+            <p class="texto-centro texto-cinza mb-5">Preencha os detalhes da saída</p>
+            
+            <div class="dashboard-secao">
+                <form id="formCriarSaida">
+                    <div class="form-grupo">
+                        <label class="form-label obrigatorio">Selecione o Barco</label>
+                        <select class="form-select" required>
+                            <option value="">Escolha um barco...</option>
+                            <option value="1">Mar Azul (12m - 8 pessoas)</option>
+                            <option value="2">Oceano Bravo (15m - 12 pessoas)</option>
+                            <option value="3">Pescador I (10m - 6 pessoas)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-grupo">
+                        <label class="form-label obrigatorio">Título da Saída</label>
+                        <input type="text" class="form-input" placeholder="Ex: Pesca de Alto Mar - Aventura Atlântica" required>
+                    </div>
+                    
+                    <div class="form-grupo">
+                        <label class="form-label obrigatorio">Descrição Detalhada</label>
+                        <textarea class="form-textarea" placeholder="Descreva a experiência, o que incluí, o que podem esperar..." required></textarea>
+                    </div>
+                    
+                    <div class="form-grupo">
+                        <label class="form-label obrigatorio">Tipos de Pesca</label>
+                        <p class="form-ajuda">Selecione pelo menos um tipo</p>
+                        <div class="checkbox-visual-grid">
+                            <div class="checkbox-visual">
+                                <input type="checkbox" id="tipo1" name="tipos_pesca" value="fundo">
+                                <label for="tipo1" class="checkbox-visual-label">
+                                    <span class="checkbox-visual-icon">🎣</span>
+                                    <span class="checkbox-visual-texto">Pesca de Fundo</span>
+                                </label>
+                            </div>
+                            <div class="checkbox-visual">
+                                <input type="checkbox" id="tipo2" name="tipos_pesca" value="alto_mar">
+                                <label for="tipo2" class="checkbox-visual-label">
+                                    <span class="checkbox-visual-icon">🌊</span>
+                                    <span class="checkbox-visual-texto">Pesca de Alto Mar</span>
+                                </label>
+                            </div>
+                            <div class="checkbox-visual">
+                                <input type="checkbox" id="tipo3" name="tipos_pesca" value="jigging">
+                                <label for="tipo3" class="checkbox-visual-label">
+                                    <span class="checkbox-visual-icon">⚡</span>
+                                    <span class="checkbox-visual-texto">Jigging</span>
+                                </label>
+                            </div>
+                            <div class="checkbox-visual">
+                                <input type="checkbox" id="tipo4" name="tipos_pesca" value="atum">
+                                <label for="tipo4" class="checkbox-visual-label">
+                                    <span class="checkbox-visual-icon">🐟</span>
+                                    <span class="checkbox-visual-texto">Pesca de Atum</span>
+                                </label>
+                            </div>
+                            <div class="checkbox-visual">
+                                <input type="checkbox" id="tipo5" name="tipos_pesca" value="costeira">
+                                <label for="tipo5" class="checkbox-visual-label">
+                                    <span class="checkbox-visual-icon">🏖️</span>
+                                    <span class="checkbox-visual-texto">Pesca Costeira</span>
+                                </label>
+                            </div>
+                            <div class="checkbox-visual">
+                                <input type="checkbox" id="tipo6" name="tipos_pesca" value="desportiva">
+                                <label for="tipo6" class="checkbox-visual-label">
+                                    <span class="checkbox-visual-icon">🏆</span>
+                                    <span class="checkbox-visual-texto">Pesca Desportiva</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-2">
+                        <div class="form-grupo">
+                            <label class="form-label obrigatorio">Data</label>
+                            <input type="date" class="form-input" required>
+                        </div>
+                        <div class="form-grupo">
+                            <label class="form-label obrigatorio">Hora de Partida</label>
+                            <input type="time" class="form-input" required>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-2">
+                        <div class="form-grupo">
+                            <label class="form-label obrigatorio">Duração (horas)</label>
+                            <input type="number" class="form-input" placeholder="8" min="1" max="24" required>
+                        </div>
+                        <div class="form-grupo">
+                            <label class="form-label obrigatorio">Porto de Saída</label>
+                            <input type="text" class="form-input" placeholder="Porto de Lisboa" required>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-2">
+                        <div class="form-grupo">
+                            <label class="form-label obrigatorio">Nº Máximo de Pescadores</label>
+                            <input type="number" class="form-input" placeholder="8" min="1" required>
+                        </div>
+                        <div class="form-grupo">
+                            <label class="form-label obrigatorio">Preço por Pessoa (€)</label>
+                            <input type="number" class="form-input" placeholder="75" min="1" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-grupo">
+                        <label class="form-label">O que está Incluído</label>
+                        <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+                            <label class="form-checkbox-label">
+                                <input type="checkbox" class="form-checkbox" name="inclui" value="equipamento">
+                                <span>Equipamento de Pesca</span>
+                            </label>
+                            <label class="form-checkbox-label">
+                                <input type="checkbox" class="form-checkbox" name="inclui" value="isco">
+                                <span>Isco/Engodo</span>
+                            </label>
+                            <label class="form-checkbox-label">
+                                <input type="checkbox" class="form-checkbox" name="inclui" value="lanches">
+                                <span>Lanches e Bebidas</span>
+                            </label>
+                            <label class="form-checkbox-label">
+                                <input type="checkbox" class="form-checkbox" name="inclui" value="limpeza">
+                                <span>Limpeza do Peixe</span>
+                            </label>
+                            <label class="form-checkbox-label">
+                                <input type="checkbox" class="form-checkbox" name="inclui" value="transporte">
+                                <span>Transporte Terrestre</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-grupo">
+                        <label class="form-label obrigatorio">Nível de Dificuldade</label>
+                        <select class="form-select" required>
+                            <option value="">Selecione...</option>
+                            <option value="iniciante">Iniciante</option>
+                            <option value="intermedio">Intermédio</option>
+                            <option value="avancado">Avançado</option>
+                        </select>
+                    </div>
+                    
+                    <!-- 🎣 SAÍDA PARTILHADA -->
+                    <div class="form-grupo" style="background: linear-gradient(135deg, #E0F2FE 0%, #DBEAFE 100%); border: 2px solid #0EA5E9; border-left: 5px solid #0284C7; padding: 1.5rem; border-radius: 8px; margin: 1.5rem 0;">
+                        <label class="form-checkbox-label" style="margin-bottom: 1rem; font-size: 1.1rem; font-weight: 700; color: #0C4A6E; display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                            <input type="checkbox" class="form-checkbox" id="saidaPartilhada" style="width: 1.3rem; height: 1.3rem;">
+                            <i class="fas fa-users" style="color: #0284C7; font-size: 1.2rem;"></i>
+                            <span>Permitir Saída Partilhada</span>
+                        </label>
+                        
+                        <p style="margin: 0 0 1rem 0; color: #075985; font-size: 0.9rem; line-height: 1.5;">
+                            💡 Permite que vários clientes se juntem à mesma saída para <strong>dividir os custos</strong>. Perfeito para grupos que querem economizar!
+                        </p>
+                        
+                        <div id="opcoesPartilhada" style="display: none; animation: fadeIn 0.3s ease;">
+                            <div class="grid grid-2" style="gap: 1rem; margin-top: 1rem;">
+                                <div>
+                                    <label class="form-label obrigatorio" style="color: #0C4A6E; font-weight: 600;">
+                                        <i class="fas fa-chair"></i> Vagas Disponíveis
+                                    </label>
+                                    <input type="number" class="form-input" id="vagasDisponiveis" placeholder="4" min="2" max="20">
+                                    <small style="color: #075985; display: block; margin-top: 0.3rem;">
+                                        Quantas pessoas podem participar
+                                    </small>
+                                </div>
+                                <div>
+                                    <label class="form-label obrigatorio" style="color: #0C4A6E; font-weight: 600;">
+                                        <i class="fas fa-euro-sign"></i> Preço Total da Saída (€)
+                                    </label>
+                                    <input type="number" class="form-input" id="precoTotal" placeholder="1000" min="100">
+                                    <small style="color: #075985; display: block; margin-top: 0.3rem;">
+                                        Valor será dividido entre participantes
+                                    </small>
+                                </div>
+                            </div>
+                            
+                            <div style="background: rgba(6, 182, 212, 0.1); border-radius: 6px; padding: 1rem; margin-top: 1rem; border-left: 3px solid #06B6D4;">
+                                <p style="margin: 0; color: #0E7490; font-size: 0.85rem; font-weight: 500;">
+                                    <i class="fas fa-calculator"></i> <strong>Exemplo:</strong> Preço Total €1.000 ÷ 4 vagas = <strong>€250 por pessoa</strong>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-grupo">
+                        <label class="form-label">Regras e Observações</label>
+                        <textarea class="form-textarea" placeholder="Regras específicas, requisitos, recomendações..."></textarea>
+                    </div>
+                    
+                    <div class="flex gap-md" style="margin-top: 2rem;">
+                        <a href="dashboard-capitao.html" class="btn btn-outline btn-grande">
+                            <i class="fas fa-times"></i> Cancelar
+                        </a>
+                        <button type="submit" class="btn btn-primario btn-grande" style="flex: 1;">
+                            <i class="fas fa-check"></i> Criar Saída
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+    
+    <script src="js/main.js"></script>
+    <script>
+        // Toggle Saída Partilhada
+        document.getElementById('saidaPartilhada').addEventListener('change', function() {
+            const opcoes = document.getElementById('opcoesPartilhada');
+            const vagasInput = document.getElementById('vagasDisponiveis');
+            const precoInput = document.getElementById('precoTotal');
+            
+            if (this.checked) {
+                opcoes.style.display = 'block';
+                vagasInput.required = true;
+                precoInput.required = true;
+            } else {
+                opcoes.style.display = 'none';
+                vagasInput.required = false;
+                precoInput.required = false;
+            }
+        });
+        
+        // Submit form
+        document.getElementById('formCriarSaida').addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const saidaPartilhada = document.getElementById('saidaPartilhada').checked;
+            
+            if (saidaPartilhada) {
+                const vagas = document.getElementById('vagasDisponiveis').value;
+                const precoTotal = document.getElementById('precoTotal').value;
+                const precoPorPessoa = (precoTotal / vagas).toFixed(2);
+                
+                mostrarToast(`✅ Saída Partilhada criada! €${precoTotal} ÷ ${vagas} pessoas = €${precoPorPessoa}/pessoa`, 'sucesso');
+            } else {
+                mostrarToast('✅ Saída criada com sucesso!', 'sucesso');
+            }
+            
+            setTimeout(() => {
+                window.location.href = 'dashboard-capitao.html';
+            }, 2000);
+        });
+    </script>
+</body>
+</html>

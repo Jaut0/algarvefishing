@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Algarve Tuna Charter - Big Game Fishing | Pesca ao Atum</title>
+    <meta name="description" content="Algarve Tuna Charter - A sua aventura de pesca ao atum profissional no Algarve. Big Game Fishing, Blue Fin Tuna, e experiências inesquecíveis no oceano Atlântico.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎣</text></svg>">
+    
+    <!-- Google Fonts - Wicked Tuna Style -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;600;700;900&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/algarve-tuna.css">
+    
+    <style>
+        /* Additional Homepage Styles */
+        .hero-small {
+            min-height: 40vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: 
+                linear-gradient(180deg, rgba(11, 25, 41, 0.8) 0%, rgba(11, 25, 41, 0.95) 100%),
+                url('https://sspark.genspark.ai/cfimages?u1=qJk00ZlyTSefFIieiWnmXqFV%2BkzOcxCs7JsENkUoyzYjL40YRFAOCzNcTh9Fxim%2F7CsFrMH0UYDLDYIIhrM%2Fhqowt7K2joxj4AylG0X4vHq2%2BRIhKy4nZW5futNTtkBezssvTbjxwVNyisOqAeoT9f3h%2FRcyBoqPSXM%3D&u2=ha44Yxh23IWqy7FV&width=2560&v=2026') center/cover no-repeat;
+            text-align: center;
+            position: relative;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+        
+        .feature-card {
+            background: rgba(18, 39, 64, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            border-radius: 12px;
+            border: 2px solid rgba(255, 107, 53, 0.2);
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--tuna-orange);
+            box-shadow: 0 8px 32px rgba(255, 107, 53, 0.3);
+        }
+        
+        .feature-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            filter: drop-shadow(0 0 15px var(--tuna-orange));
+        }
+        
+        .barcos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+        
+        .barco-card {
+            background: rgba(18, 39, 64, 0.9);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 2px solid rgba(255, 107, 53, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .barco-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--tuna-orange);
+            box-shadow: 0 8px 32px rgba(255, 107, 53, 0.4);
+        }
+        
+        .barco-img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+        
+        .barco-content {
+            padding: 1.5rem;
+        }
+        
+        .barco-nome {
+            font-family: var(--font-display);
+            font-size: 1.8rem;
+            color: var(--tuna-orange);
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+        }
+        
+        .barco-specs {
+            display: flex;
+            gap: 1rem;
+            margin: 1rem 0;
+            flex-wrap: wrap;
+        }
+        
+        .spec-badge {
+            background: rgba(255, 107, 53, 0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            color: var(--tuna-orange);
+            border: 1px solid var(--tuna-orange);
+        }
+        
+        .pesca-types-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .pesca-type {
+            background: var(--gradient-dark);
+            padding: 1.5rem;
+            border-radius: 12px;
+            border-left: 4px solid var(--tuna-orange);
+            transition: all 0.3s ease;
+        }
+        
+        .pesca-type:hover {
+            transform: translateX(10px);
+            background: rgba(27, 73, 101, 0.9);
+        }
+        
+        .pesca-type h4 {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            color: var(--tuna-orange);
+            margin-bottom: 0.5rem;
+        }
+        
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+        
+        .testimonial-card {
+            background: rgba(18, 39, 64, 0.8);
+            padding: 2rem;
+            border-radius: 12px;
+            border-left: 4px solid var(--tuna-orange);
+            position: relative;
+        }
+        
+        .testimonial-card::before {
+            content: '"';
+            position: absolute;
+            top: -20px;
+            left: 20px;
+            font-size: 6rem;
+            color: var(--tuna-orange);
+            opacity: 0.2;
+            font-family: serif;
+        }
+        
+        .testimonial-text {
+            font-style: italic;
+            margin-bottom: 1rem;
+            color: rgba(245, 245, 245, 0.9);
+        }
+        
+        .testimonial-author {
+            font-weight: 700;
+            color: var(--tuna-orange);
+        }
+        
+        .cta-banner {
+            background: var(--gradient-sunset);
+            padding: 4rem 2rem;
+            border-radius: 12px;
+            text-align: center;
+            margin: 4rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cta-banner::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%23ffffff" fill-opacity="0.05" d="M0,96L48,112C96,128,192,160,288,186.7C384,213,480,235,576,213.3C672,192,768,128,864,128C960,128,1056,192,1152,197.3C1248,203,1344,149,1392,122.7L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>');
+            background-size: cover;
+            opacity: 0.3;
+        }
+        
+        .cta-banner h2 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            position: relative;
+        }
+        
+        .cta-banner p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+    </style>
+</head>
+<body>
+    <!-- HEADER -->
+    <header class="header" id="mainHeader">
+        <div class="container">
+            <div class="header-content">
+                <a href="index.html" class="logo">
+                    ALGARVE TUNA CHARTER
+                </a>
+                <nav class="nav" id="mainNav">
+                    <a href="index.html" class="active">Início</a>
+                    <a href="explorar.html">Expedições</a>
+                    <a href="escolher-barco.html">Barcos</a>
+                    <a href="suporte.html">Suporte</a>
+                    <a href="auth.html" class="btn btn-outline">Área Cliente</a>
+                    <a href="admin-login.html" class="btn btn-outline" style="margin-left: 0.5rem; opacity: 0.7; font-size: 0.9rem;" title="Acesso Administração">
+                        <i class="fas fa-shield-alt"></i> Admin
+                    </a>
+                </nav>
+                <button class="mobile-toggle" id="mobileToggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-badge">🐟 BIG GAME FISHING • ALGARVE</div>
+            <h1>PESCA AO ATUM<br>NO ATLÂNTICO</h1>
+            <p>Viva a adrenalina da pesca profissional ao atum gigante. Barcos equipados, capitães experientes, aventura garantida.</p>
+            <div class="hero-buttons">
+                <a href="escolher-barco.html" class="btn btn-primary">
+                    <i class="fas fa-anchor"></i> RESERVAR EXPEDIÇÃO
+                </a>
+                <a href="explorar.html" class="btn btn-outline">
+                    <i class="fas fa-compass"></i> EXPLORAR SAÍDAS
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- STATS -->
+    <section class="section bg-ocean">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">12+</div>
+                    <div class="stat-label">Barcos Profissionais</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">500kg</div>
+                    <div class="stat-label">Maior Blue Fin Capturado</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">15</div>
+                    <div class="stat-label">Anos de Experiência</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">1000+</div>
+                    <div class="stat-label">Pescadores Satisfeitos</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- COMO FUNCIONA -->
+    <section class="section">
+        <div class="container">
+            <h2 class="text-center text-orange mb-5">COMO FUNCIONA</h2>
+            <div class="features-grid">
+                <div class="feature-card animate-slide-up">
+                    <div class="feature-icon">🎣</div>
+                    <h3>1. ESCOLHA O BARCO</h3>
+                    <p>Navegue pelos nossos barcos profissionais equipados para pesca ao atum. Veja especificações, capitães e disponibilidade.</p>
+                </div>
+                <div class="feature-card animate-slide-up" style="animation-delay: 0.2s;">
+                    <div class="feature-icon">📅</div>
+                    <h3>2. RESERVE A DATA</h3>
+                    <p>Escolha até 5 dias na agenda do capitão. Envie o pedido e aguarde confirmação directa.</p>
+                </div>
+                <div class="feature-card animate-slide-up" style="animation-delay: 0.4s;">
+                    <div class="feature-icon">🚤</div>
+                    <h3>3. PARTA PARA O MAR</h3>
+                    <p>Chegue ao porto, conheça a tripulação e embarque na aventura da sua vida no Atlântico!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- BARCOS EM DESTAQUE -->
+    <section class="section bg-gradient">
+        <div class="container">
+            <h2 class="text-center mb-2">BARCOS EM DESTAQUE</h2>
+            <p class="text-center" style="color: rgba(245, 245, 245, 0.8); margin-bottom: 3rem;">Frotas profissionais preparadas para Big Game Fishing</p>
+            
+            <div class="barcos-grid" id="barcosDestaque">
+                <!-- Loaded by JavaScript -->
+            </div>
+
+            <div class="text-center mt-5">
+                <a href="escolher-barco.html" class="btn btn-outline btn-lg">
+                    <i class="fas fa-ship"></i> VER TODOS OS BARCOS
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- TIPOS DE PESCA -->
+    <section class="section">
+        <div class="container">
+            <h2 class="text-center text-orange mb-2">MODALIDADES DE PESCA</h2>
+            <p class="text-center" style="color: rgba(245, 245, 245, 0.8); margin-bottom: 3rem;">Especializados em Big Game Fishing no Atlântico</p>
+            
+            <div class="pesca-types-grid">
+                <div class="pesca-type">
+                    <h4>🐟 BLUE FIN TUNA</h4>
+                    <p>Pesca ao atum rabilho gigante. A modalidade mais desafiante e emocionante do Atlântico.</p>
+                </div>
+                <div class="pesca-type">
+                    <h4>🎣 YELLOW FIN TUNA</h4>
+                    <p>Atum de barbatana amarela. Velocidade e força incomparáveis na água.</p>
+                </div>
+                <div class="pesca-type">
+                    <h4>⚡ BIG GAME FISHING</h4>
+                    <p>Marlim, espadarte e outras espécies de grande porte. Aventura garantida!</p>
+                </div>
+                <div class="pesca-type">
+                    <h4>🌊 JIGGING</h4>
+                    <p>Técnica vertical para pesca de profundidade. Ideal para dentões e chernes.</p>
+                </div>
+                <div class="pesca-type">
+                    <h4>🎯 TROLLING</h4>
+                    <p>Pesca de arrasto para pelágicos. Técnica eficaz para atum e dourado.</p>
+                </div>
+                <div class="pesca-type">
+                    <h4>🌅 PESCA NOCTURNA</h4>
+                    <p>Experiência única ao pôr-do-sol e noite. Capturas surpreendentes garantidas.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTEMUNHOS -->
+    <section class="section bg-ocean">
+        <div class="container">
+            <h2 class="text-center text-orange mb-2">O QUE DIZEM OS PESCADORES</h2>
+            <p class="text-center" style="color: rgba(245, 245, 245, 0.8); margin-bottom: 3rem;">Experiências reais de quem viveu a aventura</p>
+            
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <p class="testimonial-text">"Capturámos um Blue Fin de 380kg! A experiência foi incrível, o capitão Pedro é um profissional de topo. Equipamento de primeira e barco impecável. Voltamos sem dúvida!"</p>
+                    <p class="testimonial-author">— João Silva, Lisboa</p>
+                    <div style="color: var(--warning-yellow); margin-top: 0.5rem;">
+                        ⭐⭐⭐⭐⭐
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <p class="testimonial-text">"A melhor aventura da minha vida! Sempre sonhei com pesca ao atum e a equipa do Algarve Tuna Charter tornou esse sonho realidade. Profissionalismo máximo."</p>
+                    <p class="testimonial-author">— Miguel Costa, Porto</p>
+                    <div style="color: var(--warning-yellow); margin-top: 0.5rem;">
+                        ⭐⭐⭐⭐⭐
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <p class="testimonial-text">"Trouxemos um grupo de amigos e foi espectacular! O barco tinha tudo o que precisávamos, a tripulação foi 5 estrelas. Já marcámos a próxima saída!"</p>
+                    <p class="testimonial-author">— Ana Rodrigues, Faro</p>
+                    <div style="color: var(--warning-yellow); margin-top: 0.5rem;">
+                        ⭐⭐⭐⭐⭐
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA BANNER -->
+    <section class="section">
+        <div class="container">
+            <div class="cta-banner">
+                <h2>PRONTO PARA A AVENTURA?</h2>
+                <p>Reserve agora a sua expedição de pesca ao atum no Atlântico</p>
+                <div style="display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap;">
+                    <a href="escolher-barco.html" class="btn btn-primary" style="background: white; color: var(--tuna-red); font-size: 1.1rem; padding: 1rem 2rem;">
+                        <i class="fas fa-anchor"></i> RESERVAR AGORA
+                    </a>
+                    <a href="suporte.html" class="btn btn-outline" style="border-color: white; color: white; font-size: 1.1rem; padding: 1rem 2rem;">
+                        <i class="fas fa-phone"></i> CONTACTAR
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>ALGARVE TUNA CHARTER</h3>
+                    <p>A sua plataforma de confiança para pesca profissional ao atum no Algarve. Big Game Fishing com segurança e adrenalina.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Links Rápidos</h4>
+                    <ul>
+                        <li><a href="index.html">Início</a></li>
+                        <li><a href="explorar.html">Expedições</a></li>
+                        <li><a href="escolher-barco.html">Barcos</a></li>
+                        <li><a href="suporte.html">Suporte</a></li>
+                        <li><a href="auth.html">Área Cliente</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contacto</h4>
+                    <p><i class="fas fa-envelope"></i> servico@jauto.pt</p>
+                    <p><i class="fas fa-phone"></i> +351 912 345 678</p>
+                    <p><i class="fas fa-map-marker-alt"></i> Algarve, Portugal</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Especialidades</h4>
+                    <ul>
+                        <li>Blue Fin Tuna</li>
+                        <li>Yellow Fin Tuna</li>
+                        <li>Big Game Fishing</li>
+                        <li>Jigging & Trolling</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Algarve Tuna Charter. Todos os direitos reservados. | Inspirado no espírito Wicked Tuna</p>
+                <div style="margin-top: 1rem;">
+                    <a href="admin-login.html" id="adminLink" style="color: rgba(245, 245, 245, 0.6); font-size: 0.9rem; padding: 0.5rem 1rem; border: 1px solid rgba(245, 245, 245, 0.3); border-radius: 4px; text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem; transition: all 0.3s ease;">
+                        <i class="fas fa-shield-alt"></i> Área de Administração
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script>
+        // Mobile menu toggle
+        document.getElementById('mobileToggle').addEventListener('click', () => {
+            document.getElementById('mainNav').classList.toggle('active');
+        });
+        
+        // Header scroll effect
+        window.addEventListener('scroll', () => {
+            const header = document.getElementById('mainHeader');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+        
+        // Load barcos em destaque
+        function loadBarcosDestaque() {
+            const stored = localStorage.getItem('barcos');
+            let barcos = [];
+            
+            if (stored) {
+                try {
+                    barcos = JSON.parse(stored).filter(b => b.status === 'aprovado').slice(0, 3);
+                } catch (e) {
+                    console.error('Erro ao carregar barcos:', e);
+                }
+            }
+            
+            const container = document.getElementById('barcosDestaque');
+            
+            if (barcos.length === 0) {
+                container.innerHTML = `
+                    <div style="grid-column: 1/-1; text-align: center; padding: 4rem 2rem;">
+                        <i class="fas fa-ship" style="font-size: 5rem; color: var(--tuna-orange); margin-bottom: 1.5rem; opacity: 0.5;"></i>
+                        <h3 style="color: var(--tuna-orange); margin-bottom: 1rem;">Barcos Serão Adicionados em Breve</h3>
+                        <p style="color: rgba(245, 245, 245, 0.8); margin-bottom: 2rem; max-width: 600px; margin-left: auto; margin-right: auto; line-height: 1.8;">
+                            A nossa frota está a ser preparada! Se é capitão de barco e quer juntar-se à nossa equipa de pesca profissional ao atum, registe-se agora e adicione o seu barco.
+                        </p>
+                        <a href="auth.html?tipo=capitao" class="btn btn-primary">
+                            <i class="fas fa-anchor"></i> Registar como Capitão
+                        </a>
+                    </div>
+                `;
+                return;
+            }
+            
+            container.innerHTML = barcos.map(barco => `
+                <div class="barco-card">
+                    <img src="${barco.fotos && barco.fotos[0] ? barco.fotos[0] : 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=800&h=600&fit=crop'}" 
+                         alt="${barco.nome}" class="barco-img">
+                    <div class="barco-content">
+                        <h3 class="barco-nome">${barco.nome.toUpperCase()}</h3>
+                        <p style="color: rgba(245, 245, 245, 0.8); margin-bottom: 1rem;">
+                            <i class="fas fa-map-marker-alt"></i> ${barco.porto || barco.local}
+                        </p>
+                        <div class="barco-specs">
+                            <span class="spec-badge"><i class="fas fa-ruler-horizontal"></i> ${barco.comprimento}m</span>
+                            <span class="spec-badge"><i class="fas fa-users"></i> ${barco.capacidade} pessoas</span>
+                            <span class="spec-badge"><i class="fas fa-cog"></i> ${barco.motor}</span>
+                        </div>
+                        <p style="color: rgba(245, 245, 245, 0.7); margin: 1rem 0;">
+                            ${barco.descricao || 'Barco profissional equipado para pesca ao atum e Big Game Fishing.'}
+                        </p>
+                        <div style="display: flex; align-items: center; gap: 1rem; margin: 1rem 0;">
+                            <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                <i class="fas fa-user-tie" style="color: var(--tuna-orange);"></i>
+                                <span style="color: rgba(245, 245, 245, 0.8);">Capitão ${barco.capitao ? barco.capitao.nome : 'Profissional'}</span>
+                            </div>
+                        </div>
+                        <a href="reservar-barco.html?barco=${barco.id}" class="btn btn-primary" style="width: 100%;">
+                            <i class="fas fa-calendar-check"></i> VER AGENDA
+                        </a>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        // Load on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            loadBarcosDestaque();
+        });
+        
+        // Animate on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-slide-up');
+                }
+            });
+        }, observerOptions);
+        
+        document.querySelectorAll('.barco-card, .pesca-type, .testimonial-card').forEach(el => {
+            observer.observe(el);
+        });
+        
+        // Admin link hover effect
+        const adminLink = document.getElementById('adminLink');
+        if (adminLink) {
+            adminLink.addEventListener('mouseenter', () => {
+                adminLink.style.color = 'var(--tuna-orange)';
+                adminLink.style.borderColor = 'var(--tuna-orange)';
+                adminLink.style.transform = 'translateY(-2px)';
+            });
+            adminLink.addEventListener('mouseleave', () => {
+                adminLink.style.color = 'rgba(245, 245, 245, 0.6)';
+                adminLink.style.borderColor = 'rgba(245, 245, 245, 0.3)';
+                adminLink.style.transform = 'translateY(0)';
+            });
+        }
+    </script>
+</body>
+</html>

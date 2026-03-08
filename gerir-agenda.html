@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerir Agenda - FishingHub</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>⚓</text></svg>">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <style>
+        .calendario-container {
+            background: white;
+            padding: 2rem;
+            border-radius: var(--radius-grande);
+            box-shadow: var(--sombra-media);
+        }
+        
+        .calendario-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .calendario-mes {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--cor-primaria);
+        }
+        
+        .calendario-nav {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .calendario-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 0.5rem;
+        }
+        
+        .calendario-dia-semana {
+            text-align: center;
+            font-weight: 600;
+            padding: 1rem 0.5rem;
+            color: var(--cor-secundaria);
+            font-size: 0.875rem;
+            background: var(--cor-cinza-claro);
+            border-radius: var(--radius-pequeno);
+        }
+        
+        .calendario-dia {
+            aspect-ratio: 1;
+            border: 2px solid var(--cor-cinza);
+            border-radius: var(--radius-medio);
+            padding: 0.5rem;
+            cursor: pointer;
+            transition: var(--transicao-normal);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            background: white;
+        }
+        
+        .calendario-dia:hover {
+            border-color: var(--cor-secundaria);
+            transform: translateY(-2px);
+            box-shadow: var(--sombra-media);
+        }
+        
+        .calendario-dia.outro-mes {
+            opacity: 0.3;
+            pointer-events: none;
+        }
+        
+        .calendario-dia.hoje {
+            border-color: var(--cor-destaque);
+            border-width: 3px;
+        }
+        
+        .calendario-dia.disponivel {
+            background: white;
+        }
+        
+        .calendario-dia.bloqueado {
+            background: linear-gradient(135deg, #FEE2E2, #FECACA);
+            border-color: var(--cor-erro);
+        }
+        
+        .calendario-dia.reservado {
+            background: linear-gradient(135deg, #DBEAFE, #BFDBFE);
+            border-color: var(--cor-secundaria);
+        }
+        
+        .calendario-dia.ferias {
+            background: linear-gradient(135deg, #FEF3C7, #FDE68A);
+            border-color: var(--cor-destaque);
+        }
+        
+        .dia-numero {
+            font-weight: 700;
+            font-size: 1.125rem;
+            margin-bottom: 0.25rem;
+        }
+        
+        .dia-status {
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-top: auto;
+        }
+        
+        .dia-icon {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            font-size: 0.875rem;
+        }
+        
+        .legenda {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+            padding: 1rem;
+            background: var(--cor-cinza-claro);
+            border-radius: var(--radius-medio);
+        }
+        
+        .legenda-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+        }
+        
+        .legenda-cor {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+            border: 2px solid;
+        }
+        
+        .acoes-rapidas {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .acao-rapida {
+            padding: 1rem;
+            border: 2px solid var(--cor-cinza);
+            border-radius: var(--radius-medio);
+            cursor: pointer;
+            transition: var(--transicao-normal);
+            text-align: center;
+        }
+        
+        .acao-rapida:hover {
+            border-color: var(--cor-secundaria);
+            background: var(--cor-cinza-claro);
+        }
+        
+        .acao-rapida i {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+        
+        @media (max-width: 768px) {
+            .calendario-grid {
+                gap: 0.25rem;
+            }
+            
+            .calendario-dia {
+                padding: 0.25rem;
+                font-size: 0.8rem;
+            }
+            
+            .dia-numero {
+                font-size: 0.9rem;
+            }
+            
+            .dia-status {
+                font-size: 0.6rem;
+            }
+            
+            .dia-icon {
+                font-size: 0.7rem;
+            }
+            
+            .legenda {
+                flex-direction: column;
+                gap: 0.75rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content container">
+            <a href="index.html" class="logo">
+                <span class="logo-icon">⚓</span>
+                <span>FishingHub</span>
+            </a>
+            <nav class="nav-menu">
+                <a href="dashboard-capitao.html" class="nav-link">
+                    <i class="fas fa-arrow-left"></i> Voltar ao Dashboard
+                </a>
+            </nav>
+        </div>
+    </header>
+    
+    <section class="secao" style="margin-top: 90px; background-color: var(--cor-cinza-claro);">
+        <div class="container container-largo">
+            <h1 class="mb-3">
+                <i class="fas fa-calendar-alt"></i> Gerir Agenda
+            </h1>
+            <p class="texto-cinza mb-4">
+                Bloqueie datas, marque reservas e gerencie a sua disponibilidade
+            </p>
+            
+            <!-- Ações Rápidas -->
+            <div class="acoes-rapidas">
+                <div class="acao-rapida" onclick="abrirModalBloquearDia()">
+                    <i class="fas fa-ban" style="color: var(--cor-erro);"></i>
+                    <div style="font-weight: 600;">Bloquear Dia</div>
+                    <div class="texto-pequeno texto-cinza">Bloqueio individual</div>
+                </div>
+                
+                <div class="acao-rapida" onclick="abrirModalBloquearPeriodo()">
+                    <i class="fas fa-calendar-times" style="color: var(--cor-erro);"></i>
+                    <div style="font-weight: 600;">Bloquear Período</div>
+                    <div class="texto-pequeno texto-cinza">Férias ou semanas</div>
+                </div>
+                
+                <div class="acao-rapida" onclick="abrirModalMarcarReservado()">
+                    <i class="fas fa-check-circle" style="color: var(--cor-secundaria);"></i>
+                    <div style="font-weight: 600;">Marcar Reservado</div>
+                    <div class="texto-pequeno texto-cinza">Cliente contactou direto</div>
+                </div>
+                
+                <div class="acao-rapida" onclick="abrirModalVerBloqueios()">
+                    <i class="fas fa-list" style="color: var(--cor-primaria);"></i>
+                    <div style="font-weight: 600;">Ver Bloqueios</div>
+                    <div class="texto-pequeno texto-cinza">Gerir bloqueios ativos</div>
+                </div>
+            </div>
+            
+            <!-- Calendário -->
+            <div class="calendario-container">
+                <div class="calendario-header">
+                    <div class="calendario-mes" id="calendarioMes">
+                        Março 2026
+                    </div>
+                    <div class="calendario-nav">
+                        <button class="btn btn-outline btn-pequeno" onclick="mesAnterior()">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <button class="btn btn-outline btn-pequeno" onclick="hoje()">
+                            Hoje
+                        </button>
+                        <button class="btn btn-outline btn-pequeno" onclick="mesSeguinte()">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="calendario-grid">
+                    <!-- Dias da semana -->
+                    <div class="calendario-dia-semana">Dom</div>
+                    <div class="calendario-dia-semana">Seg</div>
+                    <div class="calendario-dia-semana">Ter</div>
+                    <div class="calendario-dia-semana">Qua</div>
+                    <div class="calendario-dia-semana">Qui</div>
+                    <div class="calendario-dia-semana">Sex</div>
+                    <div class="calendario-dia-semana">Sáb</div>
+                    
+                    <!-- Dias do mês (gerados por JavaScript) -->
+                </div>
+                
+                <!-- Legenda -->
+                <div class="legenda">
+                    <div class="legenda-item">
+                        <div class="legenda-cor" style="background: white; border-color: var(--cor-cinza);"></div>
+                        <span>Disponível</span>
+                    </div>
+                    <div class="legenda-item">
+                        <div class="legenda-cor" style="background: linear-gradient(135deg, #FEE2E2, #FECACA); border-color: var(--cor-erro);"></div>
+                        <span>Bloqueado</span>
+                    </div>
+                    <div class="legenda-item">
+                        <div class="legenda-cor" style="background: linear-gradient(135deg, #DBEAFE, #BFDBFE); border-color: var(--cor-secundaria);"></div>
+                        <span>Reservado</span>
+                    </div>
+                    <div class="legenda-item">
+                        <div class="legenda-cor" style="background: linear-gradient(135deg, #FEF3C7, #FDE68A); border-color: var(--cor-destaque);"></div>
+                        <span>Férias</span>
+                    </div>
+                    <div class="legenda-item">
+                        <div class="legenda-cor" style="background: white; border-color: var(--cor-destaque); border-width: 3px;"></div>
+                        <span>Hoje</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Modal Detalhes do Dia -->
+    <div class="modal" id="modalDia">
+        <div class="modal-conteudo">
+            <button class="modal-fechar" onclick="fecharModal('modalDia')">&times;</button>
+            <h2 class="mb-3" id="modalDiaTitulo">15 de Março, 2026</h2>
+            
+            <div id="modalDiaConteudo">
+                <div class="form-grupo">
+                    <label class="form-label">Estado Atual</label>
+                    <select class="form-select" id="diaEstado">
+                        <option value="disponivel">Disponível</option>
+                        <option value="bloqueado">Bloqueado</option>
+                        <option value="reservado">Reservado (Cliente Direto)</option>
+                        <option value="ferias">Férias</option>
+                    </select>
+                </div>
+                
+                <div class="form-grupo">
+                    <label class="form-label">Notas / Observações</label>
+                    <textarea class="form-textarea" id="diaNotas" placeholder="Ex: Cliente João reservou por telefone, Manutenção do barco, etc."></textarea>
+                </div>
+                
+                <div class="flex gap-md">
+                    <button class="btn btn-outline" onclick="fecharModal('modalDia')">
+                        Cancelar
+                    </button>
+                    <button class="btn btn-primario" style="flex: 1;" onclick="guardarDia()">
+                        <i class="fas fa-save"></i> Guardar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal Bloquear Período -->
+    <div class="modal" id="modalBloquearPeriodo">
+        <div class="modal-conteudo">
+            <button class="modal-fechar" onclick="fecharModal('modalBloquearPeriodo')">&times;</button>
+            <h2 class="mb-3">
+                <i class="fas fa-calendar-times"></i> Bloquear Período
+            </h2>
+            <p class="texto-cinza mb-4">Bloqueie múltiplos dias de uma vez (férias, semanas, etc.)</p>
+            
+            <form id="formBloquearPeriodo">
+                <div class="form-grupo">
+                    <label class="form-label obrigatorio">Data de Início</label>
+                    <input type="date" class="form-input" id="periodoInicio" required>
+                </div>
+                
+                <div class="form-grupo">
+                    <label class="form-label obrigatorio">Data de Fim</label>
+                    <input type="date" class="form-input" id="periodoFim" required>
+                </div>
+                
+                <div class="form-grupo">
+                    <label class="form-label obrigatorio">Motivo</label>
+                    <select class="form-select" id="periodoMotivo" required>
+                        <option value="">Selecione...</option>
+                        <option value="ferias">Férias</option>
+                        <option value="manutencao">Manutenção do Barco</option>
+                        <option value="pessoal">Motivos Pessoais</option>
+                        <option value="outro">Outro</option>
+                    </select>
+                </div>
+                
+                <div class="form-grupo">
+                    <label class="form-label">Observações</label>
+                    <textarea class="form-textarea" id="periodoNotas" placeholder="Detalhes adicionais..."></textarea>
+                </div>
+                
+                <div style="background: var(--cor-cinza-claro); padding: 1rem; border-radius: var(--radius-pequeno); margin-bottom: 1rem;">
+                    <i class="fas fa-info-circle" style="color: var(--cor-secundaria);"></i>
+                    Todos os dias entre as datas selecionadas ficarão bloqueados.
+                </div>
+                
+                <div class="flex gap-md">
+                    <button type="button" class="btn btn-outline" onclick="fecharModal('modalBloquearPeriodo')">
+                        Cancelar
+                    </button>
+                    <button type="submit" class="btn" style="flex: 1; background-color: var(--cor-erro); color: white;">
+                        <i class="fas fa-ban"></i> Bloquear Período
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Modal Ver Bloqueios -->
+    <div class="modal" id="modalVerBloqueios">
+        <div class="modal-conteudo" style="max-width: 700px;">
+            <button class="modal-fechar" onclick="fecharModal('modalVerBloqueios')">&times;</button>
+            <h2 class="mb-3">
+                <i class="fas fa-list"></i> Bloqueios Ativos
+            </h2>
+            <p class="texto-cinza mb-4">Gerir e remover bloqueios existentes</p>
+            
+            <div style="display: flex; flex-direction: column; gap: 1rem;">
+                <!-- Bloqueio 1 -->
+                <div class="card">
+                    <div class="card-conteudo">
+                        <div style="display: flex; justify-content: space-between; align-items: start;">
+                            <div>
+                                <div class="badge badge-destaque mb-2">Férias</div>
+                                <h4 style="margin-bottom: 0.5rem;">20/03/2026 - 27/03/2026</h4>
+                                <p class="texto-pequeno texto-cinza">8 dias bloqueados</p>
+                                <p style="margin-top: 0.5rem;">Férias na Madeira</p>
+                            </div>
+                            <button class="btn" style="background-color: var(--cor-erro); color: white;" onclick="removerBloqueio(1)">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Bloqueio 2 -->
+                <div class="card">
+                    <div class="card-conteudo">
+                        <div style="display: flex; justify-content: space-between; align-items: start;">
+                            <div>
+                                <div class="badge badge-primario mb-2">Manutenção</div>
+                                <h4 style="margin-bottom: 0.5rem;">15/03/2026</h4>
+                                <p class="texto-pequeno texto-cinza">1 dia bloqueado</p>
+                                <p style="margin-top: 0.5rem;">Revisão do motor</p>
+                            </div>
+                            <button class="btn" style="background-color: var(--cor-erro); color: white;" onclick="removerBloqueio(2)">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="estado-vazio" style="display: none;" id="semBloqueios">
+                    <i class="fas fa-check-circle estado-vazio-icon" style="color: var(--cor-sucesso);"></i>
+                    <h3 class="estado-vazio-titulo">Sem Bloqueios</h3>
+                    <p class="estado-vazio-texto">Não há bloqueios ativos no momento</p>
+                </div>
+            </div>
+            
+            <button class="btn btn-outline btn-bloco" style="margin-top: 1rem;" onclick="fecharModal('modalVerBloqueios')">
+                Fechar
+            </button>
+        </div>
+    </div>
+    
+    <script src="js/main.js"></script>
+    <script src="js/calendario.js"></script>
+</body>
+</html>

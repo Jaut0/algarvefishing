@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - FishingHub</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>⚓</text></svg>">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body>
+    <header class="header">
+        <div class="header-content container">
+            <a href="index.html" class="logo">
+                <span class="logo-icon">⚓</span>
+                <span>FishingHub Admin</span>
+            </a>
+            <nav class="nav-menu">
+                <span style="color: var(--cor-cinza-escuro); margin-right: 1rem;">
+                    <i class="fas fa-user-shield"></i> Administrador
+                </span>
+                <button class="btn btn-outline btn-pequeno" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i> Sair
+                </button>
+            </nav>
+        </div>
+    </header>
+    
+    <div class="dashboard">
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-perfil">
+                <div class="sidebar-perfil-avatar" style="background: linear-gradient(135deg, #EF4444, #DC2626);">
+                    <i class="fas fa-user-shield"></i>
+                </div>
+                <div class="sidebar-perfil-nome">Admin</div>
+                <div class="sidebar-perfil-tipo">Administrador</div>
+            </div>
+            
+            <nav class="sidebar-menu">
+                <a href="#" class="sidebar-menu-item ativo" data-section="dashboard">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="#" class="sidebar-menu-item" data-section="pendentes">
+                    <i class="fas fa-clock"></i>
+                    <span>Capitães Pendentes</span>
+                    <span class="badge badge-destaque" style="margin-left: auto;">3</span>
+                </a>
+                <a href="#" class="sidebar-menu-item" data-section="capitaes">
+                    <i class="fas fa-user-tie"></i>
+                    <span>Capitães Aprovados</span>
+                </a>
+                <a href="#" class="sidebar-menu-item" data-section="barcos">
+                    <i class="fas fa-ship"></i>
+                    <span>Barcos Pendentes</span>
+                    <span class="badge badge-destaque" style="margin-left: auto;">5</span>
+                </a>
+                <a href="#" class="sidebar-menu-item" data-section="todos-barcos">
+                    <i class="fas fa-list"></i>
+                    <span>Todos os Barcos</span>
+                </a>
+                <a href="#" class="sidebar-menu-item" data-section="usuarios">
+                    <i class="fas fa-users"></i>
+                    <span>Utilizadores</span>
+                </a>
+                <a href="#" class="sidebar-menu-item" data-section="reclamacoes">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <span>Reclamações</span>
+                    <span class="badge-count" id="badgeReclamacoes">0</span>
+                </a>
+                <a href="#" class="sidebar-menu-item" data-section="relatorios">
+                    <i class="fas fa-chart-bar"></i>
+                    <span>Relatórios</span>
+                </a>
+            </nav>
+        </aside>
+        
+        <button class="sidebar-toggle" id="sidebarToggle">
+            <i class="fas fa-bars"></i>
+        </button>
+        
+        <main class="dashboard-conteudo">
+            
+            <!-- DASHBOARD -->
+            <div class="dashboard-secao-wrapper" id="secao-dashboard">
+                <div class="dashboard-header">
+                    <h1 class="dashboard-titulo">Painel de Administração</h1>
+                </div>
+                
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon laranja">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="stat-info">
+                            <div class="stat-label">Capitães Pendentes</div>
+                            <div class="stat-valor">3</div>
+                            <div class="stat-mudanca positiva">
+                                <i class="fas fa-arrow-up"></i> Requer atenção
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon azul">
+                            <i class="fas fa-user-tie"></i>
+                        </div>
+                        <div class="stat-info">
+                            <div class="stat-label">Capitães Aprovados</div>
+                            <div class="stat-valor">12</div>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon roxo">
+                            <i class="fas fa-ship"></i>
+                        </div>
+                        <div class="stat-info">
+                            <div class="stat-label">Barcos Pendentes</div>
+                            <div class="stat-valor">5</div>
+                            <div class="stat-mudanca positiva">
+                                <i class="fas fa-arrow-up"></i> Requer validação
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon verde">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="stat-info">
+                            <div class="stat-label">Barcos Ativos</div>
+                            <div class="stat-valor">28</div>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon vermelho">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </div>
+                        <div class="stat-info">
+                            <div class="stat-label">Reclamações Pendentes</div>
+                            <div class="stat-valor" id="statReclamacoes">0</div>
+                            <div class="stat-mudanca negativa">
+                                <i class="fas fa-arrow-up"></i> Requer atenção
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="grid grid-2 gap-lg" style="margin-top: 2rem;">
+                    <div class="dashboard-secao">
+                        <div class="dashboard-secao-header">
+                            <h2 class="dashboard-secao-titulo">
+                                <i class="fas fa-exclamation-circle" style="color: var(--cor-destaque);"></i>
+                                Ações Pendentes
+                            </h2>
+                        </div>
+                        
+                        <div style="display: flex; flex-direction: column; gap: 1rem;">
+                            <div class="card" style="cursor: pointer; transition: var(--transicao-normal);" onclick="navegarSecao('pendentes')">
+                                <div class="card-conteudo" style="display: flex; align-items: center; gap: 1rem;">
+                                    <div style="width: 50px; height: 50px; border-radius: 50%; background: linear-gradient(135deg, var(--cor-destaque), #FFB74D); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: white;">
+                                        3
+                                    </div>
+                                    <div style="flex: 1;">
+                                        <div style="font-weight: 600; margin-bottom: 0.25rem;">Novos Capitães para Aprovar</div>
+                                        <div class="texto-pequeno texto-cinza">Verificar documentação</div>
+                                    </div>
+                                    <i class="fas fa-chevron-right" style="color: var(--cor-cinza);"></i>
+                                </div>
+                            </div>
+                            
+                            <div class="card" style="cursor: pointer; transition: var(--transicao-normal);" onclick="navegarSecao('barcos')">
+                                <div class="card-conteudo" style="display: flex; align-items: center; gap: 1rem;">
+                                    <div style="width: 50px; height: 50px; border-radius: 50%; background: linear-gradient(135deg, var(--cor-secundaria), var(--cor-terciaria)); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: white;">
+                                        5
+                                    </div>
+                                    <div style="flex: 1;">
+                                        <div style="font-weight: 600; margin-bottom: 0.25rem;">Barcos Aguardam Aprovação</div>
+                                        <div class="texto-pequeno texto-cinza">Validar documentos dos barcos</div>
+                                    </div>
+                                    <i class="fas fa-chevron-right" style="color: var(--cor-cinza);"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="dashboard-secao">
+                        <div class="dashboard-secao-header">
+                            <h2 class="dashboard-secao-titulo">
+                                <i class="fas fa-history"></i>
+                                Atividade Recente
+                            </h2>
+                        </div>
+                        
+                        <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+                            <div style="padding: 0.75rem; background: var(--cor-cinza-claro); border-radius: var(--radius-pequeno);">
+                                <div style="font-size: 0.875rem; margin-bottom: 0.25rem;">
+                                    <i class="fas fa-user-plus" style="color: var(--cor-sucesso);"></i>
+                                    <strong>Pedro Silva</strong> registou-se como capitão
+                                </div>
+                                <div class="texto-pequeno texto-cinza">Há 2 horas</div>
+                            </div>
+                            
+                            <div style="padding: 0.75rem; background: var(--cor-cinza-claro); border-radius: var(--radius-pequeno);">
+                                <div style="font-size: 0.875rem; margin-bottom: 0.25rem;">
+                                    <i class="fas fa-ship" style="color: var(--cor-secundaria);"></i>
+                                    <strong>Barco "Mar Azul"</strong> adicionado por João Costa
+                                </div>
+                                <div class="texto-pequeno texto-cinza">Há 4 horas</div>
+                            </div>
+                            
+                            <div style="padding: 0.75rem; background: var(--cor-cinza-claro); border-radius: var(--radius-pequeno);">
+                                <div style="font-size: 0.875rem; margin-bottom: 0.25rem;">
+                                    <i class="fas fa-check" style="color: var(--cor-sucesso);"></i>
+                                    Aprovado: <strong>Capitão Manuel Fernandes</strong>
+                                </div>
+                                <div class="texto-pequeno texto-cinza">Ontem</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- CAPITÃES PENDENTES -->
+            <div class="dashboard-secao-wrapper oculto" id="secao-pendentes">
+                <div class="dashboard-header">
+                    <h1 class="dashboard-titulo">
+                        <i class="fas fa-clock"></i> Capitães Pendentes de Aprovação
+                    </h1>
+                </div>
+                
+                <div class="dashboard-secao">
+                    <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+                        <!-- Capitão Pendente 1 -->
+                        <div class="card" style="border-left: 4px solid var(--cor-destaque);">
+                            <div class="card-conteudo">
+                                <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem;">
+                                    <div style="display: flex; align-items: center; gap: 1rem;">
+                                        <div style="width: 60px; height: 60px; border-radius: 50%; background: linear-gradient(135deg, var(--cor-destaque), #FFB74D); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: 700; color: white;">
+                                            PS
+                                        </div>
+                                        <div>
+                                            <h3 style="margin-bottom: 0.25rem;">Pedro Silva</h3>
+                                            <div class="texto-pequeno texto-cinza">Registado há 2 horas</div>
+                                            <div class="badge badge-destaque" style="margin-top: 0.5rem;">Pendente</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="grid grid-2 gap-md mb-3">
+                                    <div>
+                                        <div class="texto-pequeno texto-cinza">Email</div>
+                                        <div style="font-weight: 500;">pedro.silva@email.com</div>
+                                    </div>
+                                    <div>
+                                        <div class="texto-pequeno texto-cinza">Telefone</div>
+                                        <div style="font-weight: 500;">+351 912 345 678</div>
+                                    </div>
+                                    <div>
+                                        <div class="texto-pequeno texto-cinza">Cédula Marítima</div>
+                                        <div style="font-weight: 500;">CM123456</div>
+                                    </div>
+                                    <div>
+                                        <div class="texto-pequeno texto-cinza">Anos de Experiência</div>
+                                        <div style="font-weight: 500;">15 anos</div>
+                                    </div>
+                                    <div>
+                                        <div class="texto-pequeno texto-cinza">Porto de Origem</div>
+                                        <div style="font-weight: 500;">Porto de Lisboa</div>
+                                    </div>
+                                    <div>
+                                        <div class="texto-pequeno texto-cinza">Data de Registo</div>
+                                        <div style="font-weight: 500;">08/03/2026 - 14:30</div>
+                                    </div>
+                                </div>
+                                
+                                <div style="background: var(--cor-cinza-claro); padding: 1rem; border-radius: var(--radius-medio); margin-bottom: 1rem;">
+                                    <h4 style="margin-bottom: 0.75rem;">
+                                        <i class="fas fa-file-alt"></i> Documentos Submetidos
+                                    </h4>
+                                    <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                                        <div style="display: flex; align-items: center; justify-content: space-between;">
+                                            <span><i class="fas fa-check-circle" style="color: var(--cor-sucesso);"></i> Livrete RNAAT</span>
+                                            <button class="btn btn-outline btn-pequeno" onclick="window.open('#', '_blank')">
+                                                <i class="fas fa-download"></i> Ver
+                                            </button>
+                                        </div>
+                                        <div style="display: flex; align-items: center; justify-content: space-between;">
+                                            <span><i class="fas fa-check-circle" style="color: var(--cor-sucesso);"></i> Certificado Seguro</span>
+                                            <button class="btn btn-outline btn-pequeno" onclick="window.open('#', '_blank')">
+                                                <i class="fas fa-download"></i> Ver
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div style="display: flex; gap: 0.75rem;">
+                                    <button class="btn btn-sucesso" style="flex: 1; background-color: var(--cor-sucesso); color: white;" onclick="aprovarCapitao(1)">
+                                        <i class="fas fa-check"></i> Aprovar Capitão
+                                    </button>
+                                    <button class="btn btn-outline" onclick="abrirModalRejeitar(1)">
+                                        <i class="fas fa-times"></i> Rejeitar
+                                    </button>
+                                    <button class="btn btn-outline" onclick="window.location.href='mailto:pedro.silva@email.com'">
+                                        <i class="fas fa-envelope"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Mais 2 capitães pendentes... (similar structure) -->
+                        <div class="estado-vazio" style="display: none;" id="semPendentes">
+                            <i class="fas fa-check-circle estado-vazio-icon" style="color: var(--cor-sucesso);"></i>
+                            <h3 class="estado-vazio-titulo">Tudo em Dia!</h3>
+                            <p class="estado-vazio-texto">Não há capitães pendentes de aprovação no momento</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- BARCOS PENDENTES -->
+            <div class="dashboard-secao-wrapper oculto" id="secao-barcos">
+                <div class="dashboard-header">
+                    <h1 class="dashboard-titulo">
+                        <i class="fas fa-ship"></i> Barcos Pendentes de Aprovação
+                    </h1>
+                </div>
+                
+                <div class="dashboard-secao">
+                    <p class="texto-cinza mb-3">Barcos que aguardam validação de documentos</p>
+                    <div class="estado-vazio">
+                        <i class="fas fa-ship estado-vazio-icon"></i>
+                        <h3 class="estado-vazio-titulo">Barcos Pendentes</h3>
+                        <p class="estado-vazio-texto">Lista de barcos para validação aparecerá aqui</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- OUTRAS SECÇÕES (simplificadas) -->
+            <div class="dashboard-secao-wrapper oculto" id="secao-capitaes">
+                <div class="dashboard-header">
+                    <h1 class="dashboard-titulo">Capitães Aprovados</h1>
+                </div>
+                <div class="estado-vazio">
+                    <i class="fas fa-user-tie estado-vazio-icon"></i>
+                    <h3 class="estado-vazio-titulo">Capitães Aprovados</h3>
+                    <p class="estado-vazio-texto">Lista de todos os capitães aprovados</p>
+                </div>
+            </div>
+            
+            <div class="dashboard-secao-wrapper oculto" id="secao-todos-barcos">
+                <div class="dashboard-header">
+                    <h1 class="dashboard-titulo">Todos os Barcos</h1>
+                </div>
+                <div class="estado-vazio">
+                    <i class="fas fa-list estado-vazio-icon"></i>
+                    <h3 class="estado-vazio-titulo">Todos os Barcos</h3>
+                    <p class="estado-vazio-texto">Lista completa de barcos registados</p>
+                </div>
+            </div>
+            
+            <div class="dashboard-secao-wrapper oculto" id="secao-usuarios">
+                <div class="dashboard-header">
+                    <h1 class="dashboard-titulo">Utilizadores</h1>
+                </div>
+                <div class="estado-vazio">
+                    <i class="fas fa-users estado-vazio-icon"></i>
+                    <h3 class="estado-vazio-titulo">Utilizadores</h3>
+                    <p class="estado-vazio-texto">Lista de utilizadores privados registados</p>
+                </div>
+            </div>
+            
+            <!-- RECLAMAÇÕES -->
+            <div class="dashboard-secao-wrapper oculto" id="secao-reclamacoes">
+                <div class="dashboard-header">
+                    <h1 class="dashboard-titulo">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        Gestão de Reclamações
+                    </h1>
+                </div>
+                
+                <div id="reclamacoesContainer">
+                    <!-- Loaded by JavaScript -->
+                </div>
+            </div>
+            
+            <div class="dashboard-secao-wrapper oculto" id="secao-relatorios">
+                <div class="dashboard-header">
+                    <h1 class="dashboard-titulo">Relatórios</h1>
+                </div>
+                <div class="estado-vazio">
+                    <i class="fas fa-chart-bar estado-vazio-icon"></i>
+                    <h3 class="estado-vazio-titulo">Relatórios</h3>
+                    <p class="estado-vazio-texto">Estatísticas e relatórios da plataforma</p>
+                </div>
+            </div>
+            
+        </main>
+    </div>
+    
+    <!-- Modal Rejeitar -->
+    <div class="modal" id="modalRejeitar">
+        <div class="modal-conteudo">
+            <button class="modal-fechar" onclick="fecharModal('modalRejeitar')">&times;</button>
+            <h2 class="mb-3">Rejeitar Capitão</h2>
+            <p class="texto-cinza mb-4">Indique o motivo da rejeição</p>
+            
+            <form id="formRejeitar">
+                <div class="form-grupo">
+                    <label class="form-label obrigatorio">Motivo</label>
+                    <select class="form-select" required>
+                        <option value="">Selecione...</option>
+                        <option value="docs">Documentação incompleta</option>
+                        <option value="invalidos">Documentos inválidos</option>
+                        <option value="cedula">Cédula marítima inválida</option>
+                        <option value="seguro">Problema com seguro</option>
+                        <option value="outro">Outro</option>
+                    </select>
+                </div>
+                
+                <div class="form-grupo">
+                    <label class="form-label">Observações</label>
+                    <textarea class="form-textarea" placeholder="Detalhes sobre a rejeição..."></textarea>
+                </div>
+                
+                <div class="flex gap-md">
+                    <button type="button" class="btn btn-outline" onclick="fecharModal('modalRejeitar')">
+                        Cancelar
+                    </button>
+                    <button type="submit" class="btn" style="flex: 1; background-color: var(--cor-erro); color: white;">
+                        <i class="fas fa-times"></i> Rejeitar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <script src="js/main.js"></script>
+    <script>
+        // Navegação sidebar
+        const menuItems = document.querySelectorAll('.sidebar-menu-item');
+        const sections = document.querySelectorAll('.dashboard-secao-wrapper');
+        
+        menuItems.forEach(item => {
+            item.addEventListener('click', (e) => {
+                e.preventDefault();
+                const sectionId = 'secao-' + item.dataset.section;
+                navegarSecao(item.dataset.section);
+            });
+        });
+        
+        function navegarSecao(secao) {
+            const sectionId = 'secao-' + secao;
+            menuItems.forEach(i => i.classList.remove('ativo'));
+            sections.forEach(s => s.classList.add('oculto'));
+            
+            document.querySelector(`[data-section="${secao}"]`).classList.add('ativo');
+            document.getElementById(sectionId).classList.remove('oculto');
+        }
+        
+        // Toggle sidebar mobile
+        const sidebarToggle = document.getElementById('sidebarToggle');
+        const sidebar = document.getElementById('sidebar');
+        sidebarToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('ativo');
+        });
+        
+        // ===================================
+        // CARREGAR DADOS DO LOCALSTORAGE
+        // ===================================
+        
+        function carregarDashboard() {
+            carregarEstatisticas();
+            carregarCapitaesPendentes();
+            carregarBarcosPendentes();
+        }
+        
+        function carregarEstatisticas() {
+            const utilizadores = JSON.parse(localStorage.getItem('utilizadores') || '[]');
+            const barcos = JSON.parse(localStorage.getItem('barcos') || '[]');
+            
+            const capitaesPendentes = utilizadores.filter(u => u.tipo === 'capitao' && u.status === 'pendente').length;
+            const capitaesAprovados = utilizadores.filter(u => u.tipo === 'capitao' && u.status === 'aprovado').length;
+            const barcosPendentes = barcos.filter(b => b.status === 'pendente').length;
+            const barcosAtivos = barcos.filter(b => b.status === 'aprovado').length;
+            
+            // Atualizar cards de estatísticas
+            const statCards = document.querySelectorAll('.stat-card');
+            if (statCards[0]) {
+                statCards[0].querySelector('.stat-valor').textContent = capitaesPendentes;
+            }
+            if (statCards[1]) {
+                statCards[1].querySelector('.stat-valor').textContent = capitaesAprovados;
+            }
+            if (statCards[2]) {
+                statCards[2].querySelector('.stat-valor').textContent = barcosPendentes;
+            }
+            if (statCards[3]) {
+                statCards[3].querySelector('.stat-valor').textContent = barcosAtivos;
+            }
+            
+            // Atualizar badges da sidebar
+            const badgePendentes = document.querySelector('[data-section="pendentes"] .badge');
+            if (badgePendentes) {
+                badgePendentes.textContent = capitaesPendentes;
+                badgePendentes.style.display = capitaesPendentes > 0 ? 'inline-block' : 'none';
+            }
+            
+            const badgeBarcos = document.querySelector('[data-section="barcos"] .badge');
+            if (badgeBarcos) {
+                badgeBarcos.textContent = barcosPendentes;
+                badgeBarcos.style.display = barcosPendentes > 0 ? 'inline-block' : 'none';
+            }
+        }
+        
+        function carregarCapitaesPendentes() {
+            const utilizadores = JSON.parse(localStorage.getItem('utilizadores') || '[]');
+            const capitaesPendentes = utilizadores.filter(u => u.tipo === 'capitao' && u.status === 'pendente');
+            
+            const container = document.querySelector('#secao-dashboard .grid.grid-2.gap-lg');
+            
+            if (!container) {
+                console.error('Container de capitães pendentes não encontrado');
+                return;
+            }
+            
+            if (capitaesPendentes.length === 0) {
+                container.innerHTML = `
+                    <div style="grid-column: 1/-1;">
+                        <div class="estado-vazio">
+                            <i class="fas fa-user-check estado-vazio-icon"></i>
+                            <h3 class="estado-vazio-titulo">Nenhum Capitão Pendente</h3>
+                            <p class="estado-vazio-texto">Não existem pedidos de aprovação de capitães neste momento</p>
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+            
+            container.innerHTML = capitaesPendentes.map(capitao => `
+                <div class="card">
+                    <div class="card-header">
+                        <div>
+                            <div class="capitao-nome" style="font-size: 1.25rem; font-weight: 600; color: var(--cor-primaria); margin-bottom: 0.25rem;">
+                                ${capitao.nome}
+                            </div>
+                            <div style="color: var(--cor-cinza-escuro); font-size: 0.9rem;">
+                                <i class="fas fa-envelope"></i> ${capitao.email}
+                            </div>
+                            <div style="color: var(--cor-cinza-escuro); font-size: 0.9rem; margin-top: 0.25rem;">
+                                <i class="fas fa-phone"></i> ${capitao.telefone}
+                            </div>
+                        </div>
+                        <div class="badge badge-warning">Pendente</div>
+                    </div>
+                    
+                    <div class="card-conteudo">
+                        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-bottom: 1.5rem;">
+                            <div>
+                                <div style="color: var(--cor-cinza-escuro); font-size: 0.85rem; margin-bottom: 0.25rem;">
+                                    <i class="fas fa-award"></i> Experiência
+                                </div>
+                                <div style="font-weight: 600;">${capitao.experiencia || 'N/A'} anos</div>
+                            </div>
+                            <div>
+                                <div style="color: var(--cor-cinza-escuro); font-size: 0.85rem; margin-bottom: 0.25rem;">
+                                    <i class="fas fa-anchor"></i> Porto
+                                </div>
+                                <div style="font-weight: 600;">${capitao.porto || 'N/A'}</div>
+                            </div>
+                        </div>
+                        
+                        <div style="background: var(--cor-cinza-claro); padding: 1rem; border-radius: var(--radius-medio); margin-bottom: 1rem;">
+                            <div style="font-weight: 600; margin-bottom: 0.75rem; color: var(--cor-primaria);">
+                                <i class="fas fa-file-alt"></i> Documentos Submetidos:
+                            </div>
+                            <div style="display: flex; flex-direction: column; gap: 0.75rem; font-size: 0.9rem;">
+                                <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.5rem; background: white; border-radius: 4px;">
+                                    <div>
+                                        <i class="fas fa-file-pdf" style="color: #EF4444;"></i> 
+                                        <strong>Livrete:</strong> ${capitao.documentos?.livrete || 'livrete.pdf'}
+                                    </div>
+                                    <button class="btn btn-outline btn-pequeno" onclick="downloadDocumento('${capitao.id}', 'livrete', '${capitao.documentos?.livrete || 'livrete.pdf'}')" title="Descarregar documento">
+                                        <i class="fas fa-download"></i> Download
+                                    </button>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.5rem; background: white; border-radius: 4px;">
+                                    <div>
+                                        <i class="fas fa-file-pdf" style="color: #EF4444;"></i> 
+                                        <strong>RNAAT:</strong> ${capitao.documentos?.rnaat || 'rnaat.pdf'}
+                                    </div>
+                                    <button class="btn btn-outline btn-pequeno" onclick="downloadDocumento('${capitao.id}', 'rnaat', '${capitao.documentos?.rnaat || 'rnaat.pdf'}')" title="Descarregar documento">
+                                        <i class="fas fa-download"></i> Download
+                                    </button>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.5rem; background: white; border-radius: 4px;">
+                                    <div>
+                                        <i class="fas fa-file-pdf" style="color: #EF4444;"></i> 
+                                        <strong>Seguro:</strong> ${capitao.documentos?.seguro || 'seguro.pdf'}
+                                    </div>
+                                    <button class="btn btn-outline btn-pequeno" onclick="downloadDocumento('${capitao.id}', 'seguro', '${capitao.documentos?.seguro || 'seguro.pdf'}')" title="Descarregar documento">
+                                        <i class="fas fa-download"></i> Download
+                                    </button>
+                                </div>
+                            </div>
+                            <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgba(0,0,0,0.1); font-size: 0.85rem; color: var(--cor-cinza-escuro);">
+                                <i class="fas fa-info-circle"></i> <strong>Nota:</strong> Verifique todos os documentos antes de aprovar o capitão.
+                            </div>
+                        </div>
+                        
+                        <div style="font-size: 0.85rem; color: var(--cor-cinza-escuro); margin-bottom: 1rem;">
+                            <i class="fas fa-clock"></i> Registado em: ${new Date(capitao.dataCriacao).toLocaleDateString('pt-PT', {
+                                day: '2-digit',
+                                month: '2-digit',
+                                year: 'numeric',
+                                hour: '2-digit',
+                                minute: '2-digit'
+                            })}
+                        </div>
+                        
+                        <div class="flex gap-sm">
+                            <button class="btn btn-sucesso" style="flex: 1;" onclick="aprovarCapitao('${capitao.id}')">
+                                <i class="fas fa-check"></i> Aprovar
+                            </button>
+                            <button class="btn btn-outline" style="flex: 1; color: var(--cor-erro); border-color: var(--cor-erro);" onclick="abrirModalRejeitar('${capitao.id}')">
+                                <i class="fas fa-times"></i> Rejeitar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        function carregarBarcosPendentes() {
+            const barcos = JSON.parse(localStorage.getItem('barcos') || '[]');
+            const barcosPendentes = barcos.filter(b => b.status === 'pendente');
+            console.log('Barcos pendentes:', barcosPendentes.length);
+        }
+        
+        // Aprovar capitão
+        function aprovarCapitao(id) {
+            if (confirm('Tem a certeza que deseja aprovar este capitão?')) {
+                const utilizadores = JSON.parse(localStorage.getItem('utilizadores') || '[]');
+                const index = utilizadores.findIndex(u => u.id === id);
+                
+                if (index !== -1) {
+                    const capitao = utilizadores[index];
+                    
+                    utilizadores[index].status = 'aprovado';
+                    utilizadores[index].dataAprovacao = new Date().toISOString();
+                    localStorage.setItem('utilizadores', JSON.stringify(utilizadores));
+                    
+                    // Enviar email de aprovação
+                    enviarEmailAprovacao(capitao);
+                    
+                    mostrarToast('✅ Capitão aprovado com sucesso! Email de confirmação enviado.', 'sucesso');
+                    
+                    // Recarregar dados E badges
+                    setTimeout(() => {
+                        carregarEstatisticas();
+                        carregarCapitaesPendentes();
+                    }, 1000);
+                } else {
+                    mostrarToast('❌ Erro ao aprovar capitão.', 'erro');
+                }
+            }
+        }
+        
+        // Enviar email de aprovação (simulado)
+        function enviarEmailAprovacao(capitao) {
+            let emailsSimulados = JSON.parse(localStorage.getItem('emailsSimulados') || '[]');
+            
+            const emailAprovacao = {
+                id: 'EMAIL_' + Date.now(),
+                para: capitao.email,
+                assunto: '✅ Conta Aprovada - Algarve Tuna Charter',
+                corpo: `
+Olá ${capitao.nome},
+
+Excelentes notícias!
+
+✅ A sua conta de Capitão foi APROVADA pela nossa equipa!
+
+📋 Informações da Conta:
+• Nome: ${capitao.nome}
+• Email: ${capitao.email}
+• Porto: ${capitao.porto}
+• Experiência: ${capitao.experiencia} anos
+• Data de Aprovação: ${new Date().toLocaleString('pt-PT')}
+
+🎉 O que pode fazer agora:
+• Aceder ao Dashboard de Capitão
+• Registar os seus barcos
+• Criar saídas de pesca
+• Gerir agenda e reservas
+• Aceder aos Alertas de Segurança (exclusivo capitães)
+
+🔗 Faça login aqui:
+${window.location.origin}/auth.html
+
+⚓ Próximos Passos:
+1. Faça login com o seu email e password
+2. Registe o seu primeiro barco (Dashboard → Registar Barco)
+3. Aguarde aprovação do barco pela administração
+4. Crie as suas primeiras saídas de pesca
+5. Comece a receber reservas!
+
+Bem-vindo à equipa Algarve Tuna Charter!
+
+---
+Equipa Algarve Tuna Charter
+Big Game Fishing no Algarve
+📧 suporte@algarvefishing.com
+📞 +351 289 123 456
+                `.trim(),
+                dataEnvio: new Date().toISOString(),
+                lido: false
+            };
+            
+            emailsSimulados.push(emailAprovacao);
+            localStorage.setItem('emailsSimulados', JSON.stringify(emailsSimulados));
+            
+            console.log('📧 Email de aprovação enviado para:', capitao.email);
+            console.log('');
+            console.log('═══════════════════════════════════════════════════════════');
+            console.log('📧 EMAIL DE APROVAÇÃO (SIMULADO)');
+            console.log('═══════════════════════════════════════════════════════════');
+            console.log(`Para: ${capitao.email}`);
+            console.log(`Assunto: ${emailAprovacao.assunto}`);
+            console.log('');
+            console.log(emailAprovacao.corpo);
+            console.log('═══════════════════════════════════════════════════════════');
+        }
+        
+        // Rejeitar capitão
+        let capitaoRejeitarId = null;
+        function abrirModalRejeitar(id) {
+            capitaoRejeitarId = id;
+            abrirModal('modalRejeitar');
+        }
+        
+        document.getElementById('formRejeitar').addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            if (capitaoRejeitarId) {
+                const utilizadores = JSON.parse(localStorage.getItem('utilizadores') || '[]');
+                const index = utilizadores.findIndex(u => u.id === capitaoRejeitarId);
+                
+                if (index !== -1) {
+                    utilizadores[index].status = 'rejeitado';
+                    utilizadores[index].dataRejeicao = new Date().toISOString();
+                    utilizadores[index].motivoRejeicao = e.target.querySelector('select').value;
+                    localStorage.setItem('utilizadores', JSON.stringify(utilizadores));
+                    
+                    fecharModal('modalRejeitar');
+                    mostrarToast('❌ Capitão rejeitado. Email de notificação enviado.', 'aviso');
+                    
+                    setTimeout(() => {
+                        carregarEstatisticas();
+                        carregarCapitaesPendentes();
+                        capitaoRejeitarId = null;
+                    }, 1000);
+                } else {
+                    mostrarToast('Erro ao rejeitar capitão.', 'erro');
+                }
+            }
+        });
+        
+        // Download de documentos (simulado)
+        function downloadDocumento(capitaoId, tipoDoc, nomeArquivo) {
+            // Em produção real, isto faria um pedido ao servidor para obter o ficheiro
+            // Por agora, vamos simular o download e mostrar informação ao admin
+            
+            mostrarToast(`📥 A descarregar ${tipoDoc}: ${nomeArquivo}`, 'info');
+            
+            // Simulação: criar um blob de texto com informações do documento
+            const conteudoSimulado = `
+DOCUMENTO SIMULADO - ${tipoDoc.toUpperCase()}
+============================================
+
+Capitão ID: ${capitaoId}
+Tipo de Documento: ${tipoDoc}
+Nome do Ficheiro: ${nomeArquivo}
+Data de Upload: ${new Date().toLocaleString('pt-PT')}
+
+============================================
+NOTA IMPORTANTE:
+Este é um download simulado para demonstração.
+Em produção, este ficheiro seria o documento
+real enviado pelo capitão (PDF, imagem, etc.).
+
+Para implementar o download real:
+1. Armazenar ficheiros no servidor
+2. Gerar URL de download seguro
+3. Fazer pedido HTTP ao servidor
+4. Servir o ficheiro real ao admin
+============================================
+            `.trim();
+            
+            // Criar blob e fazer download
+            const blob = new Blob([conteudoSimulado], { type: 'text/plain;charset=utf-8' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${tipoDoc}_${capitaoId}_${Date.now()}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+            
+            console.log(`📥 Download iniciado: ${tipoDoc} - ${nomeArquivo}`);
+            
+            // Mostrar confirmação
+            setTimeout(() => {
+                mostrarToast(`✅ Documento descarregado: ${nomeArquivo}`, 'sucesso');
+            }, 500);
+        }
+        
+        function logout() {
+            if (confirm('Tem a certeza que deseja sair?')) {
+                window.location.href = 'admin-login.html';
+            }
+        }
+        
+        // Carregar dados ao iniciar
+        document.addEventListener('DOMContentLoaded', () => {
+            carregarDashboard();
+        });
+    </script>
+    <script src="js/admin-reclamacoes.js"></script>
+</body>
+</html>

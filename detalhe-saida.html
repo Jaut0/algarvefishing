@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalhes da Saída - FishingHub</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>⚓</text></svg>">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .detalhe-hero {
+            position: relative;
+            height: 400px;
+            background: url('https://sspark.genspark.ai/cfimages?u1=7I1ANQi1u4ZgeT%2BUaKJRBP2%2FkApO5qglvwZaHMoGEqPakLyN5AM1cGw1tbZUqnfol%2B5SdOKdnfs7IBwqD5K%2FyPBNoOJ%2FWpqaRdDWSAYZZPkFvnXaW24MVs5RVhAMIge0xel2VWFaOA%3D%3D&u2=oVMB1Sgh2fnNFjqK&width=2560&v=2026') center/cover;
+            margin-top: 70px;
+        }
+        .detalhe-hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+        }
+        .detalhe-hero-content {
+            position: absolute;
+            bottom: 2rem;
+            left: 0;
+            right: 0;
+            color: white;
+        }
+        .detalhe-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+            margin-top: -100px;
+            position: relative;
+            z-index: 10;
+        }
+        .card-reserva {
+            background: white;
+            padding: 2rem;
+            border-radius: var(--radius-grande);
+            box-shadow: var(--sombra-grande);
+            position: sticky;
+            top: 90px;
+            height: fit-content;
+        }
+        .preco-destaque {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--cor-destaque);
+            margin: 1rem 0;
+        }
+        @media (max-width: 768px) {
+            .detalhe-grid {
+                grid-template-columns: 1fr;
+            }
+            .card-reserva {
+                position: relative;
+                top: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header" id="header">
+        <div class="header-content container">
+            <a href="index.html" class="logo">
+                <span class="logo-icon">⚓</span>
+                <span>FishingHub</span>
+            </a>
+            <nav class="nav-menu" id="navMenu">
+                <a href="index.html" class="nav-link">Início</a>
+                <a href="explorar.html" class="nav-link">Explorar</a>
+                <a href="auth.html" class="btn btn-primario btn-pequeno">Entrar</a>
+            </nav>
+            <div class="menu-toggle" id="menuToggle">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+    </header>
+    
+    <div class="detalhe-hero">
+        <div class="detalhe-hero-content">
+            <div class="container">
+                <div class="badge badge-destaque mb-2">
+                    <i class="fas fa-star"></i> Saída em Destaque
+                </div>
+                <h1 style="color: white; margin-bottom: 1rem;">Aventura no Atlântico</h1>
+                <div style="display: flex; align-items: center; gap: 2rem; flex-wrap: wrap;">
+                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>Porto de Lisboa</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                        <i class="fas fa-calendar-alt"></i>
+                        <span>15/03/2026 às 08:00</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                        <i class="fas fa-clock"></i>
+                        <span>8 horas</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <section class="secao">
+        <div class="container">
+            <div class="detalhe-grid">
+                <div>
+                    <div class="card mb-4">
+                        <div class="card-conteudo">
+                            <h2 class="mb-3">Sobre Esta Saída</h2>
+                            <p>
+                                Embarque numa aventura inesquecível pelo Atlântico! Esta saída de pesca de alto mar 
+                                oferece a oportunidade perfeita para capturar espécies como dourado, espadarte e atum. 
+                                Com equipamento de primeira qualidade e um capitão experiente, garantimos uma experiência 
+                                segura e emocionante.
+                            </p>
+                            <p>
+                                Partimos do Porto de Lisboa às 8h da manhã e navegamos para águas profundas onde a pesca 
+                                é abundante. Incluímos todo o equipamento necessário, isco fresco e um delicioso lanche 
+                                a bordo. Perfeito tanto para pescadores experientes como para iniciantes que querem 
+                                experimentar a emoção da pesca de alto mar.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="card mb-4">
+                        <div class="card-conteudo">
+                            <h3 class="mb-3">
+                                <i class="fas fa-ship" style="color: var(--cor-secundaria);"></i>
+                                Informações do Barco
+                            </h3>
+                            <div class="grid grid-3 gap-md">
+                                <div>
+                                    <div style="color: var(--cor-cinza-escuro); font-size: 0.9rem; margin-bottom: 0.25rem;">Barco</div>
+                                    <div style="font-weight: 600;">Mar Azul</div>
+                                </div>
+                                <div>
+                                    <div style="color: var(--cor-cinza-escuro); font-size: 0.9rem; margin-bottom: 0.25rem;">Comprimento</div>
+                                    <div style="font-weight: 600;">12 metros</div>
+                                </div>
+                                <div>
+                                    <div style="color: var(--cor-cinza-escuro); font-size: 0.9rem; margin-bottom: 0.25rem;">Lotação</div>
+                                    <div style="font-weight: 600;">8 pessoas</div>
+                                </div>
+                                <div>
+                                    <div style="color: var(--cor-cinza-escuro); font-size: 0.9rem; margin-bottom: 0.25rem;">Motor</div>
+                                    <div style="font-weight: 600;">250 CV</div>
+                                </div>
+                                <div>
+                                    <div style="color: var(--cor-cinza-escuro); font-size: 0.9rem; margin-bottom: 0.25rem;">Tipo</div>
+                                    <div style="font-weight: 600;">Lancha</div>
+                                </div>
+                                <div>
+                                    <div style="color: var(--cor-cinza-escuro); font-size: 0.9rem; margin-bottom: 0.25rem;">Ano</div>
+                                    <div style="font-weight: 600;">2020</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card mb-4">
+                        <div class="card-conteudo">
+                            <h3 class="mb-3">
+                                <i class="fas fa-star" style="color: var(--cor-secundaria);"></i>
+                                Extras Incluídos
+                            </h3>
+                            <div class="grid grid-3 gap-md">
+                                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                    <i class="fas fa-check-circle" style="color: var(--cor-sucesso);"></i>
+                                    <span>Equipamento de Pesca</span>
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                    <i class="fas fa-check-circle" style="color: var(--cor-sucesso);"></i>
+                                    <span>Isco/Engodo</span>
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                    <i class="fas fa-check-circle" style="color: var(--cor-sucesso);"></i>
+                                    <span>Lanches e Bebidas</span>
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                    <i class="fas fa-check-circle" style="color: var(--cor-sucesso);"></i>
+                                    <span>GPS/Sonar</span>
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                    <i class="fas fa-check-circle" style="color: var(--cor-sucesso);"></i>
+                                    <span>Coletes Salva-vidas</span>
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                    <i class="fas fa-check-circle" style="color: var(--cor-sucesso);"></i>
+                                    <span>Casa de Banho</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-conteudo">
+                            <h3 class="mb-3">
+                                <i class="fas fa-user-tie" style="color: var(--cor-secundaria);"></i>
+                                Sobre o Capitão
+                            </h3>
+                            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                                <div style="width: 60px; height: 60px; border-radius: 50%; background: linear-gradient(135deg, var(--cor-destaque), #FFB74D); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: 700; color: white;">
+                                    PC
+                                </div>
+                                <div>
+                                    <div style="font-weight: 600; font-size: 1.125rem;">Pedro Costa</div>
+                                    <div class="barco-card-rating">
+                                        <span class="estrelas">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                        </span>
+                                        <span class="texto-cinza">(48 avaliações)</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="texto-cinza">
+                                Capitão com 15 anos de experiência em pesca de alto mar. Conhecedor profundo 
+                                das águas portuguesas e apaixonado por proporcionar experiências inesquecíveis.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div>
+                    <div class="card-reserva">
+                        <div class="preco-destaque">
+                            75€ <span style="font-size: 1rem; color: var(--cor-cinza-escuro); font-weight: 400;">/ pessoa</span>
+                        </div>
+                        
+                        <!-- 🎣 BLOCO SAÍDA PARTILHADA (exemplo desativado) -->
+                        <div id="blocoPartilhada" style="display: none; background: linear-gradient(135deg, #E0F2FE 0%, #DBEAFE 100%); border: 2px solid #0284C7; border-radius: 8px; padding: 1.5rem; margin-bottom: 1.5rem;">
+                            <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem;">
+                                <i class="fas fa-users" style="color: #0284C7; font-size: 1.5rem;"></i>
+                                <h4 style="color: #0C4A6E; font-weight: 700; font-size: 1.1rem; margin: 0;">Saída Partilhada</h4>
+                            </div>
+                            
+                            <p style="color: #075985; font-size: 0.9rem; line-height: 1.5; margin-bottom: 1rem;">
+                                💰 <strong>Divida os custos com outros pescadores!</strong> Junte-se a esta saída e economize.
+                            </p>
+                            
+                            <div style="background: white; border-radius: 6px; padding: 1rem; margin-bottom: 1rem;">
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 0.75rem;">
+                                    <span style="color: #075985; font-size: 0.85rem;">Preço Total:</span>
+                                    <strong style="color: #0C4A6E;" id="precoTotalPartilhada">€1.000</strong>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 0.75rem;">
+                                    <span style="color: #075985; font-size: 0.85rem;">Vagas Totais:</span>
+                                    <strong style="color: #0C4A6E;" id="vagasTotaisPartilhada">4 pessoas</strong>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; padding-top: 0.75rem; border-top: 1px dashed #BAE6FD;">
+                                    <span style="color: #075985; font-size: 0.85rem;">Preço por Pessoa:</span>
+                                    <strong style="color: #0EA5E9; font-size: 1.1rem;" id="precoPorPessoaPartilhada">€250</strong>
+                                </div>
+                            </div>
+                            
+                            <div style="background: rgba(6, 182, 212, 0.1); border-radius: 6px; padding: 0.75rem; margin-bottom: 1rem;">
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                                    <span style="color: #0C4A6E; font-weight: 600; font-size: 0.9rem;">
+                                        <i class="fas fa-chair"></i> Vagas Ocupadas:
+                                    </span>
+                                    <strong style="color: #0284C7;" id="vagasOcupadasPartilhada">2 / 4</strong>
+                                </div>
+                                <div style="width: 100%; height: 8px; background: rgba(6, 182, 212, 0.2); border-radius: 4px; overflow: hidden;">
+                                    <div id="barraProgressoPartilhada" style="width: 50%; height: 100%; background: linear-gradient(90deg, #06B6D4, #0EA5E9); transition: width 0.3s;"></div>
+                                </div>
+                            </div>
+                            
+                            <div style="background: #FEF3C7; border-left: 3px solid #F59E0B; padding: 0.75rem; border-radius: 4px; margin-bottom: 1rem;">
+                                <p style="margin: 0; color: #92400E; font-size: 0.8rem;">
+                                    <i class="fas fa-info-circle"></i> <strong id="vagasRestantesPartilhada">2 vagas</strong> ainda disponíveis!
+                                </p>
+                            </div>
+                            
+                            <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #BAE6FD;">
+                                <h5 style="color: #0C4A6E; font-size: 0.9rem; font-weight: 700; margin-bottom: 0.75rem;">
+                                    <i class="fas fa-user-check"></i> Participantes Confirmados:
+                                </h5>
+                                <div id="listaParticipantes" style="display: flex; flex-direction: column; gap: 0.5rem;">
+                                    <!-- Será preenchido via JS -->
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div style="display: flex; align-items: center; gap: 0.5rem; padding: 1rem; background-color: var(--cor-cinza-claro); border-radius: var(--radius-medio); margin-bottom: 1.5rem;">
+                            <i class="fas fa-users" style="color: var(--cor-secundaria); font-size: 1.25rem;"></i>
+                            <span><strong>2 vagas</strong> disponíveis de 8</span>
+                        </div>
+                        
+                        <div class="form-grupo">
+                            <label class="form-label">Data da Saída</label>
+                            <input type="text" class="form-input" value="15/03/2026 - 08:00" readonly>
+                        </div>
+                        
+                        <div class="form-grupo">
+                            <label class="form-label">Duração</label>
+                            <input type="text" class="form-input" value="8 horas" readonly>
+                        </div>
+                        
+                        <div class="form-grupo">
+                            <label class="form-label">Porto de Saída</label>
+                            <input type="text" class="form-input" value="Porto de Lisboa" readonly>
+                        </div>
+                        
+                        <div style="border-top: 1px solid var(--cor-cinza); margin: 1.5rem 0; padding-top: 1.5rem;">
+                            <h4 style="margin-bottom: 1rem; color: var(--cor-primaria);">
+                                <i class="fas fa-phone"></i> Contactar Capitão
+                            </h4>
+                            
+                            <button type="button" class="btn btn-primario btn-bloco btn-grande" onclick="abrirModalContacto()">
+                                <i class="fas fa-envelope"></i>
+                                Enviar Mensagem
+                            </button>
+                            
+                            <button type="button" class="btn btn-secundario btn-bloco" style="margin-top: 0.75rem;" onclick="window.location.href='tel:+351912345678'">
+                                <i class="fas fa-phone"></i>
+                                Ligar Diretamente
+                            </button>
+                            
+                            <button type="button" class="btn btn-outline btn-bloco" style="margin-top: 0.75rem;" onclick="window.open('https://wa.me/351912345678', '_blank')">
+                                <i class="fab fa-whatsapp"></i>
+                                WhatsApp
+                            </button>
+                            
+                            <p class="texto-pequeno texto-cinza texto-centro" style="margin-top: 1.5rem;">
+                                <i class="fas fa-info-circle"></i> A reserva e o pagamento são feitos diretamente com o capitão
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2026 FishingHub. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- Modal de Contacto -->
+    <div class="modal" id="modalContacto">
+        <div class="modal-conteudo">
+            <button class="modal-fechar" onclick="fecharModal('modalContacto')">&times;</button>
+            <h2 class="mb-3">Contactar Capitão Pedro Costa</h2>
+            <p class="texto-cinza mb-4">Envie uma mensagem diretamente ao capitão para reservar ou esclarecer dúvidas</p>
+            
+            <form id="formContacto">
+                <div class="form-grupo">
+                    <label class="form-label obrigatorio">Nome</label>
+                    <input type="text" class="form-input" placeholder="O seu nome" required>
+                </div>
+                
+                <div class="form-grupo">
+                    <label class="form-label obrigatorio">Email</label>
+                    <input type="email" class="form-input" placeholder="o-seu-email@exemplo.com" required>
+                </div>
+                
+                <div class="form-grupo">
+                    <label class="form-label obrigatorio">Telefone</label>
+                    <input type="tel" class="form-input" placeholder="+351 912 345 678" required>
+                </div>
+                
+                <div class="form-grupo">
+                    <label class="form-label">Número de Pessoas</label>
+                    <input type="number" class="form-input" placeholder="1" min="1" max="2">
+                </div>
+                
+                <div class="form-grupo">
+                    <label class="form-label obrigatorio">Mensagem</label>
+                    <textarea class="form-textarea" placeholder="Olá, gostaria de reservar esta saída de pesca..." required></textarea>
+                </div>
+                
+                <div class="flex gap-md">
+                    <button type="button" class="btn btn-outline" onclick="fecharModal('modalContacto')">
+                        Cancelar
+                    </button>
+                    <button type="submit" class="btn btn-primario" style="flex: 1;">
+                        <i class="fas fa-paper-plane"></i>
+                        Enviar Mensagem
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <script src="js/main.js"></script>
+    <script>
+        // Simular dados da saída (em produção virá da API)
+        const saidaId = new URLSearchParams(window.location.search).get('id');
+        
+        // Exemplo de saídas partilhadas (IDs 4 e 5)
+        const saidasPartilhadas = {
+            '4': {
+                titulo: '🎣 Caça ao Atum Gigante - PARTILHADA',
+                precoTotal: 1000,
+                vagasDisponiveis: 4,
+                vagasOcupadas: 2,
+                precoPorPessoa: 250,
+                participantes: [
+                    { nome: 'Marco Sousa', iniciais: 'MS', telefone: '+351 912 345 678' },
+                    { nome: 'Rita Pereira', iniciais: 'RP', telefone: '+351 934 567 890' }
+                ]
+            },
+            '5': {
+                titulo: '🎣 Pesca de Espadarte - PARTILHADA',
+                precoTotal: 1800,
+                vagasDisponiveis: 6,
+                vagasOcupadas: 1,
+                precoPorPessoa: 300,
+                participantes: [
+                    { nome: 'José Rodrigues', iniciais: 'JR', telefone: '+351 965 432 109' }
+                ]
+            }
+        };
+        
+        // Verificar se é saída partilhada
+        if (saidaId && saidasPartilhadas[saidaId]) {
+            const saida = saidasPartilhadas[saidaId];
+            const blocoPartilhada = document.getElementById('blocoPartilhada');
+            
+            if (blocoPartilhada) {
+                blocoPartilhada.style.display = 'block';
+                
+                // Atualizar valores
+                document.getElementById('precoTotalPartilhada').textContent = `€${saida.precoTotal}`;
+                document.getElementById('vagasTotaisPartilhada').textContent = `${saida.vagasDisponiveis} pessoas`;
+                document.getElementById('precoPorPessoaPartilhada').textContent = `€${saida.precoPorPessoa}`;
+                document.getElementById('vagasOcupadasPartilhada').textContent = `${saida.vagasOcupadas} / ${saida.vagasDisponiveis}`;
+                
+                const vagasRestantes = saida.vagasDisponiveis - saida.vagasOcupadas;
+                document.getElementById('vagasRestantesPartilhada').textContent = `${vagasRestantes} ${vagasRestantes === 1 ? 'vaga' : 'vagas'}`;
+                
+                // Barra de progresso
+                const percentagem = (saida.vagasOcupadas / saida.vagasDisponiveis) * 100;
+                document.getElementById('barraProgressoPartilhada').style.width = `${percentagem}%`;
+                
+                // Lista de participantes
+                const listaParticipantes = document.getElementById('listaParticipantes');
+                listaParticipantes.innerHTML = saida.participantes.map(p => `
+                    <div style="display: flex; align-items: center; gap: 0.75rem; background: white; padding: 0.75rem; border-radius: 6px; border: 1px solid #BAE6FD;">
+                        <div style="width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg, #0EA5E9, #06B6D4); display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; font-size: 0.85rem;">
+                            ${p.iniciais}
+                        </div>
+                        <div style="flex: 1;">
+                            <div style="font-weight: 600; color: #0C4A6E; font-size: 0.9rem;">${p.nome}</div>
+                            <div style="color: #075985; font-size: 0.75rem;">
+                                <i class="fas fa-check-circle" style="color: #10B981;"></i> Confirmado
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+            }
+        }
+        
+        function abrirModalContacto() {
+            abrirModal('modalContacto');
+        }
+        
+        document.getElementById('formContacto').addEventListener('submit', (e) => {
+            e.preventDefault();
+            fecharModal('modalContacto');
+            
+            if (saidaId && saidasPartilhadas[saidaId]) {
+                mostrarToast('🎉 Pedido enviado! O capitão entrará em contacto para confirmar sua vaga na saída partilhada.', 'sucesso');
+            } else {
+                mostrarToast('Mensagem enviada com sucesso! O capitão entrará em contacto em breve.', 'sucesso');
+            }
+        });
+    </script>
+</body>
+</html>

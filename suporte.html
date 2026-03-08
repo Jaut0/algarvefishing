@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Suporte e Reclamações - FishingHub</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚓</text></svg>">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .suporte-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .suporte-hero {
+            text-align: center;
+            padding: 3rem 0;
+        }
+        
+        .suporte-hero i {
+            font-size: 4rem;
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+        
+        .suporte-hero h1 {
+            font-size: 2.5rem;
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+        
+        .suporte-hero p {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+        }
+        
+        .tipo-reclamacao-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .tipo-card {
+            background: var(--dark-bg);
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+        
+        .tipo-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-5px);
+        }
+        
+        .tipo-card.selected {
+            border-color: var(--accent);
+            background: rgba(255, 143, 0, 0.1);
+        }
+        
+        .tipo-card i {
+            font-size: 2.5rem;
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+        
+        .tipo-card h3 {
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+        
+        .tipo-card p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        
+        .formulario-reclamacao {
+            background: var(--dark-bg);
+            padding: 2.5rem;
+            border-radius: 12px;
+            margin-top: 2rem;
+        }
+        
+        .form-section {
+            margin-bottom: 2rem;
+        }
+        
+        .form-section-title {
+            font-size: 1.3rem;
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+        
+        .form-group label .required {
+            color: #f44336;
+            margin-left: 0.2rem;
+        }
+        
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 0.9rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--accent);
+            background: rgba(255, 255, 255, 0.08);
+        }
+        
+        .form-group textarea {
+            resize: vertical;
+            min-height: 150px;
+        }
+        
+        .file-upload-area {
+            border: 2px dashed rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .file-upload-area:hover {
+            border-color: var(--accent);
+            background: rgba(255, 143, 0, 0.05);
+        }
+        
+        .file-upload-area i {
+            font-size: 3rem;
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+        
+        .file-upload-area p {
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .file-upload-area small {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+        
+        .files-preview {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .file-preview-item {
+            position: relative;
+            padding: 0.8rem 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .file-preview-item i {
+            color: var(--accent);
+        }
+        
+        .file-preview-remove {
+            margin-left: 0.5rem;
+            background: none;
+            border: none;
+            color: #f44336;
+            cursor: pointer;
+            padding: 0.2rem 0.5rem;
+        }
+        
+        .alerta-info {
+            padding: 1.2rem;
+            background: rgba(33, 150, 243, 0.1);
+            border-radius: 8px;
+            border-left: 4px solid #2196F3;
+            margin: 1.5rem 0;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+        
+        .alerta-info i {
+            color: #2196F3;
+            margin-right: 0.5rem;
+        }
+        
+        .alerta-warning {
+            padding: 1.2rem;
+            background: rgba(255, 193, 7, 0.1);
+            border-radius: 8px;
+            border-left: 4px solid #FFC107;
+            margin: 1.5rem 0;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+        
+        .alerta-warning i {
+            color: #FFC107;
+            margin-right: 0.5rem;
+        }
+        
+        .contactos-admin {
+            background: var(--dark-bg);
+            padding: 2rem;
+            border-radius: 12px;
+            margin-top: 2rem;
+        }
+        
+        .contactos-admin h3 {
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+        }
+        
+        .contacto-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+        
+        .contacto-item i {
+            font-size: 1.5rem;
+            color: var(--accent);
+            width: 30px;
+        }
+        
+        .contacto-item a {
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .contacto-item a:hover {
+            color: var(--accent);
+        }
+        
+        @media (max-width: 768px) {
+            .tipo-reclamacao-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .formulario-reclamacao {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <a href="index.html" class="logo">
+                    <i class="fas fa-anchor"></i>
+                    <span>FishingHub</span>
+                </a>
+                <nav class="nav" id="mainNav">
+                    <a href="index.html">Início</a>
+                    <a href="explorar.html">Explorar</a>
+                    <a href="escolher-barco.html">Reservar</a>
+                    <a href="suporte.html" class="active">Suporte</a>
+                    <a href="auth.html">Entrar</a>
+                </nav>
+                <button class="mobile-toggle" id="mobileToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <section class="section">
+            <div class="container suporte-container">
+                <div class="suporte-hero">
+                    <i class="fas fa-headset"></i>
+                    <h1>Suporte e Reclamações</h1>
+                    <p>Conte-nos o que aconteceu. Estamos aqui para ajudar.</p>
+                </div>
+
+                <div class="alerta-info">
+                    <i class="fas fa-info-circle"></i>
+                    <strong>Importante:</strong> Todas as reclamações são analisadas pelo administrador da plataforma. 
+                    Entraremos em contacto consigo e com o capitão para resolver a situação.
+                </div>
+
+                <!-- Tipo de Reclamação -->
+                <h2 style="color: var(--accent); margin: 2rem 0 1rem;">Qual é o motivo do seu contacto?</h2>
+                <div class="tipo-reclamacao-grid" id="tiposGrid">
+                    <div class="tipo-card" data-tipo="cancelamento">
+                        <i class="fas fa-calendar-times"></i>
+                        <h3>Cancelamento</h3>
+                        <p>Capitão cancelou a saída</p>
+                    </div>
+                    
+                    <div class="tipo-card" data-tipo="reembolso">
+                        <i class="fas fa-money-bill-wave"></i>
+                        <h3>Reembolso</h3>
+                        <p>Problemas com devolução de pagamento</p>
+                    </div>
+                    
+                    <div class="tipo-card" data-tipo="comportamento">
+                        <i class="fas fa-user-times"></i>
+                        <h3>Comportamento</h3>
+                        <p>Conduta inadequada do capitão</p>
+                    </div>
+                    
+                    <div class="tipo-card" data-tipo="condicoes">
+                        <i class="fas fa-ship"></i>
+                        <h3>Condições do Barco</h3>
+                        <p>Barco não corresponde ao anunciado</p>
+                    </div>
+                    
+                    <div class="tipo-card" data-tipo="seguranca">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <h3>Segurança</h3>
+                        <p>Questões de segurança</p>
+                    </div>
+                    
+                    <div class="tipo-card" data-tipo="outro">
+                        <i class="fas fa-question-circle"></i>
+                        <h3>Outro Motivo</h3>
+                        <p>Outra situação</p>
+                    </div>
+                </div>
+
+                <!-- Formulário -->
+                <form id="formReclamacao" class="formulario-reclamacao" style="display: none;">
+                    <!-- Dados Pessoais -->
+                    <div class="form-section">
+                        <h3 class="form-section-title">
+                            <i class="fas fa-user"></i>
+                            Os Seus Dados
+                        </h3>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="nomeCliente">Nome Completo<span class="required">*</span></label>
+                                <input type="text" id="nomeCliente" required placeholder="Seu nome completo">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="emailCliente">Email<span class="required">*</span></label>
+                                <input type="email" id="emailCliente" required placeholder="seu@email.com">
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="telefoneCliente">Telefone / WhatsApp<span class="required">*</span></label>
+                                <input type="tel" id="telefoneCliente" required placeholder="+351 912 345 678">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="nifCliente">NIF (opcional)</label>
+                                <input type="text" id="nifCliente" placeholder="000000000">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Dados da Reserva -->
+                    <div class="form-section">
+                        <h3 class="form-section-title">
+                            <i class="fas fa-ship"></i>
+                            Dados da Reserva
+                        </h3>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="nomeBarco">Nome do Barco<span class="required">*</span></label>
+                                <input type="text" id="nomeBarco" required placeholder="Ex: Mar Azul">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="nomeCapitao">Nome do Capitão</label>
+                                <input type="text" id="nomeCapitao" placeholder="Se souber o nome">
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="dataReserva">Data da Reserva<span class="required">*</span></label>
+                                <input type="date" id="dataReserva" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="valorPago">Valor Pago (€)</label>
+                                <input type="number" id="valorPago" placeholder="0.00" step="0.01" min="0">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Descrição do Problema -->
+                    <div class="form-section">
+                        <h3 class="form-section-title">
+                            <i class="fas fa-file-alt"></i>
+                            Descrição do Problema
+                        </h3>
+                        
+                        <input type="hidden" id="tipoReclamacao" required>
+                        
+                        <div class="form-group">
+                            <label for="assunto">Assunto<span class="required">*</span></label>
+                            <input type="text" id="assunto" required placeholder="Resumo do problema">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="descricao">Descrição Detalhada<span class="required">*</span></label>
+                            <textarea id="descricao" required placeholder="Conte-nos o que aconteceu. Quanto mais detalhes fornecer, melhor poderemos ajudá-lo..."></textarea>
+                        </div>
+                        
+                        <div class="alerta-warning">
+                            <i class="fas fa-lightbulb"></i>
+                            <strong>Dica:</strong> Inclua datas, valores, conversas relevantes e qualquer informação que possa ajudar na resolução.
+                        </div>
+                    </div>
+
+                    <!-- Upload de Ficheiros -->
+                    <div class="form-section">
+                        <h3 class="form-section-title">
+                            <i class="fas fa-paperclip"></i>
+                            Documentos e Evidências (opcional)
+                        </h3>
+                        
+                        <div class="file-upload-area" id="fileUploadArea">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <p><strong>Clique para selecionar ficheiros</strong></p>
+                            <small>Screenshots, comprovativos de pagamento, mensagens, fotos, etc.</small>
+                            <small style="display: block; margin-top: 0.5rem;">Formatos: PDF, JPG, PNG, DOC | Máx: 5 ficheiros</small>
+                            <input type="file" id="fileInput" multiple accept=".pdf,.jpg,.jpeg,.png,.doc,.docx" style="display: none;">
+                        </div>
+                        
+                        <div class="files-preview" id="filesPreview"></div>
+                    </div>
+
+                    <!-- Botões -->
+                    <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+                        <button type="button" class="btn btn-secondary" onclick="resetForm()" style="flex: 1;">
+                            <i class="fas fa-times"></i> Cancelar
+                        </button>
+                        <button type="submit" class="btn btn-primary" style="flex: 2;">
+                            <i class="fas fa-paper-plane"></i> Enviar Reclamação
+                        </button>
+                    </div>
+                </form>
+
+                <!-- Contactos Diretos -->
+                <div class="contactos-admin">
+                    <h3><i class="fas fa-phone-alt"></i> Contactos Diretos</h3>
+                    <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">
+                        Prefere falar directamente connosco? Use um dos contactos abaixo:
+                    </p>
+                    
+                    <div class="contacto-item">
+                        <i class="fas fa-envelope"></i>
+                        <div>
+                            <strong>Email:</strong><br>
+                            <a href="mailto:servico@jauto.pt">servico@jauto.pt</a>
+                        </div>
+                    </div>
+                    
+                    <div class="contacto-item">
+                        <i class="fas fa-phone"></i>
+                        <div>
+                            <strong>Telefone:</strong><br>
+                            <a href="tel:+351912345678">+351 912 345 678</a>
+                        </div>
+                    </div>
+                    
+                    <div class="contacto-item">
+                        <i class="fab fa-whatsapp"></i>
+                        <div>
+                            <strong>WhatsApp:</strong><br>
+                            <a href="https://wa.me/351912345678" target="_blank">+351 912 345 678</a>
+                        </div>
+                    </div>
+                    
+                    <div class="alerta-info" style="margin-top: 1.5rem;">
+                        <i class="fas fa-clock"></i>
+                        <strong>Horário de Atendimento:</strong> Segunda a Sexta, 09:00 - 18:00
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>FishingHub</h3>
+                    <p>A sua plataforma de confiança para experiências de pesca inesquecíveis em Portugal.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Links Rápidos</h4>
+                    <ul>
+                        <li><a href="index.html">Início</a></li>
+                        <li><a href="explorar.html">Explorar</a></li>
+                        <li><a href="escolher-barco.html">Reservar</a></li>
+                        <li><a href="suporte.html">Suporte</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contacto</h4>
+                    <p><i class="fas fa-envelope"></i> servico@jauto.pt</p>
+                    <p><i class="fas fa-phone"></i> +351 912 345 678</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 FishingHub. Todos os direitos reservados.</p>
+                <a href="admin-login.html" style="color: var(--text-secondary); font-size: 0.85rem;">Área Admin</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/suporte.js"></script>
+</body>
+</html>

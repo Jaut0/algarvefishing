@@ -1,0 +1,765 @@
+/* ============================================
+   ALGARVE TUNA CHARTER - WICKED TUNA INSPIRED
+   Theme: Deep Ocean, Professional Tuna Fishing
+   Style: National Geographic Documentary
+   ============================================ */
+
+:root {
+    /* Wicked Tuna Color Palette */
+    --ocean-deep: #0B1929;           /* Oceano profundo escuro */
+    --ocean-dark: #122740;           /* Azul oceano escuro */
+    --ocean-blue: #1B4965;           /* Azul oceano médio */
+    --ocean-storm: #2A5E7D;          /* Azul tempestade */
+    --tuna-orange: #FF6B35;          /* Laranja atum (accent) */
+    --tuna-red: #D32F2F;             /* Vermelho sangue de atum */
+    --boat-white: #F5F5F5;           /* Branco dos barcos */
+    --steel-gray: #455A64;           /* Cinza aço */
+    --warning-yellow: #FFC107;       /* Amarelo aviso */
+    --success-green: #4CAF50;        /* Verde sucesso */
+    
+    /* Gradients */
+    --gradient-ocean: linear-gradient(180deg, #0B1929 0%, #1B4965 100%);
+    --gradient-sunset: linear-gradient(135deg, #FF6B35 0%, #D32F2F 100%);
+    --gradient-dark: linear-gradient(180deg, rgba(11, 25, 41, 0.95) 0%, rgba(27, 73, 101, 0.85) 100%);
+    
+    /* Typography */
+    --font-display: 'Bebas Neue', 'Impact', sans-serif;  /* Títulos dramáticos */
+    --font-heading: 'Montserrat', sans-serif;            /* Subtítulos */
+    --font-body: 'Roboto', sans-serif;                   /* Corpo de texto */
+    
+    /* Shadows - Dramatic Documentary Style */
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.4);
+    --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.5);
+    --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.6);
+    --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.7);
+    
+    /* Spacing */
+    --space-xs: 0.5rem;
+    --space-sm: 1rem;
+    --space-md: 1.5rem;
+    --space-lg: 2rem;
+    --space-xl: 3rem;
+    
+    /* Border Radius */
+    --radius-sm: 4px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+    
+    /* Transitions */
+    --transition-fast: 0.2s ease;
+    --transition-normal: 0.3s ease;
+    --transition-slow: 0.5s ease;
+}
+
+/* ============================================
+   BASE STYLES
+   ============================================ */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-body);
+    background: var(--ocean-deep);
+    color: var(--boat-white);
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+/* Ocean Texture Background */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        radial-gradient(circle at 20% 50%, rgba(27, 73, 101, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(255, 107, 53, 0.05) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    line-height: 1.2;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--boat-white);
+}
+
+h1 { font-size: 4rem; }
+h2 { font-size: 3rem; }
+h3 { font-size: 2rem; }
+h4 { font-size: 1.5rem; }
+h5 { font-size: 1.25rem; }
+h6 { font-size: 1rem; }
+
+a {
+    color: var(--tuna-orange);
+    text-decoration: none;
+    transition: var(--transition-normal);
+}
+
+a:hover {
+    color: #FF8C5E;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* ============================================
+   CONTAINER & LAYOUT
+   ============================================ */
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 var(--space-md);
+    position: relative;
+    z-index: 1;
+}
+
+.section {
+    padding: var(--space-xl) 0;
+    position: relative;
+}
+
+/* ============================================
+   HEADER - Documentary Style
+   ============================================ */
+
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: rgba(11, 25, 41, 0.95);
+    backdrop-filter: blur(10px);
+    z-index: 1000;
+    border-bottom: 2px solid var(--tuna-orange);
+    box-shadow: var(--shadow-md);
+    transition: var(--transition-normal);
+}
+
+.header.scrolled {
+    background: rgba(11, 25, 41, 0.98);
+    box-shadow: var(--shadow-lg);
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-md) 0;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    font-family: var(--font-display);
+    font-size: 1.8rem;
+    color: var(--boat-white);
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    position: relative;
+}
+
+.logo::before {
+    content: '🎣';
+    font-size: 2rem;
+    filter: drop-shadow(0 0 10px var(--tuna-orange));
+}
+
+.logo::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: var(--gradient-sunset);
+    transform: scaleX(0);
+    transition: var(--transition-normal);
+}
+
+.logo:hover::after {
+    transform: scaleX(1);
+}
+
+.nav {
+    display: flex;
+    gap: var(--space-lg);
+    align-items: center;
+}
+
+.nav a {
+    font-family: var(--font-heading);
+    font-weight: 600;
+    font-size: 0.95rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--boat-white);
+    padding: var(--space-xs) var(--space-sm);
+    position: relative;
+    transition: var(--transition-fast);
+}
+
+.nav a::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 2px;
+    background: var(--tuna-orange);
+    transition: var(--transition-fast);
+}
+
+.nav a:hover::before,
+.nav a.active::before {
+    width: 100%;
+}
+
+.nav a:hover,
+.nav a.active {
+    color: var(--tuna-orange);
+}
+
+/* Mobile Toggle */
+.mobile-toggle {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: var(--space-xs);
+}
+
+.mobile-toggle span {
+    width: 25px;
+    height: 3px;
+    background: var(--boat-white);
+    transition: var(--transition-fast);
+}
+
+/* ============================================
+   BUTTONS - Action Style
+   ============================================ */
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-xs);
+    padding: var(--space-sm) var(--space-lg);
+    font-family: var(--font-heading);
+    font-size: 1rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    border: none;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: var(--transition-normal);
+    position: relative;
+    overflow: hidden;
+}
+
+.btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+.btn:hover::before {
+    width: 300px;
+    height: 300px;
+}
+
+.btn-primary {
+    background: var(--gradient-sunset);
+    color: white;
+    box-shadow: var(--shadow-md);
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+.btn-secondary {
+    background: var(--ocean-blue);
+    color: var(--boat-white);
+    border: 2px solid var(--ocean-storm);
+}
+
+.btn-secondary:hover {
+    background: var(--ocean-storm);
+    border-color: var(--tuna-orange);
+}
+
+.btn-outline {
+    background: transparent;
+    color: var(--tuna-orange);
+    border: 2px solid var(--tuna-orange);
+}
+
+.btn-outline:hover {
+    background: var(--tuna-orange);
+    color: var(--ocean-deep);
+}
+
+.btn-danger {
+    background: var(--tuna-red);
+    color: white;
+}
+
+.btn-danger:hover {
+    background: #B71C1C;
+    transform: translateY(-2px);
+}
+
+.btn-success {
+    background: var(--success-green);
+    color: white;
+}
+
+.btn-success:hover {
+    background: #45a049;
+}
+
+/* ============================================
+   HERO SECTION - Dramatic Documentary
+   ============================================ */
+
+.hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    background: 
+        linear-gradient(180deg, rgba(11, 25, 41, 0.7) 0%, rgba(11, 25, 41, 0.9) 100%),
+        url('https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=1920&h=1080&fit=crop') center/cover no-repeat;
+    text-align: center;
+    overflow: hidden;
+}
+
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at center, transparent 0%, rgba(11, 25, 41, 0.8) 100%);
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 900px;
+    animation: heroFadeIn 1s ease-out;
+}
+
+@keyframes heroFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.hero-badge {
+    display: inline-block;
+    padding: var(--space-xs) var(--space-md);
+    background: rgba(255, 107, 53, 0.2);
+    border: 2px solid var(--tuna-orange);
+    border-radius: 50px;
+    font-family: var(--font-heading);
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--tuna-orange);
+    margin-bottom: var(--space-md);
+    animation: badgePulse 2s ease-in-out infinite;
+}
+
+@keyframes badgePulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+.hero h1 {
+    font-size: clamp(3rem, 8vw, 6rem);
+    margin-bottom: var(--space-md);
+    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.8);
+    background: linear-gradient(135deg, var(--boat-white) 0%, var(--tuna-orange) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.hero p {
+    font-size: 1.4rem;
+    margin-bottom: var(--space-xl);
+    color: rgba(245, 245, 245, 0.9);
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
+}
+
+.hero-buttons {
+    display: flex;
+    gap: var(--space-md);
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+/* ============================================
+   CARDS - Professional Style
+   ============================================ */
+
+.card {
+    background: rgba(18, 39, 64, 0.8);
+    backdrop-filter: blur(10px);
+    border-radius: var(--radius-lg);
+    border: 1px solid rgba(255, 107, 53, 0.2);
+    padding: var(--space-lg);
+    box-shadow: var(--shadow-md);
+    transition: var(--transition-normal);
+    position: relative;
+    overflow: hidden;
+}
+
+.card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 107, 53, 0.1), transparent);
+    transition: var(--transition-slow);
+}
+
+.card:hover::before {
+    left: 100%;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    border-color: var(--tuna-orange);
+    box-shadow: var(--shadow-lg);
+}
+
+.card-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    margin-bottom: var(--space-md);
+    padding-bottom: var(--space-sm);
+    border-bottom: 2px solid rgba(255, 107, 53, 0.3);
+}
+
+.card-icon {
+    font-size: 2.5rem;
+    filter: drop-shadow(0 0 10px var(--tuna-orange));
+}
+
+.card-title {
+    font-family: var(--font-display);
+    font-size: 1.8rem;
+    color: var(--tuna-orange);
+    text-transform: uppercase;
+}
+
+.card-body {
+    color: rgba(245, 245, 245, 0.9);
+    line-height: 1.8;
+}
+
+/* ============================================
+   STATS - Documentary Numbers
+   ============================================ */
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: var(--space-lg);
+    margin: var(--space-xl) 0;
+}
+
+.stat-card {
+    background: var(--gradient-dark);
+    padding: var(--space-lg);
+    border-radius: var(--radius-lg);
+    border: 2px solid var(--ocean-storm);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.stat-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255, 107, 53, 0.1) 0%, transparent 70%);
+    animation: statRotate 10s linear infinite;
+}
+
+@keyframes statRotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.stat-number {
+    font-family: var(--font-display);
+    font-size: 3.5rem;
+    color: var(--tuna-orange);
+    margin-bottom: var(--space-xs);
+    position: relative;
+    z-index: 1;
+}
+
+.stat-label {
+    font-family: var(--font-heading);
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--boat-white);
+    position: relative;
+    z-index: 1;
+}
+
+/* ============================================
+   FORMS - Professional Input
+   ============================================ */
+
+.form-group {
+    margin-bottom: var(--space-md);
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: var(--space-xs);
+    font-family: var(--font-heading);
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+    color: var(--boat-white);
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+    width: 100%;
+    padding: var(--space-sm) var(--space-md);
+    background: rgba(18, 39, 64, 0.6);
+    border: 2px solid var(--ocean-storm);
+    border-radius: var(--radius-md);
+    color: var(--boat-white);
+    font-family: var(--font-body);
+    font-size: 1rem;
+    transition: var(--transition-fast);
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: var(--tuna-orange);
+    background: rgba(18, 39, 64, 0.8);
+    box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.2);
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+    color: rgba(245, 245, 245, 0.5);
+}
+
+/* ============================================
+   FOOTER - Solid Base
+   ============================================ */
+
+.footer {
+    background: var(--ocean-deep);
+    border-top: 3px solid var(--tuna-orange);
+    padding: var(--space-xl) 0 var(--space-md);
+    margin-top: var(--space-xl);
+}
+
+.footer-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: var(--space-xl);
+    margin-bottom: var(--space-lg);
+}
+
+.footer-section h3 {
+    font-size: 1.5rem;
+    color: var(--tuna-orange);
+    margin-bottom: var(--space-md);
+}
+
+.footer-section h4 {
+    font-size: 1.2rem;
+    margin-bottom: var(--space-sm);
+}
+
+.footer-section ul {
+    list-style: none;
+}
+
+.footer-section ul li {
+    margin-bottom: var(--space-xs);
+}
+
+.footer-section ul li a {
+    color: rgba(245, 245, 245, 0.8);
+    transition: var(--transition-fast);
+}
+
+.footer-section ul li a:hover {
+    color: var(--tuna-orange);
+    padding-left: 5px;
+}
+
+.footer-bottom {
+    text-align: center;
+    padding-top: var(--space-md);
+    border-top: 1px solid rgba(255, 107, 53, 0.2);
+    color: rgba(245, 245, 245, 0.7);
+}
+
+/* ============================================
+   UTILITIES
+   ============================================ */
+
+.text-center { text-align: center; }
+.text-orange { color: var(--tuna-orange); }
+.text-white { color: var(--boat-white); }
+.bg-ocean { background: var(--ocean-dark); }
+.bg-gradient { background: var(--gradient-ocean); }
+
+.mt-1 { margin-top: var(--space-xs); }
+.mt-2 { margin-top: var(--space-sm); }
+.mt-3 { margin-top: var(--space-md); }
+.mt-4 { margin-top: var(--space-lg); }
+.mt-5 { margin-top: var(--space-xl); }
+
+.mb-1 { margin-bottom: var(--space-xs); }
+.mb-2 { margin-bottom: var(--space-sm); }
+.mb-3 { margin-bottom: var(--space-md); }
+.mb-4 { margin-bottom: var(--space-lg); }
+.mb-5 { margin-bottom: var(--space-xl); }
+
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
+
+@media (max-width: 768px) {
+    :root {
+        --space-xl: 2rem;
+        --space-lg: 1.5rem;
+    }
+    
+    h1 { font-size: 2.5rem; }
+    h2 { font-size: 2rem; }
+    h3 { font-size: 1.5rem; }
+    
+    .header-content {
+        padding: var(--space-sm) 0;
+    }
+    
+    .nav {
+        display: none;
+        position: fixed;
+        top: 70px;
+        left: 0;
+        width: 100%;
+        background: rgba(11, 25, 41, 0.98);
+        flex-direction: column;
+        padding: var(--space-lg);
+        box-shadow: var(--shadow-lg);
+    }
+    
+    .nav.active {
+        display: flex;
+    }
+    
+    .mobile-toggle {
+        display: flex;
+    }
+    
+    .hero {
+        min-height: 80vh;
+        padding: var(--space-xl) 0;
+    }
+    
+    .hero-buttons {
+        flex-direction: column;
+    }
+    
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .footer-content {
+        grid-template-columns: 1fr;
+        gap: var(--space-lg);
+    }
+}
+
+/* ============================================
+   ANIMATIONS
+   ============================================ */
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-fade-in {
+    animation: fadeIn 0.6s ease-out;
+}
+
+.animate-slide-up {
+    animation: slideUp 0.6s ease-out;
+}

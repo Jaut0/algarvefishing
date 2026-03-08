@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard do Capitão - FishingHub</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>⚓</text></svg>">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body>
+    
+    <!-- HEADER -->
+    <header class="header">
+        <div class="header-content container">
+            <a href="index.html" class="logo">
+                <span class="logo-icon">⚓</span>
+                <span>FishingHub</span>
+            </a>
+            
+            <nav class="nav-menu">
+                <a href="index.html" class="nav-link">Início</a>
+                <a href="explorar.html" class="nav-link">Explorar</a>
+                <a href="dashboard-capitao.html" class="nav-link ativo">Dashboard</a>
+                <button class="btn btn-outline btn-pequeno" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i> Sair
+                </button>
+            </nav>
+            
+            <div class="menu-toggle" id="menuToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </header>
+    
+    <!-- DASHBOARD -->
+    <div class="dashboard">
+        <!-- SIDEBAR -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-perfil">
+                <div class="sidebar-perfil-avatar">PC</div>
+                <div class="sidebar-perfil-nome">Pedro Costa</div>
+                <div class="sidebar-perfil-tipo">Capitão</div>
+            </div>
+            
+            <nav class="sidebar-menu">
+                <a href="#dashboard" class="sidebar-menu-item ativo" data-section="dashboard">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="gerir-agenda.html" class="sidebar-menu-item">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span>Gerir Agenda</span>
+                </a>
+                <a href="#barcos" class="sidebar-menu-item" data-section="barcos">
+                    <i class="fas fa-ship"></i>
+                    <span>Os Meus Barcos</span>
+                </a>
+                <a href="#saidas" class="sidebar-menu-item" data-section="saidas">
+                    <i class="fas fa-calendar-check"></i>
+                    <span>As Minhas Saídas</span>
+                </a>
+                <a href="#pedidos" class="sidebar-menu-item" data-section="pedidos">
+                    <i class="fas fa-clock"></i>
+                    <span>Pedidos Pendentes</span>
+                    <span class="badge badge-destaque" style="margin-left: auto;">3</span>
+                </a>
+                <a href="#reservas" class="sidebar-menu-item" data-section="reservas">
+                    <i class="fas fa-check-circle"></i>
+                    <span>Reservas Confirmadas</span>
+                </a>
+                <a href="#avaliacoes" class="sidebar-menu-item" data-section="avaliacoes">
+                    <i class="fas fa-star"></i>
+                    <span>Avaliações</span>
+                </a>
+                <a href="#perfil" class="sidebar-menu-item" data-section="perfil">
+                    <i class="fas fa-user-cog"></i>
+                    <span>Perfil</span>
+                </a>
+            </nav>
+        </aside>
+        
+        <button class="sidebar-toggle" id="sidebarToggle">
+            <i class="fas fa-bars"></i>
+        </button>
+        
+        <!-- CONTEÚDO -->
+        <main class="dashboard-conteudo">
+            
+            <!-- SECÇÃO DASHBOARD -->
+            <div class="dashboard-secao-wrapper" id="secao-dashboard">
+                <div class="dashboard-header">
+                    <div class="dashboard-header-top">
+                        <h1 class="dashboard-titulo">Dashboard</h1>
+                        <div class="dashboard-breadcrumb">
+                            <a href="index.html">Início</a>
+                            <i class="fas fa-chevron-right"></i>
+                            <span>Dashboard</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- ESTATÍSTICAS -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon azul">
+                            <i class="fas fa-ship"></i>
+                        </div>
+                        <div class="stat-info">
+                            <div class="stat-label">Barcos Registados</div>
+                            <div class="stat-valor">3</div>
+                            <div class="stat-mudanca positiva">
+                                <i class="fas fa-arrow-up"></i> +1 este mês
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon laranja">
+                            <i class="fas fa-calendar-check"></i>
+                        </div>
+                        <div class="stat-info">
+                            <div class="stat-label">Saídas Agendadas</div>
+                            <div class="stat-valor">12</div>
+                            <div class="stat-mudanca positiva">
+                                <i class="fas fa-arrow-up"></i> +3 esta semana
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon verde">
+                            <i class="fas fa-handshake"></i>
+                        </div>
+                        <div class="stat-info">
+                            <div class="stat-label">Contactos Este Mês</div>
+                            <div class="stat-valor">24</div>
+                            <div class="stat-mudanca positiva">
+                                <i class="fas fa-arrow-up"></i> +15%
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon roxo">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <div class="stat-info">
+                            <div class="stat-label">Avaliação Média</div>
+                            <div class="stat-valor">4.8</div>
+                            <div class="stat-mudanca positiva">
+                                <i class="fas fa-arrow-up"></i> 48 avaliações
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- NOTIFICAÇÕES -->
+                <div class="dashboard-secao">
+                    <div class="dashboard-secao-header">
+                        <h2 class="dashboard-secao-titulo">
+                            <i class="fas fa-calendar-check"></i>
+                            Acesso Rápido
+                        </h2>
+                    </div>
+                    
+                    <div class="grid grid-3 gap-md mb-4">
+                        <a href="gerir-agenda.html" class="card" style="cursor: pointer; transition: var(--transicao-normal); text-decoration: none;">
+                            <div class="card-conteudo" style="text-align: center; padding: 2rem;">
+                                <i class="fas fa-calendar-alt" style="font-size: 3rem; color: var(--cor-secundaria); margin-bottom: 1rem;"></i>
+                                <h3 style="margin-bottom: 0.5rem; color: var(--cor-primaria);">Gerir Agenda</h3>
+                                <p class="texto-cinza">Bloquear datas e gerir disponibilidade</p>
+                            </div>
+                        </a>
+                        
+                        <a href="criar-saida.html" class="card" style="cursor: pointer; transition: var(--transicao-normal); text-decoration: none;">
+                            <div class="card-conteudo" style="text-align: center; padding: 2rem;">
+                                <i class="fas fa-plus-circle" style="font-size: 3rem; color: var(--cor-destaque); margin-bottom: 1rem;"></i>
+                                <h3 style="margin-bottom: 0.5rem; color: var(--cor-primaria);">Criar Saída</h3>
+                                <p class="texto-cinza">Adicionar nova saída de pesca</p>
+                            </div>
+                        </a>
+                        
+                        <a href="alertas-seguranca.html" class="card" style="cursor: pointer; transition: var(--transicao-normal); text-decoration: none; border: 2px solid #EF4444;">
+                            <div class="card-conteudo" style="text-align: center; padding: 2rem;">
+                                <i class="fas fa-shield-alt" style="font-size: 3rem; color: #EF4444; margin-bottom: 1rem;"></i>
+                                <h3 style="margin-bottom: 0.5rem; color: #EF4444;">Alertas de Segurança</h3>
+                                <p class="texto-cinza">Consultar e reportar incidentes</p>
+                                <span class="badge badge-error" style="margin-top: 0.5rem; font-size: 0.75rem;">🔒 Apenas Capitães</span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- PEDIDOS DE RESERVA PENDENTES -->
+                <div class="dashboard-secao" id="secaoPedidosPendentes">
+                    <div class="dashboard-secao-header">
+                        <h2 class="dashboard-secao-titulo">
+                            <i class="fas fa-calendar-check"></i>
+                            Pedidos de Reserva Pendentes
+                            <span class="badge badge-warning" id="badgePendentes">0</span>
+                        </h2>
+                    </div>
+                    
+                    <div id="pedidosPendentesList">
+                        <!-- Loaded by JavaScript -->
+                    </div>
+                </div>
+                
+                <!-- NOTIFICAÇÕES -->
+                <div class="dashboard-secao">
+                    <div class="dashboard-secao-header">
+                        <h2 class="dashboard-secao-titulo">
+                            <i class="fas fa-bell"></i>
+                            Notificações Recentes
+                        </h2>
+                    </div>
+                    
+                    <div class="notificacoes-lista">
+                        <div class="notificacao-item nova">
+                            <div class="notificacao-icon">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div class="notificacao-conteudo">
+                                <div class="notificacao-titulo">Novo Pedido de Contacto</div>
+                                <div class="notificacao-texto">
+                                    João Martins está interessado na saída "Pesca de Alto Mar" para 15/03/2026
+                                </div>
+                                <div class="notificacao-data">Há 2 horas</div>
+                                <div class="notificacao-acoes">
+                                    <button class="btn btn-primario btn-pequeno">Ver Mensagem</button>
+                                    <button class="btn btn-secundario btn-pequeno">
+                                        <i class="fas fa-phone"></i> Ligar
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="notificacao-item">
+                            <div class="notificacao-icon" style="background-color: var(--cor-destaque);">
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <div class="notificacao-conteudo">
+                                <div class="notificacao-titulo">Nova Avaliação</div>
+                                <div class="notificacao-texto">
+                                    Ana Silva deixou uma avaliação de 5 estrelas na sua saída
+                                </div>
+                                <div class="notificacao-data">Há 5 horas</div>
+                            </div>
+                        </div>
+                        
+                        <div class="notificacao-item">
+                            <div class="notificacao-icon" style="background-color: var(--cor-sucesso);">
+                                <i class="fas fa-check"></i>
+                            </div>
+                            <div class="notificacao-conteudo">
+                                <div class="notificacao-titulo">Pagamento Recebido</div>
+                                <div class="notificacao-texto">
+                                    Recebeu o pagamento de 450€ da saída do dia 10/03/2026
+                                </div>
+                                <div class="notificacao-data">Ontem</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- SECÇÃO BARCOS -->
+            <div class="dashboard-secao-wrapper oculto" id="secao-barcos">
+                <div class="dashboard-header">
+                    <div class="dashboard-header-top">
+                        <h1 class="dashboard-titulo">Os Meus Barcos</h1>
+                        <a href="registar-barco.html" class="btn btn-primario">
+                            <i class="fas fa-plus"></i>
+                            Adicionar Barco
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="barcos-grid">
+                    <a href="registar-barco.html" class="barco-dashboard-card adicionar-barco-card">
+                        <i class="fas fa-plus-circle adicionar-barco-icon"></i>
+                        <div class="adicionar-barco-texto">Adicionar Novo Barco</div>
+                    </a>
+                    
+                    <div class="barco-dashboard-card">
+                        <img src="https://images.unsplash.com/photo-1569263979104-865ab7cd8d13?w=600&h=400&fit=crop" 
+                             alt="Barco" class="barco-dashboard-card-imagem">
+                        <div class="barco-dashboard-card-conteudo">
+                            <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.5rem;">
+                                <h3 class="barco-dashboard-card-nome">Mar Azul</h3>
+                                <span class="badge badge-sucesso">Aprovado</span>
+                            </div>
+                            <div class="barco-dashboard-card-info">
+                                <div class="barco-dashboard-card-info-item">
+                                    <i class="fas fa-ruler-combined"></i>
+                                    <span>12 metros</span>
+                                </div>
+                                <div class="barco-dashboard-card-info-item">
+                                    <i class="fas fa-users"></i>
+                                    <span>8 pessoas</span>
+                                </div>
+                                <div class="barco-dashboard-card-info-item">
+                                    <i class="fas fa-tachometer-alt"></i>
+                                    <span>250 CV</span>
+                                </div>
+                            </div>
+                            <div class="barco-dashboard-card-acoes">
+                                <button class="btn btn-primario btn-pequeno">
+                                    <i class="fas fa-eye"></i> Ver
+                                </button>
+                                <button class="btn btn-secundario btn-pequeno">
+                                    <i class="fas fa-edit"></i> Editar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="barco-dashboard-card">
+                        <img src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=600&h=400&fit=crop" 
+                             alt="Barco" class="barco-dashboard-card-imagem">
+                        <div class="barco-dashboard-card-conteudo">
+                            <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.5rem;">
+                                <h3 class="barco-dashboard-card-nome">Oceano Bravo</h3>
+                                <span class="badge badge-destaque">Pendente</span>
+                            </div>
+                            <div class="barco-dashboard-card-info">
+                                <div class="barco-dashboard-card-info-item">
+                                    <i class="fas fa-ruler-combined"></i>
+                                    <span>15 metros</span>
+                                </div>
+                                <div class="barco-dashboard-card-info-item">
+                                    <i class="fas fa-users"></i>
+                                    <span>12 pessoas</span>
+                                </div>
+                                <div class="barco-dashboard-card-info-item">
+                                    <i class="fas fa-tachometer-alt"></i>
+                                    <span>400 CV</span>
+                                </div>
+                            </div>
+                            <div style="background: #FEF2F2; padding: 0.75rem; border-radius: var(--radius-pequeno); margin-top: 1rem; font-size: 0.8rem;">
+                                <i class="fas fa-clock" style="color: var(--cor-destaque);"></i>
+                                Aguarda validação de documentos
+                            </div>
+                            <div class="barco-dashboard-card-acoes" style="margin-top: 0.75rem;">
+                                <button class="btn btn-outline btn-pequeno" style="flex: 1;" disabled>
+                                    <i class="fas fa-lock"></i> Bloqueado
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="barco-dashboard-card">
+                        <img src="https://images.unsplash.com/photo-1534008897995-27a23e859048?w=600&h=400&fit=crop" 
+                             alt="Barco" class="barco-dashboard-card-imagem">
+                        <div class="barco-dashboard-card-conteudo">
+                            <h3 class="barco-dashboard-card-nome">Pescador I</h3>
+                            <div class="barco-dashboard-card-info">
+                                <div class="barco-dashboard-card-info-item">
+                                    <i class="fas fa-ruler-combined"></i>
+                                    <span>10 metros</span>
+                                </div>
+                                <div class="barco-dashboard-card-info-item">
+                                    <i class="fas fa-users"></i>
+                                    <span>6 pessoas</span>
+                                </div>
+                                <div class="barco-dashboard-card-info-item">
+                                    <i class="fas fa-tachometer-alt"></i>
+                                    <span>200 CV</span>
+                                </div>
+                            </div>
+                            <div class="barco-dashboard-card-acoes">
+                                <button class="btn btn-primario btn-pequeno">
+                                    <i class="fas fa-eye"></i> Ver
+                                </button>
+                                <button class="btn btn-secundario btn-pequeno">
+                                    <i class="fas fa-edit"></i> Editar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- SECÇÃO SAÍDAS -->
+            <div class="dashboard-secao-wrapper oculto" id="secao-saidas">
+                <div class="dashboard-header">
+                    <div class="dashboard-header-top">
+                        <h1 class="dashboard-titulo">As Minhas Saídas</h1>
+                        <a href="criar-saida.html" class="btn btn-primario">
+                            <i class="fas fa-plus"></i>
+                            Criar Saída
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="dashboard-secao">
+                    <div class="tabela-container">
+                        <table class="tabela">
+                            <thead>
+                                <tr>
+                                    <th>Título</th>
+                                    <th>Barco</th>
+                                    <th>Data</th>
+                                    <th>Vagas</th>
+                                    <th>Preço</th>
+                                    <th>Estado</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Pesca de Alto Mar</td>
+                                    <td>Mar Azul</td>
+                                    <td>15/03/2026 - 08:00</td>
+                                    <td><span class="badge badge-destaque">6/8</span></td>
+                                    <td>75€</td>
+                                    <td><span class="badge badge-sucesso">Ativa</span></td>
+                                    <td>
+                                        <div class="tabela-acoes">
+                                            <button class="tabela-btn tabela-btn-ver"><i class="fas fa-eye"></i></button>
+                                            <button class="tabela-btn tabela-btn-editar"><i class="fas fa-edit"></i></button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Pesca Costeira Familiar</td>
+                                    <td>Pescador I</td>
+                                    <td>18/03/2026 - 09:00</td>
+                                    <td><span class="badge badge-destaque">4/6</span></td>
+                                    <td>50€</td>
+                                    <td><span class="badge badge-sucesso">Ativa</span></td>
+                                    <td>
+                                        <div class="tabela-acoes">
+                                            <button class="tabela-btn tabela-btn-ver"><i class="fas fa-eye"></i></button>
+                                            <button class="tabela-btn tabela-btn-editar"><i class="fas fa-edit"></i></button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Pesca de Atum</td>
+                                    <td>Oceano Bravo</td>
+                                    <td>22/03/2026 - 07:00</td>
+                                    <td><span class="badge badge-primario">12/12</span></td>
+                                    <td>120€</td>
+                                    <td><span class="badge badge-cinza">Completa</span></td>
+                                    <td>
+                                        <div class="tabela-acoes">
+                                            <button class="tabela-btn tabela-btn-ver"><i class="fas fa-eye"></i></button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- SECÇÕES ADICIONAIS (simplificadas) -->
+            <div class="dashboard-secao-wrapper oculto" id="secao-reservas">
+                <div class="dashboard-header">
+                    <h1 class="dashboard-titulo">Reservas</h1>
+                </div>
+                <div class="estado-vazio">
+                    <i class="fas fa-ticket-alt estado-vazio-icon"></i>
+                    <h3 class="estado-vazio-titulo">Gerir Reservas</h3>
+                    <p class="estado-vazio-texto">Aqui aparecerão todas as reservas das suas saídas</p>
+                </div>
+            </div>
+            
+            <div class="dashboard-secao-wrapper oculto" id="secao-avaliacoes">
+                <div class="dashboard-header">
+                    <h1 class="dashboard-titulo">Avaliações</h1>
+                </div>
+                <div class="estado-vazio">
+                    <i class="fas fa-star estado-vazio-icon"></i>
+                    <h3 class="estado-vazio-titulo">Avaliações dos Clientes</h3>
+                    <p class="estado-vazio-texto">As avaliações dos seus clientes aparecerão aqui</p>
+                </div>
+            </div>
+            
+            <div class="dashboard-secao-wrapper oculto" id="secao-perfil">
+                <div class="dashboard-header">
+                    <h1 class="dashboard-titulo">Perfil</h1>
+                </div>
+                <div class="estado-vazio">
+                    <i class="fas fa-user-cog estado-vazio-icon"></i>
+                    <h3 class="estado-vazio-titulo">Editar Perfil</h3>
+                    <p class="estado-vazio-texto">Gerir as informações do seu perfil</p>
+                </div>
+            </div>
+            
+        </main>
+    </div>
+    
+    <script src="js/main.js"></script>
+    <script src="js/pedidos-capitao.js"></script>
+    <script>
+        // Navegação sidebar
+        const menuItems = document.querySelectorAll('.sidebar-menu-item');
+        const sections = document.querySelectorAll('.dashboard-secao-wrapper');
+        
+        menuItems.forEach(item => {
+            item.addEventListener('click', (e) => {
+                e.preventDefault();
+                const sectionId = 'secao-' + item.dataset.section;
+                
+                menuItems.forEach(i => i.classList.remove('ativo'));
+                sections.forEach(s => s.classList.add('oculto'));
+                
+                item.classList.add('ativo');
+                document.getElementById(sectionId).classList.remove('oculto');
+            });
+        });
+        
+        // Toggle sidebar mobile
+        const sidebarToggle = document.getElementById('sidebarToggle');
+        const sidebar = document.getElementById('sidebar');
+        
+        sidebarToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('ativo');
+        });
+        
+        function logout() {
+            if (confirm('Tem a certeza que deseja sair?')) {
+                window.location.href = 'index.html';
+            }
+        }
+    </script>
+</body>
+</html>

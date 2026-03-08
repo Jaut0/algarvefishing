@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explorar Saídas - FishingHub</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>⚓</text></svg>">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header class="header" id="header">
+        <div class="header-content container">
+            <a href="index.html" class="logo">
+                <span class="logo-icon">⚓</span>
+                <span>FishingHub</span>
+            </a>
+            <nav class="nav-menu" id="navMenu">
+                <a href="index.html" class="nav-link">Início</a>
+                <a href="explorar.html" class="nav-link ativo">Explorar</a>
+                <a href="auth.html" class="btn btn-primario btn-pequeno">Entrar</a>
+            </nav>
+            <div class="menu-toggle" id="menuToggle">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+    </header>
+    
+    <section class="secao" style="margin-top: 80px;">
+        <div class="container">
+            <h1 class="mb-3">Explorar Saídas de Pesca</h1>
+            <p class="texto-grande texto-cinza mb-4">
+                Encontre a saída de pesca perfeita para si
+            </p>
+            
+            <div class="filtros-container">
+                <div class="filtro-pesquisa">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="inputPesquisa" placeholder="Pesquisar por título, barco ou capitão...">
+                </div>
+                
+                <div class="filtros-grupo">
+                    <div class="form-grupo">
+                        <label class="form-label">Localização</label>
+                        <select class="form-select" id="selectLocalizacao">
+                            <option value="">Todas</option>
+                            <option value="Porto de Lisboa">Porto de Lisboa</option>
+                            <option value="Marina de Albufeira">Marina de Albufeira</option>
+                            <option value="Porto do Funchal">Porto do Funchal</option>
+                            <option value="Porto de Leixões">Porto de Leixões</option>
+                            <option value="Marina de Cascais">Marina de Cascais</option>
+                            <option value="Porto de Setúbal">Porto de Setúbal</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-grupo">
+                        <label class="form-label">Tipo de Pesca</label>
+                        <select class="form-select" id="selectTipoPesca">
+                            <option value="">Todos</option>
+                            <option value="Pesca de Alto Mar">Pesca de Alto Mar</option>
+                            <option value="Pesca Costeira">Pesca Costeira</option>
+                            <option value="Pesca de Atum">Pesca de Atum</option>
+                            <option value="Pesca de Jigging">Pesca de Jigging</option>
+                            <option value="Pesca Desportiva">Pesca Desportiva</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-grupo">
+                        <label class="form-label">Nível</label>
+                        <select class="form-select" id="selectNivel">
+                            <option value="">Todos</option>
+                            <option value="Iniciante">Iniciante</option>
+                            <option value="Intermédio">Intermédio</option>
+                            <option value="Avançado">Avançado</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-grupo">
+                        <label class="form-label">Preço Min (€)</label>
+                        <input type="number" class="form-input" id="inputPrecoMin" value="0" min="0">
+                    </div>
+                    
+                    <div class="form-grupo">
+                        <label class="form-label">Preço Max (€)</label>
+                        <input type="number" class="form-input" id="inputPrecoMax" value="200" min="0">
+                    </div>
+                    
+                    <div class="form-grupo">
+                        <label class="form-label">Duração</label>
+                        <select class="form-select" id="inputDuracao">
+                            <option value="">Todas</option>
+                            <option value="curta">Curta (até 4h)</option>
+                            <option value="media">Média (4-8h)</option>
+                            <option value="longa">Longa (+8h)</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="flex-entre" style="margin-top: 1rem;">
+                    <div id="contadorResultados" class="texto-cinza">6 saídas encontradas</div>
+                    <button class="btn btn-outline btn-pequeno" onclick="limparFiltros()">
+                        <i class="fas fa-redo"></i> Limpar Filtros
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="secao secao-cinza">
+        <div class="container">
+            <div class="grid grid-3 gap-lg" id="saidasContainer">
+                <!-- Conteúdo gerado por JavaScript -->
+            </div>
+        </div>
+    </section>
+    
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-conteudo">
+                <div class="footer-secao">
+                    <div class="logo mb-3">
+                        <span class="logo-icon">⚓</span>
+                        <span>FishingHub</span>
+                    </div>
+                    <p style="color: rgba(255, 255, 255, 0.8);">
+                        A sua plataforma de confiança para encontrar as melhores experiências de pesca.
+                    </p>
+                </div>
+                <div class="footer-secao">
+                    <h3>Links Rápidos</h3>
+                    <div class="footer-links">
+                        <a href="index.html" class="footer-link">Início</a>
+                        <a href="explorar.html" class="footer-link">Explorar</a>
+                        <a href="auth.html" class="footer-link">Entrar</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 FishingHub. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+    
+    <script src="js/main.js"></script>
+    <script src="js/explorar.js"></script>
+</body>
+</html>

@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reservar Barco - FishingHub</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚓</text></svg>">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .reserva-container {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .barco-info-card {
+            background: var(--dark-bg);
+            padding: 2rem;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .barco-hero {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+        }
+        
+        .barco-title {
+            font-size: 2rem;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+        
+        .barco-subtitle {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .barco-specs-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+        
+        .spec-box {
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 8px;
+            text-align: center;
+        }
+        
+        .spec-box i {
+            font-size: 1.5rem;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+        
+        .spec-box .label {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            display: block;
+            margin-bottom: 0.3rem;
+        }
+        
+        .spec-box .value {
+            color: var(--text-primary);
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+        
+        .capitao-section {
+            padding: 1.5rem;
+            background: rgba(255, 143, 0, 0.1);
+            border-radius: 8px;
+            border-left: 4px solid var(--accent);
+            margin: 1.5rem 0;
+        }
+        
+        .capitao-section h4 {
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+        
+        .capitao-details {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .capitao-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+        }
+        
+        .capitao-text h5 {
+            color: var(--text-primary);
+            font-size: 1.1rem;
+            margin-bottom: 0.3rem;
+        }
+        
+        .capitao-text p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        
+        /* Calendar Styles */
+        .calendario-card {
+            background: var(--dark-bg);
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: sticky;
+            top: 100px;
+        }
+        
+        .calendario-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .calendario-header h3 {
+            color: var(--accent);
+            font-size: 1.3rem;
+        }
+        
+        .mes-navegacao {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .mes-navegacao button {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-primary);
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .mes-navegacao button:hover {
+            background: var(--accent);
+            border-color: var(--accent);
+        }
+        
+        .mes-atual {
+            flex: 1;
+            text-align: center;
+            color: var(--text-primary);
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+        
+        .calendario-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 0.3rem;
+        }
+        
+        .dia-header {
+            text-align: center;
+            padding: 0.5rem;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+        
+        .dia-cell {
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 6px;
+            cursor: pointer;
+            position: relative;
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+            border: 2px solid transparent;
+        }
+        
+        .dia-cell.outro-mes {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+        
+        .dia-cell.disponivel {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-primary);
+        }
+        
+        .dia-cell.disponivel:hover {
+            background: rgba(255, 143, 0, 0.2);
+            transform: scale(1.05);
+        }
+        
+        .dia-cell.bloqueado {
+            background: rgba(244, 67, 54, 0.2);
+            color: #f44336;
+            cursor: not-allowed;
+        }
+        
+        .dia-cell.reservado {
+            background: rgba(33, 150, 243, 0.3);
+            color: #2196F3;
+            cursor: not-allowed;
+        }
+        
+        .dia-cell.ferias {
+            background: rgba(255, 193, 7, 0.2);
+            color: #FFC107;
+            cursor: not-allowed;
+        }
+        
+        .dia-cell.selecionado {
+            background: var(--accent);
+            color: var(--dark);
+            font-weight: 700;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(255, 143, 0, 0.3);
+        }
+        
+        .dia-cell.hoje {
+            border-color: var(--secondary);
+        }
+        
+        .dia-icon {
+            position: absolute;
+            top: 2px;
+            right: 2px;
+            font-size: 0.6rem;
+        }
+        
+        .legenda-calendario {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.5rem;
+            margin: 1rem 0;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 8px;
+        }
+        
+        .legenda-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.8rem;
+        }
+        
+        .legenda-cor {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+        }
+        
+        .dias-selecionados-info {
+            padding: 1rem;
+            background: rgba(255, 143, 0, 0.1);
+            border-radius: 8px;
+            margin: 1rem 0;
+            border-left: 4px solid var(--accent);
+        }
+        
+        .dias-selecionados-info h4 {
+            color: var(--accent);
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .dias-lista {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin: 0.5rem 0;
+        }
+        
+        .dias-count {
+            color: var(--accent);
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-size: 0.95rem;
+        }
+        
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+        
+        .alerta-info {
+            padding: 1rem;
+            background: rgba(33, 150, 243, 0.1);
+            border-radius: 8px;
+            border-left: 4px solid #2196F3;
+            margin: 1rem 0;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+        
+        @media (max-width: 1024px) {
+            .reserva-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .calendario-card {
+                position: static;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .barco-specs-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .calendario-grid {
+                gap: 0.2rem;
+            }
+            
+            .dia-cell {
+                font-size: 0.8rem;
+            }
+            
+            .legenda-calendario {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <a href="index.html" class="logo">
+                    <i class="fas fa-anchor"></i>
+                    <span>FishingHub</span>
+                </a>
+                <nav class="nav" id="mainNav">
+                    <a href="index.html">Início</a>
+                    <a href="explorar.html">Explorar</a>
+                    <a href="escolher-barco.html">Reservar</a>
+                    <a href="auth.html">Entrar</a>
+                    <a href="auth.html" class="btn btn-primary">Registar</a>
+                </nav>
+                <button class="mobile-toggle" id="mobileToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <section class="hero-small">
+            <div class="container">
+                <a href="escolher-barco.html" class="btn" style="margin-bottom: 1rem;">
+                    <i class="fas fa-arrow-left"></i> Voltar aos Barcos
+                </a>
+                <h1><i class="fas fa-calendar-check"></i> Reservar Barco</h1>
+                <p>Selecione até 5 dias na agenda do barco</p>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container">
+                <div class="reserva-container">
+                    <!-- Barco Info -->
+                    <div class="barco-info-card" id="barcoInfo">
+                        <!-- Loaded by JavaScript -->
+                    </div>
+
+                    <!-- Calendar & Form -->
+                    <div class="calendario-card">
+                        <div class="calendario-header">
+                            <h3><i class="fas fa-calendar-alt"></i> Agenda</h3>
+                        </div>
+                        
+                        <div class="mes-navegacao">
+                            <button id="mesAnterior"><i class="fas fa-chevron-left"></i></button>
+                            <div class="mes-atual" id="mesAtual">Janeiro 2026</div>
+                            <button id="mesSeguinte"><i class="fas fa-chevron-right"></i></button>
+                        </div>
+                        
+                        <div class="calendario-grid" id="calendarioGrid">
+                            <!-- Calendar will be loaded here -->
+                        </div>
+                        
+                        <div class="legenda-calendario">
+                            <div class="legenda-item">
+                                <div class="legenda-cor" style="background: rgba(255, 255, 255, 0.05);"></div>
+                                <span>Disponível</span>
+                            </div>
+                            <div class="legenda-item">
+                                <div class="legenda-cor" style="background: var(--accent);"></div>
+                                <span>Selecionado</span>
+                            </div>
+                            <div class="legenda-item">
+                                <div class="legenda-cor" style="background: rgba(33, 150, 243, 0.3);"></div>
+                                <span>Reservado</span>
+                            </div>
+                            <div class="legenda-item">
+                                <div class="legenda-cor" style="background: rgba(244, 67, 54, 0.2);"></div>
+                                <span>Bloqueado</span>
+                            </div>
+                        </div>
+                        
+                        <div class="dias-selecionados-info" id="diasSelecionadosInfo" style="display: none;">
+                            <h4><i class="fas fa-check-circle"></i> Dias Selecionados</h4>
+                            <p class="dias-count"><span id="diasCount">0</span> / 5 dias</p>
+                            <div class="dias-lista" id="diasLista"></div>
+                        </div>
+                        
+                        <div class="alerta-info">
+                            <i class="fas fa-info-circle"></i> Selecione até 5 dias. Após enviar o pedido, o capitão irá contactá-lo para confirmar.
+                        </div>
+                        
+                        <form id="reservaForm">
+                            <div class="form-group">
+                                <label for="nomeCliente">Nome Completo *</label>
+                                <input type="text" id="nomeCliente" required placeholder="Seu nome">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="emailCliente">Email *</label>
+                                <input type="email" id="emailCliente" required placeholder="seu@email.com">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="telefoneCliente">Telefone / WhatsApp *</label>
+                                <input type="tel" id="telefoneCliente" required placeholder="+351 912 345 678">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="numPescadores">Número de Pescadores *</label>
+                                <input type="number" id="numPescadores" required min="1" max="20" placeholder="Ex: 4">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="mensagemCliente">Mensagem / Observações</label>
+                                <textarea id="mensagemCliente" placeholder="Tipo de pesca preferida, experiências anteriores, necessidades especiais..."></textarea>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary" style="width: 100%;" id="btnEnviarReserva" disabled>
+                                <i class="fas fa-paper-plane"></i> Enviar Pedido de Reserva
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>FishingHub</h3>
+                    <p>A sua plataforma de confiança para experiências de pesca inesquecíveis em Portugal.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Links Rápidos</h4>
+                    <ul>
+                        <li><a href="index.html">Início</a></li>
+                        <li><a href="explorar.html">Explorar</a></li>
+                        <li><a href="escolher-barco.html">Reservar</a></li>
+                        <li><a href="auth.html">Entrar</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contacto</h4>
+                    <p><i class="fas fa-envelope"></i> servico@jauto.pt</p>
+                    <p><i class="fas fa-phone"></i> +351 912 345 678</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 FishingHub. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/reservar-barco.js"></script>
+</body>
+</html>
