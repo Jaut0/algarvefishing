@@ -411,16 +411,8 @@
                 return;
             }
             
-            // Verificar se email foi confirmado
-            if (!utilizador.emailConfirmado) {
-                mostrarToast('⚠️ Por favor, confirme o seu email antes de fazer login!', 'aviso');
-                alert(`📧 Email não confirmado!
-
-Por favor, verifique a sua caixa de email (${email}) e clique no link de confirmação.
-
-Não recebeu? Verifique a pasta de spam ou contacte suporte.`);
-                return;
-            }
+            // Sistema sem emails - Não verifica emailConfirmado
+            // (Removido: verificação de email confirmado)
             
             // Verificar status
             if (utilizador.status === 'pendente' || utilizador.status === 'pendente_confirmacao') {
@@ -582,8 +574,8 @@ Para mais informações, contacte: servico@jauto.pt`);
                 telefone: telefone,
                 password: password,
                 tipo: tipoSelecionado,
-                status: tipoSelecionado === 'capitao' ? 'pendente' : 'pendente_confirmacao',
-                emailConfirmado: false,
+                status: tipoSelecionado === 'capitao' ? 'pendente' : 'ativo',
+                emailConfirmado: true, // Sistema sem emails - sempre true
                 tokenConfirmacao: tokenConfirmacao,
                 dataCriacao: new Date().toISOString()
             };
