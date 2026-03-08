@@ -81,9 +81,9 @@
                         </div>
                         <div class="stat-info">
                             <div class="stat-label">Reservas Ativas</div>
-                            <div class="stat-valor">2</div>
+                            <div class="stat-valor" id="statReservasAtivas">0</div>
                             <div class="stat-mudanca positiva">
-                                <i class="fas fa-arrow-up"></i> +1 esta semana
+                                <i class="fas fa-arrow-up"></i> <span id="statReservasSemana">+0 esta semana</span>
                             </div>
                         </div>
                     </div>
@@ -94,9 +94,9 @@
                         </div>
                         <div class="stat-info">
                             <div class="stat-label">Saídas Realizadas</div>
-                            <div class="stat-valor">8</div>
+                            <div class="stat-valor" id="statSaidasRealizadas">0</div>
                             <div class="stat-mudanca positiva">
-                                <i class="fas fa-arrow-up"></i> +2 este mês
+                                <i class="fas fa-arrow-up"></i> <span id="statSaidasMes">+0 este mês</span>
                             </div>
                         </div>
                     </div>
@@ -107,7 +107,7 @@
                         </div>
                         <div class="stat-info">
                             <div class="stat-label">Favoritos</div>
-                            <div class="stat-valor">5</div>
+                            <div class="stat-valor" id="statFavoritos">0</div>
                         </div>
                     </div>
                     
@@ -117,7 +117,7 @@
                         </div>
                         <div class="stat-info">
                             <div class="stat-label">Avaliações Dadas</div>
-                            <div class="stat-valor">6</div>
+                            <div class="stat-valor" id="statAvaliacoes">0</div>
                         </div>
                     </div>
                 </div>
@@ -128,66 +128,17 @@
                             <i class="fas fa-calendar-alt"></i>
                             Próximas Reservas
                         </h2>
-                        <a href="#" class="btn btn-primario btn-pequeno">Ver Todas</a>
+                        <a href="#" class="btn btn-primario btn-pequeno" data-section="reservas">Ver Todas</a>
                     </div>
                     
-                    <div class="grid grid-2 gap-md">
-                        <div class="card">
-                            <div class="card-conteudo">
-                                <div class="badge badge-destaque mb-2">Confirmada</div>
-                                <h3 class="card-titulo">Aventura no Atlântico</h3>
-                                <div class="barco-card-info-item mb-2">
-                                    <i class="fas fa-ship"></i>
-                                    <span>Barco: Mar Azul</span>
-                                </div>
-                                <div class="barco-card-info-item mb-2">
-                                    <i class="fas fa-user-tie"></i>
-                                    <span>Capitão: Pedro Costa</span>
-                                </div>
-                                <div class="barco-card-info-item mb-2">
-                                    <i class="fas fa-calendar-alt"></i>
-                                    <span>15/03/2026 às 08:00</span>
-                                </div>
-                                <div class="barco-card-info-item mb-3">
-                                    <i class="fas fa-map-marker-alt"></i>
-                                    <span>Porto de Lisboa</span>
-                                </div>
-                                <div style="display: flex; gap: 0.5rem;">
-                                    <button class="btn btn-primario btn-pequeno" style="flex: 1;">Ver Detalhes</button>
-                                    <button class="btn btn-outline btn-pequeno">
-                                        <i class="fas fa-comment"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="card">
-                            <div class="card-conteudo">
-                                <div class="badge badge-sucesso mb-2">Confirmada</div>
-                                <h3 class="card-titulo">Pesca Costeira Familiar</h3>
-                                <div class="barco-card-info-item mb-2">
-                                    <i class="fas fa-ship"></i>
-                                    <span>Barco: Alegria</span>
-                                </div>
-                                <div class="barco-card-info-item mb-2">
-                                    <i class="fas fa-user-tie"></i>
-                                    <span>Capitão: Ana Rodrigues</span>
-                                </div>
-                                <div class="barco-card-info-item mb-2">
-                                    <i class="fas fa-calendar-alt"></i>
-                                    <span>20/03/2026 às 10:00</span>
-                                </div>
-                                <div class="barco-card-info-item mb-3">
-                                    <i class="fas fa-map-marker-alt"></i>
-                                    <span>Porto de Setúbal</span>
-                                </div>
-                                <div style="display: flex; gap: 0.5rem;">
-                                    <button class="btn btn-primario btn-pequeno" style="flex: 1;">Ver Detalhes</button>
-                                    <button class="btn btn-outline btn-pequeno">
-                                        <i class="fas fa-comment"></i>
-                                    </button>
-                                </div>
-                            </div>
+                    <div id="proximasReservasContainer">
+                        <div class="estado-vazio">
+                            <i class="fas fa-calendar-times estado-vazio-icon"></i>
+                            <h3 class="estado-vazio-titulo">Nenhuma Reserva Agendada</h3>
+                            <p class="estado-vazio-texto">Explore as melhores experiências de pesca no Algarve!</p>
+                            <a href="explorar.html" class="btn btn-primario">
+                                <i class="fas fa-search"></i> Explorar Saídas
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -200,18 +151,13 @@
                         </h2>
                     </div>
                     
-                    <div class="grid grid-3 gap-md">
-                        <div class="barco-card">
-                            <div class="barco-card-imagem">
-                                <img src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=600&h=400&fit=crop" alt="Barco">
-                            </div>
-                            <div class="barco-card-info">
-                                <div class="barco-card-localizacao">
-                                    <i class="fas fa-map-marker-alt"></i>
-                                    <span>Marina de Cascais</span>
-                                </div>
-                                <h3 class="card-titulo">Jigging Experience</h3>
-                                <div class="barco-card-preco">85€ <span>/ pessoa</span></div>
+                    <div id="recomendacoesContainer">
+                        <div class="estado-vazio">
+                            <i class="fas fa-fish estado-vazio-icon"></i>
+                            <h3 class="estado-vazio-titulo">Em breve teremos recomendações personalizadas!</h3>
+                            <p class="estado-vazio-texto">Complete o seu perfil e reserve a sua primeira saída.</p>
+                        </div>
+                    </div>
                                 <a href="detalhe-saida.html" class="btn btn-primario btn-bloco btn-pequeno">
                                     Ver Detalhes
                                 </a>

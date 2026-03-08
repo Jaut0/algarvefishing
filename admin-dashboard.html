@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<!-- VERSÃO FINAL SEM PEDRO: 2026-03-08-16-00 -->
+<!-- VERSÃO CORRIGIDA: 2026-03-08-18-30 - BOTÃO APAGAR ADICIONADO -->
 <html lang="pt">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate, max-age=0">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
     <title>Admin - Algarve Tuna Charter</title>
@@ -872,8 +872,11 @@
                             <button class="btn btn-sucesso" style="flex: 1;" onclick="aprovarCapitao('${capitao.id}')">
                                 <i class="fas fa-check"></i> Aprovar
                             </button>
-                            <button class="btn btn-outline" style="flex: 1; color: var(--cor-erro); border-color: var(--cor-erro);" onclick="abrirModalRejeitar('${capitao.id}')">
+                            <button class="btn btn-outline" style="flex: 1; color: #F59E0B; border-color: #F59E0B;" onclick="abrirModalRejeitar('${capitao.id}')">
                                 <i class="fas fa-times"></i> Rejeitar
+                            </button>
+                            <button class="btn btn-outline" style="flex: 1; color: var(--cor-erro); border-color: var(--cor-erro);" onclick="apagarCapitaoPendente('${capitao.id}', '${capitao.nome}')">
+                                <i class="fas fa-trash"></i> Apagar
                             </button>
                         </div>
                     </div>
@@ -989,6 +992,73 @@ Big Game Fishing no Algarve
         
         // Rejeitar capitão
         let capitaoRejeitarId = null;
+        // Apagar capitão pendente permanentemente
+        function apagarCapitaoPendente(id, nomeCapitao) {
+            if (confirm(`⚠️ ATENÇÃO: Apagar capitão permanentemente?\n\nCapitão: ${nomeCapitao}\n\nEsta ação NÃO pode ser desfeita!\n\nClique OK para confirmar a eliminação.`)) {
+                // Segunda confirmação de segurança
+                const confirmacao = prompt(`Para confirmar, escreva o nome do capitão:\n\n"${nomeCapitao}"`);
+                
+                if (confirmacao === nomeCapitao) {
+                    let utilizadores = JSON.parse(localStorage.getItem('utilizadores') || '[]');
+                    const capitao = utilizadores.find(u => u.id === id);
+                    
+                    if (capitao) {
+                        // Remover permanentemente
+                        utilizadores = utilizadores.filter(u => u.id !== id);
+                        localStorage.setItem('utilizadores', JSON.stringify(utilizadores));
+                        
+                        mostrarToast(`🗑️ Capitão "${nomeCapitao}" apagado permanentemente!`, 'aviso');
+                        console.log(`🗑️ Capitão ${nomeCapitao} (${id}) apagado permanentemente pelo admin`);
+                        
+                        setTimeout(() => {
+                            carregarEstatisticas();
+                            carregarCapitaesPendentes();
+                        }, 1000);
+                    } else {
+                        mostrarToast('❌ Erro: Capitão não encontrado!', 'erro');
+                    }
+                } else if (confirmacao !== null) {
+                    mostrarToast('❌ Nome incorreto. Operação cancelada.', 'erro');
+                }
+            }
+        }
+        
+        // Apagar capitão aprovado permanentemente
+        function apagarCapitaoAprovado(id, nomeCapitao) {
+            if (confirm(`⚠️ ATENÇÃO: Apagar capitão APROVADO permanentemente?\n\nCapitão: ${nomeCapitao}\n\n⚠️ Isto irá remover:\n- Todos os dados do capitão\n- Todos os barcos associados\n- Todo o histórico\n\nEsta ação NÃO pode ser desfeita!\n\nClique OK para continuar.`)) {
+                // Segunda confirmação de segurança
+                const confirmacao = prompt(`Para confirmar, escreva EXATAMENTE o nome do capitão:\n\n"${nomeCapitao}"`);
+                
+                if (confirmacao === nomeCapitao) {
+                    let utilizadores = JSON.parse(localStorage.getItem('utilizadores') || '[]');
+                    const capitao = utilizadores.find(u => u.id === id);
+                    
+                    if (capitao) {
+                        // Remover permanentemente
+                        utilizadores = utilizadores.filter(u => u.id !== id);
+                        localStorage.setItem('utilizadores', JSON.stringify(utilizadores));
+                        
+                        // Remover barcos do capitão
+                        let barcos = JSON.parse(localStorage.getItem('barcos') || '[]');
+                        barcos = barcos.filter(b => b.capitaoId !== id);
+                        localStorage.setItem('barcos', JSON.stringify(barcos));
+                        
+                        mostrarToast(`🗑️ Capitão "${nomeCapitao}" e todos os seus dados apagados permanentemente!`, 'aviso');
+                        console.log(`🗑️ Capitão ${nomeCapitao} (${id}) apagado permanentemente pelo admin`);
+                        
+                        setTimeout(() => {
+                            carregarEstatisticas();
+                            carregarCapitaesAprovados();
+                        }, 1000);
+                    } else {
+                        mostrarToast('❌ Erro: Capitão não encontrado!', 'erro');
+                    }
+                } else if (confirmacao !== null) {
+                    mostrarToast('❌ Nome incorreto. Operação cancelada.', 'erro');
+                }
+            }
+        }
+        
         function abrirModalRejeitar(id) {
             capitaoRejeitarId = id;
             abrirModal('modalRejeitar');
@@ -1064,6 +1134,7 @@ Big Game Fishing no Algarve
         
         // ===== CARREGAR CAPITÃES APROVADOS =====
         function carregarCapitaesAprovados() {
+            console.log('%c🔥 VERSÃO 18:30 - BOTÃO APAGAR ATIVO', 'color: red; font-size: 20px; font-weight: bold;');
             console.log('🔍 carregarCapitaesAprovados() chamado');
             const utilizadores = JSON.parse(localStorage.getItem('utilizadores') || '[]');
             const capitaesAprovados = utilizadores.filter(u => u.tipo === 'capitao' && u.status === 'aprovado');
@@ -1184,16 +1255,15 @@ Big Game Fishing no Algarve
                         </div>
                         
                         <div class="card-footer" style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.1); display: flex; gap: 0.5rem;">
-                            <button class="btn-secundario" style="flex: 1;" onclick="window.location.href='dashboard-capitao.html?id=${capitao.id}'">
-                                <i class="fas fa-eye"></i>
-                                Ver Perfil
-                            </button>
                             ${diasRestantes !== null && diasRestantes <= 30 ? `
                             <button class="btn-primario" style="flex: 1; background: #F59E0B;" onclick="solicitarRenovacao('${capitao.id}')">
                                 <i class="fas fa-redo"></i>
                                 Solicitar Renovação
                             </button>
                             ` : ''}
+                            <button class="btn btn-outline" style="color: var(--cor-erro); border-color: var(--cor-erro);" onclick="apagarCapitaoAprovado('${capitao.id}', '${capitao.nome}')">
+                                <i class="fas fa-trash"></i> Apagar
+                            </button>
                         </div>
                     </div>
                 `;

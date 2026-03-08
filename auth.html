@@ -479,8 +479,18 @@ Para mais informações, contacte: servico@jauto.pt`);
             }, 1500);
         });
         
-        document.getElementById('formRegistar').addEventListener('submit', (e) => {
+        document.getElementById('formRegistar').addEventListener('submit', async (e) => {
             e.preventDefault();
+            
+            // BLOQUEAR DUPLO CLIQUE
+            const btnSubmit = e.target.querySelector('button[type="submit"]');
+            if (btnSubmit.disabled) {
+                console.log('⚠️ Botão já está processando...');
+                return;
+            }
+            
+            btnSubmit.disabled = true;
+            btnSubmit.innerHTML = '<i class="fas fa-spinner fa-spin"></i> A processar...';
             
             const tipoSelecionado = document.querySelector('input[name="tipoConta"]:checked').value;
             
@@ -491,19 +501,34 @@ Para mais informações, contacte: servico@jauto.pt`);
             const password = document.getElementById('registarPassword').value;
             const passwordConfirm = document.getElementById('registarPasswordConfirm').value;
             
+            // Verificar se email já existe
+            const utilizadores = JSON.parse(localStorage.getItem('utilizadores') || '[]');
+            if (utilizadores.some(u => u.email === email)) {
+                mostrarToast('❌ Este email já está registado! Use outro ou faça login.', 'erro');
+                btnSubmit.disabled = false;
+                btnSubmit.innerHTML = '<i class="fas fa-user-plus"></i> Criar Conta';
+                return;
+            }
+            
             // Validações
             if (!nome || !email || !telefone || !password) {
                 mostrarToast('❌ Por favor, preencha todos os campos obrigatórios!', 'erro');
+                btnSubmit.disabled = false;
+                btnSubmit.innerHTML = '<i class="fas fa-user-plus"></i> Criar Conta';
                 return;
             }
             
             if (password !== passwordConfirm) {
                 mostrarToast('❌ As passwords não coincidem!', 'erro');
+                btnSubmit.disabled = false;
+                btnSubmit.innerHTML = '<i class="fas fa-user-plus"></i> Criar Conta';
                 return;
             }
             
             if (password.length < 6) {
                 mostrarToast('❌ A password deve ter pelo menos 6 caracteres!', 'erro');
+                btnSubmit.disabled = false;
+                btnSubmit.innerHTML = '<i class="fas fa-user-plus"></i> Criar Conta';
                 return;
             }
             
@@ -531,6 +556,8 @@ Para mais informações, contacte: servico@jauto.pt`);
                 
                 if (!experiencia || !porto) {
                     mostrarToast('❌ Capitães devem preencher experiência e porto!', 'erro');
+                    btnSubmit.disabled = false;
+                    btnSubmit.innerHTML = '<i class="fas fa-user-plus"></i> Criar Conta';
                     return;
                 }
                 
@@ -541,6 +568,8 @@ Para mais informações, contacte: servico@jauto.pt`);
                 // Verificar se os ficheiros foram selecionados
                 if (!livreteFile || !rnaatFile || !seguroFile) {
                     mostrarToast('❌ Por favor, faça upload dos 3 documentos obrigatórios!', 'erro');
+                    btnSubmit.disabled = false;
+                    btnSubmit.innerHTML = '<i class="fas fa-user-plus"></i> Criar Conta';
                     return;
                 }
                 
@@ -625,6 +654,8 @@ Não poderá aceder ao dashboard enquanto a conta não for aprovada.`);
                 }).catch(error => {
                     console.error('Erro ao fazer upload:', error);
                     mostrarToast('❌ Erro ao fazer upload dos documentos. Tente novamente.', 'erro');
+                    btnSubmit.disabled = false;
+                    btnSubmit.innerHTML = '<i class="fas fa-user-plus"></i> Criar Conta';
                 });
                 
                 return; // Importante: para parar execução até Promise resolver
@@ -747,12 +778,15 @@ Big Game Fishing no Algarve
                         'Accept': 'application/json'
                     },
                     body: JSON.stringify({
-                        access_key: '81ce2ac2-91c1-4f42-911b-5c252e2e56b5', // ✅ Web3Forms Access Key
-                        subject: emailSimulado.assunto,
+                        access_key: '81ce2ac2-91c1-4f42-911b-5c252e2e56b5',
+                        subject: `[ENVIAR PARA: ${email}] ${emailSimulado.assunto}`, // 🔥 EMAIL NO SUBJECT
                         from_name: 'Algarve Tuna Charter',
-                        to: email,
-                        message: emailSimulado.corpo,
-                        replyto: 'suporte@algarvefishing.com'
+                        name: nome,
+                        email: 'noreply@algarvecharter.com', // 🔥 NOREPLY (ninguém responde)
+                        message: `⚠️ DESTINATÁRIO REAL: ${email}\n⚠️ Por favor, envie este email manualmente para: ${email}\n\n════════════════════════════════════════\n\n${emailSimulado.corpo}`, // 🔥 EMAIL NA MENSAGEM
+                        replyto: 'suporte@algarvecharter.com', // 🔥 REPLY vai para SUPORTE
+                        'Destinatário_Real': email, // 🔥 Campo customizado
+                        redirect: 'https://algarvefishing.vercel.app/'
                     })
                 });
 

@@ -487,12 +487,111 @@
             
             <div class="dashboard-secao-wrapper oculto" id="secao-perfil">
                 <div class="dashboard-header">
-                    <h1 class="dashboard-titulo">Perfil</h1>
+                    <h1 class="dashboard-titulo">Perfil do Capitão</h1>
+                    <p style="color: rgba(245,245,245,0.8); margin-top: 0.5rem;">Gerir as suas informações pessoais e profissionais</p>
                 </div>
-                <div class="estado-vazio">
-                    <i class="fas fa-user-cog estado-vazio-icon"></i>
-                    <h3 class="estado-vazio-titulo">Editar Perfil</h3>
-                    <p class="estado-vazio-texto">Gerir as informações do seu perfil</p>
+                
+                <div class="card" style="max-width: 800px;">
+                    <form id="formEditarPerfilCapitao">
+                        <div class="form-grid">
+                            <div class="form-grupo">
+                                <label class="form-label">
+                                    <i class="fas fa-user"></i> Nome Completo *
+                                </label>
+                                <input type="text" id="capitaoPerfilNome" class="form-input" placeholder="Seu nome completo" required>
+                            </div>
+                            
+                            <div class="form-grupo">
+                                <label class="form-label">
+                                    <i class="fas fa-envelope"></i> Email *
+                                </label>
+                                <input type="email" id="capitaoPerfilEmail" class="form-input" placeholder="seu@email.com" disabled style="opacity: 0.7; cursor: not-allowed;">
+                                <small style="color: rgba(245,245,245,0.6); font-size: 0.85rem;">
+                                    <i class="fas fa-info-circle"></i> O email não pode ser alterado
+                                </small>
+                            </div>
+                            
+                            <div class="form-grupo">
+                                <label class="form-label">
+                                    <i class="fas fa-phone"></i> Telefone *
+                                </label>
+                                <input type="tel" id="capitaoPerfilTelefone" class="form-input" placeholder="+351 912 345 678" required>
+                            </div>
+                            
+                            <div class="form-grupo">
+                                <label class="form-label">
+                                    <i class="fas fa-map-marker-alt"></i> Morada
+                                </label>
+                                <input type="text" id="capitaoPerfilMorada" class="form-input" placeholder="Rua, número, andar">
+                            </div>
+                            
+                            <div class="form-grupo">
+                                <label class="form-label">
+                                    <i class="fas fa-city"></i> Cidade
+                                </label>
+                                <input type="text" id="capitaoPerfilCidade" class="form-input" placeholder="Cidade">
+                            </div>
+                            
+                            <div class="form-grupo">
+                                <label class="form-label">
+                                    <i class="fas fa-mail-bulk"></i> Código Postal
+                                </label>
+                                <input type="text" id="capitaoPerfilCodigoPostal" class="form-input" placeholder="0000-000">
+                            </div>
+                        </div>
+                        
+                        <hr style="margin: 2rem 0; border: none; border-top: 1px solid rgba(245,245,245,0.1);">
+                        
+                        <h3 style="color: var(--cor-texto); margin-bottom: 1rem;">
+                            <i class="fas fa-anchor"></i> Informações Profissionais
+                        </h3>
+                        
+                        <div class="form-grid">
+                            <div class="form-grupo">
+                                <label class="form-label">
+                                    <i class="fas fa-id-card"></i> Licença Marítima *
+                                </label>
+                                <input type="text" id="capitaoPerfilLicenca" class="form-input" placeholder="CM123456" required>
+                            </div>
+                            
+                            <div class="form-grupo">
+                                <label class="form-label">
+                                    <i class="fas fa-calendar"></i> Anos de Experiência *
+                                </label>
+                                <input type="number" id="capitaoPerfilExperiencia" class="form-input" placeholder="15" min="0" required>
+                            </div>
+                            
+                            <div class="form-grupo">
+                                <label class="form-label">
+                                    <i class="fas fa-ship"></i> Porto de Origem
+                                </label>
+                                <input type="text" id="capitaoPerfilPorto" class="form-input" placeholder="Porto de Lisboa">
+                            </div>
+                            
+                            <div class="form-grupo">
+                                <label class="form-label">
+                                    <i class="fas fa-id-card-alt"></i> NIF
+                                </label>
+                                <input type="text" id="capitaoPerfilNIF" class="form-input" placeholder="000000000" maxlength="9">
+                            </div>
+                        </div>
+                        
+                        <div class="form-grupo" style="margin-top: 1.5rem;">
+                            <label class="form-label">
+                                <i class="fas fa-info-circle"></i> Biografia
+                            </label>
+                            <textarea id="capitaoPerfilBio" class="form-input" rows="4" placeholder="Conte um pouco sobre a sua experiência como capitão..."></textarea>
+                        </div>
+                        
+                        <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+                            <button type="submit" class="btn btn-primario">
+                                <i class="fas fa-save"></i> Guardar Alterações
+                            </button>
+                            <button type="button" class="btn btn-outline" onclick="carregarPerfilCapitao()">
+                                <i class="fas fa-undo"></i> Cancelar
+                            </button>
+                        </div>
+                    </form>
                 </div>
             </div>
             
@@ -609,6 +708,79 @@
                     alertaDiv.style.display = 'block';
                 }
             }
+        });
+        
+        // FUNÇÕES DE EDIÇÃO DE PERFIL DO CAPITÃO
+        function carregarPerfilCapitao() {
+            const usuarioStr = localStorage.getItem('usuarioLogado');
+            if (!usuarioStr) return;
+            
+            const capitao = JSON.parse(usuarioStr);
+            
+            document.getElementById('capitaoPerfilNome').value = capitao.nome || '';
+            document.getElementById('capitaoPerfilEmail').value = capitao.email || '';
+            document.getElementById('capitaoPerfilTelefone').value = capitao.telefone || '';
+            document.getElementById('capitaoPerfilMorada').value = capitao.morada || '';
+            document.getElementById('capitaoPerfilCidade').value = capitao.cidade || '';
+            document.getElementById('capitaoPerfilCodigoPostal').value = capitao.codigoPostal || '';
+            document.getElementById('capitaoPerfilLicenca').value = capitao.licencaMaritima || '';
+            document.getElementById('capitaoPerfilExperiencia').value = capitao.experiencia || '';
+            document.getElementById('capitaoPerfilPorto').value = capitao.porto || '';
+            document.getElementById('capitaoPerfilNIF').value = capitao.nif || '';
+            document.getElementById('capitaoPerfilBio').value = capitao.biografia || '';
+        }
+        
+        // Carregar perfil quando abrir a seção
+        menuItems.forEach(item => {
+            item.addEventListener('click', (e) => {
+                if (item.dataset.section === 'perfil') {
+                    setTimeout(carregarPerfilCapitao, 100);
+                }
+            });
+        });
+        
+        // Salvar perfil
+        document.getElementById('formEditarPerfilCapitao').addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const usuarioStr = localStorage.getItem('usuarioLogado');
+            if (!usuarioStr) return;
+            
+            const capitao = JSON.parse(usuarioStr);
+            
+            // Atualizar dados
+            capitao.nome = document.getElementById('capitaoPerfilNome').value;
+            capitao.telefone = document.getElementById('capitaoPerfilTelefone').value;
+            capitao.morada = document.getElementById('capitaoPerfilMorada').value;
+            capitao.cidade = document.getElementById('capitaoPerfilCidade').value;
+            capitao.codigoPostal = document.getElementById('capitaoPerfilCodigoPostal').value;
+            capitao.licencaMaritima = document.getElementById('capitaoPerfilLicenca').value;
+            capitao.experiencia = parseInt(document.getElementById('capitaoPerfilExperiencia').value) || 0;
+            capitao.porto = document.getElementById('capitaoPerfilPorto').value;
+            capitao.nif = document.getElementById('capitaoPerfilNIF').value;
+            capitao.biografia = document.getElementById('capitaoPerfilBio').value;
+            
+            // Salvar no localStorage
+            localStorage.setItem('usuarioLogado', JSON.stringify(capitao));
+            
+            // Atualizar na lista de utilizadores
+            let utilizadores = JSON.parse(localStorage.getItem('utilizadores') || '[]');
+            const index = utilizadores.findIndex(u => u.id === capitao.id);
+            if (index !== -1) {
+                utilizadores[index] = capitao;
+                localStorage.setItem('utilizadores', JSON.stringify(utilizadores));
+            }
+            
+            // Atualizar nome na sidebar
+            const sidebarNome = document.getElementById('sidebarNome');
+            const sidebarAvatar = document.getElementById('sidebarAvatar');
+            if (sidebarNome) sidebarNome.textContent = capitao.nome;
+            if (sidebarAvatar) {
+                const initials = capitao.nome.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+                sidebarAvatar.textContent = initials;
+            }
+            
+            mostrarToast('Perfil atualizado com sucesso!', 'sucesso');
         });
         
         function logout() {

@@ -1,0 +1,17 @@
+🔥 DEPLOY URGENTE - FIX EMAIL DINÂMICO WEB3FORMS
+
+ALTERAÇÃO:
+- Mudado campo "to:" para "email:" no Web3Forms
+- Agora o sistema vai enviar para o email CORRETO (ex: geral@jauto.pt)
+- O email fixo "in_util@jauto.pt" será IGNORADO
+
+COMANDOS:
+cd C:\Users\servi\Desktop\algarvefishing
+git add .
+git commit -m "🔥 FIX CRÍTICO: Email dinâmico Web3Forms (to → email)"
+git push
+
+TESTE DEPOIS:
+1. Registar capitão com geral@jauto.pt
+2. Verificar se email chega a geral@jauto.pt (NÃO a in_util@jauto.pt)
+3. Confirmar no console: "Para: geral@jauto.pt"
