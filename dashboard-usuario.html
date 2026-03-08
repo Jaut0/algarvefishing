@@ -17,8 +17,8 @@
                 <span>Algarve Tuna Charter</span>
             </a>
             <nav class="nav-menu">
-                <a href="#dashboard" class="nav-link" onclick="event.preventDefault(); document.querySelector('[data-section=dashboard]').click();">Início</a>
-                <a href="explorar.html" class="nav-link">Explorar</a>
+                <a href="index.html" class="nav-link" onclick="event.preventDefault(); abrirPaginaComSessao('index.html');">Início</a>
+                <a href="explorar.html" class="nav-link" onclick="event.preventDefault(); abrirPaginaComSessao('explorar.html');">Explorar</a>
                 <a href="dashboard-usuario.html" class="nav-link ativo">Dashboard</a>
                 <button class="btn btn-outline btn-pequeno" onclick="logout()">
                     <i class="fas fa-sign-out-alt"></i> Sair
@@ -485,6 +485,11 @@
         sidebarToggle.addEventListener('click', () => {
             sidebar.classList.toggle('ativo');
         });
+        
+        // Função para abrir páginas mantendo a sessão
+        function abrirPaginaComSessao(url) {
+            window.location.href = url;
+        }
         
         function logout() {
             if (confirm('Tem a certeza que deseja sair?')) {

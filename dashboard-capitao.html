@@ -14,14 +14,14 @@
     <!-- HEADER -->
     <header class="header">
         <div class="header-content container">
-            <a href="index.html" class="logo">
+            <a href="#dashboard" class="logo" onclick="event.preventDefault(); window.location.href='dashboard-capitao.html';">
                 <span class="logo-icon">⚓</span>
                 <span>Algarve Tuna Charter</span>
             </a>
             
             <nav class="nav-menu">
-                <a href="index.html" class="nav-link">Início</a>
-                <a href="explorar.html" class="nav-link">Explorar</a>
+                <a href="index.html" class="nav-link" onclick="event.preventDefault(); abrirPaginaComSessao('index.html');">Início</a>
+                <a href="explorar.html" class="nav-link" onclick="event.preventDefault(); abrirPaginaComSessao('explorar.html');">Explorar</a>
                 <a href="dashboard-capitao.html" class="nav-link ativo">Dashboard</a>
                 <button class="btn btn-outline btn-pequeno" onclick="logout()">
                     <i class="fas fa-sign-out-alt"></i> Sair
@@ -51,7 +51,7 @@
                     <i class="fas fa-chart-line"></i>
                     <span>Dashboard</span>
                 </a>
-                <a href="gerir-agenda.html" class="sidebar-menu-item">
+                <a href="#agenda" class="sidebar-menu-item" data-section="agenda">
                     <i class="fas fa-calendar-alt"></i>
                     <span>Gerir Agenda</span>
                 </a>
@@ -490,6 +490,29 @@
                     <i class="fas fa-star estado-vazio-icon"></i>
                     <h3 class="estado-vazio-titulo">Avaliações dos Clientes</h3>
                     <p class="estado-vazio-texto">As avaliações dos seus clientes aparecerão aqui</p>
+                </div>
+            </div>
+            
+            <!-- SECÇÃO AGENDA -->
+            <div class="dashboard-secao-wrapper oculto" id="secao-agenda">
+                <div class="dashboard-header">
+                    <h1 class="dashboard-titulo">
+                        <i class="fas fa-calendar-alt"></i> Gerir Agenda
+                    </h1>
+                    <p style="color: rgba(245,245,245,0.8); margin-top: 0.5rem;">Bloqueie datas e gerir a disponibilidade dos seus barcos</p>
+                </div>
+                
+                <div class="card">
+                    <div style="text-align: center; padding: 3rem;">
+                        <i class="fas fa-calendar" style="font-size: 4rem; color: var(--cor-destaque); margin-bottom: 1rem; opacity: 0.5;"></i>
+                        <h3 style="color: var(--cor-branco); margin-bottom: 1rem;">Sistema de Agenda</h3>
+                        <p style="color: rgba(245,245,245,0.7); margin-bottom: 2rem; max-width: 500px; margin-left: auto; margin-right: auto;">
+                            Utilize a agenda para bloquear datas indisponíveis, gerir reservas e visualizar compromissos futuros.
+                        </p>
+                        <a href="gerir-agenda.html" class="btn btn-primario btn-grande">
+                            <i class="fas fa-calendar-alt"></i> Abrir Agenda Completa
+                        </a>
+                    </div>
                 </div>
             </div>
             
@@ -991,8 +1014,15 @@ Algarve Tuna Charter ⚓`;
             }
         }
         
+        // Função para abrir páginas mantendo a sessão
+        function abrirPaginaComSessao(url) {
+            // Simplesmente redireciona - a sessão está em localStorage e permanece
+            window.location.href = url;
+        }
+        
         function logout() {
             if (confirm('Tem a certeza que deseja sair?')) {
+                localStorage.removeItem('usuarioLogado');
                 window.location.href = 'index.html';
             }
         }

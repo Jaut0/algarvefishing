@@ -568,6 +568,28 @@
                 adminLink.style.transform = 'translateY(0)';
             });
         }
+        
+        // 🔐 VERIFICAR SESSÃO ATIVA
+        (function verificarSessao() {
+            const usuarioLogado = localStorage.getItem('usuarioLogado');
+            if (usuarioLogado) {
+                try {
+                    const usuario = JSON.parse(usuarioLogado);
+                    const dashboardUrl = usuario.tipo === 'capitao' ? 'dashboard-capitao.html' : 'dashboard-usuario.html';
+                    
+                    // Alterar botão "Área Cliente" para "Dashboard"
+                    const btnAreaCliente = document.querySelector('a[href="auth.html"]');
+                    if (btnAreaCliente) {
+                        btnAreaCliente.textContent = '🔐 Dashboard';
+                        btnAreaCliente.href = dashboardUrl;
+                        btnAreaCliente.style.background = 'linear-gradient(135deg, var(--tuna-orange), #FFB74D)';
+                        btnAreaCliente.style.border = '2px solid var(--tuna-orange)';
+                    }
+                } catch (e) {
+                    console.error('Erro ao verificar sessão:', e);
+                }
+            }
+        })();
     </script>
 </body>
 </html>

@@ -41,15 +41,55 @@
                 
                 <div class="filtros-grupo">
                     <div class="form-grupo">
-                        <label class="form-label">Localização</label>
+                        <label class="form-label">
+                            <i class="fas fa-map-marker-alt"></i> Zona de Pesca
+                        </label>
                         <select class="form-select" id="selectLocalizacao">
-                            <option value="">Todas</option>
-                            <option value="Porto de Lisboa">Porto de Lisboa</option>
-                            <option value="Marina de Albufeira">Marina de Albufeira</option>
-                            <option value="Porto do Funchal">Porto do Funchal</option>
-                            <option value="Porto de Leixões">Porto de Leixões</option>
-                            <option value="Marina de Cascais">Marina de Cascais</option>
-                            <option value="Porto de Setúbal">Porto de Setúbal</option>
+                            <option value="">🌊 Todas as Zonas do Algarve</option>
+                            
+                            <optgroup label="🌅 SOTAVENTO (Costa Leste)">
+                                <option value="Vila Real de Santo António">Vila Real de Santo António</option>
+                                <option value="Monte Gordo">Monte Gordo</option>
+                                <option value="Cabanas de Tavira">Cabanas de Tavira</option>
+                                <option value="Tavira">Tavira (Rio Gilão)</option>
+                                <option value="Santa Luzia">Santa Luzia (Capital do Polvo)</option>
+                                <option value="Fuseta">Fuseta</option>
+                                <option value="Olhão">Olhão (Porto de Pesca)</option>
+                                <option value="Faro">Faro (Marina de Faro)</option>
+                            </optgroup>
+                            
+                            <optgroup label="🏖️ ZONA CENTRAL">
+                                <option value="Quarteira">Quarteira</option>
+                                <option value="Vilamoura">Vilamoura (Marina de Vilamoura)</option>
+                                <option value="Albufeira">Albufeira (Marina de Albufeira)</option>
+                                <option value="Armação de Pêra">Armação de Pêra</option>
+                                <option value="Portimão">Portimão (Marina de Portimão)</option>
+                                <option value="Alvor">Alvor</option>
+                                <option value="Lagos">Lagos (Marina de Lagos)</option>
+                            </optgroup>
+                            
+                            <optgroup label="🌊 BARLAVENTO (Costa Oeste)">
+                                <option value="Luz">Luz (Praia da Luz)</option>
+                                <option value="Burgau">Burgau</option>
+                                <option value="Salema">Salema</option>
+                                <option value="Sagres">Sagres (Porto de Sagres)</option>
+                                <option value="Baleeira">Baleeira (Sagres)</option>
+                            </optgroup>
+                            
+                            <optgroup label="⛰️ COSTA VICENTINA">
+                                <option value="Vila do Bispo">Vila do Bispo</option>
+                                <option value="Carrapateira">Carrapateira</option>
+                                <option value="Aljezur">Aljezur</option>
+                                <option value="Arrifana">Arrifana</option>
+                                <option value="Odeceixe">Odeceixe</option>
+                            </optgroup>
+                            
+                            <optgroup label="🚢 OUTRAS REGIÕES">
+                                <option value="Lisboa">Lisboa (Marina/Docas)</option>
+                                <option value="Cascais">Cascais (Marina de Cascais)</option>
+                                <option value="Setúbal">Setúbal (Porto de Setúbal)</option>
+                                <option value="Sines">Sines (Porto de Sines)</option>
+                            </optgroup>
                         </select>
                     </div>
                     
@@ -57,11 +97,13 @@
                         <label class="form-label">Tipo de Pesca</label>
                         <select class="form-select" id="selectTipoPesca">
                             <option value="">Todos</option>
-                            <option value="Pesca de Alto Mar">Pesca de Alto Mar</option>
-                            <option value="Pesca Costeira">Pesca Costeira</option>
-                            <option value="Pesca de Atum">Pesca de Atum</option>
-                            <option value="Pesca de Jigging">Pesca de Jigging</option>
-                            <option value="Pesca Desportiva">Pesca Desportiva</option>
+                            <option value="Pesca de Fundo">🎣 Pesca de Fundo</option>
+                            <option value="Pesca de Alto Mar">🌊 Pesca de Alto Mar</option>
+                            <option value="Jigging">⚡ Jigging</option>
+                            <option value="Pesca de Atum">🐟 Pesca de Atum</option>
+                            <option value="Pesca Costeira">🏖️ Pesca Costeira</option>
+                            <option value="Pesca Desportiva">🏆 Pesca Desportiva</option>
+                            <option value="Torneio de Pesca">🎯 Torneio de Pesca</option>
                         </select>
                     </div>
                     
@@ -143,5 +185,28 @@
     
     <script src="js/main.js"></script>
     <script src="js/explorar.js"></script>
+    <script>
+        // 🔐 VERIFICAR SESSÃO ATIVA
+        (function verificarSessao() {
+            const usuarioLogado = localStorage.getItem('usuarioLogado');
+            if (usuarioLogado) {
+                try {
+                    const usuario = JSON.parse(usuarioLogado);
+                    const dashboardUrl = usuario.tipo === 'capitao' ? 'dashboard-capitao.html' : 'dashboard-usuario.html';
+                    
+                    // Alterar botão "Entrar" para "Dashboard"
+                    const btnEntrar = document.querySelector('a[href="auth.html"]');
+                    if (btnEntrar) {
+                        btnEntrar.textContent = '🔐 Dashboard';
+                        btnEntrar.href = dashboardUrl;
+                        btnEntrar.style.background = 'linear-gradient(135deg, var(--cor-destaque), #FFB74D)';
+                        btnEntrar.style.border = '2px solid var(--cor-destaque)';
+                    }
+                } catch (e) {
+                    console.error('Erro ao verificar sessão:', e);
+                }
+            }
+        })();
+    </script>
 </body>
 </html>
