@@ -364,12 +364,25 @@
             
             <div class="dashboard-secao-wrapper oculto" id="secao-usuarios">
                 <div class="dashboard-header">
-                    <h1 class="dashboard-titulo">Utilizadores</h1>
+                    <h1 class="dashboard-titulo">
+                        <i class="fas fa-users"></i> Utilizadores Registados
+                    </h1>
+                    <p style="color: rgba(245,245,245,0.8); margin-top: 0.5rem;">Lista de todos os utilizadores privados (clientes) da plataforma</p>
                 </div>
-                <div class="estado-vazio">
-                    <i class="fas fa-users estado-vazio-icon"></i>
-                    <h3 class="estado-vazio-titulo">Utilizadores</h3>
-                    <p class="estado-vazio-texto">Lista de utilizadores privados registados</p>
+                
+                <div class="card">
+                    <div class="filtros-container" style="display: flex; gap: 1rem; margin-bottom: 1.5rem; flex-wrap: wrap; align-items: center;">
+                        <div class="form-grupo" style="margin: 0; flex: 1; min-width: 250px;">
+                            <input type="text" id="filtroUsuarios" class="form-input" placeholder="🔍 Buscar por nome ou email...">
+                        </div>
+                        <div class="info-count" style="color: var(--tuna-orange); font-weight: 600;">
+                            <i class="fas fa-user"></i> <span id="countUsuarios">0</span> utilizadores
+                        </div>
+                    </div>
+                    
+                    <div id="containerUsuarios">
+                        <!-- Populated by JavaScript -->
+                    </div>
                 </div>
             </div>
             
@@ -438,6 +451,27 @@
         </div>
     </div>
     
+    <!-- Modal Visualizar Documento -->
+    <div class="modal" id="modalVisualizarDoc">
+        <div class="modal-conteudo" style="max-width: 90%; max-height: 90vh;">
+            <button class="modal-fechar" onclick="fecharModal('modalVisualizarDoc')">&times;</button>
+            <h2 class="mb-3" id="tituloModalDoc">Visualizar Documento</h2>
+            
+            <div id="conteudoModalDoc" style="max-height: 70vh; overflow: auto;">
+                <!-- Documento será carregado aqui -->
+            </div>
+            
+            <div style="margin-top: 1.5rem; display: flex; gap: 1rem; justify-content: flex-end;">
+                <button class="btn btn-outline" onclick="fecharModal('modalVisualizarDoc')">
+                    <i class="fas fa-times"></i> Fechar
+                </button>
+                <button class="btn btn-primary" id="btnDownloadDocModal">
+                    <i class="fas fa-download"></i> Download
+                </button>
+            </div>
+        </div>
+    </div>
+    
     <script src="js/main.js"></script>
     <script>
         // Navegação sidebar
@@ -459,6 +493,11 @@
             
             document.querySelector(`[data-section="${secao}"]`).classList.add('ativo');
             document.getElementById(sectionId).classList.remove('oculto');
+            
+            // Carregar dados específicos da seção
+            if (secao === 'usuarios') {
+                carregarUsuarios();
+            }
         }
         
         // Toggle sidebar mobile
@@ -581,29 +620,50 @@
                                 <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.5rem; background: white; border-radius: 4px;">
                                     <div>
                                         <i class="fas fa-file-pdf" style="color: #EF4444;"></i> 
-                                        <strong>Livrete:</strong> ${capitao.documentos?.livrete || 'livrete.pdf'}
+                                        <strong>Livrete:</strong> ${capitao.documentos?.livrete?.nome || capitao.documentos?.livrete || 'Não enviado'}
                                     </div>
-                                    <button class="btn btn-outline btn-pequeno" onclick="downloadDocumento('${capitao.id}', 'livrete', '${capitao.documentos?.livrete || 'livrete.pdf'}')" title="Descarregar documento">
-                                        <i class="fas fa-download"></i> Download
-                                    </button>
+                                    <div style="display: flex; gap: 0.5rem;">
+                                        ${capitao.documentos?.livrete?.conteudo ? `
+                                            <button class="btn btn-primary btn-pequeno" onclick="visualizarDocumento('${capitao.id}', 'livrete')" title="Visualizar documento">
+                                                <i class="fas fa-eye"></i> Ver
+                                            </button>
+                                            <button class="btn btn-outline btn-pequeno" onclick="downloadDocumentoReal('${capitao.id}', 'livrete')" title="Descarregar documento">
+                                                <i class="fas fa-download"></i> Download
+                                            </button>
+                                        ` : '<span style="color: #EF4444; font-size: 0.85rem;">Não enviado</span>'}
+                                    </div>
                                 </div>
                                 <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.5rem; background: white; border-radius: 4px;">
                                     <div>
                                         <i class="fas fa-file-pdf" style="color: #EF4444;"></i> 
-                                        <strong>RNAAT:</strong> ${capitao.documentos?.rnaat || 'rnaat.pdf'}
+                                        <strong>RNAAT:</strong> ${capitao.documentos?.rnaat?.nome || capitao.documentos?.rnaat || 'Não enviado'}
                                     </div>
-                                    <button class="btn btn-outline btn-pequeno" onclick="downloadDocumento('${capitao.id}', 'rnaat', '${capitao.documentos?.rnaat || 'rnaat.pdf'}')" title="Descarregar documento">
-                                        <i class="fas fa-download"></i> Download
-                                    </button>
+                                    <div style="display: flex; gap: 0.5rem;">
+                                        ${capitao.documentos?.rnaat?.conteudo ? `
+                                            <button class="btn btn-primary btn-pequeno" onclick="visualizarDocumento('${capitao.id}', 'rnaat')" title="Visualizar documento">
+                                                <i class="fas fa-eye"></i> Ver
+                                            </button>
+                                            <button class="btn btn-outline btn-pequeno" onclick="downloadDocumentoReal('${capitao.id}', 'rnaat')" title="Descarregar documento">
+                                                <i class="fas fa-download"></i> Download
+                                            </button>
+                                        ` : '<span style="color: #EF4444; font-size: 0.85rem;">Não enviado</span>'}
+                                    </div>
                                 </div>
                                 <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.5rem; background: white; border-radius: 4px;">
                                     <div>
                                         <i class="fas fa-file-pdf" style="color: #EF4444;"></i> 
-                                        <strong>Seguro:</strong> ${capitao.documentos?.seguro || 'seguro.pdf'}
+                                        <strong>Seguro:</strong> ${capitao.documentos?.seguro?.nome || capitao.documentos?.seguro || 'Não enviado'}
                                     </div>
-                                    <button class="btn btn-outline btn-pequeno" onclick="downloadDocumento('${capitao.id}', 'seguro', '${capitao.documentos?.seguro || 'seguro.pdf'}')" title="Descarregar documento">
-                                        <i class="fas fa-download"></i> Download
-                                    </button>
+                                    <div style="display: flex; gap: 0.5rem;">
+                                        ${capitao.documentos?.seguro?.conteudo ? `
+                                            <button class="btn btn-primary btn-pequeno" onclick="visualizarDocumento('${capitao.id}', 'seguro')" title="Visualizar documento">
+                                                <i class="fas fa-eye"></i> Ver
+                                            </button>
+                                            <button class="btn btn-outline btn-pequeno" onclick="downloadDocumentoReal('${capitao.id}', 'seguro')" title="Descarregar documento">
+                                                <i class="fas fa-download"></i> Download
+                                            </button>
+                                        ` : '<span style="color: #EF4444; font-size: 0.85rem;">Não enviado</span>'}
+                                    </div>
                                 </div>
                             </div>
                             <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgba(0,0,0,0.1); font-size: 0.85rem; color: var(--cor-cinza-escuro);">
@@ -769,54 +829,225 @@ Big Game Fishing no Algarve
             }
         });
         
-        // Download de documentos (simulado)
-        function downloadDocumento(capitaoId, tipoDoc, nomeArquivo) {
-            // Em produção real, isto faria um pedido ao servidor para obter o ficheiro
-            // Por agora, vamos simular o download e mostrar informação ao admin
+        // ===== FUNÇÕES DE UTILIZADORES =====
+        function carregarUsuarios() {
+            const utilizadores = JSON.parse(localStorage.getItem('utilizadores') || '[]');
+            const usuariosPrivados = utilizadores.filter(u => u.tipo !== 'capitao');
             
-            mostrarToast(`📥 A descarregar ${tipoDoc}: ${nomeArquivo}`, 'info');
+            const container = document.getElementById('containerUsuarios');
+            const count = document.getElementById('countUsuarios');
             
-            // Simulação: criar um blob de texto com informações do documento
-            const conteudoSimulado = `
-DOCUMENTO SIMULADO - ${tipoDoc.toUpperCase()}
-============================================
-
-Capitão ID: ${capitaoId}
-Tipo de Documento: ${tipoDoc}
-Nome do Ficheiro: ${nomeArquivo}
-Data de Upload: ${new Date().toLocaleString('pt-PT')}
-
-============================================
-NOTA IMPORTANTE:
-Este é um download simulado para demonstração.
-Em produção, este ficheiro seria o documento
-real enviado pelo capitão (PDF, imagem, etc.).
-
-Para implementar o download real:
-1. Armazenar ficheiros no servidor
-2. Gerar URL de download seguro
-3. Fazer pedido HTTP ao servidor
-4. Servir o ficheiro real ao admin
-============================================
-            `.trim();
+            if (!container) return;
             
-            // Criar blob e fazer download
-            const blob = new Blob([conteudoSimulado], { type: 'text/plain;charset=utf-8' });
-            const url = window.URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `${tipoDoc}_${capitaoId}_${Date.now()}.txt`;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            window.URL.revokeObjectURL(url);
+            count.textContent = usuariosPrivados.length;
             
-            console.log(`📥 Download iniciado: ${tipoDoc} - ${nomeArquivo}`);
+            if (usuariosPrivados.length === 0) {
+                container.innerHTML = `
+                    <div class="estado-vazio">
+                        <i class="fas fa-users estado-vazio-icon"></i>
+                        <h3 class="estado-vazio-titulo">Nenhum utilizador registado</h3>
+                        <p class="estado-vazio-texto">Ainda não há utilizadores privados na plataforma</p>
+                    </div>
+                `;
+                return;
+            }
             
-            // Mostrar confirmação
-            setTimeout(() => {
-                mostrarToast(`✅ Documento descarregado: ${nomeArquivo}`, 'sucesso');
-            }, 500);
+            container.innerHTML = `
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th><i class="fas fa-user"></i> Nome</th>
+                                <th><i class="fas fa-envelope"></i> Email</th>
+                                <th><i class="fas fa-phone"></i> Telefone</th>
+                                <th><i class="fas fa-map-marker-alt"></i> Cidade</th>
+                                <th><i class="fas fa-check-circle"></i> Status</th>
+                                <th><i class="fas fa-calendar"></i> Data Registo</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${usuariosPrivados.map(usuario => `
+                                <tr>
+                                    <td>
+                                        <div style="display: flex; align-items: center; gap: 0.75rem;">
+                                            <div style="width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, #0288D1, #01579B); display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; font-size: 0.9rem;">
+                                                ${usuario.nome.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase()}
+                                            </div>
+                                            <span style="font-weight: 600;">${usuario.nome}</span>
+                                        </div>
+                                    </td>
+                                    <td>${usuario.email}</td>
+                                    <td>${usuario.telefone || '<span style="opacity: 0.5;">—</span>'}</td>
+                                    <td>${usuario.cidade || '<span style="opacity: 0.5;">—</span>'}</td>
+                                    <td>
+                                        ${usuario.emailConfirmado 
+                                            ? '<span class="badge badge-sucesso"><i class="fas fa-check"></i> Confirmado</span>' 
+                                            : '<span class="badge badge-aviso"><i class="fas fa-clock"></i> Pendente</span>'}
+                                    </td>
+                                    <td>${new Date(usuario.dataCriacao).toLocaleDateString('pt-PT')}</td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                </div>
+            `;
+        }
+        
+        // Filtro de utilizadores
+        const filtroUsuarios = document.getElementById('filtroUsuarios');
+        if (filtroUsuarios) {
+            filtroUsuarios.addEventListener('input', (e) => {
+                const termo = e.target.value.toLowerCase();
+                const utilizadores = JSON.parse(localStorage.getItem('utilizadores') || '[]');
+                const usuariosPrivados = utilizadores.filter(u => u.tipo !== 'capitao');
+                const usuariosFiltrados = usuariosPrivados.filter(u => 
+                    u.nome.toLowerCase().includes(termo) || 
+                    u.email.toLowerCase().includes(termo)
+                );
+                
+                const container = document.getElementById('containerUsuarios');
+                const count = document.getElementById('countUsuarios');
+                
+                count.textContent = usuariosFiltrados.length;
+                
+                if (usuariosFiltrados.length === 0) {
+                    container.innerHTML = `
+                        <div class="estado-vazio">
+                            <i class="fas fa-search estado-vazio-icon"></i>
+                            <h3 class="estado-vazio-titulo">Nenhum resultado</h3>
+                            <p class="estado-vazio-texto">Não foram encontrados utilizadores com "${termo}"</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                container.innerHTML = `
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th><i class="fas fa-user"></i> Nome</th>
+                                    <th><i class="fas fa-envelope"></i> Email</th>
+                                    <th><i class="fas fa-phone"></i> Telefone</th>
+                                    <th><i class="fas fa-map-marker-alt"></i> Cidade</th>
+                                    <th><i class="fas fa-check-circle"></i> Status</th>
+                                    <th><i class="fas fa-calendar"></i> Data Registo</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${usuariosFiltrados.map(usuario => `
+                                    <tr>
+                                        <td>
+                                            <div style="display: flex; align-items: center; gap: 0.75rem;">
+                                                <div style="width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, #0288D1, #01579B); display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; font-size: 0.9rem;">
+                                                    ${usuario.nome.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase()}
+                                                </div>
+                                                <span style="font-weight: 600;">${usuario.nome}</span>
+                                            </div>
+                                        </td>
+                                        <td>${usuario.email}</td>
+                                        <td>${usuario.telefone || '<span style="opacity: 0.5;">—</span>'}</td>
+                                        <td>${usuario.cidade || '<span style="opacity: 0.5;">—</span>'}</td>
+                                        <td>
+                                            ${usuario.emailConfirmado 
+                                                ? '<span class="badge badge-sucesso"><i class="fas fa-check"></i> Confirmado</span>' 
+                                                : '<span class="badge badge-aviso"><i class="fas fa-clock"></i> Pendente</span>'}
+                                        </td>
+                                        <td>${new Date(usuario.dataCriacao).toLocaleDateString('pt-PT')}</td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                `;
+            });
+        }
+        
+        // ===== FUNÇÕES DE DOCUMENTOS =====
+        function visualizarDocumento(capitaoId, tipoDoc) {
+            const utilizadores = JSON.parse(localStorage.getItem('utilizadores') || '[]');
+            const capitao = utilizadores.find(u => u.id === capitaoId);
+            
+            if (!capitao || !capitao.documentos || !capitao.documentos[tipoDoc]) {
+                mostrarToast('❌ Documento não encontrado!', 'erro');
+                return;
+            }
+            
+            const documento = capitao.documentos[tipoDoc];
+            const modal = document.getElementById('modalVisualizarDoc');
+            const titulo = document.getElementById('tituloModalDoc');
+            const conteudo = document.getElementById('conteudoModalDoc');
+            const btnDownload = document.getElementById('btnDownloadDocModal');
+            
+            titulo.textContent = `📄 ${tipoDoc.toUpperCase()} - ${documento.nome}`;
+            
+            // Se for imagem
+            if (documento.tipo && documento.tipo.startsWith('image/')) {
+                conteudo.innerHTML = `
+                    <div style="text-align: center;">
+                        <img src="${documento.conteudo}" alt="${documento.nome}" style="max-width: 100%; max-height: 60vh; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
+                        <p style="margin-top: 1rem; color: var(--cor-cinza-escuro);">
+                            <i class="fas fa-info-circle"></i> ${documento.nome} | ${(documento.tamanho / 1024).toFixed(2)} KB
+                        </p>
+                    </div>
+                `;
+            }
+            // Se for PDF
+            else if (documento.tipo === 'application/pdf') {
+                conteudo.innerHTML = `
+                    <div style="text-align: center;">
+                        <embed src="${documento.conteudo}" type="application/pdf" width="100%" height="600px" style="border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
+                        <p style="margin-top: 1rem; color: var(--cor-cinza-escuro);">
+                            <i class="fas fa-info-circle"></i> ${documento.nome} | ${(documento.tamanho / 1024).toFixed(2)} KB
+                        </p>
+                    </div>
+                `;
+            }
+            // Outros tipos
+            else {
+                conteudo.innerHTML = `
+                    <div style="text-align: center; padding: 3rem;">
+                        <i class="fas fa-file" style="font-size: 4rem; color: var(--tuna-orange);"></i>
+                        <h3 style="margin-top: 1rem;">📄 ${documento.nome}</h3>
+                        <p style="color: var(--cor-cinza-escuro);">
+                            Tipo: ${documento.tipo || 'Desconhecido'}<br>
+                            Tamanho: ${(documento.tamanho / 1024).toFixed(2)} KB
+                        </p>
+                        <p style="margin-top: 1rem; color: var(--cor-cinza-escuro);">
+                            <i class="fas fa-info-circle"></i> Pré-visualização não disponível para este tipo de ficheiro.<br>
+                            Use o botão "Download" para descarregar e visualizar.
+                        </p>
+                    </div>
+                `;
+            }
+            
+            // Configurar botão de download
+            btnDownload.onclick = () => downloadDocumentoReal(capitaoId, tipoDoc);
+            
+            modal.classList.add('ativo');
+        }
+        
+        function downloadDocumentoReal(capitaoId, tipoDoc) {
+            const utilizadores = JSON.parse(localStorage.getItem('utilizadores') || '[]');
+            const capitao = utilizadores.find(u => u.id === capitaoId);
+            
+            if (!capitao || !capitao.documentos || !capitao.documentos[tipoDoc]) {
+                mostrarToast('❌ Documento não encontrado!', 'erro');
+                return;
+            }
+            
+            const documento = capitao.documentos[tipoDoc];
+            
+            // Criar elemento <a> temporário para download
+            const link = document.createElement('a');
+            link.href = documento.conteudo;
+            link.download = documento.nome;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            mostrarToast(`✅ Download iniciado: ${documento.nome}`, 'sucesso');
+            console.log(`📥 Download: ${documento.nome} (${(documento.tamanho / 1024).toFixed(2)} KB)`);
         }
         
         function logout() {

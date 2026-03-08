@@ -506,15 +506,103 @@ Receberá um email quando a sua conta for aprovada.`);
                     return;
                 }
                 
+                const livreteFile = document.getElementById('uploadLivrete')?.files[0];
+                const rnaatFile = document.getElementById('uploadRNAAT')?.files[0];
+                const seguroFile = document.getElementById('uploadSeguro')?.files[0];
+                
+                // Verificar se os ficheiros foram selecionados
+                if (!livreteFile || !rnaatFile || !seguroFile) {
+                    mostrarToast('❌ Por favor, faça upload dos 3 documentos obrigatórios!', 'erro');
+                    return;
+                }
+                
                 novoUtilizador.experiencia = experiencia;
                 novoUtilizador.porto = porto;
-                novoUtilizador.documentos = {
-                    livrete: document.getElementById('uploadLivrete')?.files[0]?.name || 'livrete.pdf',
-                    rnaat: document.getElementById('uploadRNAAT')?.files[0]?.name || 'rnaat.pdf',
-                    seguro: document.getElementById('uploadSeguro')?.files[0]?.name || 'seguro.pdf'
-                };
+                
+                // Converter ficheiros para Base64
+                mostrarToast('📤 A fazer upload dos documentos...', 'info');
+                
+                Promise.all([
+                    converterParaBase64(livreteFile),
+                    converterParaBase64(rnaatFile),
+                    converterParaBase64(seguroFile)
+                ]).then(([livreteBase64, rnaatBase64, seguroBase64]) => {
+                    
+                    novoUtilizador.documentos = {
+                        livrete: {
+                            nome: livreteFile.name,
+                            tipo: livreteFile.type,
+                            tamanho: livreteFile.size,
+                            dataUpload: new Date().toISOString(),
+                            conteudo: livreteBase64
+                        },
+                        rnaat: {
+                            nome: rnaatFile.name,
+                            tipo: rnaatFile.type,
+                            tamanho: rnaatFile.size,
+                            dataUpload: new Date().toISOString(),
+                            conteudo: rnaatBase64
+                        },
+                        seguro: {
+                            nome: seguroFile.name,
+                            tipo: seguroFile.type,
+                            tamanho: seguroFile.size,
+                            dataUpload: new Date().toISOString(),
+                            conteudo: seguroBase64
+                        }
+                    };
+                    
+                    // Guardar no localStorage
+                    let utilizadores = JSON.parse(localStorage.getItem('utilizadores') || '[]');
+                    utilizadores.push(novoUtilizador);
+                    localStorage.setItem('utilizadores', JSON.stringify(utilizadores));
+                    
+                    console.log('✅ Utilizador registado:', novoUtilizador);
+                    console.log('📧 Token de confirmação:', tokenConfirmacao);
+                    
+                    // Gerar link de confirmação
+                    const linkConfirmacao = `${window.location.origin}/confirmar-email.html?token=${tokenConfirmacao}`;
+                    console.log('🔗 Link de confirmação:', linkConfirmacao);
+                    
+                    // Simular envio de email
+                    simularEnvioEmail(email, nome, linkConfirmacao, tipoSelecionado);
+                    
+                    // Mostrar mensagem de sucesso
+                    mostrarToast('✅ Documentos enviados! Email de confirmação enviado!', 'sucesso');
+                    
+                    setTimeout(() => {
+                        alert(`✅ Registo submetido com sucesso!
+
+📧 IMPORTANTE: Enviámos um email de confirmação para:
+${email}
+
+🔗 Clique no link do email para confirmar a sua conta.
+
+⏳ Após confirmação:
+• A sua conta ficará PENDENTE
+• Administração validará os seus documentos
+• Receberá email quando for aprovado
+• Tempo estimado: 24-48 horas
+
+📄 Documentos enviados:
+• ${livreteFile.name}
+• ${rnaatFile.name}
+• ${seguroFile.name}
+
+Não poderá aceder ao dashboard enquanto a conta não for aprovada.`);
+                        
+                        window.location.href = 'index.html';
+                    }, 2000);
+                    
+                }).catch(error => {
+                    console.error('Erro ao fazer upload:', error);
+                    mostrarToast('❌ Erro ao fazer upload dos documentos. Tente novamente.', 'erro');
+                });
+                
+                return; // Importante: para parar execução até Promise resolver
             }
             
+            // Se não for capitão, continua normalmente
             // Guardar no localStorage
             let utilizadores = JSON.parse(localStorage.getItem('utilizadores') || '[]');
             utilizadores.push(novoUtilizador);
@@ -675,6 +763,16 @@ Big Game Fishing no Algarve
                 console.log(linkConfirmacao);
                 console.log('═══════════════════════════════════════════════════════════');
             }
+        }
+        
+        // Função para converter ficheiro para Base64
+        function converterParaBase64(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = () => resolve(reader.result);
+                reader.onerror = error => reject(error);
+                reader.readAsDataURL(file);
+            });
         }
     </script>
 </body>

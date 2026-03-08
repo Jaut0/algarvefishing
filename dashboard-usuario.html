@@ -33,8 +33,8 @@
     <div class="dashboard">
         <aside class="sidebar" id="sidebar">
             <div class="sidebar-perfil">
-                <div class="sidebar-perfil-avatar">JM</div>
-                <div class="sidebar-perfil-nome">João Martins</div>
+                <div class="sidebar-perfil-avatar" id="sidebarAvatar">--</div>
+                <div class="sidebar-perfil-nome" id="sidebarNome">Carregando...</div>
                 <div class="sidebar-perfil-tipo">Utilizador</div>
             </div>
             
@@ -70,7 +70,7 @@
             <div class="dashboard-secao-wrapper" id="secao-dashboard">
                 <div class="dashboard-header">
                     <div class="dashboard-header-top">
-                        <h1 class="dashboard-titulo">Bem-vindo, João! 👋</h1>
+                        <h1 class="dashboard-titulo" id="dashboardTitulo">Bem-vindo! 👋</h1>
                     </div>
                 </div>
                 
@@ -291,11 +291,97 @@
             <div class="dashboard-secao-wrapper oculto" id="secao-perfil">
                 <div class="dashboard-header">
                     <h1 class="dashboard-titulo">Meu Perfil</h1>
+                    <p style="color: rgba(245,245,245,0.8); margin-top: 0.5rem;">Gerir as suas informações pessoais</p>
                 </div>
-                <div class="estado-vazio">
-                    <i class="fas fa-user estado-vazio-icon"></i>
-                    <h3 class="estado-vazio-titulo">Editar Perfil</h3>
-                    <p class="estado-vazio-texto">Gerir informações pessoais</p>
+                
+                <div class="card" style="max-width: 800px;">
+                    <form id="formEditarPerfil">
+                        <div class="form-grid">
+                            <div class="form-grupo">
+                                <label class="form-label">
+                                    <i class="fas fa-user"></i> Nome Completo
+                                </label>
+                                <input type="text" id="perfilNome" class="form-input" placeholder="Seu nome completo" required>
+                            </div>
+                            
+                            <div class="form-grupo">
+                                <label class="form-label">
+                                    <i class="fas fa-envelope"></i> Email
+                                </label>
+                                <input type="email" id="perfilEmail" class="form-input" placeholder="seu@email.com" disabled style="opacity: 0.7; cursor: not-allowed;">
+                                <small style="color: rgba(245,245,245,0.6); font-size: 0.85rem;">
+                                    <i class="fas fa-info-circle"></i> O email não pode ser alterado
+                                </small>
+                            </div>
+                            
+                            <div class="form-grupo">
+                                <label class="form-label">
+                                    <i class="fas fa-phone"></i> Telefone
+                                </label>
+                                <input type="tel" id="perfilTelefone" class="form-input" placeholder="+351 912 345 678">
+                            </div>
+                            
+                            <div class="form-grupo">
+                                <label class="form-label">
+                                    <i class="fas fa-map-marker-alt"></i> Morada
+                                </label>
+                                <input type="text" id="perfilMorada" class="form-input" placeholder="Rua, número, andar">
+                            </div>
+                            
+                            <div class="form-grupo">
+                                <label class="form-label">
+                                    <i class="fas fa-city"></i> Cidade
+                                </label>
+                                <input type="text" id="perfilCidade" class="form-input" placeholder="Cidade">
+                            </div>
+                            
+                            <div class="form-grupo">
+                                <label class="form-label">
+                                    <i class="fas fa-mail-bulk"></i> Código Postal
+                                </label>
+                                <input type="text" id="perfilCodigoPostal" class="form-input" placeholder="0000-000">
+                            </div>
+                        </div>
+                        
+                        <div class="form-grupo" style="margin-top: 1.5rem;">
+                            <label class="form-label">
+                                <i class="fas fa-id-card"></i> NIF (Opcional)
+                            </label>
+                            <input type="text" id="perfilNIF" class="form-input" placeholder="000000000" maxlength="9">
+                        </div>
+                        
+                        <hr style="margin: 2rem 0; border: none; border-top: 1px solid rgba(245,245,245,0.1);">
+                        
+                        <h3 style="color: var(--cor-branco); margin-bottom: 1rem;">
+                            <i class="fas fa-lock"></i> Alterar Password (Opcional)
+                        </h3>
+                        
+                        <div class="form-grid">
+                            <div class="form-grupo">
+                                <label class="form-label">Password Atual</label>
+                                <input type="password" id="perfilPasswordAtual" class="form-input" placeholder="••••••••">
+                            </div>
+                            
+                            <div class="form-grupo">
+                                <label class="form-label">Nova Password</label>
+                                <input type="password" id="perfilNovaPassword" class="form-input" placeholder="••••••••">
+                            </div>
+                            
+                            <div class="form-grupo">
+                                <label class="form-label">Confirmar Nova Password</label>
+                                <input type="password" id="perfilConfirmarPassword" class="form-input" placeholder="••••••••">
+                            </div>
+                        </div>
+                        
+                        <div class="form-acoes" style="margin-top: 2rem;">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save"></i> Guardar Alterações
+                            </button>
+                            <button type="button" class="btn btn-outline" onclick="carregarDadosPerfil()">
+                                <i class="fas fa-undo"></i> Cancelar
+                            </button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </main>
@@ -303,6 +389,135 @@
     
     <script src="js/main.js"></script>
     <script>
+        // Carregar dados do utilizador logado
+        let utilizadorLogado = null;
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            carregarUtilizador();
+            carregarDadosPerfil();
+        });
+        
+        function carregarUtilizador() {
+            const usuarioStr = localStorage.getItem('usuarioLogado');
+            if (!usuarioStr) {
+                window.location.href = 'auth.html';
+                return;
+            }
+            utilizadorLogado = JSON.parse(usuarioStr);
+            
+            console.log('✅ Utilizador carregado:', utilizadorLogado);
+            
+            // Atualizar nome no dashboard usando ID
+            const tituloElement = document.getElementById('dashboardTitulo');
+            if (tituloElement) {
+                tituloElement.textContent = `Bem-vindo, ${utilizadorLogado.nome.split(' ')[0]}! 👋`;
+            }
+            
+            // Atualizar sidebar usando IDs
+            const avatarElement = document.getElementById('sidebarAvatar');
+            const nomeElement = document.getElementById('sidebarNome');
+            if (avatarElement && nomeElement) {
+                const iniciais = utilizadorLogado.nome.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+                avatarElement.textContent = iniciais;
+                nomeElement.textContent = utilizadorLogado.nome;
+            }
+        }
+        
+        function carregarDadosPerfil() {
+            if (!utilizadorLogado) return;
+            
+            document.getElementById('perfilNome').value = utilizadorLogado.nome || '';
+            document.getElementById('perfilEmail').value = utilizadorLogado.email || '';
+            document.getElementById('perfilTelefone').value = utilizadorLogado.telefone || '';
+            document.getElementById('perfilMorada').value = utilizadorLogado.morada || '';
+            document.getElementById('perfilCidade').value = utilizadorLogado.cidade || '';
+            document.getElementById('perfilCodigoPostal').value = utilizadorLogado.codigoPostal || '';
+            document.getElementById('perfilNIF').value = utilizadorLogado.nif || '';
+            
+            // Limpar campos de password
+            document.getElementById('perfilPasswordAtual').value = '';
+            document.getElementById('perfilNovaPassword').value = '';
+            document.getElementById('perfilConfirmarPassword').value = '';
+        }
+        
+        // Form de edição de perfil
+        document.getElementById('formEditarPerfil').addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const nome = document.getElementById('perfilNome').value.trim();
+            const telefone = document.getElementById('perfilTelefone').value.trim();
+            const morada = document.getElementById('perfilMorada').value.trim();
+            const cidade = document.getElementById('perfilCidade').value.trim();
+            const codigoPostal = document.getElementById('perfilCodigoPostal').value.trim();
+            const nif = document.getElementById('perfilNIF').value.trim();
+            
+            const passwordAtual = document.getElementById('perfilPasswordAtual').value;
+            const novaPassword = document.getElementById('perfilNovaPassword').value;
+            const confirmarPassword = document.getElementById('perfilConfirmarPassword').value;
+            
+            // Validações
+            if (!nome) {
+                mostrarToast('❌ Nome é obrigatório!', 'erro');
+                return;
+            }
+            
+            // Se está a tentar mudar password
+            if (passwordAtual || novaPassword || confirmarPassword) {
+                if (!passwordAtual) {
+                    mostrarToast('❌ Digite a password atual!', 'erro');
+                    return;
+                }
+                
+                if (passwordAtual !== utilizadorLogado.password) {
+                    mostrarToast('❌ Password atual incorreta!', 'erro');
+                    return;
+                }
+                
+                if (novaPassword !== confirmarPassword) {
+                    mostrarToast('❌ As novas passwords não coincidem!', 'erro');
+                    return;
+                }
+                
+                if (novaPassword.length < 6) {
+                    mostrarToast('❌ A nova password deve ter pelo menos 6 caracteres!', 'erro');
+                    return;
+                }
+            }
+            
+            // Atualizar dados no localStorage
+            let utilizadores = JSON.parse(localStorage.getItem('utilizadores') || '[]');
+            const index = utilizadores.findIndex(u => u.email === utilizadorLogado.email);
+            
+            if (index !== -1) {
+                utilizadores[index].nome = nome;
+                utilizadores[index].telefone = telefone;
+                utilizadores[index].morada = morada;
+                utilizadores[index].cidade = cidade;
+                utilizadores[index].codigoPostal = codigoPostal;
+                utilizadores[index].nif = nif;
+                
+                if (novaPassword) {
+                    utilizadores[index].password = novaPassword;
+                }
+                
+                utilizadores[index].dataAtualizacao = new Date().toISOString();
+                
+                localStorage.setItem('utilizadores', JSON.stringify(utilizadores));
+                
+                // Atualizar sessão
+                utilizadorLogado = utilizadores[index];
+                localStorage.setItem('usuarioLogado', JSON.stringify(utilizadorLogado));
+                
+                mostrarToast('✅ Perfil atualizado com sucesso!', 'sucesso');
+                
+                // Recarregar dados
+                carregarUtilizador();
+                carregarDadosPerfil();
+            } else {
+                mostrarToast('❌ Erro ao atualizar perfil!', 'erro');
+            }
+        });
+        
         const menuItems = document.querySelectorAll('.sidebar-menu-item');
         const sections = document.querySelectorAll('.dashboard-secao-wrapper');
         
@@ -327,6 +542,7 @@
         
         function logout() {
             if (confirm('Tem a certeza que deseja sair?')) {
+                localStorage.removeItem('usuarioLogado');
                 window.location.href = 'index.html';
             }
         }
