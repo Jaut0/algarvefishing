@@ -1,6 +1,6 @@
-# 🎣 FishingHub Algarve
+# 🎣 Algarve Tuna Charter
 
-Plataforma completa de gestão e reserva de saídas de pesca charter no Algarve.
+Plataforma completa de gestão e reserva de saídas de pesca charter no Algarve. Big Game Fishing especializado em Blue Fin Tuna e outras espécies pelágicas.
 
 ## 🚀 Deploy
 
@@ -44,7 +44,7 @@ Este projeto está hospedado na Vercel.
 ## 📦 Estrutura
 
 ```
-fishinghub-algarve/
+algarve-tuna-charter/
 ├── index.html              # Página principal
 ├── auth.html              # Login/Registo
 ├── admin-login.html       # Login admin

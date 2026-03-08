@@ -569,9 +569,9 @@ ${email}
             }, 2000);
         });
         
-        // Função para simular envio de email
-        function simularEnvioEmail(email, nome, linkConfirmacao, tipo) {
-            // Guardar email simulado no localStorage para visualização
+        // Função para enviar email REAL via Web3Forms
+        async function simularEnvioEmail(email, nome, linkConfirmacao, tipo) {
+            // Também guarda no localStorage como backup
             let emailsSimulados = JSON.parse(localStorage.getItem('emailsSimulados') || '[]');
             
             const emailSimulado = {
@@ -620,20 +620,61 @@ Big Game Fishing no Algarve
             emailsSimulados.push(emailSimulado);
             localStorage.setItem('emailsSimulados', JSON.stringify(emailsSimulados));
             
-            console.log('📧 Email simulado enviado:', emailSimulado);
-            console.log('');
-            console.log('═══════════════════════════════════════════════════════════');
-            console.log('📧 EMAIL DE CONFIRMAÇÃO (SIMULADO)');
-            console.log('═══════════════════════════════════════════════════════════');
-            console.log(`Para: ${email}`);
-            console.log(`Assunto: ${emailSimulado.assunto}`);
-            console.log('');
-            console.log(emailSimulado.corpo);
-            console.log('');
-            console.log('═══════════════════════════════════════════════════════════');
-            console.log('🔗 LINK DE CONFIRMAÇÃO (copie e cole no navegador):');
-            console.log(linkConfirmacao);
-            console.log('═══════════════════════════════════════════════════════════');
+            console.log('📧 Tentando enviar email REAL via Web3Forms...');
+            
+            // ENVIAR EMAIL REAL via Web3Forms
+            try {
+                const response = await fetch('https://api.web3forms.com/submit', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        access_key: '81ce2ac2-91c1-4f42-911b-5c252e2e56b5', // ✅ Web3Forms Access Key
+                        subject: emailSimulado.assunto,
+                        from_name: 'Algarve Tuna Charter',
+                        to: email,
+                        message: emailSimulado.corpo,
+                        replyto: 'suporte@algarvefishing.com'
+                    })
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    console.log('✅ Email REAL enviado com sucesso!');
+                    console.log('');
+                    console.log('═══════════════════════════════════════════════════════════');
+                    console.log('✅ EMAIL ENVIADO COM SUCESSO!');
+                    console.log('═══════════════════════════════════════════════════════════');
+                    console.log(`Para: ${email}`);
+                    console.log(`Assunto: ${emailSimulado.assunto}`);
+                    console.log('');
+                    console.log('🔗 Link de confirmação enviado por email.');
+                    console.log('');
+                    console.log('⚠️ BACKUP - Se não receber o email, use este link:');
+                    console.log(linkConfirmacao);
+                    console.log('═══════════════════════════════════════════════════════════');
+                } else {
+                    throw new Error(result.message || 'Erro desconhecido');
+                }
+            } catch (error) {
+                console.error('❌ Erro ao enviar email:', error);
+                console.log('');
+                console.log('═══════════════════════════════════════════════════════════');
+                console.log('⚠️ MODO FALLBACK - EMAIL NÃO ENVIADO');
+                console.log('═══════════════════════════════════════════════════════════');
+                console.log(`Para: ${email}`);
+                console.log(`Assunto: ${emailSimulado.assunto}`);
+                console.log('');
+                console.log(emailSimulado.corpo);
+                console.log('');
+                console.log('═══════════════════════════════════════════════════════════');
+                console.log('🔗 LINK DE CONFIRMAÇÃO (copie e cole no navegador):');
+                console.log(linkConfirmacao);
+                console.log('═══════════════════════════════════════════════════════════');
+            }
         }
     </script>
 </body>
