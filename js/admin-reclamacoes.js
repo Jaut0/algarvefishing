@@ -651,10 +651,12 @@ style.textContent = `
 `;
 document.head.appendChild(style);
 
-// Initialize
-if (document.getElementById('reclamacoesContainer')) {
-    loadReclamacoes();
-    
-    // Auto-refresh every minute
-    setInterval(loadReclamacoes, 60000);
-}
+// Initialize when DOM is ready
+document.addEventListener('DOMContentLoaded', () => {
+    if (document.getElementById('reclamacoesContainer')) {
+        loadReclamacoes();
+        
+        // Auto-refresh every minute
+        setInterval(loadReclamacoes, 60000);
+    }
+});
