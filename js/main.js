@@ -150,6 +150,9 @@ function mostrarToast(mensagem, tipo = 'sucesso') {
     }, 5000);
 }
 
+// ✅ ALIAS PARA COMPATIBILIDADE (suporte.js usa showToast)
+window.showToast = mostrarToast;
+
 // ============================================
 // MODAL
 // ============================================

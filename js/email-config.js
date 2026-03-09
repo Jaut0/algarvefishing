@@ -24,7 +24,7 @@ const EMAIL_CONFIG = {
     // ✅ NÃO PRECISA MEXER AQUI EMBAIXO ✅
     emails: {
         noreply: 'noreply@algarvetunacharter.pt',
-        admin: 'admin@algarvetunacharter.pt',
+        admin: 'geral@algarvetunacharter.pt',
         reservas: 'reservas@algarvetunacharter.pt',
         suporte: 'suporte@algarvetunacharter.pt',
         capitao: 'capitao@algarvetunacharter.pt'

@@ -174,7 +174,7 @@ Antes de testar, configure o EmailJS seguindo o guia: **`GUIA-EMAILJS-COMPLETO.m
 ### Admin
 ```
 URL: https://algarvefishing.vercel.app/admin-login.html
-Email: admin@algarvetunacharter.pt
+Email: geral@algarvetunacharter.pt
 Password: Abc.1234!jauto
 ```
 
@@ -215,7 +215,7 @@ Para implementar em ambiente real com dados persistentes:
 ## 🔐 Credenciais de Teste
 
 ### Admin
-- Email: `admin@algarvetunacharter.pt`
+- Email: `geral@algarvetunacharter.pt`
 - Password: `Abc.1234!jauto`
 
 ### Cliente Teste
