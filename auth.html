@@ -163,7 +163,6 @@
     
     <!-- EmailJS SDK -->
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-    <script src="js/email-config.js"></script>
 </head>
 <body>
     <div class="auth-container">
@@ -794,5 +793,8 @@ Equipa Algarve Charter`);
             });
         }
     </script>
+    
+    <!-- Carregar configuração de emails DEPOIS do EmailJS -->
+    <script src="js/email-config.js"></script>
 </body>
 </html>
