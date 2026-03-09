@@ -284,13 +284,32 @@ window.marcarEmAnalise = function(id) {
         rec.status = 'emAnalise';
         rec.dataAtualizacao = new Date().toISOString();
         localStorage.setItem('reclamacoes', JSON.stringify(reclamacoes));
-        showToast('Reclamação marcada como "Em Análise"', 'info');
+        if (typeof mostrarToast === 'function') {
+            mostrarToast('Reclamação marcada como "Em Análise"', 'aviso');
+        } else if (typeof showToast === 'function') {
+            showToast('Reclamação marcada como "Em Análise"', 'info');
+        }
         loadReclamacoes();
     }
 };
 
 // Resolver reclamação
 window.resolverReclamacao = function(id) {
+    console.log('🔵 resolverReclamacao chamada, ID:', id);
+    
+    const reclamacoes = JSON.parse(localStorage.getItem('reclamacoes') || '[]');
+    const rec = reclamacoes.find(r => r.id === id);
+    
+    if (!rec) {
+        console.error('❌ Reclamação não encontrada:', id);
+        if (typeof mostrarToast === 'function') {
+            mostrarToast('Reclamação não encontrada!', 'erro');
+        }
+        return;
+    }
+    
+    console.log('✅ Reclamação encontrada:', rec);
+    
     const modal = document.createElement('div');
     modal.className = 'modal active';
     modal.innerHTML = `
@@ -316,9 +335,11 @@ window.resolverReclamacao = function(id) {
         </div>
     `;
     document.body.appendChild(modal);
+    console.log('✅ Modal adicionado ao DOM');
 };
 
 window.confirmarResolucao = function(id) {
+    console.log('✅ confirmarResolucao chamada, ID:', id);
     const nota = document.getElementById('notaResolucao').value;
     const reclamacoes = JSON.parse(localStorage.getItem('reclamacoes') || '[]');
     const rec = reclamacoes.find(r => r.id === id);
@@ -329,14 +350,36 @@ window.confirmarResolucao = function(id) {
         rec.notaResolucao = nota;
         rec.dataAtualizacao = new Date().toISOString();
         localStorage.setItem('reclamacoes', JSON.stringify(reclamacoes));
+        console.log('✅ Reclamação atualizada:', rec);
         document.querySelector('.modal')?.remove();
-        showToast('Reclamação marcada como resolvida!', 'success');
+        if (typeof mostrarToast === 'function') {
+            mostrarToast('Reclamação marcada como resolvida!', 'sucesso');
+        } else if (typeof showToast === 'function') {
+            showToast('Reclamação marcada como resolvida!', 'success');
+        }
         loadReclamacoes();
+    } else {
+        console.error('❌ Reclamação não encontrada no confirmar:', id);
     }
 };
 
 // Rejeitar reclamação
 window.rejeitarReclamacao = function(id) {
+    console.log('🔴 rejeitarReclamacao chamada, ID:', id);
+    
+    const reclamacoes = JSON.parse(localStorage.getItem('reclamacoes') || '[]');
+    const rec = reclamacoes.find(r => r.id === id);
+    
+    if (!rec) {
+        console.error('❌ Reclamação não encontrada:', id);
+        if (typeof mostrarToast === 'function') {
+            mostrarToast('Reclamação não encontrada!', 'erro');
+        }
+        return;
+    }
+    
+    console.log('✅ Reclamação encontrada:', rec);
+    
     const modal = document.createElement('div');
     modal.className = 'modal active';
     modal.innerHTML = `
@@ -362,9 +405,11 @@ window.rejeitarReclamacao = function(id) {
         </div>
     `;
     document.body.appendChild(modal);
+    console.log('✅ Modal adicionado ao DOM');
 };
 
 window.confirmarRejeicaoRec = function(id) {
+    console.log('❌ confirmarRejeicaoRec chamada, ID:', id);
     const motivo = document.getElementById('motivoRejeicao').value;
     const reclamacoes = JSON.parse(localStorage.getItem('reclamacoes') || '[]');
     const rec = reclamacoes.find(r => r.id === id);
@@ -375,9 +420,16 @@ window.confirmarRejeicaoRec = function(id) {
         rec.motivoRejeicao = motivo;
         rec.dataAtualizacao = new Date().toISOString();
         localStorage.setItem('reclamacoes', JSON.stringify(reclamacoes));
+        console.log('✅ Reclamação rejeitada:', rec);
         document.querySelector('.modal')?.remove();
-        showToast('Reclamação rejeitada', 'info');
+        if (typeof mostrarToast === 'function') {
+            mostrarToast('Reclamação rejeitada', 'aviso');
+        } else if (typeof showToast === 'function') {
+            showToast('Reclamação rejeitada', 'info');
+        }
         loadReclamacoes();
+    } else {
+        console.error('❌ Reclamação não encontrada no confirmar:', id);
     }
 };
 
@@ -420,7 +472,11 @@ window.salvarNotas = function(id) {
         rec.dataAtualizacao = new Date().toISOString();
         localStorage.setItem('reclamacoes', JSON.stringify(reclamacoes));
         document.querySelector('.modal')?.remove();
-        showToast('Notas guardadas', 'success');
+        if (typeof mostrarToast === 'function') {
+            mostrarToast('Notas guardadas', 'sucesso');
+        } else if (typeof showToast === 'function') {
+            showToast('Notas guardadas', 'success');
+        }
         loadReclamacoes();
     }
 };
