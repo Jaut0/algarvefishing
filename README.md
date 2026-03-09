@@ -8,6 +8,23 @@ Este projeto está hospedado na Vercel.
 
 **URL de produção:** https://algarvefishing.vercel.app
 
+---
+
+## 🧹 SISTEMA LIMPO! (Última atualização: 2026-03-09)
+
+**✅ TODOS OS DADOS MOCK FORAM REMOVIDOS!**
+
+O sistema agora está **100% limpo** e pronto para testes finais:
+- ❌ Sem saídas simuladas
+- ❌ Sem barcos mock
+- ❌ Sem capitães/clientes de teste
+- ❌ Sem reservas fake
+- ✅ Limpeza automática ao carregar páginas
+
+**Ver detalhes**: `LIMPEZA-COMPLETA.md`
+
+---
+
 ## 🌟 Funcionalidades
 
 ### ✅ Sistema de Autenticação com Ativação por Email (NOVO!)
@@ -157,8 +174,8 @@ Antes de testar, configure o EmailJS seguindo o guia: **`GUIA-EMAILJS-COMPLETO.m
 ### Admin
 ```
 URL: https://algarvefishing.vercel.app/admin-login.html
-Email: servico@jauto.pt
-Password: 12345678
+Email: admin@algarvetunacharter.pt
+Password: Abc.1234!jauto
 ```
 
 ## 📝 Notas Importantes
@@ -198,8 +215,8 @@ Para implementar em ambiente real com dados persistentes:
 ## 🔐 Credenciais de Teste
 
 ### Admin
-- Email: `servico@jauto.pt`
-- Password: `12345678`
+- Email: `admin@algarvetunacharter.pt`
+- Password: `Abc.1234!jauto`
 
 ### Cliente Teste
 - Criar novo em auth.html

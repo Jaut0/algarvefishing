@@ -4,10 +4,50 @@
 
 // Inicialização
 document.addEventListener('DOMContentLoaded', () => {
+    limparDadosMockAntigos(); // 🧹 LIMPEZA AUTOMÁTICA
     initHeader();
     initMobileMenu();
     initScrollAnimations();
 });
+
+// ============================================
+// 🧹 LIMPEZA AUTOMÁTICA DE DADOS MOCK
+// ============================================
+function limparDadosMockAntigos() {
+    // Lista de chaves que podem conter dados mock
+    const chavesParaLimpar = [
+        'barcosMock',
+        'saidasMock',
+        'viagensMock',
+        'capitaesMock',
+        'clientesMock',
+        'emailsSimulados'
+    ];
+    
+    // Remover chaves mock
+    chavesParaLimpar.forEach(chave => {
+        if (localStorage.getItem(chave)) {
+            localStorage.removeItem(chave);
+            console.log(`🧹 Removido: ${chave}`);
+        }
+    });
+    
+    // Limpar utilizadores mock antigos (manter apenas registos reais recentes)
+    const utilizadores = JSON.parse(localStorage.getItem('utilizadores') || '[]');
+    const hojeTimestamp = new Date().setHours(0, 0, 0, 0);
+    const utilizadoresReais = utilizadores.filter(user => {
+        // Manter se foi criado hoje OU se tem emailConfirmado = true (registo real)
+        const criadoHoje = user.dataCriacao && new Date(user.dataCriacao).setHours(0, 0, 0, 0) === hojeTimestamp;
+        const emailConfirmado = user.emailConfirmado === true || user.status === 'ativo';
+        return criadoHoje || emailConfirmado;
+    });
+    
+    if (utilizadores.length !== utilizadoresReais.length) {
+        localStorage.setItem('utilizadores', JSON.stringify(utilizadoresReais));
+        console.log(`🧹 Utilizadores: ${utilizadores.length} → ${utilizadoresReais.length}`);
+    }
+}
+
 
 // ============================================
 // HEADER SCROLL

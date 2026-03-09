@@ -2,81 +2,11 @@
 const urlParams = new URLSearchParams(window.location.search);
 const barcoId = parseInt(urlParams.get('barco'));
 
-// Mock data - Same as escolher-barco.js
-const barcos = [
-    {
-        id: 1,
-        nome: "Mar Azul",
-        tipo: "Traineira",
-        local: "Lisboa",
-        porto: "Porto de Lisboa",
-        capacidade: 8,
-        comprimento: 12,
-        motor: "300 HP",
-        ano: 2020,
-        rating: 4.8,
-        avaliacoes: 24,
-        capitao: {
-            nome: "Pedro Costa",
-            experiencia: 15,
-            avatar: "👨‍✈️",
-            telefone: "+351 912 345 678",
-            email: "pedro.costa@fishinghub.pt"
-        },
-        foto: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=800&h=600&fit=crop",
-        extras: ["GPS", "Sonar", "Sanita", "Cozinha"],
-        status: "aprovado"
-    },
-    {
-        id: 2,
-        nome: "Oceano Bravo",
-        tipo: "Lancha",
-        local: "Algarve",
-        porto: "Marina de Vilamoura",
-        capacidade: 6,
-        comprimento: 10,
-        motor: "250 HP",
-        ano: 2021,
-        rating: 4.9,
-        avaliacoes: 18,
-        capitao: {
-            nome: "João Silva",
-            experiencia: 12,
-            avatar: "👨‍✈️",
-            telefone: "+351 918 765 432",
-            email: "joao.silva@fishinghub.pt"
-        },
-        foto: "https://images.unsplash.com/photo-1567899378494-47b22a2ae96a?w=800&h=600&fit=crop",
-        extras: ["GPS", "Sonar", "Ar Condicionado", "Som"],
-        status: "aprovado"
-    },
-    {
-        id: 3,
-        nome: "Alegria",
-        tipo: "Traineira",
-        local: "Setúbal",
-        porto: "Porto de Setúbal",
-        capacidade: 10,
-        comprimento: 14,
-        motor: "400 HP",
-        ano: 2019,
-        rating: 4.7,
-        avaliacoes: 31,
-        capitao: {
-            nome: "Ana Rodrigues",
-            experiencia: 20,
-            avatar: "👩‍✈️",
-            telefone: "+351 965 123 789",
-            email: "ana.rodrigues@fishinghub.pt"
-        },
-        foto: "https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=800&h=600&fit=crop",
-        extras: ["GPS", "Sonar", "Sanita", "Cozinha", "Deck"],
-        status: "aprovado"
-    }
-];
+// Carregar barcos do localStorage
+const barcos = JSON.parse(localStorage.getItem('barcos') || '[]');
 
 // Find barco
-const barco = barcos.find(b => b.id === barcoId) || barcos[0];
+const barco = barcos.find(b => b.id === barcoId);
 
 // Calendar state
 let currentDate = new Date();
