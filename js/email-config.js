@@ -19,7 +19,7 @@ const EMAIL_CONFIG = {
     },
     
     // ✅ PUBLIC KEY CONFIGURADA
-    publicKey: 'BYGLDBykrDy2VyUVy',
+    publicKey: 'BYGLi4S1racY1Uhq-',
     
     // ✅ NÃO PRECISA MEXER AQUI EMBAIXO ✅
     emails: {
