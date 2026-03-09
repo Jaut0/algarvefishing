@@ -136,20 +136,6 @@
                             </p>
                         </div>
                     </form>
-                    
-                    <!-- Credenciais de teste (remover em produção) -->
-                    <div style="margin-top: 1.5rem; padding: 1rem; background: var(--cor-cinza-claro); border-radius: var(--radius-pequeno); font-size: 0.85rem;">
-                        <div style="font-weight: 600; margin-bottom: 0.5rem; color: var(--cor-primaria);">
-                            <i class="fas fa-key"></i> Credenciais de Acesso:
-                        </div>
-                        <div style="font-family: 'Courier New', monospace; background: white; padding: 0.75rem; border-radius: 4px; margin-top: 0.5rem;">
-                            <div><strong>Email:</strong> servico@jauto.pt</div>
-                            <div style="margin-top: 0.25rem;"><strong>Password:</strong> 12345678</div>
-                        </div>
-                        <div style="margin-top: 0.5rem; color: var(--cor-erro); font-size: 0.8rem;">
-                            <i class="fas fa-exclamation-circle"></i> Alterar password após primeiro acesso
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -177,10 +163,6 @@
                 mostrarToast('Email ou password incorretos!', 'erro');
             }
         });
-        
-        // Auto-preencher para demo (remover em produção)
-        document.getElementById('adminEmail').value = 'servico@jauto.pt';
-        document.getElementById('adminPassword').value = '12345678';
     </script>
 </body>
 </html>
