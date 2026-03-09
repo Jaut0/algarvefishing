@@ -160,6 +160,10 @@
             background-color: rgba(255, 255, 255, 0.2);
         }
     </style>
+    
+    <!-- EmailJS SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script src="js/email-config.js"></script>
 </head>
 <body>
     <div class="auth-container">
@@ -334,6 +338,7 @@
     </div>
     
     <script src="js/main.js"></script>
+<script src="js/limpeza-tokens.js"></script>
     <script>
         // Tabs de Login/Registar
         const tabs = document.querySelectorAll('.auth-tab');
@@ -402,19 +407,48 @@
                 return;
             }
             
-            // Buscar utilizador
+            // Buscar utilizador nas contas ATIVADAS
             const utilizadores = JSON.parse(localStorage.getItem('utilizadores') || '[]');
             const utilizador = utilizadores.find(u => u.email === email && u.password === password);
             
             if (!utilizador) {
+                // ⚠️ Verificar se está na lista de PENDENTES (aguardando ativação de email)
+                const usuariosPendentes = JSON.parse(localStorage.getItem('usuariosPendentes') || '[]');
+                const usuarioPendente = usuariosPendentes.find(u => u.email === email && u.password === password);
+                
+                if (usuarioPendente) {
+                    mostrarToast('📧 Conta não ativada!', 'aviso');
+                    alert(`📧 CONTA NÃO ATIVADA
+
+Você ainda não ativou sua conta!
+
+✉️ Enviamos um email para: ${email}
+
+⏳ PRÓXIMOS PASSOS:
+1️⃣ Verifique sua caixa de entrada (e spam!)
+2️⃣ Clique no link de ativação
+3️⃣ Sua conta será ativada automaticamente
+4️⃣ Volte aqui para fazer login
+
+⚠️ O link expira em 24 horas!
+
+Não recebeu o email?
+• Verifique a pasta de spam
+• Aguarde alguns minutos
+• Faça um novo registo se expirou
+
+Equipa Algarve Charter`);
+                    return;
+                }
+                
+                // Não encontrou nem em ativos nem em pendentes
                 mostrarToast('❌ Email ou password incorretos!', 'erro');
                 return;
             }
             
-            // Sistema sem emails - Não verifica emailConfirmado
-            // (Removido: verificação de email confirmado)
+            // ✅ Utilizador encontrado nas contas ATIVAS
             
-            // Verificar status
+            // Verificar status (apenas para capitães)
             if (utilizador.status === 'pendente' || utilizador.status === 'pendente_confirmacao') {
                 mostrarToast('⏳ Conta pendente de aprovação!', 'aviso');
                 alert(`⏳ Conta Pendente de Aprovação
@@ -559,14 +593,14 @@ Para mais informações, contacte: servico@jauto.pt`);
                 return;
             }
             
-            // Gerar token único de confirmação
-            const tokenConfirmacao = 'TOKEN_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+            // 🔐 Gerar token único de ativação (16 caracteres)
+            const tokenAtivacao = Date.now().toString(36) + Math.random().toString(36).substr(2, 9);
             
             // 🔥 ID ÚNICO GARANTIDO (timestamp + random + email hash)
             const emailHash = email.split('').reduce((a, b) => ((a << 5) - a + b.charCodeAt(0)) | 0, 0);
             const uniqueId = 'USER_' + Date.now() + '_' + Math.abs(emailHash).toString(36);
             
-            // Criar objeto do utilizador
+            // Criar objeto do utilizador (PENDENTE DE ATIVAÇÃO)
             const novoUtilizador = {
                 id: uniqueId,
                 nome: nome,
@@ -574,9 +608,10 @@ Para mais informações, contacte: servico@jauto.pt`);
                 telefone: telefone,
                 password: password,
                 tipo: tipoSelecionado,
-                status: tipoSelecionado === 'capitao' ? 'pendente' : 'ativo',
-                emailConfirmado: true, // Sistema sem emails - sempre true
-                tokenConfirmacao: tokenConfirmacao,
+                status: 'pendente_ativacao', // ⚠️ SEMPRE pendente até ativar email
+                emailConfirmado: false,
+                token: tokenAtivacao,
+                expiracaoToken: new Date(Date.now() + 24*60*60*1000).toISOString(), // 24h
                 dataCriacao: new Date().toISOString()
             };
             
@@ -640,20 +675,30 @@ Para mais informações, contacte: servico@jauto.pt`);
                         }
                     };
                     
-                    // Guardar no localStorage
-                    utilizadores = JSON.parse(localStorage.getItem('utilizadores') || '[]');
-                    utilizadores.push(novoUtilizador);
-                    localStorage.setItem('utilizadores', JSON.stringify(utilizadores));
+                    // ⚠️ GUARDAR NA LISTA DE PENDENTES (não em utilizadores)
+                    let usuariosPendentes = JSON.parse(localStorage.getItem('usuariosPendentes') || '[]');
+                    usuariosPendentes.push(novoUtilizador);
+                    localStorage.setItem('usuariosPendentes', JSON.stringify(usuariosPendentes));
                     
-                    console.log('✅ Utilizador registado:', novoUtilizador);
-                    console.log('📧 Token de confirmação:', tokenConfirmacao);
+                    console.log('✅ Capitão registado (pendente de ativação):', novoUtilizador.email);
+                    console.log('🔐 Token de ativação:', tokenAtivacao);
                     
-                    // Gerar link de confirmação
-                    const linkConfirmacao = `${window.location.origin}/confirmar-email.html?token=${tokenConfirmacao}`;
-                    console.log('🔗 Link de confirmação:', linkConfirmacao);
+                    // 📧 ENVIAR EMAIL DE ATIVAÇÃO PARA O CAPITÃO
+                    if (typeof enviarEmailAtivacaoCapitao === 'function') {
+                        enviarEmailAtivacaoCapitao(novoUtilizador, tokenAtivacao).then(result => {
+                            if (result.success) {
+                                console.log('✅ Email de ativação enviado para:', novoUtilizador.email);
+                            } else {
+                                console.error('❌ Erro ao enviar email:', result.error);
+                                mostrarToast('⚠️ Erro ao enviar email. Verifique o email digitado.', 'aviso');
+                            }
+                        });
+                    } else {
+                        console.warn('⚠️ Função enviarEmailAtivacaoCapitao não encontrada!');
+                    }
                     
                     // Mostrar mensagem de sucesso
-                    mostrarToast('✅ Registo submetido com sucesso!', 'sucesso');
+                    mostrarToast('✅ Email de ativação enviado! Verifique sua caixa de entrada.', 'sucesso');
                     
                     setTimeout(() => {
                         alert(`✅ Registo submetido com sucesso!
@@ -686,46 +731,52 @@ Equipa Algarve Tuna Charter`);
                 return; // Importante: para parar execução até Promise resolver
             }
             
-            // Se não for capitão, continua normalmente
-            // Guardar no localStorage
-            utilizadores = JSON.parse(localStorage.getItem('utilizadores') || '[]');
-            utilizadores.push(novoUtilizador);
-            localStorage.setItem('utilizadores', JSON.stringify(utilizadores));
+            // Se não for capitão (CLIENTE), também fica pendente de ativação
+            // ⚠️ GUARDAR NA LISTA DE PENDENTES
+            let usuariosPendentes = JSON.parse(localStorage.getItem('usuariosPendentes') || '[]');
+            usuariosPendentes.push(novoUtilizador);
+            localStorage.setItem('usuariosPendentes', JSON.stringify(usuariosPendentes));
             
-            console.log('✅ Utilizador registado:', novoUtilizador);
-            console.log('📧 Token de confirmação:', tokenConfirmacao);
+            console.log('✅ Cliente registado (pendente de ativação):', novoUtilizador.email);
+            console.log('🔐 Token de ativação:', tokenAtivacao);
+            
+            // 📧 ENVIAR EMAIL DE ATIVAÇÃO PARA O CLIENTE
+            if (typeof enviarEmailAtivacaoCliente === 'function') {
+                enviarEmailAtivacaoCliente(novoUtilizador, tokenAtivacao).then(result => {
+                    if (result.success) {
+                        console.log('✅ Email de ativação enviado para:', novoUtilizador.email);
+                    } else {
+                        console.error('❌ Erro ao enviar email:', result.error);
+                        mostrarToast('⚠️ Erro ao enviar email. Verifique o email digitado.', 'aviso');
+                    }
+                });
+            } else {
+                console.warn('⚠️ Função enviarEmailAtivacaoCliente não encontrada!');
+            }
             
             // Mostrar mensagem de sucesso
-            mostrarToast('✅ Conta criada com sucesso!', 'sucesso');
+            mostrarToast('✅ Email de ativação enviado! Verifique sua caixa de entrada.', 'sucesso');
             
             setTimeout(() => {
-                if (tipoSelecionado === 'capitao') {
-                    alert(`✅ Registo submetido com sucesso!
+                alert(`📧 EMAIL DE ATIVAÇÃO ENVIADO!
+
+✅ Enviamos um email para: ${email}
 
 ⏳ PRÓXIMOS PASSOS:
 
-1️⃣ A sua conta ficará PENDENTE de aprovação
-2️⃣ Administração validará os seus dados
-3️⃣ Aprovação em 24-48 horas
-4️⃣ Poderá fazer login após aprovação
+1️⃣ Verifique sua caixa de entrada (e spam!)
+2️⃣ Clique no link de ativação
+3️⃣ Sua conta será ativada automaticamente
+4️⃣ Faça login após ativar
 
-📱 Será contactado quando a sua conta for aprovada!
+⚠️ O link expira em 24 horas!
 
-Obrigado!
-Equipa Algarve Tuna Charter`);
-                } else {
-                    alert(`✅ Conta criada com sucesso!
+Não recebeu? Verifique:
+• Email digitado corretamente
+• Pasta de spam/lixo eletrônico
+• Aguarde alguns minutos
 
-🎣 BEM-VINDO AO ALGARVE TUNA CHARTER!
-
-Já pode fazer login e:
-• Explorar barcos disponíveis
-• Contactar capitães
-• Fazer reservas
-
-Boas pescarias!
-Equipa Algarve Tuna Charter`);
-                }
+Equipa Algarve Charter`);
                 
                 window.location.href = 'index.html';
             }, 2000);

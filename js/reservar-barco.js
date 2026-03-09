@@ -358,6 +358,48 @@ document.getElementById('reservaForm').addEventListener('submit', (e) => {
     reservas.push(formData);
     localStorage.setItem('reservasPendentes', JSON.stringify(reservas));
     
+    // 📧 ENVIAR EMAILS DE RESERVA (Capitão + Cliente)
+    const datasSelecionadasTexto = formData.dias.map(d => formatDateReadable(d)).join(', ');
+    
+    // 1️⃣ Email para o CAPITÃO
+    if (typeof enviarEmailReservaCapitao === 'function') {
+        enviarEmailReservaCapitao({
+            capitaoNome: formData.capitao,
+            capitaoEmail: formData.capitaoEmail,
+            clienteNome: formData.cliente.nome,
+            clienteEmail: formData.cliente.email,
+            clienteTelefone: formData.cliente.telefone,
+            barcoNome: formData.barcoNome,
+            datasSelecionadas: datasSelecionadasTexto,
+            numPescadores: formData.cliente.numPescadores,
+            mensagem: formData.cliente.mensagem || 'Sem mensagem adicional'
+        }).then(result => {
+            if (result.success) {
+                console.log('✅ Email enviado ao capitão:', formData.capitaoEmail);
+            } else {
+                console.error('❌ Erro ao enviar email ao capitão:', result.error);
+            }
+        });
+    }
+    
+    // 2️⃣ Email para o CLIENTE (confirmação)
+    if (typeof enviarEmailReservaCliente === 'function') {
+        enviarEmailReservaCliente({
+            clienteNome: formData.cliente.nome,
+            clienteEmail: formData.cliente.email,
+            barcoNome: formData.barcoNome,
+            capitaoNome: formData.capitao,
+            datasSelecionadas: datasSelecionadasTexto,
+            numPescadores: formData.cliente.numPescadores
+        }).then(result => {
+            if (result.success) {
+                console.log('✅ Email de confirmação enviado ao cliente:', formData.cliente.email);
+            } else {
+                console.error('❌ Erro ao enviar email ao cliente:', result.error);
+            }
+        });
+    }
+    
     // Show success modal
     showReservaSuccessModal(formData);
 });
