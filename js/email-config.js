@@ -7,7 +7,7 @@
 
 const EMAIL_CONFIG = {
     // ✅ SERVICE ID CONFIGURADO
-    serviceID: 'service_lzvrtr7',
+    serviceID: 'service_6xtr4m6',
     
     // ✅ TEMPLATE IDs CONFIGURADOS
     templates: {
