@@ -12,6 +12,7 @@ let saidasFiltradas = [...saidasData];
 // ============================================
 document.addEventListener('DOMContentLoaded', () => {
     renderizarSaidas();
+    atualizarContadorResultados(); // ✅ ADICIONAR ESTA LINHA
     initFiltros();
 });
 
