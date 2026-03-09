@@ -45,8 +45,21 @@ function initEmailJS() {
     }
     
     emailjs.init(EMAIL_CONFIG.publicKey);
-    console.log('✅ EmailJS inicializado!');
+    console.log('✅ EmailJS inicializado com Public Key:', EMAIL_CONFIG.publicKey);
     return true;
+}
+
+// ⚡ INICIALIZAR AUTOMATICAMENTE QUANDO O SCRIPT CARREGAR
+if (typeof emailjs !== 'undefined') {
+    initEmailJS();
+} else {
+    // Se o EmailJS ainda não carregou, tentar quando o DOM estiver pronto
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initEmailJS);
+    } else {
+        // Tentar após 500ms
+        setTimeout(initEmailJS, 500);
+    }
 }
 
 /**
