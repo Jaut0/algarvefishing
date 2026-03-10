@@ -182,6 +182,9 @@
         }
     })();
     </script>
+    <!-- EmailJS SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script src="js/email-config.js"></script>
 </head>
 <body>
     <header class="header">
@@ -1754,9 +1757,12 @@ Equipa Algarve Tuna Charter
                                                 ? `<button class="btn btn-outline btn-pequeno" onclick="bloquearUtilizador('${usuario.id}')" title="Bloquear utilizador">
                                                     <i class="fas fa-ban"></i>
                                                 </button>`
-                                                : `<button class="btn btn-primary btn-pequeno" onclick="desbloquearUtilizador('${usuario.id}')" title="Desbloquear utilizador">
-                                                    <i class="fas fa-unlock"></i>
+                                                : `<button class="btn btn-pequeno" onclick="desbloquearUtilizador('${usuario.id}')" title="Ativar conta e enviar email" style="background:#10B981;border:1px solid #10B981;color:white;padding:0.35rem 0.75rem;border-radius:6px;cursor:pointer;">
+                                                    <i class="fas fa-unlock"></i> Ativar
                                                 </button>`}
+                                            <button class="btn btn-outline btn-pequeno" onclick="enviarEmailAtivacaoManual('${usuario.id}')" title="Reenviar email de ativação" style="color: #0288D1; border-color: #0288D1;">
+                                                <i class="fas fa-envelope"></i>
+                                            </button>
                                             <button class="btn btn-outline btn-pequeno" onclick="apagarUtilizador('${usuario.id}', '${usuario.nome}')" title="Apagar utilizador" style="color: #EF4444; border-color: #EF4444;">
                                                 <i class="fas fa-trash"></i>
                                             </button>
@@ -1840,9 +1846,12 @@ Equipa Algarve Tuna Charter
                                                     ? `<button class="btn btn-outline btn-pequeno" onclick="bloquearUtilizador('${usuario.id}')" title="Bloquear utilizador">
                                                         <i class="fas fa-ban"></i>
                                                     </button>`
-                                                    : `<button class="btn btn-primary btn-pequeno" onclick="desbloquearUtilizador('${usuario.id}')" title="Desbloquear utilizador">
-                                                        <i class="fas fa-unlock"></i>
+                                                    : `<button class="btn btn-pequeno" onclick="desbloquearUtilizador('${usuario.id}')" title="Ativar conta e enviar email" style="background:#10B981;border:1px solid #10B981;color:white;padding:0.35rem 0.75rem;border-radius:6px;cursor:pointer;">
+                                                        <i class="fas fa-unlock"></i> Ativar
                                                     </button>`}
+                                                <button class="btn btn-outline btn-pequeno" onclick="enviarEmailAtivacaoManual('${usuario.id}')" title="Reenviar email de ativação" style="color: #0288D1; border-color: #0288D1;">
+                                                    <i class="fas fa-envelope"></i>
+                                                </button>
                                                 <button class="btn btn-outline btn-pequeno" onclick="apagarUtilizador('${usuario.id}', '${usuario.nome}')" title="Apagar utilizador" style="color: #EF4444; border-color: #EF4444;">
                                                     <i class="fas fa-trash"></i>
                                                 </button>
@@ -1966,7 +1975,7 @@ Equipa Algarve Tuna Charter
         }
         
         function desbloquearUtilizador(userId) {
-            if (!confirm('Desbloquear este utilizador?\n\nO utilizador voltará a ter acesso à plataforma.')) {
+            if (!confirm('Desbloquear este utilizador?\n\nO utilizador voltará a ter acesso à plataforma.\n\nUm email de notificação será enviado ao utilizador.')) {
                 return;
             }
             
@@ -1974,18 +1983,69 @@ Equipa Algarve Tuna Charter
             const index = utilizadores.findIndex(u => u.id === userId);
             
             if (index !== -1) {
+                const utilizador = utilizadores[index];
                 utilizadores[index].status = utilizadores[index].emailConfirmado ? 'ativo' : 'pendente_confirmacao';
                 utilizadores[index].dataDesbloqueio = new Date().toISOString();
                 delete utilizadores[index].dataBloqueio;
                 localStorage.setItem('utilizadores', JSON.stringify(utilizadores));
                 
-                mostrarToast('✅ Utilizador desbloqueado com sucesso!', 'sucesso');
+                // Enviar email de notificação ao utilizador
+                if (typeof enviarEmailContaAtivadaCliente === 'function') {
+                    enviarEmailContaAtivadaCliente(utilizador).then(resultado => {
+                        if (resultado.success) {
+                            console.log('✅ Email de ativação enviado para:', utilizador.email);
+                        } else {
+                            console.warn('⚠️ Email guardado localmente (EmailJS indisponível)');
+                        }
+                    });
+                }
+                
+                mostrarToast('✅ Utilizador desbloqueado! Email de notificação enviado.', 'sucesso');
                 carregarUsuarios();
             } else {
                 mostrarToast('❌ Erro ao desbloquear utilizador!', 'erro');
             }
         }
         
+        // ===== ENVIO MANUAL DE EMAIL DE ATIVAÇÃO =====
+        function enviarEmailAtivacaoManual(userId) {
+            const utilizadores = JSON.parse(localStorage.getItem('utilizadores') || '[]');
+            const utilizador = utilizadores.find(u => u.id === userId);
+            
+            if (!utilizador) {
+                mostrarToast('❌ Utilizador não encontrado!', 'erro');
+                return;
+            }
+            
+            if (!confirm(`Enviar email de ativação para:\n\n👤 ${utilizador.nome}\n📧 ${utilizador.email}\n\nConfirma?`)) {
+                return;
+            }
+            
+            if (typeof enviarEmailContaAtivadaCliente === 'function') {
+                enviarEmailContaAtivadaCliente(utilizador).then(resultado => {
+                    if (resultado.success) {
+                        mostrarToast(`✅ Email de ativação enviado para ${utilizador.email}!`, 'sucesso');
+                    } else {
+                        mostrarToast(`📧 Email guardado localmente (EmailJS indisponível). Verifique caixa-email.html`, 'aviso');
+                    }
+                });
+            } else {
+                // Fallback: guardar email localmente
+                let emailsSimulados = JSON.parse(localStorage.getItem('emailsSimulados') || '[]');
+                emailsSimulados.push({
+                    id: 'EMAIL_' + Date.now(),
+                    para: utilizador.email,
+                    assunto: '✅ Conta Ativada - Algarve Tuna Charter',
+                    corpo: `Olá ${utilizador.nome},\n\nA sua conta foi ativada com sucesso!\n\nFaça login em: ${window.location.origin}/auth.html`,
+                    dataEnvio: new Date().toISOString(),
+                    lido: false
+                });
+                localStorage.setItem('emailsSimulados', JSON.stringify(emailsSimulados));
+                mostrarToast(`📧 Email guardado para ${utilizador.email}`, 'aviso');
+            }
+        }
+
+
         function apagarUtilizador(userId, userName) {
             if (!confirm(`⚠️ ATENÇÃO! AÇÃO IRREVERSÍVEL!\n\nTem a certeza que deseja APAGAR permanentemente o utilizador:\n\n"${userName}"\n\nTodos os dados serão removidos:\n• Perfil completo\n• Reservas\n• Histórico\n\nEsta ação NÃO pode ser desfeita!`)) {
                 return;

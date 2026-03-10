@@ -692,5 +692,27 @@
 
         document.addEventListener('DOMContentLoaded', init);
     </script>
+
+    <script>
+    // Actualizar header quando utilizador está logado
+    document.addEventListener('DOMContentLoaded', function() {
+        try {
+            const raw = localStorage.getItem('usuarioLogado');
+            if (!raw) return;
+            const usuario = JSON.parse(raw);
+            if (!usuario || !usuario.email) return;
+            const dashboardUrl = usuario.tipo === 'capitao' ? 'dashboard-capitao.html' : 'dashboard-usuario.html';
+            document.querySelectorAll('a[href="auth.html"], a[href="./auth.html"]').forEach(btn => {
+                btn.textContent = '🔐 Dashboard';
+                btn.href = dashboardUrl;
+                if (btn.classList.contains('btn') || btn.classList.contains('btn-primario') || btn.classList.contains('btn-pequeno')) {
+                    btn.style.background = 'linear-gradient(135deg, #FF8F00, #FFB74D)';
+                    btn.style.border = '2px solid #FF8F00';
+                    btn.style.color = '#fff';
+                }
+            });
+        } catch(e) {}
+    });
+    </script>
 </body>
 </html>

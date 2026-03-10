@@ -189,8 +189,14 @@ function aplicarFiltros() {
             return false;
         }
         
-        if (localizacao && saida.localizacao !== localizacao) {
-            return false;
+        if (localizacao) {
+            // Compatibilidade: comparar tanto com valor curto como com texto completo
+            const loc = (saida.localizacao || '').toLowerCase();
+            const filtroLoc = localizacao.toLowerCase();
+            // Verificar se a localização contém o valor do filtro ou começa por ele
+            if (!loc.includes(filtroLoc) && !filtroLoc.includes(loc) && loc !== filtroLoc) {
+                return false;
+            }
         }
         
         if (tipoPesca && !(saida.tipos || []).includes(tipoPesca)) {

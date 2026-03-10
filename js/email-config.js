@@ -234,3 +234,77 @@ window.enviarEmailAtivacaoCliente = enviarEmailAtivacaoCliente;
 window.enviarEmailReservaCapitao = enviarEmailReservaCapitao;
 window.enviarEmailReservaCliente = enviarEmailReservaCliente;
 window.enviarEmailSuporte = enviarEmailSuporte;
+
+/**
+ * Enviar Email de Conta Ativada (para Cliente - pelo Admin)
+ */
+async function enviarEmailContaAtivadaCliente(cliente) {
+    const params = {
+        to_email: cliente.email,
+        from_name: 'Algarve Tuna Charter',
+        reply_to: EMAIL_CONFIG.emails.noreply,
+        tipo_notificacao: 'Conta Ativada',
+        titulo_email: '✅ A SUA CONTA FOI ATIVADA!',
+        nome_destinatario: cliente.nome,
+        nome_usuario: cliente.nome,
+        mensagem_principal: 'A sua conta na Algarve Tuna Charter foi ativada pela nossa equipa de administração.',
+        link_ativacao: window.location.origin + '/auth.html',
+        token_ativacao: '',
+        data_ativacao: new Date().toLocaleString('pt-PT'),
+        link_dashboard: window.location.origin + '/dashboard-usuario.html'
+    };
+
+    // Guardar email simulado (como backup sempre funcional)
+    let emailsSimulados = JSON.parse(localStorage.getItem('emailsSimulados') || '[]');
+    emailsSimulados.push({
+        id: 'EMAIL_' + Date.now(),
+        para: cliente.email,
+        assunto: '✅ Conta Ativada - Algarve Tuna Charter',
+        corpo: `
+Olá ${cliente.nome},
+
+A sua conta na Algarve Tuna Charter foi ativada com sucesso!
+
+📋 Detalhes da Conta:
+• Nome: ${cliente.nome}
+• Email: ${cliente.email}
+• Data de Ativação: ${new Date().toLocaleString('pt-PT')}
+
+🎉 O que pode fazer agora:
+• Explorar as saídas de pesca disponíveis
+• Fazer reservas com os nossos capitães
+• Gerir o seu perfil no dashboard
+
+🔗 Faça login aqui:
+${window.location.origin}/auth.html
+
+Bem-vindo à Algarve Tuna Charter!
+
+---
+Equipa Algarve Tuna Charter
+Big Game Fishing no Algarve
+📧 suporte@algarvetunacharter.pt
+📞 +351 289 123 456
+        `.trim(),
+        dataEnvio: new Date().toISOString(),
+        lido: false
+    });
+    localStorage.setItem('emailsSimulados', JSON.stringify(emailsSimulados));
+
+    // Tentar enviar via EmailJS
+    try {
+        if (typeof emailjs === 'undefined') throw new Error('EmailJS não disponível');
+        const response = await emailjs.send(
+            EMAIL_CONFIG.serviceID,
+            EMAIL_CONFIG.templates.ativacaoCliente,
+            params
+        );
+        console.log('✅ Email de ativação de conta enviado ao cliente:', cliente.email);
+        return { success: true, response };
+    } catch (error) {
+        console.warn('⚠️ EmailJS falhou (email guardado localmente):', error);
+        return { success: false, error, savedLocally: true };
+    }
+}
+
+window.enviarEmailContaAtivadaCliente = enviarEmailContaAtivadaCliente;

@@ -77,7 +77,189 @@
         .badge-confirmada{ background: #D1FAE5; color: #065F46; }
         .badge-cancelada { background: #FEE2E2; color: #991B1B; }
         .badge-concluida { background: #F3F4F6; color: #374151; }
-    </style>
+    
+        /* ===== SAÍDAS PARTILHADAS ===== */
+        .partilhadas-hero {
+            background: linear-gradient(135deg, #0A1628 0%, #1a2d4a 50%, #0d3b5e 100%);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(255,143,0,0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        .partilhadas-hero::before {
+            content: '🤝';
+            position: absolute;
+            right: 1.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 5rem;
+            opacity: 0.15;
+        }
+        .partilhadas-filtros {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.5rem;
+            align-items: center;
+        }
+        .partilhadas-filtros select {
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: #fff;
+            padding: 0.6rem 1rem;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            flex: 1;
+            min-width: 150px;
+        }
+        .partilhadas-filtros select option { background: #1a2d4a; color: #fff; }
+        .partilhadas-tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid rgba(255,255,255,0.1);
+            padding-bottom: 0.5rem;
+        }
+        .partilhadas-tab {
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px 8px 0 0;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+            background: rgba(255,255,255,0.05);
+            color: rgba(255,255,255,0.6);
+        }
+        .partilhadas-tab.ativa {
+            background: linear-gradient(135deg, #FF8F00, #FFB74D);
+            color: #fff;
+            box-shadow: 0 4px 12px rgba(255,143,0,0.3);
+        }
+        .barco-partilha-card {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,143,0,0.25);
+            border-radius: 14px;
+            overflow: hidden;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .barco-partilha-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(255,143,0,0.2);
+        }
+        .barco-partilha-img {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+        }
+        .barco-partilha-info {
+            padding: 1.1rem;
+        }
+        .barco-partilha-nome {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 0.4rem;
+        }
+        .barco-partilha-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            background: rgba(255,143,0,0.15);
+            border: 1px solid rgba(255,143,0,0.4);
+            color: #FFB74D;
+            font-size: 0.78rem;
+            font-weight: 700;
+            padding: 0.25rem 0.6rem;
+            border-radius: 20px;
+            margin-bottom: 0.6rem;
+        }
+        .barco-partilha-badge.disponivel {
+            background: rgba(16,185,129,0.15);
+            border-color: rgba(16,185,129,0.4);
+            color: #10B981;
+        }
+        .barco-partilha-meta {
+            display: flex;
+            flex-direction: column;
+            gap: 0.35rem;
+            margin: 0.7rem 0;
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.75);
+        }
+        .barco-partilha-meta span { display: flex; align-items: center; gap: 0.5rem; }
+        .barco-partilha-vagas {
+            background: rgba(255,255,255,0.06);
+            border-radius: 8px;
+            padding: 0.6rem 0.8rem;
+            margin: 0.75rem 0;
+            font-size: 0.85rem;
+        }
+        .vagas-barra-bg {
+            background: rgba(255,255,255,0.1);
+            border-radius: 4px;
+            height: 6px;
+            margin-top: 0.5rem;
+            overflow: hidden;
+        }
+        .vagas-barra-fill {
+            height: 100%;
+            border-radius: 4px;
+            background: linear-gradient(90deg, #10B981, #34D399);
+            transition: width 0.4s;
+        }
+        .vagas-barra-fill.quase-cheio { background: linear-gradient(90deg, #F59E0B, #FCD34D); }
+        .vagas-barra-fill.cheio { background: linear-gradient(90deg, #EF4444, #F87171); }
+        .partilhadas-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+            gap: 1.25rem;
+        }
+        .partilhadas-vazia {
+            text-align: center;
+            padding: 3rem 2rem;
+            color: rgba(255,255,255,0.5);
+        }
+        .partilhadas-vazia i { font-size: 3rem; margin-bottom: 1rem; display: block; opacity: 0.4; }
+        .saida-partilhada-card {
+            background: linear-gradient(135deg, rgba(245,158,11,0.08), rgba(217,119,6,0.05));
+            border: 2px solid rgba(245,158,11,0.35);
+            border-radius: 14px;
+            overflow: hidden;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .saida-partilhada-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(245,158,11,0.2);
+        }
+        .saida-partilhada-header {
+            background: linear-gradient(90deg, #F59E0B, #D97706);
+            color: white;
+            text-align: center;
+            padding: 0.4rem;
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+        }
+        .saida-partilhada-img {
+            width: 100%;
+            height: 140px;
+            object-fit: cover;
+        }
+        .saida-partilhada-info {
+            padding: 1.1rem;
+        }
+        .saida-partilhada-titulo {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 0.6rem;
+        }
+
+        </style>
 </head>
 <body>
     <header class="header">
@@ -119,6 +301,9 @@
                 </a>
                 <a href="#" class="sidebar-menu-item" data-section="favoritos">
                     <i class="fas fa-heart"></i><span>Favoritos</span>
+                </a>
+                <a href="#" class="sidebar-menu-item" data-section="partilhadas" style="border-left: 3px solid #F59E0B;">
+                    <i class="fas fa-users" style="color:#F59E0B;"></i><span>🤝 Saídas Partilhadas</span>
                 </a>
                 <a href="#" class="sidebar-menu-item" data-section="perfil">
                     <i class="fas fa-user"></i><span>Meu Perfil</span>
@@ -190,6 +375,36 @@
                     </div>
                 </div>
 
+                <!-- Acesso Rápido: Saídas Partilhadas -->
+                <div class="dashboard-secao" style="margin-top:2rem;">
+                    <div class="dashboard-secao-header">
+                        <h2 class="dashboard-secao-titulo">
+                            <i class="fas fa-users" style="color:#F59E0B;"></i> Saídas Partilhadas
+                        </h2>
+                        <a href="#" class="btn btn-primario btn-pequeno" onclick="event.preventDefault();navegarSecao('partilhadas')" style="background:linear-gradient(135deg,#F59E0B,#D97706);">Ver Todas</a>
+                    </div>
+                    <div id="resumoPartilhadasDashboard">
+                        <div class="partilhadas-hero" style="padding:1.25rem;">
+                            <p style="color:rgba(255,255,255,0.8);font-size:0.9rem;margin-bottom:1rem;">
+                                🤝 Junte-se a outros pescadores numa saída partilhada e pague apenas a sua parte!
+                            </p>
+                            <div id="contadoresPartilhaDashboard" style="display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:1rem;">
+                                <div style="background:rgba(255,255,255,0.06);border-radius:10px;padding:0.75rem 1.2rem;text-align:center;min-width:110px;">
+                                    <div id="dashCountBarcos" style="font-size:1.8rem;font-weight:800;color:#FFB74D;">—</div>
+                                    <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);">Barcos Disponíveis</div>
+                                </div>
+                                <div style="background:rgba(255,255,255,0.06);border-radius:10px;padding:0.75rem 1.2rem;text-align:center;min-width:110px;">
+                                    <div id="dashCountEmCurso" style="font-size:1.8rem;font-weight:800;color:#10B981;">—</div>
+                                    <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);">Saídas com Vagas</div>
+                                </div>
+                            </div>
+                            <a href="#" onclick="event.preventDefault();navegarSecao('partilhadas')" style="display:inline-flex;align-items:center;gap:0.5rem;background:linear-gradient(135deg,#FF8F00,#FFB74D);color:#fff;padding:0.6rem 1.4rem;border-radius:8px;font-weight:700;text-decoration:none;font-size:0.9rem;">
+                                <i class="fas fa-users"></i> Explorar Saídas Partilhadas
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="dashboard-secao" style="margin-top:2rem;">
                     <div class="dashboard-secao-header">
                         <h2 class="dashboard-secao-titulo">
@@ -240,6 +455,94 @@
                     <a href="explorar.html" class="btn btn-primario" style="margin-top:1.5rem;">
                         <i class="fas fa-compass"></i> Descobrir Saídas
                     </a>
+                </div>
+            </div>
+
+
+            <!-- ========== SAÍDAS PARTILHADAS ========== -->
+            <div class="dashboard-secao-wrapper oculto" id="secao-partilhadas">
+                <div class="dashboard-header">
+                    <h1 class="dashboard-titulo">🤝 Saídas Partilhadas</h1>
+                    <p style="color:rgba(245,245,245,0.8);margin-top:0.5rem;">Junte-se a outros pescadores ou reserve lugares em saídas já agendadas</p>
+                </div>
+
+                <!-- Hero explicativo -->
+                <div class="partilhadas-hero">
+                    <h3 style="color:#FFB74D;font-size:1.15rem;margin-bottom:0.5rem;">O que são Saídas Partilhadas?</h3>
+                    <p style="color:rgba(255,255,255,0.8);font-size:0.9rem;line-height:1.6;max-width:600px;">
+                        Existem dois tipos: <strong style="color:#FFB74D;">barcos disponíveis para agendar</strong> (o capitão aceita partilha e aguarda reservas) e 
+                        <strong style="color:#F59E0B;">saídas já em curso</strong> com lugares ainda disponíveis para se juntar. Pague apenas a sua parte!
+                    </p>
+                </div>
+
+                <!-- Filtros -->
+                <div class="partilhadas-filtros">
+                    <select id="filtroPartilhaZona" onchange="carregarSaidasPartilhadas()">
+                        <option value="">🌊 Todas as Zonas</option>
+                        <optgroup label="🌅 Sotavento">
+                            <option value="Vila Real de Santo António">Vila Real de Santo António</option>
+                            <option value="Monte Gordo">Monte Gordo</option>
+                            <option value="Tavira">Tavira</option>
+                            <option value="Santa Luzia">Santa Luzia</option>
+                            <option value="Fuseta">Fuseta</option>
+                            <option value="Olhão">Olhão</option>
+                            <option value="Faro">Faro</option>
+                        </optgroup>
+                        <optgroup label="🏖️ Zona Central">
+                            <option value="Quarteira">Quarteira</option>
+                            <option value="Vilamoura">Vilamoura</option>
+                            <option value="Albufeira">Albufeira</option>
+                            <option value="Armação de Pêra">Armação de Pêra</option>
+                            <option value="Portimão">Portimão</option>
+                            <option value="Alvor">Alvor</option>
+                            <option value="Lagos">Lagos</option>
+                        </optgroup>
+                        <optgroup label="🌊 Barlavento">
+                            <option value="Luz">Luz</option>
+                            <option value="Sagres">Sagres</option>
+                            <option value="Baleeira">Baleeira</option>
+                        </optgroup>
+                    </select>
+                    <select id="filtroPartilhaTipo" onchange="carregarSaidasPartilhadas()">
+                        <option value="">🎣 Todos os Tipos</option>
+                        <option value="fundo">🐟 Pesca de Fundo</option>
+                        <option value="altoMar">🌊 Alto Mar</option>
+                        <option value="jigging">🎣 Jigging</option>
+                        <option value="atum">🐟 Pesca de Atum</option>
+                        <option value="costeira">⚓ Pesca Costeira</option>
+                        <option value="desportiva">🏆 Desportiva</option>
+                    </select>
+                    <button onclick="carregarSaidasPartilhadas()" style="background:linear-gradient(135deg,#FF8F00,#FFB74D);color:#fff;border:none;padding:0.6rem 1.2rem;border-radius:8px;font-weight:700;cursor:pointer;">
+                        <i class="fas fa-sync"></i> Atualizar
+                    </button>
+                </div>
+
+                <!-- Tabs: Barcos Disponíveis | Saídas em Curso -->
+                <div class="partilhadas-tabs">
+                    <button class="partilhadas-tab ativa" id="tabBarcos" onclick="mudarTabPartilha('barcos')">
+                        <i class="fas fa-ship"></i> Barcos Disponíveis
+                        <span id="countBarcos" style="background:rgba(255,255,255,0.2);padding:0.1rem 0.5rem;border-radius:10px;font-size:0.75rem;margin-left:0.4rem;">0</span>
+                    </button>
+                    <button class="partilhadas-tab" id="tabEmCurso" onclick="mudarTabPartilha('emcurso')">
+                        <i class="fas fa-anchor"></i> Saídas com Vagas
+                        <span id="countEmCurso" style="background:rgba(255,255,255,0.2);padding:0.1rem 0.5rem;border-radius:10px;font-size:0.75rem;margin-left:0.4rem;">0</span>
+                    </button>
+                </div>
+
+                <!-- Grid de Barcos Disponíveis -->
+                <div id="gridBarcosPartilha" class="partilhadas-grid">
+                    <div class="partilhadas-vazia">
+                        <i class="fas fa-ship"></i>
+                        <p>A carregar barcos disponíveis...</p>
+                    </div>
+                </div>
+
+                <!-- Grid de Saídas Em Curso com Vagas -->
+                <div id="gridSaidasEmCurso" class="partilhadas-grid" style="display:none;">
+                    <div class="partilhadas-vazia">
+                        <i class="fas fa-anchor"></i>
+                        <p>A carregar saídas com vagas...</p>
+                    </div>
                 </div>
             </div>
 
@@ -354,6 +657,7 @@
             carregarDadosPerfil();
             atualizarStats();
             carregarProximasReservas();
+            atualizarContadoresPartilha();
 
             // Navegação por hash
             const hash = window.location.hash.replace('#','');
@@ -577,6 +881,7 @@
             const sec = document.getElementById('secao-' + nome);
             if (sec) sec.classList.remove('oculto');
             if (nome === 'reservas') carregarMinhasReservas();
+            if (nome === 'partilhadas') carregarSaidasPartilhadas();
         }
 
         menuItems.forEach(item => {
@@ -593,12 +898,191 @@
         // ============================
         // LOGOUT
         // ============================
+
+        // ============================
+        // CONTADORES DASHBOARD PRINCIPAL
+        // ============================
+        function atualizarContadoresPartilha() {
+            try {
+                const saidas = JSON.parse(localStorage.getItem('saidasData') || '[]');
+                const nBarcos = saidas.filter(s => s.status === 'ativa' && s.permitePartilha && !s.partilhada).length;
+                const nEmCurso = saidas.filter(s => {
+                    if (s.status !== 'ativa' || !s.partilhada) return false;
+                    const total = s.vagasDisponiveis || s.maxPartilha || s.lotacao || 0;
+                    const livres = Math.max(0, total - (s.vagasOcupadas || 0));
+                    return livres > 0;
+                }).length;
+                const elBarcos = document.getElementById('dashCountBarcos');
+                const elCurso = document.getElementById('dashCountEmCurso');
+                if (elBarcos) elBarcos.textContent = nBarcos;
+                if (elCurso) elCurso.textContent = nEmCurso;
+            } catch(e) {}
+        }
+
         function logout() {
             if (confirm('Tem a certeza que deseja sair?')) {
                 localStorage.removeItem('usuarioLogado');
                 window.location.href = 'index.html';
             }
         }
-    </script>
+    
+
+        // ============================
+        // SAÍDAS PARTILHADAS
+        // ============================
+        let tabPartilhaAtiva = 'barcos';
+
+        function mudarTabPartilha(tab) {
+            tabPartilhaAtiva = tab;
+            document.getElementById('tabBarcos').classList.toggle('ativa', tab === 'barcos');
+            document.getElementById('tabEmCurso').classList.toggle('ativa', tab === 'emcurso');
+            document.getElementById('gridBarcosPartilha').style.display = tab === 'barcos' ? 'grid' : 'none';
+            document.getElementById('gridSaidasEmCurso').style.display = tab === 'emcurso' ? 'grid' : 'none';
+        }
+
+        function carregarSaidasPartilhadas() {
+            const zona = document.getElementById('filtroPartilhaZona')?.value || '';
+            const tipo = document.getElementById('filtroPartilhaTipo')?.value || '';
+            const todasSaidas = JSON.parse(localStorage.getItem('saidasData') || '[]');
+            const placeholderImg = 'https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=600&h=400&fit=crop';
+
+            // Filtro base por zona e tipo
+            function passaFiltros(saida) {
+                if (zona) {
+                    const loc = (saida.localizacao || '').toLowerCase();
+                    const z = zona.toLowerCase();
+                    if (!loc.includes(z) && !z.includes(loc)) return false;
+                }
+                if (tipo && !(saida.tipos || []).includes(tipo)) return false;
+                return true;
+            }
+
+            // ---- TAB 1: BARCOS DISPONÍVEIS ----
+            // Barcos com permitePartilha=true, status ativa, e que ainda NÃO estão em curso partilhada
+            // (ou seja: o capitão aceita partilha mas ainda não há reserva que a ativou)
+            const barcosDisponiveis = todasSaidas.filter(s =>
+                s.status === 'ativa' &&
+                s.permitePartilha === true &&
+                !s.partilhada &&
+                passaFiltros(s)
+            );
+
+            // ---- TAB 2: SAÍDAS EM CURSO (partilhadas ativas com vagas) ----
+            const saidasEmCurso = todasSaidas.filter(s =>
+                s.status === 'ativa' &&
+                s.partilhada === true &&
+                passaFiltros(s)
+            ).map(s => {
+                const vagasTotal = s.vagasDisponiveis || s.maxPartilha || s.lotacao || 0;
+                const vagasOcup = s.vagasOcupadas || 0;
+                const vagasLivres = Math.max(0, vagasTotal - vagasOcup);
+                return { ...s, vagasLivresPartilha: vagasLivres };
+            }).filter(s => s.vagasLivresPartilha > 0);
+
+            // Actualizar contadores
+            document.getElementById('countBarcos').textContent = barcosDisponiveis.length;
+            document.getElementById('countEmCurso').textContent = saidasEmCurso.length;
+
+            // Renderizar TAB 1: Barcos Disponíveis
+            const gridBarcos = document.getElementById('gridBarcosPartilha');
+            if (barcosDisponiveis.length === 0) {
+                gridBarcos.innerHTML = `
+                    <div class="partilhadas-vazia" style="grid-column:1/-1;">
+                        <i class="fas fa-ship"></i>
+                        <strong style="display:block;color:rgba(255,255,255,0.7);font-size:1rem;margin-bottom:0.5rem;">Sem barcos disponíveis</strong>
+                        <p>Não há barcos com partilha disponível${zona ? ' nesta zona' : ''}${tipo ? ' deste tipo' : ''}.</p>
+                    </div>`;
+            } else {
+                gridBarcos.innerHTML = barcosDisponiveis.map(saida => {
+                    const img = saida.imagem || placeholderImg;
+                    const tipos = (saida.tipos || []).slice(0,2).map(t => formatarTipoPescaPartilha(t)).join(' · ') || '—';
+                    const maxP = saida.maxPartilha || saida.lotacao || '?';
+                    return `
+                    <div class="barco-partilha-card">
+                        <img src="${img}" alt="${saida.barco}" class="barco-partilha-img" onerror="this.src='${placeholderImg}'">
+                        <div class="barco-partilha-info">
+                            <div class="barco-partilha-badge">🤝 Aceita Partilha</div>
+                            <div class="barco-partilha-nome">${saida.barco}</div>
+                            <div class="barco-partilha-meta">
+                                <span><i class="fas fa-user-tie"></i> Capitão ${saida.capitao}</span>
+                                <span><i class="fas fa-map-marker-alt"></i> ${saida.localizacao}</span>
+                                <span><i class="fas fa-clock"></i> ${saida.duracao ? saida.duracao + 'h' : 'A combinar'}</span>
+                                <span><i class="fas fa-users"></i> Até ${maxP} pescadores</span>
+                            </div>
+                            <div style="margin:0.5rem 0;">
+                                ${(saida.tipos||[]).slice(0,3).map(t=>`<span style="background:rgba(255,143,0,0.15);color:#FFB74D;font-size:0.75rem;padding:0.2rem 0.5rem;border-radius:12px;margin-right:0.3rem;">${formatarTipoPescaPartilha(t)}</span>`).join('')}
+                            </div>
+                            <div style="display:flex;justify-content:space-between;align-items:center;margin-top:0.8rem;">
+                                <div style="color:#FFB74D;font-size:1.1rem;font-weight:700;">€${saida.precoPartilhado || saida.preco}<span style="font-size:0.75rem;font-weight:400;color:rgba(255,255,255,0.6);">/pessoa</span></div>
+                                <a href="detalhe-saida.html?id=${saida.id}" style="background:linear-gradient(135deg,#FF8F00,#FFB74D);color:#fff;border:none;padding:0.5rem 1rem;border-radius:8px;font-weight:700;font-size:0.85rem;text-decoration:none;cursor:pointer;">
+                                    <i class="fas fa-paper-plane"></i> Reservar
+                                </a>
+                            </div>
+                        </div>
+                    </div>`;
+                }).join('');
+            }
+
+            // Renderizar TAB 2: Saídas Em Curso
+            const gridEmCurso = document.getElementById('gridSaidasEmCurso');
+            if (saidasEmCurso.length === 0) {
+                gridEmCurso.innerHTML = `
+                    <div class="partilhadas-vazia" style="grid-column:1/-1;">
+                        <i class="fas fa-anchor"></i>
+                        <strong style="display:block;color:rgba(255,255,255,0.7);font-size:1rem;margin-bottom:0.5rem;">Nenhuma saída com vagas</strong>
+                        <p>Não há saídas em curso com lugares disponíveis${zona ? ' nesta zona' : ''}.</p>
+                    </div>`;
+            } else {
+                gridEmCurso.innerHTML = saidasEmCurso.map(saida => {
+                    const img = saida.imagem || placeholderImg;
+                    const vagasTotal = saida.vagasDisponiveis || saida.maxPartilha || saida.lotacao || 0;
+                    const vagasOcup = saida.vagasOcupadas || 0;
+                    const vagasLivres = saida.vagasLivresPartilha;
+                    const pct = vagasTotal > 0 ? Math.round((vagasOcup / vagasTotal) * 100) : 0;
+                    const classBarra = pct >= 90 ? 'cheio' : pct >= 60 ? 'quase-cheio' : '';
+                    return `
+                    <div class="saida-partilhada-card">
+                        <div class="saida-partilhada-header">🤝 SAÍDA PARTILHADA — ${vagasLivres} lugar(es) disponíve${vagasLivres === 1 ? 'l' : 'is'}!</div>
+                        <img src="${img}" alt="${saida.titulo}" class="saida-partilhada-img" onerror="this.src='${placeholderImg}'">
+                        <div class="saida-partilhada-info">
+                            <div class="saida-partilhada-titulo">${saida.titulo}</div>
+                            <div style="font-size:0.85rem;color:rgba(255,255,255,0.7);margin-bottom:0.75rem;">
+                                <span><i class="fas fa-user-tie"></i> ${saida.capitao}</span> ·
+                                <span><i class="fas fa-ship"></i> ${saida.barco}</span>
+                            </div>
+                            <div style="font-size:0.85rem;color:rgba(255,255,255,0.75);margin-bottom:0.6rem;">
+                                <span><i class="fas fa-map-marker-alt" style="color:#FFB74D;"></i> ${saida.localizacao}</span> ·
+                                <span><i class="fas fa-clock" style="color:#FFB74D;"></i> ${saida.duracao ? saida.duracao + 'h' : 'A combinar'}</span>
+                            </div>
+                            <div class="barco-partilha-vagas">
+                                <div style="display:flex;justify-content:space-between;color:rgba(255,255,255,0.8);">
+                                    <span><i class="fas fa-users"></i> Lugares</span>
+                                    <span><strong style="color:#10B981;">${vagasLivres} livres</strong> / ${vagasTotal} total</span>
+                                </div>
+                                <div class="vagas-barra-bg">
+                                    <div class="vagas-barra-fill ${classBarra}" style="width:${pct}%;"></div>
+                                </div>
+                            </div>
+                            <div style="display:flex;justify-content:space-between;align-items:center;margin-top:0.8rem;">
+                                <div style="color:#F59E0B;font-size:1.1rem;font-weight:700;">€${saida.precoPartilhado || saida.preco}<span style="font-size:0.75rem;font-weight:400;color:rgba(255,255,255,0.6);">/pessoa</span></div>
+                                <a href="detalhe-saida.html?id=${saida.id}" style="background:linear-gradient(90deg,#F59E0B,#D97706);color:#fff;border:none;padding:0.5rem 1rem;border-radius:8px;font-weight:700;font-size:0.85rem;text-decoration:none;">
+                                    <i class="fas fa-user-plus"></i> Juntar-me
+                                </a>
+                            </div>
+                        </div>
+                    </div>`;
+                }).join('');
+            }
+        }
+
+        function formatarTipoPescaPartilha(tipo) {
+            const mapa = {
+                fundo: 'Fundo', altoMar: 'Alto Mar', jigging: 'Jigging',
+                atum: 'Atum', costeira: 'Costeira', desportiva: 'Desportiva', torneio: 'Torneio'
+            };
+            return mapa[tipo] || tipo;
+        }
+
+</script>
 </body>
 </html>

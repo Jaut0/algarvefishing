@@ -196,25 +196,26 @@
     <script src="js/explorar.js"></script>
     <script>
         // 🔐 VERIFICAR SESSÃO ATIVA
-        (function verificarSessao() {
-            const usuarioLogado = localStorage.getItem('usuarioLogado');
-            if (usuarioLogado) {
-                try {
-                    const usuario = JSON.parse(usuarioLogado);
-                    const dashboardUrl = usuario.tipo === 'capitao' ? 'dashboard-capitao.html' : 'dashboard-usuario.html';
-                    
-                    // Alterar botão "Entrar" para "Dashboard"
-                    const btnEntrar = document.querySelector('a[href="auth.html"]');
-                    if (btnEntrar) {
-                        btnEntrar.textContent = '🔐 Dashboard';
-                        btnEntrar.href = dashboardUrl;
-                        btnEntrar.style.background = 'linear-gradient(135deg, var(--cor-destaque), #FFB74D)';
-                        btnEntrar.style.border = '2px solid var(--cor-destaque)';
+        (function verificarSessaoActiva() {
+            try {
+                const raw = localStorage.getItem('usuarioLogado');
+                if (!raw) return;
+                const usuario = JSON.parse(raw);
+                if (!usuario || !usuario.email) return;
+                
+                const dashboardUrl = usuario.tipo === 'capitao' ? 'dashboard-capitao.html' : 'dashboard-usuario.html';
+                
+                // Actualizar TODOS os links de auth.html
+                document.querySelectorAll('a[href="auth.html"], a[href="./auth.html"]').forEach(btn => {
+                    btn.textContent = '🔐 Dashboard';
+                    btn.href = dashboardUrl;
+                    if (btn.classList.contains('btn') || btn.classList.contains('btn-primario') || btn.classList.contains('btn-outline')) {
+                        btn.style.background = 'linear-gradient(135deg, #FF8F00, #FFB74D)';
+                        btn.style.border = '2px solid #FF8F00';
+                        btn.style.color = '#fff';
                     }
-                } catch (e) {
-                    console.error('Erro ao verificar sessão:', e);
-                }
-            }
+                });
+            } catch(e) { console.error('Erro sessão:', e); }
         })();
     </script>
 </body>
