@@ -3,14 +3,210 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Criar Saída - Algarve Tuna Charter</title>
+    <title>Criar Saída de Pesca - Algarve Tuna Charter</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>⚓</text></svg>">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/dashboard.css">
+    <style>
+        /* ── Reset de visibilidade forçado pelo dashboard.css ── */
+        body { background: #F5F7FA; color: #1F2937; }
+
+        .form-input, .form-select, .form-textarea {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 0.875rem 1rem;
+            border: 2px solid #E0E5EB;
+            border-radius: 8px;
+            background-color: #ffffff !important;
+            color: #1F2937 !important;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            appearance: none;
+        }
+        .form-input:focus, .form-select:focus, .form-textarea:focus {
+            outline: none;
+            border-color: #1565C0;
+            box-shadow: 0 0 0 3px rgba(21,101,192,0.12);
+        }
+        .form-input::placeholder, .form-textarea::placeholder { color: #9CA3AF; }
+        .form-select {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath fill='%236B7280' d='M7 7l3 3 3-3'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 0.75rem center;
+            background-size: 20px;
+            padding-right: 2.5rem;
+        }
+        .form-textarea { min-height: 100px; resize: vertical; }
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #0A1628 !important;
+            font-size: 0.95rem;
+        }
+        .form-label.obrigatorio::after { content: ' *'; color: #EF4444; }
+        .form-grupo { margin-bottom: 1.5rem; }
+
+        /* ── Layout geral ── */
+        .page-header {
+            background: linear-gradient(135deg, #0A1628 0%, #1565C0 100%);
+            margin-top: 70px;
+            padding: 2.5rem 0;
+            color: white;
+        }
+        .page-header h1 { color: white; margin-bottom: 0.25rem; }
+        .page-header p { color: rgba(255,255,255,0.75); margin: 0; }
+
+        .form-card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+            padding: 2.5rem;
+            margin: 2rem auto;
+            max-width: 800px;
+        }
+
+        .secao-titulo {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #0A1628;
+            border-left: 4px solid #FF8F00;
+            padding-left: 0.75rem;
+            margin: 2rem 0 1.25rem;
+        }
+        .secao-titulo:first-child { margin-top: 0; }
+
+        /* ── Checkboxes de tipo de pesca ── */
+        .tipos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(175px, 1fr));
+            gap: 0.75rem;
+        }
+        .tipo-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 0.75rem 1rem;
+            background: #F9FAFB;
+            border: 2px solid #E5E7EB;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.15s;
+            user-select: none;
+        }
+        .tipo-checkbox input { display: none; }
+        .tipo-checkbox:has(input:checked),
+        .tipo-checkbox.sel {
+            background: #EFF6FF;
+            border-color: #1565C0;
+            color: #1D4ED8;
+            font-weight: 600;
+        }
+        .tipo-checkbox .tipo-icon { font-size: 1.2rem; }
+
+        /* ── Checkboxes de incluído ── */
+        .inclui-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 0.5rem;
+        }
+        .inclui-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.6rem 0.75rem;
+            background: #F9FAFB;
+            border: 1px solid #E5E7EB;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.15s;
+        }
+        .inclui-item input { accent-color: #1565C0; width: 16px; height: 16px; cursor: pointer; }
+        .inclui-item:has(input:checked) { background: #F0FDF4; border-color: #10B981; }
+
+        /* ── Card saída partilhada ── */
+        .card-partilhada {
+            background: linear-gradient(135deg, #EFF6FF, #DBEAFE);
+            border: 2px solid #3B82F6;
+            border-left: 5px solid #1D4ED8;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        .card-partilhada .toggle-label {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #1D4ED8;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            cursor: pointer;
+        }
+        .card-partilhada .toggle-label input[type="checkbox"] {
+            width: 20px; height: 20px;
+            accent-color: #1D4ED8;
+            cursor: pointer;
+        }
+
+        /* ── Botões de ação ── */
+        .btn-cancelar {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.875rem 1.5rem;
+            background: transparent;
+            border: 2px solid #E5E7EB;
+            color: #6B7280;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 1rem;
+        }
+        .btn-criar {
+            flex: 1;
+            padding: 0.875rem 1.5rem;
+            background: linear-gradient(135deg, #FF8F00, #FFB74D);
+            border: none;
+            color: white;
+            border-radius: 8px;
+            font-size: 1.05rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .btn-criar:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(255,143,0,0.3); }
+        .btn-criar:disabled { background: #9CA3AF; transform: none; box-shadow: none; cursor: not-allowed; }
+
+        .aviso-barco {
+            display: none;
+            background: #FEF2F2;
+            border: 1px solid #FCA5A5;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 0.5rem;
+            color: #991B1B;
+            font-size: 0.9rem;
+        }
+        .aviso-barco a { color: #DC2626; font-weight: 600; }
+
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+        .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.25rem; }
+        @media (max-width: 640px) {
+            .grid-2, .grid-3 { grid-template-columns: 1fr; }
+            .form-card { padding: 1.5rem; margin: 1rem; }
+            .tipos-grid { grid-template-columns: 1fr 1fr; }
+        }
+    </style>
 </head>
 <body>
-    <header class="header">
+    <header class="header" id="header">
         <div class="header-content container">
             <a href="index.html" class="logo">
                 <span class="logo-icon">⚓</span>
@@ -23,239 +219,253 @@
             </nav>
         </div>
     </header>
-    
-    <section class="secao" style="margin-top: 90px; background-color: var(--cor-cinza-claro);">
-        <div class="container container-estreito">
-            <h1 class="texto-centro mb-2">Criar Nova Saída de Pesca</h1>
-            <p class="texto-centro texto-cinza mb-5">Preencha os detalhes da saída</p>
-            
-            <div class="dashboard-secao">
-                <form id="formCriarSaida">
-                    <div class="form-grupo">
-                        <label class="form-label obrigatorio">Selecione o Barco</label>
-                        <select class="form-select" id="selectBarco" required>
-                            <option value="">A carregar barcos...</option>
-                        </select>
-                        <small id="avisoBarco" style="color: #EF4444; display: none; margin-top: 0.5rem;">
-                            <i class="fas fa-exclamation-triangle"></i> Só pode criar saídas com barcos aprovados.
-                            <a href="registar-barco.html">Registar barco</a>
-                        </small>
-                    </div>
-                    
-                    <div class="form-grupo">
-                        <label class="form-label obrigatorio">Título da Saída</label>
-                        <input type="text" class="form-input" placeholder="Ex: Pesca de Alto Mar - Aventura Atlântica" required>
-                    </div>
-                    
-                    <div class="form-grupo">
-                        <label class="form-label obrigatorio">Descrição Detalhada</label>
-                        <textarea class="form-textarea" placeholder="Descreva a experiência, o que incluí, o que podem esperar..." required></textarea>
-                    </div>
-                    
-                    <div class="form-grupo">
-                        <label class="form-label obrigatorio">Tipos de Pesca</label>
-                        <p class="form-ajuda">Selecione pelo menos um tipo</p>
-                        <div class="checkbox-visual-grid">
-                            <div class="checkbox-visual">
-                                <input type="checkbox" id="tipo1" name="tipos_pesca" value="fundo">
-                                <label for="tipo1" class="checkbox-visual-label">
-                                    <span class="checkbox-visual-icon">🎣</span>
-                                    <span class="checkbox-visual-texto">Pesca de Fundo</span>
-                                </label>
-                            </div>
-                            <div class="checkbox-visual">
-                                <input type="checkbox" id="tipo2" name="tipos_pesca" value="alto_mar">
-                                <label for="tipo2" class="checkbox-visual-label">
-                                    <span class="checkbox-visual-icon">🌊</span>
-                                    <span class="checkbox-visual-texto">Pesca de Alto Mar</span>
-                                </label>
-                            </div>
-                            <div class="checkbox-visual">
-                                <input type="checkbox" id="tipo3" name="tipos_pesca" value="jigging">
-                                <label for="tipo3" class="checkbox-visual-label">
-                                    <span class="checkbox-visual-icon">⚡</span>
-                                    <span class="checkbox-visual-texto">Jigging</span>
-                                </label>
-                            </div>
-                            <div class="checkbox-visual">
-                                <input type="checkbox" id="tipo4" name="tipos_pesca" value="atum">
-                                <label for="tipo4" class="checkbox-visual-label">
-                                    <span class="checkbox-visual-icon">🐟</span>
-                                    <span class="checkbox-visual-texto">Pesca de Atum</span>
-                                </label>
-                            </div>
-                            <div class="checkbox-visual">
-                                <input type="checkbox" id="tipo5" name="tipos_pesca" value="costeira">
-                                <label for="tipo5" class="checkbox-visual-label">
-                                    <span class="checkbox-visual-icon">🏖️</span>
-                                    <span class="checkbox-visual-texto">Pesca Costeira</span>
-                                </label>
-                            </div>
-                            <div class="checkbox-visual">
-                                <input type="checkbox" id="tipo6" name="tipos_pesca" value="desportiva">
-                                <label for="tipo6" class="checkbox-visual-label">
-                                    <span class="checkbox-visual-icon">🏆</span>
-                                    <span class="checkbox-visual-texto">Pesca Desportiva</span>
-                                </label>
-                            </div>
-                            <div class="checkbox-visual">
-                                <input type="checkbox" id="tipo7" name="tipos_pesca" value="torneio">
-                                <label for="tipo7" class="checkbox-visual-label">
-                                    <span class="checkbox-visual-icon">🎯</span>
-                                    <span class="checkbox-visual-texto">Torneio de Pesca</span>
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="grid grid-2">
-                        <div class="form-grupo">
-                            <label class="form-label obrigatorio">Data</label>
-                            <input type="date" class="form-input" required>
-                        </div>
-                        <div class="form-grupo">
-                            <label class="form-label obrigatorio">Hora de Partida</label>
-                            <input type="time" class="form-input" required>
-                        </div>
-                    </div>
-                    
-                    <div class="grid grid-2">
-                        <div class="form-grupo">
-                            <label class="form-label obrigatorio">Duração (horas)</label>
-                            <input type="number" class="form-input" placeholder="8" min="1" max="24" required>
-                        </div>
-                        <div class="form-grupo">
-                            <label class="form-label obrigatorio">Porto de Saída</label>
-                            <input type="text" class="form-input" placeholder="Porto de Lisboa" required>
-                        </div>
-                    </div>
-                    
-                    <div class="grid grid-2">
-                        <div class="form-grupo">
-                            <label class="form-label obrigatorio">Nº Máximo de Pescadores</label>
-                            <input type="number" class="form-input" placeholder="8" min="1" required>
-                        </div>
-                        <div class="form-grupo">
-                            <label class="form-label obrigatorio">Preço por Pessoa (€)</label>
-                            <input type="number" class="form-input" placeholder="75" min="1" required>
-                        </div>
-                    </div>
-                    
-                    <div class="form-grupo">
-                        <label class="form-label">O que está Incluído</label>
-                        <div style="display: flex; flex-direction: column; gap: 0.75rem;">
-                            <label class="form-checkbox-label">
-                                <input type="checkbox" class="form-checkbox" name="inclui" value="equipamento">
-                                <span>Equipamento de Pesca</span>
-                            </label>
-                            <label class="form-checkbox-label">
-                                <input type="checkbox" class="form-checkbox" name="inclui" value="isco">
-                                <span>Isco/Engodo</span>
-                            </label>
-                            <label class="form-checkbox-label">
-                                <input type="checkbox" class="form-checkbox" name="inclui" value="lanches">
-                                <span>Lanches e Bebidas</span>
-                            </label>
-                            <label class="form-checkbox-label">
-                                <input type="checkbox" class="form-checkbox" name="inclui" value="limpeza">
-                                <span>Limpeza do Peixe</span>
-                            </label>
-                            <label class="form-checkbox-label">
-                                <input type="checkbox" class="form-checkbox" name="inclui" value="transporte">
-                                <span>Transporte Terrestre</span>
-                            </label>
-                        </div>
-                    </div>
-                    
-                    <div class="form-grupo">
-                        <label class="form-label obrigatorio">Nível de Dificuldade</label>
-                        <select class="form-select" required>
-                            <option value="">Selecione...</option>
-                            <option value="iniciante">Iniciante</option>
-                            <option value="intermedio">Intermédio</option>
-                            <option value="avancado">Avançado</option>
-                        </select>
-                    </div>
-                    
-                    <!-- 🎣 SAÍDA PARTILHADA -->
-                    <div class="form-grupo" style="background: linear-gradient(135deg, #E0F2FE 0%, #DBEAFE 100%); border: 2px solid #0EA5E9; border-left: 5px solid #0284C7; padding: 1.5rem; border-radius: 8px; margin: 1.5rem 0;">
-                        <label class="form-checkbox-label" style="margin-bottom: 1rem; font-size: 1.1rem; font-weight: 700; color: #0C4A6E; display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
-                            <input type="checkbox" class="form-checkbox" id="saidaPartilhada" style="width: 1.3rem; height: 1.3rem;">
-                            <i class="fas fa-users" style="color: #0284C7; font-size: 1.2rem;"></i>
-                            <span>Permitir Saída Partilhada</span>
-                        </label>
-                        
-                        <p style="margin: 0 0 1rem 0; color: #075985; font-size: 0.9rem; line-height: 1.5;">
-                            💡 Permite que vários clientes se juntem à mesma saída para <strong>dividir os custos</strong>. Perfeito para grupos que querem economizar!
-                        </p>
-                        
-                        <div id="opcoesPartilhada" style="display: none; animation: fadeIn 0.3s ease;">
-                            <div class="grid grid-2" style="gap: 1rem; margin-top: 1rem;">
-                                <div>
-                                    <label class="form-label obrigatorio" style="color: #0C4A6E; font-weight: 600;">
-                                        <i class="fas fa-chair"></i> Vagas Disponíveis
-                                    </label>
-                                    <input type="number" class="form-input" id="vagasDisponiveis" placeholder="4" min="2" max="20">
-                                    <small style="color: #075985; display: block; margin-top: 0.3rem;">
-                                        Quantas pessoas podem participar
-                                    </small>
-                                </div>
-                                <div>
-                                    <label class="form-label obrigatorio" style="color: #0C4A6E; font-weight: 600;">
-                                        <i class="fas fa-euro-sign"></i> Preço Total da Saída (€)
-                                    </label>
-                                    <input type="number" class="form-input" id="precoTotal" placeholder="1000" min="100">
-                                    <small style="color: #075985; display: block; margin-top: 0.3rem;">
-                                        Valor será dividido entre participantes
-                                    </small>
-                                </div>
-                            </div>
-                            
-                            <div style="background: rgba(6, 182, 212, 0.1); border-radius: 6px; padding: 1rem; margin-top: 1rem; border-left: 3px solid #06B6D4;">
-                                <p style="margin: 0; color: #0E7490; font-size: 0.85rem; font-weight: 500;">
-                                    <i class="fas fa-calculator"></i> <strong>Exemplo:</strong> Preço Total €1.000 ÷ 4 vagas = <strong>€250 por pessoa</strong>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="form-grupo">
-                        <label class="form-label">Regras e Observações</label>
-                        <textarea class="form-textarea" placeholder="Regras específicas, requisitos, recomendações..."></textarea>
-                    </div>
-                    
-                    <div class="flex gap-md" style="margin-top: 2rem;">
-                        <a href="dashboard-capitao.html" class="btn btn-outline btn-grande">
-                            <i class="fas fa-times"></i> Cancelar
-                        </a>
-                        <button type="submit" class="btn btn-primario btn-grande" style="flex: 1;">
-                            <i class="fas fa-check"></i> Criar Saída
-                        </button>
-                    </div>
-                </form>
-            </div>
+
+    <div class="page-header">
+        <div class="container">
+            <h1><i class="fas fa-anchor"></i> Criar Nova Saída de Pesca</h1>
+            <p>Preencha os detalhes da sua saída — aparecerá em "Explorar" logo após criar</p>
         </div>
-    </section>
-    
+    </div>
+
+    <div class="container">
+        <div class="form-card">
+
+            <!-- Aviso sem barcos -->
+            <div class="aviso-barco" id="avisoBarco">
+                <i class="fas fa-exclamation-triangle"></i>
+                Não tem barcos aprovados. Só pode criar saídas com barcos aprovados pelo admin.
+                <a href="registar-barco.html"> Registar barco agora</a>
+            </div>
+
+            <form id="formCriarSaida">
+
+                <!-- ── 1. BARCO ── -->
+                <div class="secao-titulo">🚢 Barco</div>
+                <div class="form-grupo">
+                    <label class="form-label obrigatorio">Selecione o Barco</label>
+                    <select class="form-select" id="selectBarco" required>
+                        <option value="">A carregar barcos...</option>
+                    </select>
+                </div>
+
+                <!-- ── 2. DETALHES DA SAÍDA ── -->
+                <div class="secao-titulo">📋 Detalhes da Saída</div>
+
+                <div class="form-grupo">
+                    <label class="form-label obrigatorio">Título da Saída</label>
+                    <input type="text" class="form-input" id="titulo" placeholder="Ex: Pesca de Alto Mar – Aventura Atlântica" required>
+                </div>
+
+                <div class="form-grupo">
+                    <label class="form-label obrigatorio">Descrição</label>
+                    <textarea class="form-textarea" id="descricao" placeholder="Descreva a saída em detalhe: espécies esperadas, equipamento, experiência..." required></textarea>
+                </div>
+
+                <div class="form-grupo">
+                    <label class="form-label obrigatorio">Tipos de Pesca</label>
+                    <div class="tipos-grid">
+                        <label class="tipo-checkbox"><input type="checkbox" name="tipos_pesca" value="fundo"><span class="tipo-icon">🐟</span> Pesca de Fundo</label>
+                        <label class="tipo-checkbox"><input type="checkbox" name="tipos_pesca" value="altoMar"><span class="tipo-icon">🌊</span> Alto Mar</label>
+                        <label class="tipo-checkbox"><input type="checkbox" name="tipos_pesca" value="jigging"><span class="tipo-icon">🎣</span> Jigging</label>
+                        <label class="tipo-checkbox"><input type="checkbox" name="tipos_pesca" value="atum"><span class="tipo-icon">🐟</span> Pesca de Atum</label>
+                        <label class="tipo-checkbox"><input type="checkbox" name="tipos_pesca" value="costeira"><span class="tipo-icon">⚓</span> Pesca Costeira</label>
+                        <label class="tipo-checkbox"><input type="checkbox" name="tipos_pesca" value="desportiva"><span class="tipo-icon">🏆</span> Desportiva</label>
+                        <label class="tipo-checkbox"><input type="checkbox" name="tipos_pesca" value="torneio"><span class="tipo-icon">🏅</span> Torneio</label>
+                    </div>
+                </div>
+
+                <!-- ── 3. LOGÍSTICA ── -->
+                <div class="secao-titulo">📅 Logística</div>
+
+                <div class="grid-3">
+                    <div class="form-grupo">
+                        <label class="form-label obrigatorio">Data</label>
+                        <input type="date" class="form-input" id="data" required>
+                    </div>
+                    <div class="form-grupo">
+                        <label class="form-label obrigatorio">Hora de Partida</label>
+                        <input type="time" class="form-input" id="hora" value="07:00" required>
+                    </div>
+                    <div class="form-grupo">
+                        <label class="form-label obrigatorio">Duração (horas)</label>
+                        <input type="number" class="form-input" id="duracao" placeholder="8" min="1" max="24" required>
+                    </div>
+                </div>
+
+                <div class="form-grupo">
+                    <label class="form-label obrigatorio">Porto de Saída</label>
+                    <select class="form-select" id="selectPorto" required>
+                        <option value="">Selecione o porto...</option>
+                        <optgroup label="🌅 SOTAVENTO (Costa Leste)">
+                            <option>Vila Real de Santo António</option>
+                            <option>Monte Gordo</option>
+                            <option>Cabanas de Tavira</option>
+                            <option>Tavira (Rio Gilão)</option>
+                            <option>Santa Luzia (Capital do Polvo)</option>
+                            <option>Fuseta</option>
+                            <option>Olhão (Porto de Pesca)</option>
+                            <option>Faro (Marina de Faro)</option>
+                        </optgroup>
+                        <optgroup label="🏖️ ZONA CENTRAL">
+                            <option>Quarteira</option>
+                            <option>Vilamoura (Marina de Vilamoura)</option>
+                            <option>Albufeira (Marina de Albufeira)</option>
+                            <option>Armação de Pêra</option>
+                            <option>Portimão (Marina de Portimão)</option>
+                            <option>Alvor</option>
+                            <option>Lagos (Marina de Lagos)</option>
+                        </optgroup>
+                        <optgroup label="🌊 BARLAVENTO (Costa Oeste)">
+                            <option>Luz (Praia da Luz)</option>
+                            <option>Burgau</option>
+                            <option>Salema</option>
+                            <option>Sagres (Porto de Sagres)</option>
+                            <option>Baleeira (Sagres)</option>
+                        </optgroup>
+                        <optgroup label="⛰️ COSTA VICENTINA">
+                            <option>Vila do Bispo</option>
+                            <option>Carrapateira</option>
+                            <option>Aljezur</option>
+                            <option>Arrifana</option>
+                            <option>Odeceixe</option>
+                        </optgroup>
+                        <optgroup label="🏙️ OUTRAS REGIÕES">
+                            <option>Lisboa (Marina/Docas)</option>
+                            <option>Cascais (Marina de Cascais)</option>
+                            <option>Setúbal (Porto de Setúbal)</option>
+                            <option>Sines (Porto de Sines)</option>
+                        </optgroup>
+                    </select>
+                </div>
+
+                <!-- ── 4. VAGAS E PREÇO ── -->
+                <div class="secao-titulo">💶 Vagas e Preço</div>
+
+                <div class="grid-2">
+                    <div class="form-grupo">
+                        <label class="form-label obrigatorio">Nº Máximo de Pescadores</label>
+                        <input type="number" class="form-input" id="capacidade" placeholder="8" min="1" max="50" required>
+                    </div>
+                    <div class="form-grupo">
+                        <label class="form-label obrigatorio">Preço por Pessoa (€)</label>
+                        <input type="number" class="form-input" id="preco" placeholder="75" min="1" required>
+                    </div>
+                </div>
+
+                <div class="form-grupo">
+                    <label class="form-label obrigatorio">Nível de Dificuldade</label>
+                    <select class="form-select" id="nivel" required>
+                        <option value="">Selecione...</option>
+                        <option value="iniciante">🟢 Iniciante – Adequado para todos</option>
+                        <option value="intermedio">🟡 Intermédio – Alguma experiência</option>
+                        <option value="avancado">🔴 Avançado – Pescadores experientes</option>
+                    </select>
+                </div>
+
+                <!-- ── 5. INCLUÍDO ── -->
+                <div class="secao-titulo">✅ O Que Está Incluído</div>
+                <div class="inclui-grid">
+                    <label class="inclui-item"><input type="checkbox" name="inclui" value="Equipamento de Pesca"> Equipamento de Pesca</label>
+                    <label class="inclui-item"><input type="checkbox" name="inclui" value="Isco/Engodo"> Isco / Engodo</label>
+                    <label class="inclui-item"><input type="checkbox" name="inclui" value="Lanches e Bebidas"> Lanches e Bebidas</label>
+                    <label class="inclui-item"><input type="checkbox" name="inclui" value="GPS/Sonar"> GPS / Sonar</label>
+                    <label class="inclui-item"><input type="checkbox" name="inclui" value="Coletes Salva-vidas"> Coletes Salva-vidas</label>
+                    <label class="inclui-item"><input type="checkbox" name="inclui" value="Casa de Banho a Bordo"> Casa de Banho a Bordo</label>
+                    <label class="inclui-item"><input type="checkbox" name="inclui" value="Canas e Carretos Premium"> Canas e Carretos Premium</label>
+                    <label class="inclui-item"><input type="checkbox" name="inclui" value="Transferência do Hotel"> Transferência do Hotel</label>
+                    <label class="inclui-item"><input type="checkbox" name="inclui" value="Fotos da Experiência"> Fotos da Experiência</label>
+                    <label class="inclui-item"><input type="checkbox" name="inclui" value="Limpeza do Peixe"> Limpeza do Peixe</label>
+                </div>
+
+                <!-- ── 6. SAÍDA PARTILHADA ── -->
+                <div class="card-partilhada" style="margin-top:2rem;">
+                    <label class="toggle-label">
+                        <input type="checkbox" id="saidaPartilhada">
+                        <i class="fas fa-users"></i> Saída Partilhada
+                        <span style="font-size:0.8rem;font-weight:400;color:#3B82F6;margin-left:0.5rem;">(opcional)</span>
+                    </label>
+                    <p style="color:#1E40AF;font-size:0.9rem;margin:0.75rem 0 0;">
+                        Permita que múltiplos clientes independentes partilhem o custo da saída.
+                    </p>
+                    <div id="opcoesPartilhada" style="display:none;margin-top:1.25rem;">
+                        <div class="grid-2">
+                            <div class="form-grupo">
+                                <label class="form-label obrigatorio" style="color:#1D4ED8 !important;">Vagas Disponíveis</label>
+                                <input type="number" class="form-input" id="vagasDisponiveis" placeholder="4" min="2" max="20">
+                                <small style="color:#1E40AF;margin-top:0.3rem;display:block;">Nº de pessoas que podem entrar na saída</small>
+                            </div>
+                            <div class="form-grupo">
+                                <label class="form-label obrigatorio" style="color:#1D4ED8 !important;">Preço Total da Saída (€)</label>
+                                <input type="number" class="form-input" id="precoTotal" placeholder="1000" min="100">
+                                <small style="color:#1E40AF;margin-top:0.3rem;display:block;">Será dividido pelas vagas ocupadas</small>
+                            </div>
+                        </div>
+                        <div style="background:rgba(59,130,246,0.1);border-radius:6px;padding:0.875rem;border-left:3px solid #3B82F6;">
+                            <p style="margin:0;color:#1E40AF;font-size:0.85rem;">
+                                <i class="fas fa-calculator"></i>
+                                <strong>Exemplo:</strong> Preço Total €1.000 ÷ 4 vagas = <strong>€250 por pessoa</strong>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ── 7. OBSERVAÇÕES ── -->
+                <div class="secao-titulo" style="margin-top:2rem;">📝 Observações</div>
+                <div class="form-grupo">
+                    <label class="form-label">Regras e Observações (opcional)</label>
+                    <textarea class="form-textarea" id="regras" placeholder="Regras específicas, requisitos, recomendações para os clientes..."></textarea>
+                </div>
+
+                <!-- ── Botões ── -->
+                <div style="display:flex;gap:1rem;margin-top:2rem;flex-wrap:wrap;">
+                    <a href="dashboard-capitao.html" class="btn-cancelar">
+                        <i class="fas fa-times"></i> Cancelar
+                    </a>
+                    <button type="submit" class="btn-criar" id="btnCriar">
+                        <i class="fas fa-anchor"></i> Criar Saída de Pesca
+                    </button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
     <script src="js/main.js"></script>
     <script>
-        // ============================================
-        // CARREGAR BARCOS APROVADOS DO CAPITÃO
-        // ============================================
-        document.addEventListener('DOMContentLoaded', () => {
-            // Verificar autenticação
-            const usuarioStr = localStorage.getItem('usuarioLogado');
-            if (!usuarioStr) {
-                window.location.href = 'auth.html';
-                return;
-            }
-            const capitao = JSON.parse(usuarioStr);
-            if (capitao.tipo !== 'capitao') {
-                window.location.href = 'dashboard-usuario.html';
-                return;
-            }
+        // ── Visual: toggle checkboxes de tipo de pesca ──
+        document.querySelectorAll('.tipo-checkbox').forEach(label => {
+            label.addEventListener('change', () => {
+                label.classList.toggle('sel', label.querySelector('input').checked);
+            });
+        });
 
-            // Carregar barcos aprovados do capitão
+        // ── Toggle saída partilhada ──
+        document.getElementById('saidaPartilhada').addEventListener('change', function() {
+            const opcoes = document.getElementById('opcoesPartilhada');
+            const vagasInput = document.getElementById('vagasDisponiveis');
+            const precoInput = document.getElementById('precoTotal');
+            if (this.checked) {
+                opcoes.style.display = 'block';
+                vagasInput.required = true;
+                precoInput.required = true;
+            } else {
+                opcoes.style.display = 'none';
+                vagasInput.required = false;
+                precoInput.required = false;
+            }
+        });
+
+        // ── Carregar barcos aprovados do capitão ──
+        document.addEventListener('DOMContentLoaded', () => {
+            const usuarioStr = localStorage.getItem('usuarioLogado');
+            if (!usuarioStr) { window.location.href = 'auth.html'; return; }
+            const capitao = JSON.parse(usuarioStr);
+            if (capitao.tipo !== 'capitao') { window.location.href = 'dashboard-usuario.html'; return; }
+
+            // Definir data mínima = hoje
+            const hoje = new Date().toISOString().split('T')[0];
+            document.getElementById('data').min = hoje;
+
             const todosBarcos = JSON.parse(localStorage.getItem('barcos') || '[]');
             const barcosAprovados = todosBarcos.filter(
                 b => b.capitaoEmail === capitao.email && b.status === 'aprovado'
@@ -268,37 +478,26 @@
                 select.innerHTML = '<option value="">Sem barcos aprovados</option>';
                 select.disabled = true;
                 aviso.style.display = 'block';
+                document.getElementById('btnCriar').disabled = true;
             } else {
                 select.innerHTML = '<option value="">Escolha um barco...</option>' +
                     barcosAprovados.map(b =>
-                        `<option value="${b.id}" data-nome="${b.nome}" data-lotacao="${b.lotacao || 8}" data-imagem="${b.fotoPrincipal || ''}">
-                            ${b.nome} (${b.comprimento}m - ${b.lotacao || 8} pessoas)
+                        `<option value="${b.id}" data-nome="${b.nome}" data-lotacao="${b.capacidade || b.lotacao || 8}" data-imagem="${b.fotoPrincipal || ''}">
+                            ${b.nome} (${b.comprimento}m · ${b.capacidade || b.lotacao || 8} pessoas)
                         </option>`
                     ).join('');
                 aviso.style.display = 'none';
+
+                // Preencher capacidade automaticamente ao escolher barco
+                select.addEventListener('change', function() {
+                    const opt = this.options[this.selectedIndex];
+                    const lotacao = opt.getAttribute('data-lotacao');
+                    if (lotacao) document.getElementById('capacidade').value = lotacao;
+                });
             }
         });
 
-        // Toggle Saída Partilhada
-        document.getElementById('saidaPartilhada').addEventListener('change', function() {
-            const opcoes = document.getElementById('opcoesPartilhada');
-            const vagasInput = document.getElementById('vagasDisponiveis');
-            const precoInput = document.getElementById('precoTotal');
-            
-            if (this.checked) {
-                opcoes.style.display = 'block';
-                vagasInput.required = true;
-                precoInput.required = true;
-            } else {
-                opcoes.style.display = 'none';
-                vagasInput.required = false;
-                precoInput.required = false;
-            }
-        });
-        
-        // ============================================
-        // SUBMIT - GUARDAR SAÍDA NO LOCALSTORAGE
-        // ============================================
+        // ── Submit ──
         document.getElementById('formCriarSaida').addEventListener('submit', (e) => {
             e.preventDefault();
 
@@ -306,7 +505,6 @@
             if (!usuarioStr) { window.location.href = 'auth.html'; return; }
             const capitao = JSON.parse(usuarioStr);
 
-            const form = e.target;
             const selectBarco = document.getElementById('selectBarco');
             const barcoOption = selectBarco.options[selectBarco.selectedIndex];
             const barcoId = parseInt(selectBarco.value);
@@ -314,103 +512,91 @@
             const barcoLotacao = parseInt(barcoOption ? barcoOption.getAttribute('data-lotacao') : 8) || 8;
             const barcoImagem = barcoOption ? barcoOption.getAttribute('data-imagem') : '';
 
-            if (!barcoId) {
-                mostrarToast('Por favor, selecione um barco aprovado', 'erro');
-                return;
-            }
+            if (!barcoId) { mostrarToast('Selecione um barco aprovado', 'erro'); return; }
 
-            // Validar tipo de pesca
-            const tiposSelecionados = Array.from(form.querySelectorAll('[name="tipos_pesca"]:checked')).map(c => c.value);
-            if (tiposSelecionados.length === 0) {
-                mostrarToast('Selecione pelo menos um tipo de pesca', 'erro');
-                return;
-            }
+            const titulo = document.getElementById('titulo').value.trim();
+            const descricao = document.getElementById('descricao').value.trim();
+            const data = document.getElementById('data').value;
+            const hora = document.getElementById('hora').value;
+            const duracao = parseInt(document.getElementById('duracao').value) || 0;
+            const porto = document.getElementById('selectPorto').value;
+            const capacidade = parseInt(document.getElementById('capacidade').value) || barcoLotacao;
+            const preco = parseFloat(document.getElementById('preco').value) || 0;
+            const nivel = document.getElementById('nivel').value;
+            const regras = document.getElementById('regras').value.trim();
+            const tiposSelecionados = Array.from(document.querySelectorAll('[name="tipos_pesca"]:checked')).map(c => c.value);
+            const incluiSelecionados = Array.from(document.querySelectorAll('[name="inclui"]:checked')).map(c => c.value);
+
+            // Validações
+            if (!titulo) { mostrarToast('Preencha o título da saída', 'erro'); return; }
+            if (tiposSelecionados.length === 0) { mostrarToast('Selecione pelo menos um tipo de pesca', 'erro'); return; }
+            if (!data) { mostrarToast('Selecione a data da saída', 'erro'); return; }
+            if (!hora) { mostrarToast('Indique a hora de partida', 'erro'); return; }
+            if (!duracao) { mostrarToast('Indique a duração em horas', 'erro'); return; }
+            if (!porto) { mostrarToast('Selecione o porto de saída', 'erro'); return; }
+            if (!preco) { mostrarToast('Indique o preço por pessoa', 'erro'); return; }
+            if (!nivel) { mostrarToast('Selecione o nível de dificuldade', 'erro'); return; }
 
             const saidaPartilhada = document.getElementById('saidaPartilhada').checked;
             const vagasPartilhadas = saidaPartilhada ? parseInt(document.getElementById('vagasDisponiveis').value) || 0 : 0;
             const precoTotalPartilhada = saidaPartilhada ? parseFloat(document.getElementById('precoTotal').value) || 0 : 0;
-            const precoPorPessoa = saidaPartilhada
+            const precoPorPessoa = saidaPartilhada && vagasPartilhadas > 0
                 ? parseFloat((precoTotalPartilhada / vagasPartilhadas).toFixed(2))
-                : parseFloat(form.querySelector('[placeholder="75"]')?.value || form.querySelectorAll('[type="number"]')[1]?.value || 0);
+                : preco;
 
-            // Coletar inputs por posição
-            const allInputs = form.querySelectorAll('.form-input, .form-textarea, .form-select');
-            const titulo = form.querySelector('[placeholder*="Alto Mar"], [placeholder*="Título"], [placeholder*="título"]')?.value
-                || form.querySelector('input[type="text"][required]')?.value || '';
-            const descricao = form.querySelector('textarea[required]')?.value || '';
-            const data = form.querySelector('input[type="date"]')?.value || '';
-            const hora = form.querySelector('input[type="time"]')?.value || '';
-            const duracao = parseInt(form.querySelector('input[placeholder="8"][type="number"]')?.value) || 0;
-            const porto = form.querySelector('input[placeholder*="Porto"]')?.value || '';
-            const capacidade = parseInt(form.querySelector('input[placeholder="8"][required]')?.value) || barcoLotacao;
-            const precoInput = form.querySelector('input[placeholder="75"]');
-            const preco = parseFloat(precoInput?.value || precoPorPessoa) || 0;
-            const nivel = form.querySelector('select:not(#selectBarco)')?.value || 'intermedio';
-            const regras = form.querySelectorAll('textarea')[1]?.value || '';
-            const inclui = Array.from(form.querySelectorAll('[name="inclui"]:checked')).map(c => c.value);
+            if (saidaPartilhada && vagasPartilhadas < 2) { mostrarToast('Saída partilhada precisa de pelo menos 2 vagas', 'erro'); return; }
+            if (saidaPartilhada && !precoTotalPartilhada) { mostrarToast('Indique o preço total da saída partilhada', 'erro'); return; }
 
-            // Validações básicas
-            if (!titulo) { mostrarToast('Preencha o título da saída', 'erro'); return; }
-            if (!data) { mostrarToast('Selecione a data da saída', 'erro'); return; }
-            if (!hora) { mostrarToast('Indique a hora de partida', 'erro'); return; }
-            if (!duracao) { mostrarToast('Indique a duração', 'erro'); return; }
-            if (!porto) { mostrarToast('Indique o porto de saída', 'erro'); return; }
-            if (!preco) { mostrarToast('Indique o preço por pessoa', 'erro'); return; }
-
-            // Placeholder de imagem caso barco não tenha foto
             const imagemFinal = barcoImagem && barcoImagem !== 'undefined' && barcoImagem !== ''
                 ? barcoImagem
                 : 'https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=600&h=400&fit=crop';
 
-            // Construir objeto saída
             const saida = {
                 id: Date.now(),
-                titulo: titulo,
-                descricao: descricao,
+                titulo,
+                descricao,
                 barco: barcoNome,
-                barcoId: barcoId,
+                barcoId,
                 capitao: capitao.nome,
                 capitaoEmail: capitao.email,
                 localizacao: porto,
-                data: data,
-                hora: hora,
-                duracao: duracao,
-                preco: preco,
+                data,
+                hora,
+                duracao,
+                preco: precoPorPessoa,
                 lotacao: capacidade,
-                vagas: capacidade,
+                vagas: saidaPartilhada ? vagasPartilhadas : capacidade,
                 tipos: tiposSelecionados,
-                nivel: nivel,
+                nivel,
                 rating: 0,
                 avaliacoes: 0,
-                descricao: descricao,
-                inclui: inclui,
-                regras: regras,
+                inclui: incluiSelecionados.join('\n'),
+                regras,
                 imagem: imagemFinal,
                 partilhada: saidaPartilhada,
-                vagasDisponiveis: vagasPartilhadas,
+                vagasDisponiveis: saidaPartilhada ? vagasPartilhadas : capacidade,
                 vagasOcupadas: 0,
                 precoTotal: precoTotalPartilhada,
                 status: 'ativa',
                 dataCriacao: new Date().toISOString()
             };
 
-            // Guardar no localStorage
             const saidasExistentes = JSON.parse(localStorage.getItem('saidasData') || '[]');
             saidasExistentes.push(saida);
             localStorage.setItem('saidasData', JSON.stringify(saidasExistentes));
 
-            console.log('✅ Saída criada:', saida);
+            const btnCriar = document.getElementById('btnCriar');
+            btnCriar.disabled = true;
+            btnCriar.innerHTML = '<i class="fas fa-check"></i> Saída criada!';
 
             if (saidaPartilhada) {
-                const precoPP = (precoTotalPartilhada / vagasPartilhadas).toFixed(2);
-                mostrarToast(`✅ Saída Partilhada criada! €${precoTotalPartilhada} ÷ ${vagasPartilhadas} = €${precoPP}/pessoa`, 'sucesso');
+                const pp = (precoTotalPartilhada / vagasPartilhadas).toFixed(2);
+                mostrarToast(`✅ Saída Partilhada criada! €${precoTotalPartilhada} ÷ ${vagasPartilhadas} vagas = €${pp}/pessoa`, 'sucesso');
             } else {
                 mostrarToast('✅ Saída criada com sucesso! Já aparece em Explorar.', 'sucesso');
             }
-            
-            setTimeout(() => {
-                window.location.href = 'dashboard-capitao.html#saidas';
-            }, 2000);
+
+            setTimeout(() => { window.location.href = 'dashboard-capitao.html#saidas'; }, 2000);
         });
     </script>
 </body>

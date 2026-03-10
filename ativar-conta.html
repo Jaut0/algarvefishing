@@ -240,8 +240,9 @@
         function ativarConta(usuario, pendentes, token) {
             console.log('✅ Ativando conta:', usuario.email);
 
-            // Atualizar status
-            usuario.status = 'ativo';
+            // Capitão → fica 'pendente' (aguarda aprovação admin)
+            // Cliente → fica 'ativo' (pode entrar de imediato)
+            usuario.status = usuario.tipo === 'capitao' ? 'pendente' : 'ativo';
             usuario.dataAtivacao = new Date().toISOString();
             delete usuario.token;
             delete usuario.expiracaoToken;

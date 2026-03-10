@@ -581,20 +581,38 @@
         // 🔥 NOVA FUNÇÃO: Carregar seção de Capitães Pendentes (página específica)
         function carregarSecaoPendentes() {
             console.log('🔍 Carregando seção Capitães Pendentes...');
+
+            // Ler de AMBAS as listas:
+            // 1. 'utilizadores' → status 'pendente' (email confirmado, aguarda admin)
+            // 2. 'usuariosPendentes' → status 'pendente_ativacao' (ainda não confirmou email)
             const utilizadores = JSON.parse(localStorage.getItem('utilizadores') || '[]');
+            const usuariosPendentes = JSON.parse(localStorage.getItem('usuariosPendentes') || '[]');
             
             // FILTRAR mockados
             const emailsMock = ['pedro.silva@email.com', 'teste@teste.com'];
             const telefonesMock = ['+351 912 345 678', '912345678'];
             const nomesMock = ['Pedro Silva'];
             
-            const capitaesPendentes = utilizadores.filter(u => {
+            // Capitães em 'utilizadores' com status pendente (email confirmado)
+            const capitaesAtivados = utilizadores.filter(u => {
                 return u.tipo === 'capitao' && 
                        u.status === 'pendente' &&
                        !emailsMock.includes(u.email) &&
                        !telefonesMock.includes(u.telefone) &&
                        !nomesMock.includes(u.nome);
             });
+
+            // Capitães em 'usuariosPendentes' (email ainda não confirmado)
+            const capitaesNaoAtivados = usuariosPendentes.filter(u => {
+                return u.tipo === 'capitao' &&
+                       !emailsMock.includes(u.email) &&
+                       !nomesMock.includes(u.nome);
+            }).map(u => ({ ...u, _semEmailConfirmado: true }));
+
+            // Juntar os dois grupos sem duplicados
+            const emailsAtivados = new Set(capitaesAtivados.map(u => u.email));
+            const capitaesNovos = capitaesNaoAtivados.filter(u => !emailsAtivados.has(u.email));
+            const capitaesPendentes = [...capitaesAtivados, ...capitaesNovos];
             
             console.log('📊 Capitães pendentes encontrados:', capitaesPendentes.length);
             
@@ -628,7 +646,10 @@
                                 <div>
                                     <h3 style="margin-bottom: 0.25rem;">${capitao.nome}</h3>
                                     <div class="texto-pequeno texto-cinza">Registado em ${new Date(capitao.dataCriacao).toLocaleString('pt-PT')}</div>
-                                    <div class="badge badge-destaque" style="margin-top: 0.5rem;">Pendente</div>
+                                    ${capitao._semEmailConfirmado 
+                                        ? '<div class="badge" style="margin-top:0.5rem;background:#FEF3C7;color:#92400E;border:1px solid #F59E0B;">⏳ Email por confirmar</div>'
+                                        : '<div class="badge badge-destaque" style="margin-top:0.5rem;">✉️ Aguarda Aprovação</div>'
+                                    }
                                 </div>
                             </div>
                         </div>
@@ -1198,33 +1219,50 @@
         // Aprovar capitão
         function aprovarCapitao(id) {
             if (confirm('Tem a certeza que deseja aprovar este capitão?\n\n✅ O capitão terá acesso à plataforma\n📅 Certificação válida por 365 dias\n⚠️ Após 1 ano, documentos devem ser renovados')) {
-                const utilizadores = JSON.parse(localStorage.getItem('utilizadores') || '[]');
-                const index = utilizadores.findIndex(u => u.id === id);
-                
+                let utilizadores = JSON.parse(localStorage.getItem('utilizadores') || '[]');
+                let index = utilizadores.findIndex(u => u.id === id);
+                let capitao = null;
+
                 if (index !== -1) {
-                    const capitao = utilizadores[index];
+                    // Está em 'utilizadores' (email já confirmado)
+                    capitao = utilizadores[index];
+                } else {
+                    // Pode estar em 'usuariosPendentes' (email ainda não confirmado)
+                    let pendentes = JSON.parse(localStorage.getItem('usuariosPendentes') || '[]');
+                    const pIdx = pendentes.findIndex(u => u.id === id);
+                    if (pIdx !== -1) {
+                        // Mover para 'utilizadores'
+                        capitao = { ...pendentes[pIdx] };
+                        delete capitao.token;
+                        delete capitao.expiracaoToken;
+                        pendentes.splice(pIdx, 1);
+                        localStorage.setItem('usuariosPendentes', JSON.stringify(pendentes));
+                        utilizadores.push(capitao);
+                        index = utilizadores.length - 1;
+                    }
+                }
+
+                if (capitao && index !== -1) {
                     const dataAprovacao = new Date();
                     const dataExpiracao = new Date();
-                    dataExpiracao.setDate(dataExpiracao.getDate() + 365); // 365 dias
-                    
+                    dataExpiracao.setDate(dataExpiracao.getDate() + 365);
+
                     utilizadores[index].status = 'aprovado';
+                    utilizadores[index].emailConfirmado = true;
                     utilizadores[index].dataAprovacao = dataAprovacao.toISOString();
                     utilizadores[index].dataExpiracao = dataExpiracao.toISOString();
                     utilizadores[index].certificacaoValida = true;
                     localStorage.setItem('utilizadores', JSON.stringify(utilizadores));
-                    
-                    // Enviar email de aprovação
+
                     enviarEmailAprovacao(capitao);
-                    
                     mostrarToast('✅ Capitão aprovado! Certificação válida por 365 dias.', 'sucesso');
-                    
-                    // Recarregar dados E badges
+
                     setTimeout(() => {
                         carregarEstatisticas();
-                        carregarCapitaesPendentes();
+                        carregarSecaoPendentes();
                     }, 1000);
                 } else {
-                    mostrarToast('❌ Erro ao aprovar capitão.', 'erro');
+                    mostrarToast('❌ Capitão não encontrado.', 'erro');
                 }
             }
         }
