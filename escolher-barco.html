@@ -15,173 +15,145 @@
             margin-top: 2rem;
         }
         
-        .barco-card {
-            background: var(--dark-bg);
-            border-radius: 12px;
+        /* ===== BARCOS PÚBLICOS — fundo claro, texto legível ===== */
+        .barco-card-pub {
+            background: #ffffff;
+            border-radius: 14px;
             overflow: hidden;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 2px 16px rgba(0,0,0,0.08);
+            border: 1px solid #E5E7EB;
+            transition: transform 0.2s, box-shadow 0.2s;
         }
-        
-        .barco-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 30px rgba(255, 143, 0, 0.2);
+        .barco-card-pub:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 6px 24px rgba(0,0,0,0.14);
         }
-        
-        .barco-img {
+        .barco-card-pub-img {
             width: 100%;
             height: 220px;
             object-fit: cover;
         }
-        
-        .barco-content {
-            padding: 1.5rem;
-        }
-        
-        .barco-header {
+        .barco-card-pub-body { padding: 1.25rem 1.5rem 1.5rem; }
+        .barco-card-pub-header {
             display: flex;
             justify-content: space-between;
-            align-items: start;
-            margin-bottom: 1rem;
+            align-items: flex-start;
+            margin-bottom: 0.75rem;
         }
-        
-        .barco-nome {
-            font-size: 1.4rem;
-            font-weight: 600;
-            color: var(--accent);
-            margin-bottom: 0.3rem;
+        .barco-card-pub-nome {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #0A1628;
+            margin-bottom: 0.25rem;
         }
-        
-        .barco-status {
-            padding: 0.3rem 0.8rem;
+        .barco-card-pub-porto {
+            font-size: 0.85rem;
+            color: #6B7280;
+        }
+        .badge-aprovado {
+            background: #D1FAE5;
+            color: #065F46;
+            padding: 0.25rem 0.75rem;
             border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 500;
+            font-size: 0.75rem;
+            font-weight: 600;
+            white-space: nowrap;
         }
-        
-        .status-aprovado {
-            background: rgba(76, 175, 80, 0.2);
-            color: #4CAF50;
-        }
-        
-        .barco-specs {
+        .barco-card-pub-specs {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 0.8rem;
-            margin: 1rem 0;
-            padding: 1rem;
-            background: rgba(255, 255, 255, 0.03);
+            gap: 0.6rem;
+            background: #F9FAFB;
             border-radius: 8px;
+            padding: 0.85rem 1rem;
+            margin: 0.75rem 0;
         }
-        
-        .spec-item {
+        .spec {
             display: flex;
             align-items: center;
-            gap: 0.5rem;
-            font-size: 0.9rem;
-            color: var(--text-secondary);
+            gap: 0.4rem;
+            font-size: 0.85rem;
+            color: #374151;
         }
-        
-        .spec-item i {
-            color: var(--accent);
-            width: 20px;
-        }
-        
-        .barco-capitao {
+        .spec i { color: #FF8F00; width: 16px; }
+        .barco-card-pub-capitao {
             display: flex;
             align-items: center;
-            gap: 0.8rem;
-            padding: 1rem;
-            background: rgba(255, 255, 255, 0.03);
+            gap: 0.75rem;
+            padding: 0.75rem;
+            background: #EFF6FF;
             border-radius: 8px;
-            margin: 1rem 0;
+            margin-bottom: 0.75rem;
         }
-        
-        .capitao-avatar {
-            width: 50px;
-            height: 50px;
+        .capitao-av {
+            width: 42px; height: 42px;
             border-radius: 50%;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            background: linear-gradient(135deg, #0A1628, #1565C0);
+            color: #fff;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.5rem;
+            font-weight: 700;
+            font-size: 0.9rem;
+            flex-shrink: 0;
         }
-        
-        .capitao-info h4 {
-            color: var(--text-primary);
-            font-size: 1rem;
-            margin-bottom: 0.2rem;
+        .barco-card-pub-extras {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+            margin-bottom: 0.5rem;
         }
-        
-        .capitao-info p {
-            color: var(--text-secondary);
-            font-size: 0.85rem;
+        .extra-tag {
+            background: #FEF3C7;
+            color: #92400E;
+            padding: 0.2rem 0.6rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 500;
         }
-        
-        .rating {
-            color: var(--accent);
-            margin-left: 0.3rem;
-        }
-        
+        /* Filtros */
         .filters-section {
-            background: var(--dark-bg);
-            padding: 2rem;
+            background: #fff;
+            padding: 1.5rem;
             border-radius: 12px;
             margin-bottom: 2rem;
+            border: 1px solid #E5E7EB;
+            box-shadow: 0 1px 6px rgba(0,0,0,0.06);
         }
-        
         .filters-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.5rem;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1rem;
             margin-top: 1rem;
         }
-        
         .filter-group label {
             display: block;
-            margin-bottom: 0.5rem;
-            color: var(--text-secondary);
-            font-size: 0.9rem;
+            margin-bottom: 0.4rem;
+            color: #374151;
+            font-size: 0.85rem;
+            font-weight: 600;
         }
-        
         .filter-group select,
         .filter-group input {
             width: 100%;
-            padding: 0.8rem;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 0.65rem 0.85rem;
+            background: #F9FAFB;
+            border: 1.5px solid #D1D5DB;
             border-radius: 8px;
-            color: var(--text-primary);
-            font-size: 0.95rem;
+            color: #1F2937;
+            font-size: 0.9rem;
         }
-        
+        .filter-group select:focus,
+        .filter-group input:focus {
+            border-color: #1565C0;
+            outline: none;
+        }
         .resultados-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin: 2rem 0 1rem;
-        }
-        
-        .resultados-count {
-            color: var(--text-secondary);
-            font-size: 1rem;
-        }
-        
-        .resultados-count strong {
-            color: var(--accent);
-            font-size: 1.2rem;
-        }
-        
-        @media (max-width: 768px) {
-            .barcos-grid {
-                grid-template-columns: 1fr;
-                gap: 1.5rem;
-            }
-            
-            .filters-grid {
-                grid-template-columns: 1fr;
-            }
+            margin-bottom: 1.5rem;
+            color: #1F2937;
         }
     </style>
 </head>

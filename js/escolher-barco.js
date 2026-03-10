@@ -1,144 +1,141 @@
-// Load barcos from localStorage (real data from registrations)
-const getBarcos = () => {
-    const stored = localStorage.getItem('barcos');
-    if (stored) {
-        try {
-            return JSON.parse(stored).filter(b => b.status === 'aprovado');
-        } catch (e) {
-            console.error('Erro ao carregar barcos:', e);
-            return [];
-        }
+// ============================================================
+// escolher-barco.js — Lista de barcos aprovados
+// Lê de localStorage('barcos') e mapeia campos do registar-barco
+// ============================================================
+
+const PLACEHOLDER_BARCO = 'https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=600&h=400&fit=crop';
+
+function getBarcos() {
+    try {
+        const stored = JSON.parse(localStorage.getItem('barcos') || '[]');
+        return stored.filter(b => b.status === 'aprovado');
+    } catch(e) {
+        console.error('Erro ao carregar barcos:', e);
+        return [];
     }
-    return [];
-};
+}
 
 const barcos = getBarcos();
 let barcosFilteredList = [...barcos];
 
-// Render barcos grid
-function renderBarcos(barcosList) {
-    const grid = document.getElementById('barcosGrid');
+// ----------------------------------------------------------------
+// Render
+// ----------------------------------------------------------------
+function renderBarcos(lista) {
+    const grid  = document.getElementById('barcosGrid');
     const count = document.getElementById('countBarcos');
-    
-    count.textContent = barcosList.length;
-    
-    if (barcosList.length === 0) {
+    if (!grid) return;
+    count.textContent = lista.length;
+
+    if (lista.length === 0) {
         grid.innerHTML = `
-            <div style="grid-column: 1/-1; text-align: center; padding: 4rem 2rem;">
-                <i class="fas fa-ship" style="font-size: 5rem; color: var(--tuna-orange); margin-bottom: 1.5rem; opacity: 0.5;"></i>
-                <h3 style="color: var(--tuna-orange); margin-bottom: 1rem;">Nenhum Barco Disponível</h3>
-                <p style="color: var(--text-secondary); margin-bottom: 2rem; max-width: 500px; margin-left: auto; margin-right: auto;">
-                    Ainda não existem barcos aprovados na plataforma. Se é capitão, registe-se e adicione o seu barco!
+            <div style="grid-column:1/-1;text-align:center;padding:4rem 2rem;">
+                <i class="fas fa-ship" style="font-size:4rem;color:#FF8F00;margin-bottom:1rem;opacity:0.5;"></i>
+                <h3 style="color:#1F2937;margin-bottom:0.75rem;">Nenhum Barco Disponível</h3>
+                <p style="color:#6B7280;margin-bottom:2rem;max-width:500px;margin-left:auto;margin-right:auto;">
+                    Ainda não existem barcos aprovados na plataforma.<br>Se é capitão, registe-se e adicione o seu barco!
                 </p>
-                <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
-                    <a href="auth.html" class="btn btn-primary">
-                        <i class="fas fa-user-plus"></i> Registar como Capitão
-                    </a>
-                    <a href="index.html" class="btn btn-secondary">
-                        <i class="fas fa-home"></i> Voltar ao Início
-                    </a>
+                <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
+                    <a href="auth.html" class="btn btn-primario"><i class="fas fa-user-plus"></i> Registar como Capitão</a>
+                    <a href="index.html" class="btn btn-outline"><i class="fas fa-home"></i> Início</a>
                 </div>
-            </div>
-        `;
+            </div>`;
         return;
     }
-    
-    grid.innerHTML = barcosList.map(barco => `
-        <div class="barco-card">
-            <img src="${barco.foto}" alt="${barco.nome}" class="barco-img">
-            <div class="barco-content">
-                <div class="barco-header">
+
+    grid.innerHTML = lista.map(b => {
+        // Normalizar campos (suporta estrutura antiga e nova)
+        const foto        = b.fotoPrincipal || (b.fotos && b.fotos[0]) || b.foto || PLACEHOLDER_BARCO;
+        const capacidade  = b.lotacao || b.capacidade || '—';
+        const motor       = b.tipoMotor || b.motor || '—';
+        const capitaoNome = b.capitaoNome || (b.capitao && b.capitao.nome) || '—';
+        const experiencia = b.capitaoExperiencia || (b.capitao && b.capitao.experiencia) || '';
+        const rating      = b.avaliacaoMedia || b.rating || 0;
+        const avaliacoes  = b.totalAvaliacoes || b.avaliacoes || 0;
+        const extras      = Array.isArray(b.extras) ? b.extras.slice(0,5) : [];
+        const classeNav   = b.classeNavegacao ? ` · Classe ${b.classeNavegacao.replace('tipo','Tipo ')}` : '';
+
+        return `
+        <div class="barco-card-pub">
+            <img src="${foto}" alt="${b.nome}" class="barco-card-pub-img"
+                 onerror="this.src='${PLACEHOLDER_BARCO}'">
+            <div class="barco-card-pub-body">
+
+                <div class="barco-card-pub-header">
                     <div>
-                        <h3 class="barco-nome">${barco.nome}</h3>
-                        <p style="color: var(--text-secondary); font-size: 0.9rem;">
-                            <i class="fas fa-map-marker-alt"></i> ${barco.porto}
-                        </p>
+                        <h3 class="barco-card-pub-nome">${b.nome}</h3>
+                        <span class="barco-card-pub-porto">
+                            <i class="fas fa-map-marker-alt"></i> ${b.porto}${classeNav}
+                        </span>
                     </div>
-                    <span class="barco-status status-${barco.status}">
-                        <i class="fas fa-check-circle"></i> Aprovado
-                    </span>
+                    <span class="badge-aprovado"><i class="fas fa-check-circle"></i> Aprovado</span>
                 </div>
-                
-                <div class="barco-specs">
-                    <div class="spec-item">
-                        <i class="fas fa-ruler-horizontal"></i>
-                        <span>${barco.comprimento}m</span>
-                    </div>
-                    <div class="spec-item">
-                        <i class="fas fa-users"></i>
-                        <span>${barco.capacidade} pessoas</span>
-                    </div>
-                    <div class="spec-item">
-                        <i class="fas fa-ship"></i>
-                        <span>${barco.tipo}</span>
-                    </div>
-                    <div class="spec-item">
-                        <i class="fas fa-cog"></i>
-                        <span>${barco.motor}</span>
+
+                <div class="barco-card-pub-specs">
+                    <div class="spec"><i class="fas fa-ruler-horizontal"></i><span>${b.comprimento}m</span></div>
+                    <div class="spec"><i class="fas fa-users"></i><span>${capacidade} pax</span></div>
+                    <div class="spec"><i class="fas fa-ship"></i><span>${b.tipo}</span></div>
+                    <div class="spec"><i class="fas fa-cog"></i><span>${motor}</span></div>
+                </div>
+
+                <div class="barco-card-pub-capitao">
+                    <div class="capitao-av">${capitaoNome.split(' ').map(n=>n[0]).join('').substring(0,2).toUpperCase()}</div>
+                    <div>
+                        <div style="font-weight:600;color:#1F2937;">Capitão ${capitaoNome}</div>
+                        <div style="font-size:0.82rem;color:#6B7280;">
+                            ${experiencia ? experiencia + ' anos exp.' : ''}
+                            ${rating > 0 ? `<span style="color:#F59E0B;margin-left:0.5rem;"><i class="fas fa-star"></i> ${rating.toFixed(1)} (${avaliacoes})</span>` : ''}
+                        </div>
                     </div>
                 </div>
-                
-                <div class="barco-capitao">
-                    <div class="capitao-avatar">${barco.capitao.avatar}</div>
-                    <div class="capitao-info">
-                        <h4>Capitão ${barco.capitao.nome}</h4>
-                        <p>
-                            ${barco.capitao.experiencia} anos de experiência
-                            <span class="rating">
-                                <i class="fas fa-star"></i> ${barco.rating} (${barco.avaliacoes})
-                            </span>
-                        </p>
-                    </div>
-                </div>
-                
-                <div style="margin-top: 1rem;">
-                    <p style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 0.5rem;">
-                        <i class="fas fa-check"></i> ${barco.extras.join(', ')}
-                    </p>
-                </div>
-                
-                <a href="reservar-barco.html?barco=${barco.id}" class="btn btn-primary" style="width: 100%; margin-top: 1rem; text-align: center;">
+
+                ${extras.length > 0 ? `
+                <div class="barco-card-pub-extras">
+                    ${extras.map(e=>`<span class="extra-tag">${e}</span>`).join('')}
+                </div>` : ''}
+
+                <a href="reservar-barco.html?barco=${b.id}" class="btn btn-primario" style="width:100%;margin-top:1rem;text-align:center;display:block;">
                     <i class="fas fa-calendar-check"></i> Ver Agenda e Reservar
                 </a>
             </div>
-        </div>
-    `).join('');
+        </div>`;
+    }).join('');
 }
 
-// Apply filters
+// ----------------------------------------------------------------
+// Filtros
+// ----------------------------------------------------------------
 function applyFilters() {
-    const local = document.getElementById('filterLocal').value.toLowerCase();
-    const tipo = document.getElementById('filterTipo').value.toLowerCase();
-    const capacidade = parseInt(document.getElementById('filterCapacidade').value) || 0;
-    const ordenar = document.getElementById('filterOrdenar').value;
-    
-    barcosFilteredList = barcos.filter(barco => {
-        const matchLocal = !local || barco.local.toLowerCase().includes(local);
-        const matchTipo = !tipo || barco.tipo.toLowerCase().includes(tipo);
-        const matchCapacidade = capacidade === 0 || barco.capacidade >= capacidade;
-        
-        return matchLocal && matchTipo && matchCapacidade;
+    const local      = (document.getElementById('filterLocal')?.value || '').toLowerCase();
+    const tipo       = (document.getElementById('filterTipo')?.value  || '').toLowerCase();
+    const capacidade = parseInt(document.getElementById('filterCapacidade')?.value) || 0;
+    const ordenar    = document.getElementById('filterOrdenar')?.value || '';
+
+    barcosFilteredList = barcos.filter(b => {
+        const cap = b.lotacao || b.capacidade || 0;
+        const matchLocal = !local || (b.porto||'').toLowerCase().includes(local);
+        const matchTipo  = !tipo  || (b.tipo||'').toLowerCase().includes(tipo);
+        const matchCap   = capacidade === 0 || cap >= capacidade;
+        return matchLocal && matchTipo && matchCap;
     });
-    
-    // Sort
+
     if (ordenar === 'rating') {
-        barcosFilteredList.sort((a, b) => b.rating - a.rating);
+        barcosFilteredList.sort((a,b) => (b.avaliacaoMedia||0) - (a.avaliacaoMedia||0));
     } else if (ordenar === 'capacidade') {
-        barcosFilteredList.sort((a, b) => b.capacidade - a.capacidade);
+        barcosFilteredList.sort((a,b) => ((b.lotacao||b.capacidade||0)) - ((a.lotacao||a.capacidade||0)));
     } else {
-        barcosFilteredList.sort((a, b) => b.ano - a.ano);
+        barcosFilteredList.sort((a,b) => (b.ano||0) - (a.ano||0));
     }
-    
+
     renderBarcos(barcosFilteredList);
 }
 
-// Initialize
+// ----------------------------------------------------------------
+// Init
+// ----------------------------------------------------------------
 document.addEventListener('DOMContentLoaded', () => {
     renderBarcos(barcos);
-    
-    // Attach filter listeners
-    document.getElementById('filterLocal').addEventListener('change', applyFilters);
-    document.getElementById('filterTipo').addEventListener('change', applyFilters);
-    document.getElementById('filterCapacidade').addEventListener('change', applyFilters);
-    document.getElementById('filterOrdenar').addEventListener('change', applyFilters);
+    ['filterLocal','filterTipo','filterCapacidade','filterOrdenar'].forEach(id => {
+        document.getElementById(id)?.addEventListener('change', applyFilters);
+    });
 });

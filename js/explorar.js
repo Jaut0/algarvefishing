@@ -21,15 +21,11 @@ document.addEventListener('DOMContentLoaded', () => {
 // ============================================
 function carregarSaidasDoStorage() {
     const dados = JSON.parse(localStorage.getItem('saidasData') || '[]');
-    const hoje = new Date();
-    hoje.setHours(0, 0, 0, 0);
     
-    // Apenas saídas ativas e com data futura ou de hoje
+    // Apenas saídas ativas (sem filtro de data — data é opcional desde v7)
     saidasData = dados.filter(s => {
         if (s.status && s.status !== 'ativa') return false;
-        const dataSaida = new Date(s.data);
-        dataSaida.setHours(0, 0, 0, 0);
-        return dataSaida >= hoje;
+        return true;
     });
     
     saidasFiltradas = [...saidasData];
@@ -90,12 +86,8 @@ function renderizarSaidas() {
                         <span>${saida.localizacao}</span>
                     </div>
                     <div class="saida-card-info-item">
-                        <i class="fas fa-calendar-alt"></i>
-                        <span>${formatarDataPT(saida.data)}</span>
-                    </div>
-                    <div class="saida-card-info-item">
                         <i class="fas fa-clock"></i>
-                        <span>${saida.duracao}h</span>
+                        <span>${saida.duracao ? saida.duracao + 'h de pesca' : 'Duração a combinar'}</span>
                     </div>
                     ${!saida.partilhada ? `
                         <div class="saida-card-info-item">

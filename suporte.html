@@ -4,370 +4,241 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Suporte e Reclamações - Algarve Tuna Charter</title>
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚓</text></svg>">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚓</text></svg>">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="css/style.css">
     <style>
-        .suporte-container {
-            max-width: 900px;
-            margin: 0 auto;
+        /* ===== SUPORTE — fundo claro, totalmente legível ===== */
+        body { background:#F8FAFC; }
+        .suporte-wrapper { max-width: 860px; margin: 0 auto; padding: 2rem 1rem 4rem; }
+
+        /* Login gate */
+        #blocoLoginNecessario {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 2px 16px rgba(0,0,0,0.07);
+            margin-top: 2rem;
         }
-        
+        #blocoLoginNecessario i { font-size: 3.5rem; color: #FF8F00; margin-bottom: 1rem; }
+        #blocoLoginNecessario h2 { color: #0A1628; margin-bottom: 0.75rem; }
+        #blocoLoginNecessario p { color: #6B7280; margin-bottom: 1.5rem; }
+
+        /* Hero */
         .suporte-hero {
             text-align: center;
-            padding: 3rem 0;
+            padding: 2rem 0 1.5rem;
         }
-        
-        .suporte-hero i {
-            font-size: 4rem;
-            color: var(--accent);
-            margin-bottom: 1rem;
-        }
-        
-        .suporte-hero h1 {
-            font-size: 2.5rem;
-            color: var(--accent);
-            margin-bottom: 1rem;
-        }
-        
-        .suporte-hero p {
-            font-size: 1.1rem;
-            color: var(--text-secondary);
-        }
-        
-        .tipo-reclamacao-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin: 2rem 0;
-        }
-        
-        .tipo-card {
-            background: var(--dark-bg);
-            padding: 1.5rem;
-            border-radius: 12px;
-            border: 2px solid transparent;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-align: center;
-        }
-        
-        .tipo-card:hover {
-            border-color: var(--accent);
-            transform: translateY(-5px);
-        }
-        
-        .tipo-card.selected {
-            border-color: var(--accent);
-            background: rgba(255, 143, 0, 0.1);
-        }
-        
-        .tipo-card i {
-            font-size: 2.5rem;
-            color: var(--accent);
-            margin-bottom: 1rem;
-        }
-        
-        .tipo-card h3 {
-            color: var(--text-primary);
-            margin-bottom: 0.5rem;
-            font-size: 1.1rem;
-        }
-        
-        .tipo-card p {
-            color: var(--text-secondary);
+        .suporte-hero i { font-size: 3rem; color: #FF8F00; margin-bottom: 0.75rem; display:block; }
+        .suporte-hero h1 { font-size: 2rem; color: #0A1628; margin-bottom: 0.5rem; }
+        .suporte-hero p { color: #6B7280; font-size: 1rem; }
+
+        /* Utilizador logado badge */
+        .user-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            background: #EFF6FF;
+            border: 1px solid #BFDBFE;
+            border-radius: 20px;
+            padding: 0.4rem 1rem;
             font-size: 0.9rem;
-        }
-        
-        .formulario-reclamacao {
-            background: var(--dark-bg);
-            padding: 2.5rem;
-            border-radius: 12px;
-            margin-top: 2rem;
-        }
-        
-        .form-section {
-            margin-bottom: 2rem;
-        }
-        
-        .form-section-title {
-            font-size: 1.3rem;
-            color: var(--accent);
+            color: #1D4ED8;
             margin-bottom: 1.5rem;
+        }
+
+        /* Tipo de reclamação */
+        .tipo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0 2rem;
+        }
+        .tipo-card {
+            background: #fff;
+            border: 2px solid #E5E7EB;
+            border-radius: 12px;
+            padding: 1.25rem;
+            text-align: center;
+            cursor: pointer;
+            transition: border-color 0.2s, transform 0.15s, box-shadow 0.2s;
+        }
+        .tipo-card:hover { border-color: #FF8F00; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+        .tipo-card.selected { border-color: #1565C0; background: #EFF6FF; }
+        .tipo-card i { font-size: 2rem; color: #FF8F00; margin-bottom: 0.5rem; display:block; }
+        .tipo-card h3 { font-size: 0.95rem; font-weight: 700; color: #0A1628; margin-bottom: 0.25rem; }
+        .tipo-card p { font-size: 0.8rem; color: #6B7280; }
+
+        /* Form */
+        .suporte-form {
+            background: #fff;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 2px 16px rgba(0,0,0,0.07);
+            border: 1px solid #E5E7EB;
+        }
+        .form-section { margin-bottom: 2rem; }
+        .form-section-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #0A1628;
+            margin-bottom: 1.25rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #E5E7EB;
             display: flex;
             align-items: center;
             gap: 0.5rem;
         }
-        
-        .form-row {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 1.5rem;
-        }
-        
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-        
+        .form-section-title i { color: #1565C0; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+        @media(max-width:600px){ .form-row { grid-template-columns: 1fr; } }
+        .form-group { margin-bottom: 1rem; }
         .form-group label {
             display: block;
-            margin-bottom: 0.5rem;
-            color: var(--text-secondary);
-            font-size: 0.95rem;
-            font-weight: 500;
+            font-weight: 600;
+            color: #374151;
+            font-size: 0.875rem;
+            margin-bottom: 0.4rem;
         }
-        
-        .form-group label .required {
-            color: #f44336;
-            margin-left: 0.2rem;
-        }
-        
         .form-group input,
-        .form-group textarea,
-        .form-group select {
-            width: 100%;
-            padding: 0.9rem;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
-            color: var(--text-primary);
-            font-size: 0.95rem;
-            transition: all 0.3s ease;
-        }
-        
-        .form-group input:focus,
-        .form-group textarea:focus,
-        .form-group select:focus {
-            outline: none;
-            border-color: var(--accent);
-            background: rgba(255, 255, 255, 0.08);
-        }
-        
+        .form-group select,
         .form-group textarea {
-            resize: vertical;
-            min-height: 150px;
-        }
-        
-        .file-upload-area {
-            border: 2px dashed rgba(255, 255, 255, 0.2);
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background: #F9FAFB;
+            border: 1.5px solid #D1D5DB;
             border-radius: 8px;
-            padding: 2rem;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
+            color: #1F2937;
+            font-size: 0.95rem;
+            box-sizing: border-box;
         }
-        
-        .file-upload-area:hover {
-            border-color: var(--accent);
-            background: rgba(255, 143, 0, 0.05);
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: #1565C0;
+            outline: none;
+            background: #fff;
         }
-        
-        .file-upload-area i {
-            font-size: 3rem;
-            color: var(--accent);
-            margin-bottom: 1rem;
+        .form-group input[readonly],
+        .form-group input[disabled] {
+            background: #F3F4F6;
+            color: #6B7280;
+            cursor: not-allowed;
         }
-        
-        .file-upload-area p {
-            color: var(--text-secondary);
-            margin-bottom: 0.5rem;
-        }
-        
-        .file-upload-area small {
-            color: var(--text-secondary);
-            font-size: 0.85rem;
-        }
-        
-        .files-preview {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-        
-        .file-preview-item {
-            position: relative;
-            padding: 0.8rem 1rem;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        
-        .file-preview-item i {
-            color: var(--accent);
-        }
-        
-        .file-preview-remove {
-            margin-left: 0.5rem;
-            background: none;
-            border: none;
-            color: #f44336;
-            cursor: pointer;
-            padding: 0.2rem 0.5rem;
-        }
-        
+        .form-group textarea { min-height: 130px; resize: vertical; }
+        .required { color: #EF4444; margin-left: 2px; }
+
+        /* Reservas dropdown */
+        .reservas-select-wrap { position: relative; }
+
+        /* Alerta */
         .alerta-info {
-            padding: 1.2rem;
-            background: rgba(33, 150, 243, 0.1);
-            border-radius: 8px;
-            border-left: 4px solid #2196F3;
-            margin: 1.5rem 0;
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-        }
-        
-        .alerta-info i {
-            color: #2196F3;
-            margin-right: 0.5rem;
-        }
-        
-        .alerta-warning {
-            padding: 1.2rem;
-            background: rgba(255, 193, 7, 0.1);
-            border-radius: 8px;
-            border-left: 4px solid #FFC107;
-            margin: 1.5rem 0;
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-        }
-        
-        .alerta-warning i {
-            color: #FFC107;
-            margin-right: 0.5rem;
-        }
-        
-        .contactos-admin {
-            background: var(--dark-bg);
-            padding: 2rem;
-            border-radius: 12px;
-            margin-top: 2rem;
-        }
-        
-        .contactos-admin h3 {
-            color: var(--accent);
+            background: #EFF6FF;
+            border-left: 4px solid #1565C0;
+            border-radius: 6px;
+            padding: 1rem 1.25rem;
+            color: #1D4ED8;
+            font-size: 0.875rem;
             margin-bottom: 1.5rem;
-        }
-        
-        .contacto-item {
             display: flex;
-            align-items: center;
-            gap: 1rem;
-            padding: 1rem;
-            background: rgba(255, 255, 255, 0.03);
-            border-radius: 8px;
-            margin-bottom: 1rem;
+            gap: 0.6rem;
+            align-items: flex-start;
         }
-        
-        .contacto-item i {
-            font-size: 1.5rem;
-            color: var(--accent);
-            width: 30px;
+
+        /* Botões */
+        .form-actions { display: flex; gap: 1rem; margin-top: 1.5rem; }
+        .form-actions .btn { flex: 1; justify-content: center; }
+
+        /* Sucesso */
+        #blocoSucesso {
+            text-align: center;
+            padding: 3rem 2rem;
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 2px 16px rgba(0,0,0,0.07);
         }
-        
-        .contacto-item a {
-            color: var(--text-primary);
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-        
-        .contacto-item a:hover {
-            color: var(--accent);
-        }
-        
-        @media (max-width: 768px) {
-            .tipo-reclamacao-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .form-row {
-                grid-template-columns: 1fr;
-            }
-            
-            .formulario-reclamacao {
-                padding: 1.5rem;
-            }
-        }
+        #blocoSucesso i { font-size: 4rem; color: #10B981; margin-bottom: 1rem; display:block; }
+        #blocoSucesso h2 { color: #0A1628; margin-bottom: 0.5rem; }
+        #blocoSucesso p { color: #6B7280; }
     </style>
-    
-    <!-- EmailJS SDK -->
-    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-    <script src="js/email-config.js"></script>
 </head>
 <body>
-    <!-- Header -->
     <header class="header">
-        <div class="container">
-            <div class="header-content">
-                <a href="index.html" class="logo">
-                    <i class="fas fa-anchor"></i>
-                    <span>Algarve Tuna Charter</span>
-                </a>
-                <nav class="nav" id="mainNav">
-                    <a href="index.html">Início</a>
-                    <a href="explorar.html">Explorar</a>
-                    <a href="escolher-barco.html">Reservar</a>
-                    <a href="suporte.html" class="active">Suporte</a>
-                    <a href="auth.html">Entrar</a>
-                </nav>
-                <button class="mobile-toggle" id="mobileToggle">
-                    <i class="fas fa-bars"></i>
-                </button>
-            </div>
+        <div class="header-content container">
+            <a href="index.html" class="logo">
+                <span class="logo-icon">⚓</span>
+                <span>Algarve Tuna Charter</span>
+            </a>
+            <nav class="nav-menu">
+                <a href="index.html" class="nav-link">Início</a>
+                <a href="explorar.html" class="nav-link">Explorar</a>
+                <a href="suporte.html" class="nav-link ativo">Suporte</a>
+                <span id="navDashboardLink"></span>
+            </nav>
         </div>
     </header>
 
-    <!-- Main Content -->
-    <main class="main-content">
-        <section class="section">
-            <div class="container suporte-container">
+    <main style="padding-top:80px;">
+        <div class="suporte-wrapper">
+
+            <!-- BLOCO: Não logado -->
+            <div id="blocoLoginNecessario" style="display:none;">
+                <i class="fas fa-lock"></i>
+                <h2>Acesso Restrito</h2>
+                <p>O suporte e reclamações está disponível apenas para clientes registados.<br>
+                Faça login para continuar.</p>
+                <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
+                    <a href="auth.html" class="btn btn-primario"><i class="fas fa-sign-in-alt"></i> Entrar na Conta</a>
+                    <a href="index.html" class="btn btn-outline"><i class="fas fa-home"></i> Início</a>
+                </div>
+            </div>
+
+            <!-- BLOCO: Logado -->
+            <div id="blocoLogado" style="display:none;">
                 <div class="suporte-hero">
                     <i class="fas fa-headset"></i>
                     <h1>Suporte e Reclamações</h1>
-                    <p>Conte-nos o que aconteceu. Estamos aqui para ajudar.</p>
+                    <p>Estamos aqui para ajudar. Conte-nos o que aconteceu.</p>
                 </div>
 
-                <div class="alerta-info">
-                    <i class="fas fa-info-circle"></i>
-                    <strong>Importante:</strong> Todas as reclamações são analisadas pelo administrador da plataforma. 
-                    Entraremos em contacto consigo e com o capitão para resolver a situação.
+                <div style="text-align:center;">
+                    <span class="user-badge">
+                        <i class="fas fa-user-check"></i>
+                        <span id="badgeNomeUser">—</span>
+                    </span>
                 </div>
 
-                <!-- Tipo de Reclamação -->
-                <h2 style="color: var(--accent); margin: 2rem 0 1rem;">Qual é o motivo do seu contacto?</h2>
-                <div class="tipo-reclamacao-grid" id="tiposGrid">
+                <!-- Tipo de reclamação -->
+                <h2 style="color:#0A1628;font-size:1.1rem;margin-bottom:0.75rem;">
+                    <i class="fas fa-list-ul" style="color:#FF8F00;"></i> Motivo do contacto
+                </h2>
+                <div class="tipo-grid" id="tiposGrid">
                     <div class="tipo-card" data-tipo="cancelamento">
                         <i class="fas fa-calendar-times"></i>
                         <h3>Cancelamento</h3>
                         <p>Capitão cancelou a saída</p>
                     </div>
-                    
                     <div class="tipo-card" data-tipo="reembolso">
                         <i class="fas fa-money-bill-wave"></i>
                         <h3>Reembolso</h3>
-                        <p>Problemas com devolução de pagamento</p>
+                        <p>Problemas com pagamento</p>
                     </div>
-                    
                     <div class="tipo-card" data-tipo="comportamento">
                         <i class="fas fa-user-times"></i>
                         <h3>Comportamento</h3>
-                        <p>Conduta inadequada do capitão</p>
+                        <p>Conduta inadequada</p>
                     </div>
-                    
                     <div class="tipo-card" data-tipo="condicoes">
                         <i class="fas fa-ship"></i>
                         <h3>Condições do Barco</h3>
-                        <p>Barco não corresponde ao anunciado</p>
+                        <p>Barco não corresponde</p>
                     </div>
-                    
                     <div class="tipo-card" data-tipo="seguranca">
                         <i class="fas fa-exclamation-triangle"></i>
                         <h3>Segurança</h3>
                         <p>Questões de segurança</p>
                     </div>
-                    
                     <div class="tipo-card" data-tipo="outro">
                         <i class="fas fa-question-circle"></i>
                         <h3>Outro Motivo</h3>
@@ -375,180 +246,271 @@
                     </div>
                 </div>
 
-                <!-- Formulário -->
-                <form id="formReclamacao" class="formulario-reclamacao" style="display: none;">
-                    <!-- Dados Pessoais -->
+                <!-- Formulário (oculto até seleccionar tipo) -->
+                <form id="formReclamacao" class="suporte-form" style="display:none;">
+                    <input type="hidden" id="tipoReclamacao">
+
+                    <!-- Dados pessoais (pré-preenchidos) -->
                     <div class="form-section">
-                        <h3 class="form-section-title">
-                            <i class="fas fa-user"></i>
-                            Os Seus Dados
-                        </h3>
-                        
+                        <h3 class="form-section-title"><i class="fas fa-user"></i> Os Seus Dados</h3>
                         <div class="form-row">
                             <div class="form-group">
-                                <label for="nomeCliente">Nome Completo<span class="required">*</span></label>
-                                <input type="text" id="nomeCliente" required placeholder="Seu nome completo">
+                                <label>Nome Completo <span class="required">*</span></label>
+                                <input type="text" id="nomeCliente" readonly>
                             </div>
-                            
                             <div class="form-group">
-                                <label for="emailCliente">Email<span class="required">*</span></label>
-                                <input type="email" id="emailCliente" required placeholder="seu@email.com">
+                                <label>Email <span class="required">*</span></label>
+                                <input type="email" id="emailCliente" readonly>
                             </div>
                         </div>
-                        
                         <div class="form-row">
                             <div class="form-group">
-                                <label for="telefoneCliente">Telefone / WhatsApp<span class="required">*</span></label>
-                                <input type="tel" id="telefoneCliente" required placeholder="+351 912 345 678">
+                                <label>Telefone <span class="required">*</span></label>
+                                <input type="tel" id="telefoneCliente" placeholder="+351 912 345 678">
                             </div>
-                            
                             <div class="form-group">
-                                <label for="nifCliente">NIF (opcional)</label>
+                                <label>NIF (opcional)</label>
                                 <input type="text" id="nifCliente" placeholder="000000000">
                             </div>
                         </div>
                     </div>
 
-                    <!-- Dados da Reserva -->
+                    <!-- Reserva relacionada -->
                     <div class="form-section">
-                        <h3 class="form-section-title">
-                            <i class="fas fa-ship"></i>
-                            Dados da Reserva
-                        </h3>
-                        
+                        <h3 class="form-section-title"><i class="fas fa-ticket-alt"></i> Reserva Relacionada</h3>
+                        <div class="alerta-info">
+                            <i class="fas fa-info-circle" style="margin-top:2px;flex-shrink:0;"></i>
+                            <span>Seleccione a reserva em causa (se aplicável). Os dados serão preenchidos automaticamente.</span>
+                        </div>
+                        <div class="form-group">
+                            <label>Escolher Reserva</label>
+                            <select id="selectReserva" onchange="preencherDadosReserva()">
+                                <option value="">— Seleccionar reserva (opcional) —</option>
+                            </select>
+                        </div>
                         <div class="form-row">
                             <div class="form-group">
-                                <label for="nomeBarco">Nome do Barco<span class="required">*</span></label>
-                                <input type="text" id="nomeBarco" required placeholder="Ex: Mar Azul">
+                                <label>Nome do Barco</label>
+                                <input type="text" id="nomeBarco" placeholder="Ex: Mar Azul">
                             </div>
-                            
                             <div class="form-group">
-                                <label for="nomeCapitao">Nome do Capitão</label>
+                                <label>Nome do Capitão</label>
                                 <input type="text" id="nomeCapitao" placeholder="Se souber o nome">
                             </div>
                         </div>
-                        
                         <div class="form-row">
                             <div class="form-group">
-                                <label for="dataReserva">Data da Reserva<span class="required">*</span></label>
-                                <input type="date" id="dataReserva" required>
+                                <label>Data da Reserva</label>
+                                <input type="date" id="dataReserva">
                             </div>
-                            
                             <div class="form-group">
-                                <label for="valorPago">Valor Pago (€)</label>
+                                <label>Valor Pago (€)</label>
                                 <input type="number" id="valorPago" placeholder="0.00" step="0.01" min="0">
                             </div>
                         </div>
                     </div>
 
-                    <!-- Descrição do Problema -->
+                    <!-- Descrição -->
                     <div class="form-section">
-                        <h3 class="form-section-title">
-                            <i class="fas fa-file-alt"></i>
-                            Descrição do Problema
-                        </h3>
-                        
-                        <input type="hidden" id="tipoReclamacao" required>
-                        
+                        <h3 class="form-section-title"><i class="fas fa-file-alt"></i> Descrição do Problema</h3>
                         <div class="form-group">
-                            <label for="assunto">Assunto<span class="required">*</span></label>
-                            <input type="text" id="assunto" required placeholder="Resumo do problema">
+                            <label>Tipo de Reclamação (seleccionado)</label>
+                            <input type="text" id="tipoReclamacaoLabel" readonly>
                         </div>
-                        
                         <div class="form-group">
-                            <label for="descricao">Descrição Detalhada<span class="required">*</span></label>
-                            <textarea id="descricao" required placeholder="Conte-nos o que aconteceu. Quanto mais detalhes fornecer, melhor poderemos ajudá-lo..."></textarea>
+                            <label>Assunto <span class="required">*</span></label>
+                            <input type="text" id="assunto" placeholder="Resumo do problema" required>
                         </div>
-                        
-                        <div class="alerta-warning">
-                            <i class="fas fa-lightbulb"></i>
-                            <strong>Dica:</strong> Inclua datas, valores, conversas relevantes e qualquer informação que possa ajudar na resolução.
+                        <div class="form-group">
+                            <label>Descrição Detalhada <span class="required">*</span></label>
+                            <textarea id="descricao" placeholder="Descreva em detalhe o que aconteceu: datas, valores, comunicações relevantes..." required></textarea>
                         </div>
-                    </div>
-
-                    <!-- Upload de Ficheiros -->
-                    <div class="form-section">
-                        <h3 class="form-section-title">
-                            <i class="fas fa-paperclip"></i>
-                            Documentos e Evidências (opcional)
-                        </h3>
-                        
-                        <div class="file-upload-area" id="fileUploadArea">
-                            <i class="fas fa-cloud-upload-alt"></i>
-                            <p><strong>Clique para selecionar ficheiros</strong></p>
-                            <small>Screenshots, comprovativos de pagamento, mensagens, fotos, etc.</small>
-                            <small style="display: block; margin-top: 0.5rem;">Formatos: PDF, JPG, PNG, DOC | Máx: 5 ficheiros</small>
-                            <input type="file" id="fileInput" multiple accept=".pdf,.jpg,.jpeg,.png,.doc,.docx" style="display: none;">
-                        </div>
-                        
-                        <div class="files-preview" id="filesPreview"></div>
                     </div>
 
                     <!-- Botões -->
-                    <div style="display: flex; gap: 1rem; margin-top: 2rem;">
-                        <button type="button" class="btn btn-secondary" onclick="resetForm()" style="flex: 1;">
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-outline" onclick="resetForm()">
                             <i class="fas fa-times"></i> Cancelar
                         </button>
-                        <button type="submit" class="btn btn-primary" style="flex: 2;">
+                        <button type="submit" class="btn btn-primario">
                             <i class="fas fa-paper-plane"></i> Enviar Reclamação
                         </button>
                     </div>
                 </form>
 
-                <!-- Contactos Diretos -->
-                <div class="contactos-admin">
-                    <h3><i class="fas fa-phone-alt"></i> Contactos Diretos</h3>
-                    <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">
-                        Prefere falar directamente connosco? Use um dos contactos abaixo:
-                    </p>
-                    
-                    <div class="contacto-item">
-                        <i class="fas fa-envelope"></i>
+                <!-- Sucesso -->
+                <div id="blocoSucesso" style="display:none;">
+                    <i class="fas fa-check-circle"></i>
+                    <h2>Reclamação Enviada!</h2>
+                    <p>A sua reclamação foi registada com sucesso.<br>
+                    A nossa equipa irá analisá-la e responder em breve.</p>
+                    <button onclick="resetForm()" class="btn btn-primario" style="margin-top:1.5rem;">
+                        <i class="fas fa-plus"></i> Nova Reclamação
+                    </button>
+                    <a href="dashboard-usuario.html" class="btn btn-outline" style="margin-top:1.5rem;">
+                        <i class="fas fa-home"></i> Ir para Dashboard
+                    </a>
+                </div>
+
+                <!-- Contacto directo -->
+                <div style="background:#fff;border:1px solid #E5E7EB;border-radius:12px;padding:1.5rem;margin-top:2rem;">
+                    <h3 style="color:#0A1628;margin-bottom:1rem;"><i class="fas fa-phone-alt" style="color:#FF8F00;"></i> Contactos Diretos</h3>
+                    <p style="color:#6B7280;font-size:0.9rem;margin-bottom:1rem;">Prefere falar directamente connosco?</p>
+                    <div style="display:flex;align-items:center;gap:0.75rem;padding:0.75rem;background:#F9FAFB;border-radius:8px;margin-bottom:0.75rem;">
+                        <i class="fas fa-envelope" style="color:#1565C0;font-size:1.25rem;width:24px;"></i>
                         <div>
-                            <strong>Email:</strong><br>
-                            <a href="mailto:geral@algarvetunacharter.pt">geral@algarvetunacharter.pt</a>
+                            <div style="font-weight:600;color:#0A1628;font-size:0.875rem;">Email</div>
+                            <a href="mailto:geral@algarvetunacharter.pt" style="color:#1565C0;font-size:0.875rem;">geral@algarvetunacharter.pt</a>
                         </div>
                     </div>
-                    
-                    <div class="alerta-info" style="margin-top: 1.5rem;">
-                        <i class="fas fa-clock"></i>
-                        <strong>Horário de Atendimento:</strong> Segunda a Sexta, 09:00 - 18:00
+                    <div style="background:#FEF3C7;border-radius:8px;padding:0.75rem;font-size:0.85rem;color:#92400E;">
+                        <i class="fas fa-clock"></i> Horário: Segunda a Sexta, 09:00 – 18:00
                     </div>
                 </div>
             </div>
-        </section>
+
+        </div>
     </main>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h3>Algarve Tuna Charter</h3>
-                    <p>A sua plataforma de confiança para experiências de pesca inesquecíveis em Portugal.</p>
-                </div>
-                <div class="footer-section">
-                    <h4>Links Rápidos</h4>
-                    <ul>
-                        <li><a href="index.html">Início</a></li>
-                        <li><a href="explorar.html">Explorar</a></li>
-                        <li><a href="escolher-barco.html">Reservar</a></li>
-                        <li><a href="suporte.html">Suporte</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h4>Contacto</h4>
-                    <p><i class="fas fa-envelope"></i> geral@algarvetunacharter.pt</p>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2026 Algarve Tuna Charter. Todos os direitos reservados.</p>
-                <a href="admin-login.html" style="color: var(--text-secondary); font-size: 0.85rem;">Área Admin</a>
-            </div>
-        </div>
-    </footer>
-
     <script src="js/main.js"></script>
-    <script src="js/suporte.js"></script>
+    <script>
+        let utilizadorLogado = null;
+        const TIPOS_LABEL = {
+            cancelamento: 'Cancelamento de Saída',
+            reembolso:    'Pedido de Reembolso',
+            comportamento:'Comportamento Inadequado',
+            condicoes:    'Condições do Barco',
+            seguranca:    'Questão de Segurança',
+            outro:        'Outro Motivo'
+        };
+
+        // ─── INIT ──────────────────────────────────────────────
+        document.addEventListener('DOMContentLoaded', () => {
+            const str = localStorage.getItem('usuarioLogado');
+            if (!str) {
+                document.getElementById('blocoLoginNecessario').style.display = 'block';
+                // Ajustar nav
+                document.getElementById('navDashboardLink').innerHTML =
+                    '<a href="auth.html" class="btn btn-primario btn-pequeno"><i class="fas fa-sign-in-alt"></i> Entrar</a>';
+                return;
+            }
+            utilizadorLogado = JSON.parse(str);
+
+            // Nav
+            const tipo = utilizadorLogado.tipo === 'capitao' ? 'dashboard-capitao.html' : 'dashboard-usuario.html';
+            document.getElementById('navDashboardLink').innerHTML =
+                `<a href="${tipo}" class="nav-link"><i class="fas fa-tachometer-alt"></i> Dashboard</a>`;
+
+            // Mostrar formulário
+            document.getElementById('blocoLogado').style.display = 'block';
+            document.getElementById('badgeNomeUser').textContent = utilizadorLogado.nome;
+
+            // Pré-preencher dados pessoais
+            document.getElementById('nomeCliente').value     = utilizadorLogado.nome     || '';
+            document.getElementById('emailCliente').value    = utilizadorLogado.email    || '';
+            document.getElementById('telefoneCliente').value = utilizadorLogado.telefone || '';
+            document.getElementById('nifCliente').value      = utilizadorLogado.nif      || '';
+
+            // Carregar reservas do cliente
+            carregarReservasSelect();
+
+            // Tipos de reclamação
+            document.querySelectorAll('.tipo-card').forEach(card => {
+                card.addEventListener('click', () => {
+                    document.querySelectorAll('.tipo-card').forEach(c => c.classList.remove('selected'));
+                    card.classList.add('selected');
+                    const tipo = card.dataset.tipo;
+                    document.getElementById('tipoReclamacao').value = tipo;
+                    document.getElementById('tipoReclamacaoLabel').value = TIPOS_LABEL[tipo] || tipo;
+                    document.getElementById('formReclamacao').style.display = 'block';
+                    document.getElementById('blocoSucesso').style.display = 'none';
+                    document.getElementById('formReclamacao').scrollIntoView({ behavior: 'smooth', block: 'start' });
+                });
+            });
+
+            // Submissão
+            document.getElementById('formReclamacao').addEventListener('submit', submeterReclamacao);
+        });
+
+        // ─── RESERVAS SELECT ───────────────────────────────────
+        function carregarReservasSelect() {
+            const reservas = JSON.parse(localStorage.getItem('reservasPendentes') || '[]');
+            const minhas = reservas.filter(r => r.clienteEmail === utilizadorLogado.email);
+            const sel = document.getElementById('selectReserva');
+            minhas.forEach(r => {
+                const opt = document.createElement('option');
+                opt.value = r.id;
+                const st = r.status === 'confirmada' ? '✅' : r.status === 'pendente' ? '⏳' : '❌';
+                opt.textContent = `${st} ${r.saidaTitulo || 'Saída'} — ${r.barcoNome || '—'} (€${r.totalPagar || 0})`;
+                opt.dataset.barco   = r.barcoNome    || '';
+                opt.dataset.capitao = r.capitaoNome  || '';
+                opt.dataset.data    = r.saidaData    || '';
+                opt.dataset.valor   = r.totalPagar   || '';
+                sel.appendChild(opt);
+            });
+        }
+
+        function preencherDadosReserva() {
+            const sel = document.getElementById('selectReserva');
+            const opt = sel.options[sel.selectedIndex];
+            if (!opt || !opt.value) return;
+            document.getElementById('nomeBarco').value   = opt.dataset.barco;
+            document.getElementById('nomeCapitao').value = opt.dataset.capitao;
+            document.getElementById('dataReserva').value = opt.dataset.data;
+            document.getElementById('valorPago').value   = opt.dataset.valor;
+        }
+
+        // ─── SUBMISSÃO ─────────────────────────────────────────
+        function submeterReclamacao(e) {
+            e.preventDefault();
+            const assunto   = document.getElementById('assunto').value.trim();
+            const descricao = document.getElementById('descricao').value.trim();
+            if (!assunto || !descricao) {
+                if (window.mostrarToast) mostrarToast('❌ Preencha o assunto e a descrição!', 'erro');
+                return;
+            }
+
+            const rec = {
+                id:            Date.now(),
+                clienteNome:   utilizadorLogado.nome,
+                clienteEmail:  utilizadorLogado.email,
+                clienteTel:    document.getElementById('telefoneCliente').value,
+                nif:           document.getElementById('nifCliente').value,
+                tipo:          document.getElementById('tipoReclamacao').value,
+                tipoLabel:     document.getElementById('tipoReclamacaoLabel').value,
+                barco:         document.getElementById('nomeBarco').value,
+                capitao:       document.getElementById('nomeCapitao').value,
+                dataReserva:   document.getElementById('dataReserva').value,
+                valorPago:     document.getElementById('valorPago').value,
+                assunto,
+                descricao,
+                status:        'pendente',
+                dataCriacao:   new Date().toISOString()
+            };
+
+            const reclamacoes = JSON.parse(localStorage.getItem('reclamacoes') || '[]');
+            reclamacoes.push(rec);
+            localStorage.setItem('reclamacoes', JSON.stringify(reclamacoes));
+
+            document.getElementById('formReclamacao').style.display = 'none';
+            document.getElementById('blocoSucesso').style.display = 'block';
+            document.getElementById('blocoSucesso').scrollIntoView({ behavior: 'smooth' });
+            if (window.mostrarToast) mostrarToast('✅ Reclamação enviada com sucesso!', 'sucesso');
+        }
+
+        // ─── RESET ─────────────────────────────────────────────
+        function resetForm() {
+            document.querySelectorAll('.tipo-card').forEach(c => c.classList.remove('selected'));
+            document.getElementById('formReclamacao').reset();
+            document.getElementById('tipoReclamacaoLabel').value = '';
+            document.getElementById('nomeCliente').value  = utilizadorLogado?.nome  || '';
+            document.getElementById('emailCliente').value = utilizadorLogado?.email || '';
+            document.getElementById('telefoneCliente').value = utilizadorLogado?.telefone || '';
+            document.getElementById('nifCliente').value   = utilizadorLogado?.nif   || '';
+            document.getElementById('formReclamacao').style.display = 'none';
+            document.getElementById('blocoSucesso').style.display = 'none';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
 </body>
 </html>
