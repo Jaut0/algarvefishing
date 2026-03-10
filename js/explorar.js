@@ -69,8 +69,14 @@ function renderizarSaidas() {
         const vagas = saida.vagas !== undefined ? saida.vagas : (saida.lotacao || 0);
         const esgotado = vagas <= 0;
         
+        // Cor diferente para saídas partilhadas ativas
+        const cardStyle = saida.partilhada
+            ? 'border: 2px solid #F59E0B; background: linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%);'
+            : (saida.permitePartilha ? 'border: 1px solid #BAE6FD;' : '');
+
         return `
-        <div class="saida-card fade-in">
+        <div class="saida-card fade-in" style="${cardStyle}">
+            ${saida.partilhada ? `<div style="background:linear-gradient(90deg,#F59E0B,#D97706);color:white;text-align:center;padding:0.3rem 0.75rem;font-size:0.8rem;font-weight:700;letter-spacing:0.03em;">🤝 SAÍDA PARTILHADA – Lugares disponíveis!</div>` : (saida.permitePartilha ? `<div style="background:#EFF6FF;color:#1D4ED8;text-align:center;padding:0.25rem;font-size:0.78rem;font-weight:600;">✓ Pode ser partilhada</div>` : '')}
             <img src="${imagem}" alt="${saida.titulo}" class="saida-card-imagem" onerror="this.src='${placeholderImg}'">
             <div class="saida-card-conteudo">
                 <h3 class="saida-card-titulo">${saida.titulo}</h3>

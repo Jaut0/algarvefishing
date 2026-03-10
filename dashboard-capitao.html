@@ -8,6 +8,53 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/dashboard.css">
+    <style>
+        /* ── Fix total: perfil do capitão – campos visíveis ── */
+        #secao-perfil .card,
+        #secao-perfil .card * {
+            box-sizing: border-box;
+        }
+        /* Fundo do card de perfil claramente branco */
+        #secao-perfil .card {
+            background: #ffffff !important;
+        }
+        /* Inputs / selects / textareas */
+        .card .form-input, .card .form-select, .card .form-textarea,
+        #secao-perfil .form-input, #secao-perfil .form-select, #secao-perfil .form-textarea {
+            background-color: #ffffff !important;
+            color: #1F2937 !important;
+            border: 2px solid #D1D5DB !important;
+            border-radius: 8px !important;
+            padding: 0.75rem 1rem !important;
+            font-size: 1rem !important;
+            width: 100% !important;
+        }
+        .card .form-input:focus, .card .form-select:focus, .card .form-textarea:focus,
+        #secao-perfil .form-input:focus, #secao-perfil .form-select:focus, #secao-perfil .form-textarea:focus {
+            border-color: #1565C0 !important;
+            box-shadow: 0 0 0 3px rgba(21,101,192,0.15) !important;
+            outline: none !important;
+        }
+        .card .form-input::placeholder, .card .form-textarea::placeholder,
+        #secao-perfil .form-input::placeholder, #secao-perfil .form-textarea::placeholder { color: #9CA3AF !important; }
+        /* Labels e texto */
+        .card .form-label, #secao-perfil .form-label { color: #374151 !important; font-weight: 600 !important; }
+        #secao-perfil .card h3, #secao-perfil .card h2 { color: #0A1628 !important; }
+        #secao-perfil .card small, #secao-perfil .card p { color: #6B7280 !important; }
+        #secao-perfil .card hr { border-color: #E5E7EB !important; }
+        /* Input disabled */
+        .card .form-input[disabled], #secao-perfil .form-input[disabled] {
+            background-color: #F9FAFB !important; color: #9CA3AF !important; cursor: not-allowed !important;
+        }
+        /* Também para saidas e reservas que usem .card */
+        .dashboard-secao-wrapper .card .form-input,
+        .dashboard-secao-wrapper .card .form-select,
+        .dashboard-secao-wrapper .card .form-textarea {
+            background-color: #ffffff !important;
+            color: #1F2937 !important;
+            border: 2px solid #D1D5DB !important;
+        }
+    </style>
 </head>
 <body>
     
@@ -887,14 +934,50 @@
 
             const reservas = JSON.parse(localStorage.getItem('reservasPendentes') || '[]');
             const idx = reservas.findIndex(r => r.id === id);
-            if (idx !== -1) {
-                reservas[idx].status = novoStatus;
-                localStorage.setItem('reservasPendentes', JSON.stringify(reservas));
-                const msg = novoStatus === 'confirmada' ? '✅ Reserva confirmada!' : 'Reserva recusada.';
-                const tipo = novoStatus === 'confirmada' ? 'sucesso' : 'aviso';
-                if (window.mostrarToast) mostrarToast(msg, tipo);
-                carregarReservas();
+            if (idx === -1) return;
+
+            reservas[idx].status = novoStatus;
+
+            // Se confirmada: verificar se pode ativar saída partilhada
+            if (novoStatus === 'confirmada') {
+                const reserva = reservas[idx];
+                const saidas = JSON.parse(localStorage.getItem('saidasData') || '[]');
+                const saidaIdx = saidas.findIndex(s => s.id === reserva.saidaId);
+                if (saidaIdx !== -1) {
+                    const saida = saidas[saidaIdx];
+                    const vagasRestantes = (saida.vagas || saida.lotacao || 0) - (reserva.numPessoas || 1);
+                    // Propor partilha se a saída permite e há vagas restantes
+                    if (saida.permitePartilha && vagasRestantes > 0 && !saida.partilhada) {
+                        const ativarPartilha = confirm(
+                            `✅ Reserva confirmada!
+
+🤝 Esta saída permite partilha e ainda tem ${vagasRestantes} vaga(s) disponíveis.
+
+Deseja ATIVAR a Saída Partilhada?
+(A saída ficará visível com destaque especial e outros clientes poderão reservar os lugares restantes.)`
+                        );
+                        if (ativarPartilha) {
+                            saidas[saidaIdx].partilhada = true;
+                            saidas[saidaIdx].vagasPartilhadas = vagasRestantes;
+                            localStorage.setItem('saidasData', JSON.stringify(saidas));
+                            if (window.mostrarToast) mostrarToast('🤝 Saída partilhada ativada! Visível com destaque especial.', 'sucesso');
+                        }
+                    } else {
+                        // Atualizar vagas na saída
+                        if (saidaIdx !== -1) {
+                            saidas[saidaIdx].vagasOcupadas = (saidas[saidaIdx].vagasOcupadas || 0) + (reserva.numPessoas || 1);
+                            saidas[saidaIdx].vagas = Math.max(0, (saidas[saidaIdx].vagas || saidas[saidaIdx].lotacao || 0) - (reserva.numPessoas || 1));
+                            localStorage.setItem('saidasData', JSON.stringify(saidas));
+                        }
+                    }
+                }
+                if (window.mostrarToast) mostrarToast('✅ Reserva confirmada!', 'sucesso');
+            } else {
+                if (window.mostrarToast) mostrarToast('Reserva recusada.', 'aviso');
             }
+
+            localStorage.setItem('reservasPendentes', JSON.stringify(reservas));
+            carregarReservas();
         }
 
         // Manter funções de compatibilidade
@@ -1080,6 +1163,10 @@
                                     estadoBadge = '<span class="badge badge-cinza">Passada</span>';
                                 } else if (vagas === 0) {
                                     estadoBadge = '<span class="badge badge-primario">Esgotada</span>';
+                                } else if (saida.partilhada) {
+                                    estadoBadge = '<span style="background:#FFF3CD;color:#856404;border:1px solid #FFEEBA;padding:0.2rem 0.6rem;border-radius:12px;font-size:0.78rem;font-weight:700;">🤝 Partilhada</span>';
+                                } else if (saida.permitePartilha) {
+                                    estadoBadge = '<span style="background:#D1ECF1;color:#0C5460;border:1px solid #BEE5EB;padding:0.2rem 0.6rem;border-radius:12px;font-size:0.78rem;font-weight:700;">✓ Permite Partilha</span>';
                                 } else {
                                     estadoBadge = '<span class="badge badge-sucesso">Ativa</span>';
                                 }
