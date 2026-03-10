@@ -278,7 +278,7 @@ function getFileIcon(filename) {
 // Marcar em análise
 window.marcarEmAnalise = function(id) {
     const reclamacoes = JSON.parse(localStorage.getItem('reclamacoes') || '[]');
-    const rec = reclamacoes.find(r => r.id === id);
+    const rec = reclamacoes.find(r => r.id == id);
     
     if (rec) {
         rec.status = 'emAnalise';
@@ -295,13 +295,18 @@ window.marcarEmAnalise = function(id) {
 
 // Resolver reclamação
 window.resolverReclamacao = function(id) {
-    console.log('🔵 resolverReclamacao chamada, ID:', id);
+    console.log('🔵 resolverReclamacao chamada, ID:', id, 'Tipo:', typeof id);
     
     const reclamacoes = JSON.parse(localStorage.getItem('reclamacoes') || '[]');
-    const rec = reclamacoes.find(r => r.id === id);
+    console.log('📋 Total de reclamações:', reclamacoes.length);
+    console.log('📋 IDs disponíveis:', reclamacoes.map(r => r.id));
+    
+    // Usar == em vez de === para comparação flexível (string/number)
+    const rec = reclamacoes.find(r => r.id == id);
     
     if (!rec) {
         console.error('❌ Reclamação não encontrada:', id);
+        console.error('Buscando ID:', id, 'Tipo:', typeof id);
         if (typeof mostrarToast === 'function') {
             mostrarToast('Reclamação não encontrada!', 'erro');
         }
@@ -342,7 +347,7 @@ window.confirmarResolucao = function(id) {
     console.log('✅ confirmarResolucao chamada, ID:', id);
     const nota = document.getElementById('notaResolucao').value;
     const reclamacoes = JSON.parse(localStorage.getItem('reclamacoes') || '[]');
-    const rec = reclamacoes.find(r => r.id === id);
+    const rec = reclamacoes.find(r => r.id == id);
     
     if (rec) {
         rec.status = 'resolvida';
@@ -365,10 +370,13 @@ window.confirmarResolucao = function(id) {
 
 // Rejeitar reclamação
 window.rejeitarReclamacao = function(id) {
-    console.log('🔴 rejeitarReclamacao chamada, ID:', id);
+    console.log('🔴 rejeitarReclamacao chamada, ID:', id, 'Tipo:', typeof id);
     
     const reclamacoes = JSON.parse(localStorage.getItem('reclamacoes') || '[]');
-    const rec = reclamacoes.find(r => r.id === id);
+    console.log('📋 Total de reclamações:', reclamacoes.length);
+    
+    // Usar == em vez de === para comparação flexível
+    const rec = reclamacoes.find(r => r.id == id);
     
     if (!rec) {
         console.error('❌ Reclamação não encontrada:', id);
@@ -412,7 +420,7 @@ window.confirmarRejeicaoRec = function(id) {
     console.log('❌ confirmarRejeicaoRec chamada, ID:', id);
     const motivo = document.getElementById('motivoRejeicao').value;
     const reclamacoes = JSON.parse(localStorage.getItem('reclamacoes') || '[]');
-    const rec = reclamacoes.find(r => r.id === id);
+    const rec = reclamacoes.find(r => r.id == id);
     
     if (rec) {
         rec.status = 'rejeitada';
@@ -436,7 +444,7 @@ window.confirmarRejeicaoRec = function(id) {
 // Adicionar notas
 window.adicionarNotasReclamacao = function(id) {
     const reclamacoes = JSON.parse(localStorage.getItem('reclamacoes') || '[]');
-    const rec = reclamacoes.find(r => r.id === id);
+    const rec = reclamacoes.find(r => r.id == id);
     
     const modal = document.createElement('div');
     modal.className = 'modal active';
@@ -465,7 +473,7 @@ window.adicionarNotasReclamacao = function(id) {
 window.salvarNotas = function(id) {
     const notas = document.getElementById('notasInternas').value;
     const reclamacoes = JSON.parse(localStorage.getItem('reclamacoes') || '[]');
-    const rec = reclamacoes.find(r => r.id === id);
+    const rec = reclamacoes.find(r => r.id == id);
     
     if (rec) {
         rec.notas = notas;

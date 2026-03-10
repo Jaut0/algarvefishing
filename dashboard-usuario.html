@@ -207,8 +207,11 @@
                 </div>
                 <div class="estado-vazio">
                     <i class="fas fa-ticket-alt estado-vazio-icon"></i>
-                    <h3 class="estado-vazio-titulo">Gerir Reservas</h3>
-                    <p class="estado-vazio-texto">Todas as suas reservas aparecem aqui</p>
+                    <h3 class="estado-vazio-titulo">Sem Reservas</h3>
+                    <p class="estado-vazio-texto">Você ainda não tem reservas.<br>Explore as saídas disponíveis e faça a sua primeira reserva!</p>
+                    <a href="explorar.html" class="btn btn-primario" style="margin-top: 1.5rem;">
+                        <i class="fas fa-search"></i> Explorar Saídas
+                    </a>
                 </div>
             </div>
             
@@ -218,8 +221,8 @@
                 </div>
                 <div class="estado-vazio">
                     <i class="fas fa-history estado-vazio-icon"></i>
-                    <h3 class="estado-vazio-titulo">Histórico</h3>
-                    <p class="estado-vazio-texto">As saídas realizadas aparecem aqui</p>
+                    <h3 class="estado-vazio-titulo">Sem Histórico</h3>
+                    <p class="estado-vazio-texto">Ainda não realizou nenhuma saída de pesca.<br>As suas experiências aparecerão aqui após conclusão.</p>
                 </div>
             </div>
             
@@ -229,8 +232,11 @@
                 </div>
                 <div class="estado-vazio">
                     <i class="fas fa-heart estado-vazio-icon"></i>
-                    <h3 class="estado-vazio-titulo">Saídas Favoritas</h3>
-                    <p class="estado-vazio-texto">Guarde as suas saídas favoritas aqui</p>
+                    <h3 class="estado-vazio-titulo">Sem Favoritos</h3>
+                    <p class="estado-vazio-texto">Ainda não adicionou nenhuma saída aos favoritos.<br>Explore e guarde as suas saídas preferidas!</p>
+                    <a href="explorar.html" class="btn btn-primario" style="margin-top: 1.5rem;">
+                        <i class="fas fa-compass"></i> Descobrir Saídas
+                    </a>
                 </div>
             </div>
             
@@ -240,7 +246,37 @@
                     <p style="color: rgba(245,245,245,0.8); margin-top: 0.5rem;">Gerir as suas informações pessoais</p>
                 </div>
                 
-                <div class="card" style="max-width: 100%; width: 100%; box-sizing: border-box;">
+                <div class="card" style="max-width: 100%; width: 100%; box-sizing: border-box; padding: 2rem;">
+                    <style>
+                        #secao-perfil .form-input,
+                        #secao-perfil .form-select,
+                        #secao-perfil .form-textarea {
+                            background-color: rgba(255, 255, 255, 0.08) !important;
+                            border: 2px solid rgba(255, 255, 255, 0.2) !important;
+                            color: #ffffff !important;
+                            font-size: 1rem !important;
+                            padding: 0.875rem 1rem !important;
+                        }
+                        
+                        #secao-perfil .form-input:focus,
+                        #secao-perfil .form-select:focus,
+                        #secao-perfil .form-textarea:focus {
+                            background-color: rgba(255, 255, 255, 0.12) !important;
+                            border-color: var(--cor-destaque) !important;
+                            box-shadow: 0 0 0 3px rgba(255, 143, 0, 0.2) !important;
+                        }
+                        
+                        #secao-perfil .form-label {
+                            font-weight: 600;
+                            color: rgba(255, 255, 255, 0.95);
+                            margin-bottom: 0.75rem;
+                            font-size: 0.95rem;
+                        }
+                        
+                        #secao-perfil .form-input::placeholder {
+                            color: rgba(255, 255, 255, 0.4) !important;
+                        }
+                    </style>
                     <form id="formEditarPerfil">
                         <div class="form-grid">
                             <div class="form-grupo">

@@ -170,6 +170,14 @@ form.addEventListener('submit', (e) => {
     reclamacoes.push(formData);
     localStorage.setItem('reclamacoes', JSON.stringify(reclamacoes));
     
+    // Limpar formulário e estado
+    form.reset();
+    selectedFiles = [];
+    renderFilesPreview();
+    form.style.display = 'none';
+    selectedTipo = null;
+    tipoCards.forEach(c => c.classList.remove('selected'));
+    
     // Show success modal
     showSuccessModal(formData);
 });
