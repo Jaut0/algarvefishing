@@ -41,8 +41,8 @@
         <!-- SIDEBAR -->
         <aside class="sidebar" id="sidebar">
             <div class="sidebar-perfil">
-                <div class="sidebar-perfil-avatar">PC</div>
-                <div class="sidebar-perfil-nome">Pedro Costa</div>
+                <div class="sidebar-perfil-avatar" id="sidebarAvatar">?</div>
+                <div class="sidebar-perfil-nome" id="sidebarNome">A carregar...</div>
                 <div class="sidebar-perfil-tipo">Capitão</div>
             </div>
             
@@ -283,108 +283,8 @@
                     </div>
                 </div>
                 
-                <div class="barcos-grid">
-                    <a href="registar-barco.html" class="barco-dashboard-card adicionar-barco-card">
-                        <i class="fas fa-plus-circle adicionar-barco-icon"></i>
-                        <div class="adicionar-barco-texto">Adicionar Novo Barco</div>
-                    </a>
-                    
-                    <div class="barco-dashboard-card">
-                        <img src="https://images.unsplash.com/photo-1569263979104-865ab7cd8d13?w=600&h=400&fit=crop" 
-                             alt="Barco" class="barco-dashboard-card-imagem">
-                        <div class="barco-dashboard-card-conteudo">
-                            <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.5rem;">
-                                <h3 class="barco-dashboard-card-nome">Mar Azul</h3>
-                                <span class="badge badge-sucesso">Aprovado</span>
-                            </div>
-                            <div class="barco-dashboard-card-info">
-                                <div class="barco-dashboard-card-info-item">
-                                    <i class="fas fa-ruler-combined"></i>
-                                    <span>12 metros</span>
-                                </div>
-                                <div class="barco-dashboard-card-info-item">
-                                    <i class="fas fa-users"></i>
-                                    <span>8 pessoas</span>
-                                </div>
-                                <div class="barco-dashboard-card-info-item">
-                                    <i class="fas fa-tachometer-alt"></i>
-                                    <span>250 CV</span>
-                                </div>
-                            </div>
-                            <div class="barco-dashboard-card-acoes">
-                                <button class="btn btn-primario btn-pequeno">
-                                    <i class="fas fa-eye"></i> Ver
-                                </button>
-                                <button class="btn btn-secundario btn-pequeno">
-                                    <i class="fas fa-edit"></i> Editar
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="barco-dashboard-card">
-                        <img src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=600&h=400&fit=crop" 
-                             alt="Barco" class="barco-dashboard-card-imagem">
-                        <div class="barco-dashboard-card-conteudo">
-                            <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.5rem;">
-                                <h3 class="barco-dashboard-card-nome">Oceano Bravo</h3>
-                                <span class="badge badge-destaque">Pendente</span>
-                            </div>
-                            <div class="barco-dashboard-card-info">
-                                <div class="barco-dashboard-card-info-item">
-                                    <i class="fas fa-ruler-combined"></i>
-                                    <span>15 metros</span>
-                                </div>
-                                <div class="barco-dashboard-card-info-item">
-                                    <i class="fas fa-users"></i>
-                                    <span>12 pessoas</span>
-                                </div>
-                                <div class="barco-dashboard-card-info-item">
-                                    <i class="fas fa-tachometer-alt"></i>
-                                    <span>400 CV</span>
-                                </div>
-                            </div>
-                            <div style="background: #FEF2F2; padding: 0.75rem; border-radius: var(--radius-pequeno); margin-top: 1rem; font-size: 0.8rem;">
-                                <i class="fas fa-clock" style="color: var(--cor-destaque);"></i>
-                                Aguarda validação de documentos
-                            </div>
-                            <div class="barco-dashboard-card-acoes" style="margin-top: 0.75rem;">
-                                <button class="btn btn-outline btn-pequeno" style="flex: 1;" disabled>
-                                    <i class="fas fa-lock"></i> Bloqueado
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="barco-dashboard-card">
-                        <img src="https://images.unsplash.com/photo-1534008897995-27a23e859048?w=600&h=400&fit=crop" 
-                             alt="Barco" class="barco-dashboard-card-imagem">
-                        <div class="barco-dashboard-card-conteudo">
-                            <h3 class="barco-dashboard-card-nome">Pescador I</h3>
-                            <div class="barco-dashboard-card-info">
-                                <div class="barco-dashboard-card-info-item">
-                                    <i class="fas fa-ruler-combined"></i>
-                                    <span>10 metros</span>
-                                </div>
-                                <div class="barco-dashboard-card-info-item">
-                                    <i class="fas fa-users"></i>
-                                    <span>6 pessoas</span>
-                                </div>
-                                <div class="barco-dashboard-card-info-item">
-                                    <i class="fas fa-tachometer-alt"></i>
-                                    <span>200 CV</span>
-                                </div>
-                            </div>
-                            <div class="barco-dashboard-card-acoes">
-                                <button class="btn btn-primario btn-pequeno">
-                                    <i class="fas fa-eye"></i> Ver
-                                </button>
-                                <button class="btn btn-secundario btn-pequeno">
-                                    <i class="fas fa-edit"></i> Editar
-                                </button>
-                            </div>
-                        </div>
-                    </div>
+                <div class="barcos-grid" id="gridMeusBarcos">
+                    <!-- Carregado dinamicamente por JavaScript -->
                 </div>
             </div>
             
@@ -401,63 +301,8 @@
                 </div>
                 
                 <div class="dashboard-secao">
-                    <div class="tabela-container">
-                        <table class="tabela">
-                            <thead>
-                                <tr>
-                                    <th>Título</th>
-                                    <th>Barco</th>
-                                    <th>Data</th>
-                                    <th>Vagas</th>
-                                    <th>Preço</th>
-                                    <th>Estado</th>
-                                    <th>Ações</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>Pesca de Alto Mar</td>
-                                    <td>Mar Azul</td>
-                                    <td>15/03/2026 - 08:00</td>
-                                    <td><span class="badge badge-destaque">6/8</span></td>
-                                    <td>75€</td>
-                                    <td><span class="badge badge-sucesso">Ativa</span></td>
-                                    <td>
-                                        <div class="tabela-acoes">
-                                            <button class="tabela-btn tabela-btn-ver"><i class="fas fa-eye"></i></button>
-                                            <button class="tabela-btn tabela-btn-editar"><i class="fas fa-edit"></i></button>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Pesca Costeira Familiar</td>
-                                    <td>Pescador I</td>
-                                    <td>18/03/2026 - 09:00</td>
-                                    <td><span class="badge badge-destaque">4/6</span></td>
-                                    <td>50€</td>
-                                    <td><span class="badge badge-sucesso">Ativa</span></td>
-                                    <td>
-                                        <div class="tabela-acoes">
-                                            <button class="tabela-btn tabela-btn-ver"><i class="fas fa-eye"></i></button>
-                                            <button class="tabela-btn tabela-btn-editar"><i class="fas fa-edit"></i></button>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Pesca de Atum</td>
-                                    <td>Oceano Bravo</td>
-                                    <td>22/03/2026 - 07:00</td>
-                                    <td><span class="badge badge-primario">12/12</span></td>
-                                    <td>120€</td>
-                                    <td><span class="badge badge-cinza">Completa</span></td>
-                                    <td>
-                                        <div class="tabela-acoes">
-                                            <button class="tabela-btn tabela-btn-ver"><i class="fas fa-eye"></i></button>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                    <div id="minhasSaidasContainer">
+                        <!-- Carregado dinamicamente por JavaScript -->
                     </div>
                 </div>
             </div>
@@ -646,9 +491,22 @@
                     carregarReservas();
                 } else if (sectionName === 'perfil') {
                     carregarPerfilCapitao();
+                } else if (sectionName === 'barcos') {
+                    carregarMeusBarcos();
+                } else if (sectionName === 'saidas') {
+                    carregarMinhasSaidas();
                 }
             });
         });
+        
+        // Verificar se URL tem hash #saidas para abrir directamente
+        if (window.location.hash === '#saidas') {
+            const itemSaidas = document.querySelector('[data-section="saidas"]');
+            if (itemSaidas) itemSaidas.click();
+        } else if (window.location.hash === '#barcos') {
+            const itemBarcos = document.querySelector('[data-section="barcos"]');
+            if (itemBarcos) itemBarcos.click();
+        }
         
         // Toggle sidebar mobile
         const sidebarToggle = document.getElementById('sidebarToggle');
@@ -671,6 +529,15 @@
             if (capitao.tipo !== 'capitao') {
                 window.location.href = 'dashboard-usuario.html';
                 return;
+            }
+
+            // Preencher sidebar com nome do capitão logado
+            const sidebarNome = document.getElementById('sidebarNome');
+            const sidebarAvatar = document.getElementById('sidebarAvatar');
+            if (sidebarNome) sidebarNome.textContent = capitao.nome || 'Capitão';
+            if (sidebarAvatar) {
+                const initials = (capitao.nome || 'CP').split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+                sidebarAvatar.textContent = initials;
             }
             
             // Verificar certificação
@@ -1102,7 +969,6 @@ Algarve Tuna Charter ⚓`;
         
         // Função para abrir páginas mantendo a sessão
         function abrirPaginaComSessao(url) {
-            // Simplesmente redireciona - a sessão está em localStorage e permanece
             window.location.href = url;
         }
         
@@ -1111,6 +977,217 @@ Algarve Tuna Charter ⚓`;
                 localStorage.removeItem('usuarioLogado');
                 window.location.href = 'index.html';
             }
+        }
+
+        // ============================================
+        // OS MEUS BARCOS - Dinâmico
+        // ============================================
+        function carregarMeusBarcos() {
+            const grid = document.getElementById('gridMeusBarcos');
+            if (!grid) return;
+
+            const usuarioStr = localStorage.getItem('usuarioLogado');
+            if (!usuarioStr) return;
+            const capitao = JSON.parse(usuarioStr);
+
+            const todosBarcos = JSON.parse(localStorage.getItem('barcos') || '[]');
+            const meusBarcos = todosBarcos.filter(b => b.capitaoEmail === capitao.email);
+
+            // Card para adicionar barco (sempre presente)
+            let html = `
+                <a href="registar-barco.html" class="barco-dashboard-card adicionar-barco-card">
+                    <i class="fas fa-plus-circle adicionar-barco-icon"></i>
+                    <div class="adicionar-barco-texto">Adicionar Novo Barco</div>
+                </a>
+            `;
+
+            if (meusBarcos.length === 0) {
+                html += `
+                    <div style="grid-column: 1 / -1; text-align: center; padding: 3rem; background: rgba(255,255,255,0.03); border-radius: 12px; border: 1px dashed rgba(255,255,255,0.1);">
+                        <i class="fas fa-ship" style="font-size: 3rem; color: rgba(255,255,255,0.2); margin-bottom: 1rem;"></i>
+                        <h3 style="color: var(--cor-texto); margin-bottom: 0.5rem;">Sem Barcos Registados</h3>
+                        <p style="color: rgba(245,245,245,0.6); margin-bottom: 1.5rem;">Registe o seu primeiro barco para poder criar saídas de pesca.</p>
+                        <a href="registar-barco.html" class="btn btn-primario">
+                            <i class="fas fa-plus"></i> Registar Barco
+                        </a>
+                    </div>
+                `;
+            } else {
+                meusBarcos.forEach(barco => {
+                    const imagem = barco.fotoPrincipal || barco.fotos?.[0] || 'https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=600&h=400&fit=crop';
+                    const statusBadge = {
+                        'aprovado': '<span class="badge badge-sucesso"><i class="fas fa-check"></i> Aprovado</span>',
+                        'pendente': '<span class="badge badge-destaque"><i class="fas fa-clock"></i> Pendente</span>',
+                        'rejeitado': '<span class="badge badge-erro"><i class="fas fa-times"></i> Rejeitado</span>'
+                    }[barco.status] || '<span class="badge">Desconhecido</span>';
+
+                    const podeOperar = barco.status === 'aprovado';
+
+                    html += `
+                        <div class="barco-dashboard-card">
+                            <img src="${imagem}" alt="${barco.nome}" class="barco-dashboard-card-imagem"
+                                 onerror="this.src='https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=600&h=400&fit=crop'">
+                            <div class="barco-dashboard-card-conteudo">
+                                <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.5rem;">
+                                    <h3 class="barco-dashboard-card-nome">${barco.nome}</h3>
+                                    ${statusBadge}
+                                </div>
+                                <div class="barco-dashboard-card-info">
+                                    <div class="barco-dashboard-card-info-item">
+                                        <i class="fas fa-ruler-combined"></i>
+                                        <span>${barco.comprimento}m</span>
+                                    </div>
+                                    <div class="barco-dashboard-card-info-item">
+                                        <i class="fas fa-users"></i>
+                                        <span>${barco.lotacao || '?'} pessoas</span>
+                                    </div>
+                                    ${barco.potencia ? `
+                                    <div class="barco-dashboard-card-info-item">
+                                        <i class="fas fa-tachometer-alt"></i>
+                                        <span>${barco.potencia} CV</span>
+                                    </div>` : ''}
+                                    <div class="barco-dashboard-card-info-item">
+                                        <i class="fas fa-anchor"></i>
+                                        <span>${barco.tipo || 'Barco'}</span>
+                                    </div>
+                                </div>
+                                ${barco.status === 'pendente' ? `
+                                    <div style="background: rgba(255,143,0,0.15); border: 1px solid rgba(255,143,0,0.3); padding: 0.75rem; border-radius: 8px; margin-top: 1rem; font-size: 0.8rem; color: #FF8F00;">
+                                        <i class="fas fa-clock"></i> A aguardar validação pela administração
+                                    </div>` : ''}
+                                ${barco.status === 'rejeitado' ? `
+                                    <div style="background: rgba(239,68,68,0.15); border: 1px solid rgba(239,68,68,0.3); padding: 0.75rem; border-radius: 8px; margin-top: 1rem; font-size: 0.8rem; color: #EF4444;">
+                                        <i class="fas fa-times-circle"></i> Rejeitado. Contacte a administração.
+                                    </div>` : ''}
+                                <div class="barco-dashboard-card-acoes" style="margin-top: 1rem;">
+                                    ${podeOperar ? `
+                                        <a href="criar-saida.html" class="btn btn-primario btn-pequeno" style="flex:1;">
+                                            <i class="fas fa-plus"></i> Criar Saída
+                                        </a>
+                                    ` : `
+                                        <button class="btn btn-outline btn-pequeno" style="flex:1;" disabled>
+                                            <i class="fas fa-lock"></i> Bloqueado
+                                        </button>
+                                    `}
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+
+            grid.innerHTML = html;
+        }
+
+        // ============================================
+        // AS MINHAS SAÍDAS - Dinâmico
+        // ============================================
+        function carregarMinhasSaidas() {
+            const container = document.getElementById('minhasSaidasContainer');
+            if (!container) return;
+
+            const usuarioStr = localStorage.getItem('usuarioLogado');
+            if (!usuarioStr) return;
+            const capitao = JSON.parse(usuarioStr);
+
+            const todasSaidas = JSON.parse(localStorage.getItem('saidasData') || '[]');
+            const minhasSaidas = todasSaidas.filter(s => s.capitaoEmail === capitao.email);
+
+            if (minhasSaidas.length === 0) {
+                container.innerHTML = `
+                    <div class="estado-vazio">
+                        <i class="fas fa-calendar-times estado-vazio-icon"></i>
+                        <h3 class="estado-vazio-titulo">Sem Saídas Criadas</h3>
+                        <p class="estado-vazio-texto">Ainda não criou nenhuma saída de pesca.<br>Precisa ter um barco aprovado para criar saídas.</p>
+                        <a href="criar-saida.html" class="btn btn-primario" style="margin-top: 1rem;">
+                            <i class="fas fa-plus"></i> Criar Primeira Saída
+                        </a>
+                    </div>
+                `;
+                return;
+            }
+
+            // Ordenar por data (mais recentes primeiro)
+            minhasSaidas.sort((a, b) => new Date(b.dataCriacao || b.data) - new Date(a.dataCriacao || a.data));
+
+            const hoje = new Date();
+            hoje.setHours(0, 0, 0, 0);
+
+            container.innerHTML = `
+                <div class="tabela-container">
+                    <table class="tabela">
+                        <thead>
+                            <tr>
+                                <th>Título</th>
+                                <th>Barco</th>
+                                <th>Data</th>
+                                <th>Hora</th>
+                                <th>Vagas</th>
+                                <th>Preço</th>
+                                <th>Estado</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${minhasSaidas.map(saida => {
+                                const dataSaida = new Date(saida.data);
+                                dataSaida.setHours(0, 0, 0, 0);
+                                const passada = dataSaida < hoje;
+                                const vagas = saida.vagas !== undefined ? saida.vagas : saida.lotacao;
+                                const lotacao = saida.lotacao || saida.capacidade || vagas;
+                                const dataFormatada = dataSaida.toLocaleDateString('pt-PT', {day:'2-digit', month:'2-digit', year:'numeric'});
+
+                                let estadoBadge;
+                                if (passada) {
+                                    estadoBadge = '<span class="badge badge-cinza">Passada</span>';
+                                } else if (vagas === 0) {
+                                    estadoBadge = '<span class="badge badge-primario">Esgotada</span>';
+                                } else {
+                                    estadoBadge = '<span class="badge badge-sucesso">Ativa</span>';
+                                }
+
+                                return `
+                                    <tr>
+                                        <td><strong>${saida.titulo}</strong></td>
+                                        <td>${saida.barco}</td>
+                                        <td>${dataFormatada}</td>
+                                        <td>${saida.hora || '--'}</td>
+                                        <td><span class="badge badge-destaque">${vagas}/${lotacao}</span></td>
+                                        <td><strong>€${saida.preco}</strong>/pess.</td>
+                                        <td>${estadoBadge}</td>
+                                        <td>
+                                            <div class="tabela-acoes">
+                                                <button class="tabela-btn tabela-btn-ver" onclick="verSaida(${saida.id})" title="Ver detalhes">
+                                                    <i class="fas fa-eye"></i>
+                                                </button>
+                                                ${!passada ? `
+                                                <button class="tabela-btn" onclick="cancelarSaida(${saida.id})"
+                                                    style="background: rgba(239,68,68,0.1); color: #EF4444;" title="Cancelar">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>` : ''}
+                                            </div>
+                                        </td>
+                                    </tr>
+                                `;
+                            }).join('')}
+                        </tbody>
+                    </table>
+                </div>
+            `;
+        }
+
+        function verSaida(id) {
+            window.location.href = 'detalhe-saida.html?id=' + id;
+        }
+
+        function cancelarSaida(id) {
+            if (!confirm('Tem a certeza que deseja cancelar/remover esta saída?\n\nSe houver reservas confirmadas, contacte os clientes.')) return;
+            let saidas = JSON.parse(localStorage.getItem('saidasData') || '[]');
+            saidas = saidas.filter(s => s.id !== id);
+            localStorage.setItem('saidasData', JSON.stringify(saidas));
+            mostrarToast('Saída removida com sucesso.', 'sucesso');
+            carregarMinhasSaidas();
+            carregarEstatisticas();
         }
     </script>
 </body>

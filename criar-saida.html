@@ -33,12 +33,13 @@
                 <form id="formCriarSaida">
                     <div class="form-grupo">
                         <label class="form-label obrigatorio">Selecione o Barco</label>
-                        <select class="form-select" required>
-                            <option value="">Escolha um barco...</option>
-                            <option value="1">Mar Azul (12m - 8 pessoas)</option>
-                            <option value="2">Oceano Bravo (15m - 12 pessoas)</option>
-                            <option value="3">Pescador I (10m - 6 pessoas)</option>
+                        <select class="form-select" id="selectBarco" required>
+                            <option value="">A carregar barcos...</option>
                         </select>
+                        <small id="avisoBarco" style="color: #EF4444; display: none; margin-top: 0.5rem;">
+                            <i class="fas fa-exclamation-triangle"></i> Só pode criar saídas com barcos aprovados.
+                            <a href="registar-barco.html">Registar barco</a>
+                        </small>
                     </div>
                     
                     <div class="form-grupo">
@@ -238,6 +239,46 @@
     
     <script src="js/main.js"></script>
     <script>
+        // ============================================
+        // CARREGAR BARCOS APROVADOS DO CAPITÃO
+        // ============================================
+        document.addEventListener('DOMContentLoaded', () => {
+            // Verificar autenticação
+            const usuarioStr = localStorage.getItem('usuarioLogado');
+            if (!usuarioStr) {
+                window.location.href = 'auth.html';
+                return;
+            }
+            const capitao = JSON.parse(usuarioStr);
+            if (capitao.tipo !== 'capitao') {
+                window.location.href = 'dashboard-usuario.html';
+                return;
+            }
+
+            // Carregar barcos aprovados do capitão
+            const todosBarcos = JSON.parse(localStorage.getItem('barcos') || '[]');
+            const barcosAprovados = todosBarcos.filter(
+                b => b.capitaoEmail === capitao.email && b.status === 'aprovado'
+            );
+
+            const select = document.getElementById('selectBarco');
+            const aviso = document.getElementById('avisoBarco');
+
+            if (barcosAprovados.length === 0) {
+                select.innerHTML = '<option value="">Sem barcos aprovados</option>';
+                select.disabled = true;
+                aviso.style.display = 'block';
+            } else {
+                select.innerHTML = '<option value="">Escolha um barco...</option>' +
+                    barcosAprovados.map(b =>
+                        `<option value="${b.id}" data-nome="${b.nome}" data-lotacao="${b.lotacao || 8}" data-imagem="${b.fotoPrincipal || ''}">
+                            ${b.nome} (${b.comprimento}m - ${b.lotacao || 8} pessoas)
+                        </option>`
+                    ).join('');
+                aviso.style.display = 'none';
+            }
+        });
+
         // Toggle Saída Partilhada
         document.getElementById('saidaPartilhada').addEventListener('change', function() {
             const opcoes = document.getElementById('opcoesPartilhada');
@@ -255,24 +296,120 @@
             }
         });
         
-        // Submit form
+        // ============================================
+        // SUBMIT - GUARDAR SAÍDA NO LOCALSTORAGE
+        // ============================================
         document.getElementById('formCriarSaida').addEventListener('submit', (e) => {
             e.preventDefault();
-            
+
+            const usuarioStr = localStorage.getItem('usuarioLogado');
+            if (!usuarioStr) { window.location.href = 'auth.html'; return; }
+            const capitao = JSON.parse(usuarioStr);
+
+            const form = e.target;
+            const selectBarco = document.getElementById('selectBarco');
+            const barcoOption = selectBarco.options[selectBarco.selectedIndex];
+            const barcoId = parseInt(selectBarco.value);
+            const barcoNome = barcoOption ? barcoOption.getAttribute('data-nome') : '';
+            const barcoLotacao = parseInt(barcoOption ? barcoOption.getAttribute('data-lotacao') : 8) || 8;
+            const barcoImagem = barcoOption ? barcoOption.getAttribute('data-imagem') : '';
+
+            if (!barcoId) {
+                mostrarToast('Por favor, selecione um barco aprovado', 'erro');
+                return;
+            }
+
+            // Validar tipo de pesca
+            const tiposSelecionados = Array.from(form.querySelectorAll('[name="tipos_pesca"]:checked')).map(c => c.value);
+            if (tiposSelecionados.length === 0) {
+                mostrarToast('Selecione pelo menos um tipo de pesca', 'erro');
+                return;
+            }
+
             const saidaPartilhada = document.getElementById('saidaPartilhada').checked;
-            
+            const vagasPartilhadas = saidaPartilhada ? parseInt(document.getElementById('vagasDisponiveis').value) || 0 : 0;
+            const precoTotalPartilhada = saidaPartilhada ? parseFloat(document.getElementById('precoTotal').value) || 0 : 0;
+            const precoPorPessoa = saidaPartilhada
+                ? parseFloat((precoTotalPartilhada / vagasPartilhadas).toFixed(2))
+                : parseFloat(form.querySelector('[placeholder="75"]')?.value || form.querySelectorAll('[type="number"]')[1]?.value || 0);
+
+            // Coletar inputs por posição
+            const allInputs = form.querySelectorAll('.form-input, .form-textarea, .form-select');
+            const titulo = form.querySelector('[placeholder*="Alto Mar"], [placeholder*="Título"], [placeholder*="título"]')?.value
+                || form.querySelector('input[type="text"][required]')?.value || '';
+            const descricao = form.querySelector('textarea[required]')?.value || '';
+            const data = form.querySelector('input[type="date"]')?.value || '';
+            const hora = form.querySelector('input[type="time"]')?.value || '';
+            const duracao = parseInt(form.querySelector('input[placeholder="8"][type="number"]')?.value) || 0;
+            const porto = form.querySelector('input[placeholder*="Porto"]')?.value || '';
+            const capacidade = parseInt(form.querySelector('input[placeholder="8"][required]')?.value) || barcoLotacao;
+            const precoInput = form.querySelector('input[placeholder="75"]');
+            const preco = parseFloat(precoInput?.value || precoPorPessoa) || 0;
+            const nivel = form.querySelector('select:not(#selectBarco)')?.value || 'intermedio';
+            const regras = form.querySelectorAll('textarea')[1]?.value || '';
+            const inclui = Array.from(form.querySelectorAll('[name="inclui"]:checked')).map(c => c.value);
+
+            // Validações básicas
+            if (!titulo) { mostrarToast('Preencha o título da saída', 'erro'); return; }
+            if (!data) { mostrarToast('Selecione a data da saída', 'erro'); return; }
+            if (!hora) { mostrarToast('Indique a hora de partida', 'erro'); return; }
+            if (!duracao) { mostrarToast('Indique a duração', 'erro'); return; }
+            if (!porto) { mostrarToast('Indique o porto de saída', 'erro'); return; }
+            if (!preco) { mostrarToast('Indique o preço por pessoa', 'erro'); return; }
+
+            // Placeholder de imagem caso barco não tenha foto
+            const imagemFinal = barcoImagem && barcoImagem !== 'undefined' && barcoImagem !== ''
+                ? barcoImagem
+                : 'https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=600&h=400&fit=crop';
+
+            // Construir objeto saída
+            const saida = {
+                id: Date.now(),
+                titulo: titulo,
+                descricao: descricao,
+                barco: barcoNome,
+                barcoId: barcoId,
+                capitao: capitao.nome,
+                capitaoEmail: capitao.email,
+                localizacao: porto,
+                data: data,
+                hora: hora,
+                duracao: duracao,
+                preco: preco,
+                lotacao: capacidade,
+                vagas: capacidade,
+                tipos: tiposSelecionados,
+                nivel: nivel,
+                rating: 0,
+                avaliacoes: 0,
+                descricao: descricao,
+                inclui: inclui,
+                regras: regras,
+                imagem: imagemFinal,
+                partilhada: saidaPartilhada,
+                vagasDisponiveis: vagasPartilhadas,
+                vagasOcupadas: 0,
+                precoTotal: precoTotalPartilhada,
+                status: 'ativa',
+                dataCriacao: new Date().toISOString()
+            };
+
+            // Guardar no localStorage
+            const saidasExistentes = JSON.parse(localStorage.getItem('saidasData') || '[]');
+            saidasExistentes.push(saida);
+            localStorage.setItem('saidasData', JSON.stringify(saidasExistentes));
+
+            console.log('✅ Saída criada:', saida);
+
             if (saidaPartilhada) {
-                const vagas = document.getElementById('vagasDisponiveis').value;
-                const precoTotal = document.getElementById('precoTotal').value;
-                const precoPorPessoa = (precoTotal / vagas).toFixed(2);
-                
-                mostrarToast(`✅ Saída Partilhada criada! €${precoTotal} ÷ ${vagas} pessoas = €${precoPorPessoa}/pessoa`, 'sucesso');
+                const precoPP = (precoTotalPartilhada / vagasPartilhadas).toFixed(2);
+                mostrarToast(`✅ Saída Partilhada criada! €${precoTotalPartilhada} ÷ ${vagasPartilhadas} = €${precoPP}/pessoa`, 'sucesso');
             } else {
-                mostrarToast('✅ Saída criada com sucesso!', 'sucesso');
+                mostrarToast('✅ Saída criada com sucesso! Já aparece em Explorar.', 'sucesso');
             }
             
             setTimeout(() => {
-                window.location.href = 'dashboard-capitao.html';
+                window.location.href = 'dashboard-capitao.html#saidas';
             }, 2000);
         });
     </script>

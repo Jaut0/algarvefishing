@@ -400,13 +400,10 @@
                         <i class="fas fa-ship"></i> Barcos Pendentes de Aprovação
                     </h1>
                 </div>
-                
                 <div class="dashboard-secao">
                     <p class="texto-cinza mb-3">Barcos que aguardam validação de documentos</p>
-                    <div class="estado-vazio">
-                        <i class="fas fa-ship estado-vazio-icon"></i>
-                        <h3 class="estado-vazio-titulo">Barcos Pendentes</h3>
-                        <p class="estado-vazio-texto">Lista de barcos para validação aparecerá aqui</p>
+                    <div id="containerBarcosPendentes">
+                        <!-- Carregado dinamicamente -->
                     </div>
                 </div>
             </div>
@@ -427,10 +424,10 @@
                 <div class="dashboard-header">
                     <h1 class="dashboard-titulo">Todos os Barcos</h1>
                 </div>
-                <div class="estado-vazio">
-                    <i class="fas fa-list estado-vazio-icon"></i>
-                    <h3 class="estado-vazio-titulo">Todos os Barcos</h3>
-                    <p class="estado-vazio-texto">Lista completa de barcos registados</p>
+                <div class="dashboard-secao">
+                    <div id="containerTodosBarcos">
+                        <!-- Carregado dinamicamente -->
+                    </div>
                 </div>
             </div>
             
@@ -573,8 +570,11 @@
                 verificarExpiracaoCapitoes(); // Verificar expiração antes de carregar
                 carregarCapitaesAprovados();
             } else if (secao === 'pendentes') {
-                // 🔥 CARREGAR CAPITÃES PENDENTES (SEM MOCKADOS)
                 carregarSecaoPendentes();
+            } else if (secao === 'barcos') {
+                carregarBarcosPendentes();
+            } else if (secao === 'todos-barcos') {
+                carregarTodosBarcos();
             }
         }
         
@@ -916,10 +916,283 @@
             `).join('');
         }
         
+        // ============================================
+        // BARCOS PENDENTES - Implementação Completa
+        // ============================================
         function carregarBarcosPendentes() {
+            const container = document.getElementById('containerBarcosPendentes');
+            if (!container) return;
+
             const barcos = JSON.parse(localStorage.getItem('barcos') || '[]');
             const barcosPendentes = barcos.filter(b => b.status === 'pendente');
             console.log('Barcos pendentes:', barcosPendentes.length);
+
+            // Actualizar badge no menu
+            const badgeBarcos = document.querySelector('[data-section="barcos"] .badge');
+            if (badgeBarcos) {
+                badgeBarcos.textContent = barcosPendentes.length;
+                badgeBarcos.style.display = barcosPendentes.length > 0 ? 'inline-block' : 'none';
+            }
+
+            if (barcosPendentes.length === 0) {
+                container.innerHTML = `
+                    <div class="estado-vazio">
+                        <i class="fas fa-check-circle estado-vazio-icon" style="color: var(--cor-sucesso);"></i>
+                        <h3 class="estado-vazio-titulo">Sem Barcos Pendentes</h3>
+                        <p class="estado-vazio-texto">Não há barcos a aguardar aprovação de momento.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = barcosPendentes.map(barco => {
+                const imagem = barco.fotoPrincipal || (barco.fotos && barco.fotos[0]) || 
+                    'https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=600&h=400&fit=crop';
+                const dataRegisto = barco.dataCriacao 
+                    ? new Date(barco.dataCriacao).toLocaleDateString('pt-PT') 
+                    : 'Data desconhecida';
+                const extrasList = (barco.extras || []).join(', ') || 'Nenhum';
+
+                return `
+                    <div class="card" style="margin-bottom: 1.5rem; overflow: hidden;" id="barco-card-${barco.id}">
+                        <div style="display: grid; grid-template-columns: 220px 1fr; gap: 0;">
+                            <!-- Imagem -->
+                            <div style="position: relative;">
+                                <img src="${imagem}" alt="${barco.nome}"
+                                     style="width: 100%; height: 100%; min-height: 200px; object-fit: cover;"
+                                     onerror="this.src='https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=600&h=400&fit=crop'">
+                                <div style="position: absolute; top: 10px; left: 10px;">
+                                    <span class="badge badge-destaque">
+                                        <i class="fas fa-clock"></i> Pendente
+                                    </span>
+                                </div>
+                                ${barco.fotos && barco.fotos.length > 1 ? `
+                                <div style="position: absolute; bottom: 8px; left: 0; right: 0; text-align: center;">
+                                    <span style="background: rgba(0,0,0,0.6); color: white; font-size: 0.75rem; padding: 2px 8px; border-radius: 20px;">
+                                        <i class="fas fa-images"></i> ${barco.fotos.length} fotos
+                                    </span>
+                                </div>` : ''}
+                            </div>
+                            <!-- Dados -->
+                            <div class="card-conteudo" style="padding: 1.5rem;">
+                                <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem;">
+                                    <div>
+                                        <h3 style="color: var(--cor-texto); font-size: 1.25rem; margin-bottom: 0.25rem;">${barco.nome}</h3>
+                                        <div style="color: rgba(245,245,245,0.6); font-size: 0.85rem;">
+                                            <i class="fas fa-user-tie"></i> ${barco.capitaoNome || barco.capitaoEmail}
+                                            &nbsp;·&nbsp;
+                                            <i class="fas fa-calendar"></i> Registado em ${dataRegisto}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; margin-bottom: 1rem;">
+                                    <div style="background: rgba(255,255,255,0.05); padding: 0.75rem; border-radius: 8px; text-align: center;">
+                                        <div style="font-size: 0.75rem; color: rgba(245,245,245,0.5); margin-bottom: 0.25rem;">TIPO</div>
+                                        <div style="font-weight: 600; color: var(--cor-texto); text-transform: capitalize;">${barco.tipo || '--'}</div>
+                                    </div>
+                                    <div style="background: rgba(255,255,255,0.05); padding: 0.75rem; border-radius: 8px; text-align: center;">
+                                        <div style="font-size: 0.75rem; color: rgba(245,245,245,0.5); margin-bottom: 0.25rem;">COMPRIMENTO</div>
+                                        <div style="font-weight: 600; color: var(--cor-texto);">${barco.comprimento}m</div>
+                                    </div>
+                                    <div style="background: rgba(255,255,255,0.05); padding: 0.75rem; border-radius: 8px; text-align: center;">
+                                        <div style="font-size: 0.75rem; color: rgba(245,245,245,0.5); margin-bottom: 0.25rem;">LOTAÇÃO</div>
+                                        <div style="font-weight: 600; color: var(--cor-texto);">${barco.lotacao || '?'} pess.</div>
+                                    </div>
+                                    <div style="background: rgba(255,255,255,0.05); padding: 0.75rem; border-radius: 8px; text-align: center;">
+                                        <div style="font-size: 0.75rem; color: rgba(245,245,245,0.5); margin-bottom: 0.25rem;">ANO</div>
+                                        <div style="font-weight: 600; color: var(--cor-texto);">${barco.ano || '--'}</div>
+                                    </div>
+                                    <div style="background: rgba(255,255,255,0.05); padding: 0.75rem; border-radius: 8px; text-align: center;">
+                                        <div style="font-size: 0.75rem; color: rgba(245,245,245,0.5); margin-bottom: 0.25rem;">MOTOR</div>
+                                        <div style="font-weight: 600; color: var(--cor-texto);">${barco.potencia || '?'} CV</div>
+                                    </div>
+                                    <div style="background: rgba(255,255,255,0.05); padding: 0.75rem; border-radius: 8px; text-align: center;">
+                                        <div style="font-size: 0.75rem; color: rgba(245,245,245,0.5); margin-bottom: 0.25rem;">PORTO</div>
+                                        <div style="font-weight: 600; color: var(--cor-texto); font-size: 0.85rem;">${(barco.porto || '--').substring(0,15)}</div>
+                                    </div>
+                                </div>
+                                ${extrasList !== 'Nenhum' ? `
+                                <div style="margin-bottom: 1rem;">
+                                    <span style="font-size: 0.8rem; color: rgba(245,245,245,0.5);">Extras:</span>
+                                    <span style="font-size: 0.85rem; color: var(--cor-texto);">${extrasList}</span>
+                                </div>` : ''}
+                                <!-- Botões de ação -->
+                                <div style="display: flex; gap: 0.75rem; margin-top: 1.25rem; flex-wrap: wrap;">
+                                    <button class="btn btn-sucesso" style="flex: 1; min-width: 120px;"
+                                        onclick="aprovarBarco('${barco.id}', '${(barco.nome || '').replace(/'/g, "\'")}')">
+                                        <i class="fas fa-check"></i> Aprovar Barco
+                                    </button>
+                                    <button class="btn" onclick="rejeitarBarco('${barco.id}', '${(barco.nome || '').replace(/'/g, "\'")}');"
+                                        style="flex: 1; min-width: 120px; background: rgba(239,68,68,0.15); color: #EF4444; border: 1px solid rgba(239,68,68,0.3);">
+                                        <i class="fas fa-times"></i> Rejeitar
+                                    </button>
+                                    ${barco.capitaoEmail ? `
+                                    <a href="mailto:${barco.capitaoEmail}" class="btn btn-outline btn-pequeno" title="Enviar email ao capitão">
+                                        <i class="fas fa-envelope"></i> Email
+                                    </a>` : ''}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Aprovar Barco
+        function aprovarBarco(barcoId, barcoNome) {
+            if (!confirm(`Aprovar o barco "${barcoNome}"?\n\n✅ O barco ficará disponível para criar saídas.`)) return;
+            
+            const barcos = JSON.parse(localStorage.getItem('barcos') || '[]');
+            const idx = barcos.findIndex(b => String(b.id) === String(barcoId));
+            
+            if (idx === -1) {
+                mostrarToast('❌ Barco não encontrado', 'erro');
+                return;
+            }
+            
+            barcos[idx].status = 'aprovado';
+            barcos[idx].dataAprovacao = new Date().toISOString();
+            localStorage.setItem('barcos', JSON.stringify(barcos));
+            
+            mostrarToast(`✅ Barco "${barcoNome}" aprovado com sucesso!`, 'sucesso');
+            
+            // Remover card do ecrã com animação
+            const card = document.getElementById(`barco-card-${barcoId}`);
+            if (card) {
+                card.style.opacity = '0';
+                card.style.transition = 'opacity 0.4s';
+                setTimeout(() => carregarBarcosPendentes(), 500);
+            }
+            
+            carregarEstatisticas();
+        }
+
+        // Rejeitar Barco
+        function rejeitarBarco(barcoId, barcoNome) {
+            const motivo = prompt(`Motivo da rejeição do barco "${barcoNome}":\n(Será comunicado ao capitão)`);
+            if (motivo === null) return; // cancelou
+            
+            const barcos = JSON.parse(localStorage.getItem('barcos') || '[]');
+            const idx = barcos.findIndex(b => String(b.id) === String(barcoId));
+            
+            if (idx === -1) {
+                mostrarToast('❌ Barco não encontrado', 'erro');
+                return;
+            }
+            
+            barcos[idx].status = 'rejeitado';
+            barcos[idx].motivoRejeicao = motivo || 'Sem motivo indicado';
+            barcos[idx].dataRejeicao = new Date().toISOString();
+            localStorage.setItem('barcos', JSON.stringify(barcos));
+            
+            mostrarToast(`❌ Barco "${barcoNome}" rejeitado.`, 'erro');
+            
+            const card = document.getElementById(`barco-card-${barcoId}`);
+            if (card) {
+                card.style.opacity = '0';
+                card.style.transition = 'opacity 0.4s';
+                setTimeout(() => carregarBarcosPendentes(), 500);
+            }
+            
+            carregarEstatisticas();
+        }
+
+        // ============================================
+        // TODOS OS BARCOS
+        // ============================================
+        function carregarTodosBarcos() {
+            const container = document.getElementById('containerTodosBarcos');
+            if (!container) return;
+
+            const barcos = JSON.parse(localStorage.getItem('barcos') || '[]');
+
+            if (barcos.length === 0) {
+                container.innerHTML = `
+                    <div class="estado-vazio">
+                        <i class="fas fa-ship estado-vazio-icon"></i>
+                        <h3 class="estado-vazio-titulo">Sem Barcos</h3>
+                        <p class="estado-vazio-texto">Ainda não há barcos registados na plataforma.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            const statusColors = {
+                'aprovado': { bg: 'rgba(34,197,94,0.1)', border: 'rgba(34,197,94,0.3)', color: '#22C55E', label: 'Aprovado', icon: 'fa-check' },
+                'pendente': { bg: 'rgba(255,143,0,0.1)', border: 'rgba(255,143,0,0.3)', color: '#FF8F00', label: 'Pendente', icon: 'fa-clock' },
+                'rejeitado': { bg: 'rgba(239,68,68,0.1)', border: 'rgba(239,68,68,0.3)', color: '#EF4444', label: 'Rejeitado', icon: 'fa-times' }
+            };
+
+            container.innerHTML = `
+                <div class="tabela-container">
+                    <table class="tabela">
+                        <thead>
+                            <tr>
+                                <th>Barco</th>
+                                <th>Capitão</th>
+                                <th>Tipo</th>
+                                <th>Tamanho</th>
+                                <th>Lotação</th>
+                                <th>Porto</th>
+                                <th>Estado</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${barcos.map(barco => {
+                                const s = statusColors[barco.status] || statusColors['pendente'];
+                                return `
+                                    <tr>
+                                        <td><strong>${barco.nome}</strong></td>
+                                        <td style="font-size:0.85rem;">${barco.capitaoNome || barco.capitaoEmail || '--'}</td>
+                                        <td style="text-transform:capitalize;">${barco.tipo || '--'}</td>
+                                        <td>${barco.comprimento}m</td>
+                                        <td>${barco.lotacao || '?'} pess.</td>
+                                        <td style="font-size:0.85rem;">${(barco.porto || '--').substring(0,20)}</td>
+                                        <td>
+                                            <span style="background:${s.bg}; color:${s.color}; border:1px solid ${s.border}; padding:3px 10px; border-radius:20px; font-size:0.8rem; font-weight:600;">
+                                                <i class="fas ${s.icon}"></i> ${s.label}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <div class="tabela-acoes">
+                                                ${barco.status === 'pendente' ? `
+                                                <button class="tabela-btn" onclick="navegarSecao('barcos')"
+                                                    style="background:rgba(255,143,0,0.15); color:#FF8F00;" title="Rever">
+                                                    <i class="fas fa-eye"></i>
+                                                </button>` : ''}
+                                                ${barco.status === 'aprovado' ? `
+                                                <button class="tabela-btn" onclick="revogarBarco('${barco.id}', '${(barco.nome||'').replace(/'/g,"\'")}')"
+                                                    style="background:rgba(239,68,68,0.1); color:#EF4444;" title="Revogar aprovação">
+                                                    <i class="fas fa-ban"></i>
+                                                </button>` : ''}
+                                                ${barco.status === 'rejeitado' ? `
+                                                <button class="tabela-btn" onclick="aprovarBarco('${barco.id}', '${(barco.nome||'').replace(/'/g,"\'")}')"
+                                                    style="background:rgba(34,197,94,0.1); color:#22C55E;" title="Aprovar">
+                                                    <i class="fas fa-check"></i>
+                                                </button>` : ''}
+                                            </div>
+                                        </td>
+                                    </tr>
+                                `;
+                            }).join('')}
+                        </tbody>
+                    </table>
+                </div>
+            `;
+        }
+
+        function revogarBarco(barcoId, barcoNome) {
+            if (!confirm(`Revogar aprovação do barco "${barcoNome}"?\nO capitão não poderá criar novas saídas com este barco.`)) return;
+            const barcos = JSON.parse(localStorage.getItem('barcos') || '[]');
+            const idx = barcos.findIndex(b => String(b.id) === String(barcoId));
+            if (idx !== -1) {
+                barcos[idx].status = 'pendente';
+                localStorage.setItem('barcos', JSON.stringify(barcos));
+                mostrarToast(`Aprovação revogada. Barco volta a "pendente".`, 'aviso');
+                carregarTodosBarcos();
+                carregarEstatisticas();
+            }
         }
         
         // Aprovar capitão
