@@ -114,9 +114,9 @@
                         </div>
                         <div class="stat-info">
                             <div class="stat-label">Barcos Registados</div>
-                            <div class="stat-valor">3</div>
-                            <div class="stat-mudanca positiva">
-                                <i class="fas fa-arrow-up"></i> +1 este mês
+                            <div class="stat-valor" id="totalBarcos">0</div>
+                            <div class="stat-mudanca" id="mudancaBarcos">
+                                <i class="fas fa-minus"></i> --
                             </div>
                         </div>
                     </div>
@@ -127,9 +127,9 @@
                         </div>
                         <div class="stat-info">
                             <div class="stat-label">Saídas Agendadas</div>
-                            <div class="stat-valor">12</div>
-                            <div class="stat-mudanca positiva">
-                                <i class="fas fa-arrow-up"></i> +3 esta semana
+                            <div class="stat-valor" id="totalSaidas">0</div>
+                            <div class="stat-mudanca" id="mudancaSaidas">
+                                <i class="fas fa-minus"></i> --
                             </div>
                         </div>
                     </div>
@@ -140,9 +140,9 @@
                         </div>
                         <div class="stat-info">
                             <div class="stat-label">Contactos Este Mês</div>
-                            <div class="stat-valor">24</div>
-                            <div class="stat-mudanca positiva">
-                                <i class="fas fa-arrow-up"></i> +15%
+                            <div class="stat-valor" id="totalContactos">0</div>
+                            <div class="stat-mudanca" id="mudancaContactos">
+                                <i class="fas fa-minus"></i> --
                             </div>
                         </div>
                     </div>
@@ -153,9 +153,9 @@
                         </div>
                         <div class="stat-info">
                             <div class="stat-label">Avaliação Média</div>
-                            <div class="stat-valor">4.8</div>
-                            <div class="stat-mudanca positiva">
-                                <i class="fas fa-arrow-up"></i> 48 avaliações
+                            <div class="stat-valor" id="avaliacaoMedia">--</div>
+                            <div class="stat-mudanca" id="totalAvaliacoes">
+                                <i class="fas fa-star"></i> 0 avaliações
                             </div>
                         </div>
                     </div>
@@ -701,7 +701,7 @@
                                         <p style="margin-top: 0.5rem; font-size: 0.9rem; opacity: 0.9;">
                                             📄 Necessita renovar os documentos (Livrete, RNAAT, Seguro) para continuar operacional.
                                         </p>
-                                        <a href="mailto:servico@jauto.pt" class="btn btn-primary" style="margin-top: 1rem; display: inline-block;">
+                                        <a href="mailto:geral@algarvetunacharter.pt" class="btn btn-primary" style="margin-top: 1rem; display: inline-block;">
                                             <i class="fas fa-envelope"></i> Contactar Administração
                                         </a>
                                     </div>
@@ -729,9 +729,44 @@
                                         <p style="margin-top: 0.5rem; font-size: 0.9rem; opacity: 0.9;">
                                             ⏰ Prepare os documentos atualizados (Livrete, RNAAT, Seguro) para renovação.
                                         </p>
-                                        <a href="mailto:servico@jauto.pt" class="btn btn-primary" style="margin-top: 1rem; display: inline-block; background: #FF8F00;">
+                                        <a href="mailto:geral@algarvetunacharter.pt" class="btn btn-primary" style="margin-top: 1rem; display: inline-block; background: #FF8F00;">
                                             <i class="fas fa-file-upload"></i> Iniciar Renovação
                                         </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    alertaDiv.style.display = 'block';
+                } else {
+                    // CERTIFICAÇÃO VÁLIDA - MOSTRAR CONTADOR
+                    alertaDiv.innerHTML = `
+                        <div class="card" style="background: linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(22, 163, 74, 0.1)); border-left: 4px solid #22C55E;">
+                            <div class="card-conteudo">
+                                <div style="display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+                                    <div style="display: flex; align-items: center; gap: 1rem;">
+                                        <div style="font-size: 2.5rem; color: #22C55E;">
+                                            <i class="fas fa-check-circle"></i>
+                                        </div>
+                                        <div>
+                                            <h3 style="color: #22C55E; margin-bottom: 0.5rem;">
+                                                <i class="fas fa-shield-alt"></i> Certificação Ativa
+                                            </h3>
+                                            <p style="margin: 0; font-size: 0.95rem;">
+                                                A sua certificação como Charter Oficial está válida.
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div style="text-align: center; padding: 1rem; background: rgba(34, 197, 94, 0.1); border-radius: 12px; min-width: 120px;">
+                                        <div style="font-size: 2.5rem; font-weight: bold; color: #22C55E; line-height: 1;">
+                                            ${diasRestantes}
+                                        </div>
+                                        <div style="font-size: 0.9rem; color: #666; margin-top: 0.25rem;">
+                                            ${diasRestantes === 1 ? 'dia restante' : 'dias restantes'}
+                                        </div>
+                                        <div style="font-size: 0.75rem; color: #999; margin-top: 0.5rem;">
+                                            de 365 dias
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -743,7 +778,58 @@
             
             // 🧹 LIMPAR BARCOS MOCK/TESTE
             limparBarcosMock();
+            
+            // 📊 CARREGAR ESTATÍSTICAS DO CAPITÃO
+            carregarEstatisticas();
         });
+        
+        // 📊 FUNÇÃO PARA CARREGAR ESTATÍSTICAS DO CAPITÃO
+        function carregarEstatisticas() {
+            const usuarioStr = localStorage.getItem('usuarioLogado');
+            if (!usuarioStr) return;
+            
+            const capitao = JSON.parse(usuarioStr);
+            const emailCapitao = capitao.email;
+            
+            // Carregar barcos do capitão
+            const todosBarcos = JSON.parse(localStorage.getItem('barcos') || '[]');
+            const barcosCapitao = todosBarcos.filter(b => b.capitaoEmail === emailCapitao);
+            document.getElementById('totalBarcos').textContent = barcosCapitao.length;
+            
+            // Carregar saídas agendadas (apenas futuras)
+            const todasSaidas = JSON.parse(localStorage.getItem('saidasData') || '[]');
+            const hoje = new Date();
+            const saidasFuturas = todasSaidas.filter(s => {
+                if (s.capitaoEmail !== emailCapitao) return false;
+                const dataSaida = new Date(s.data);
+                return dataSaida >= hoje;
+            });
+            document.getElementById('totalSaidas').textContent = saidasFuturas.length;
+            
+            // Carregar contactos este mês (reservas pendentes)
+            const reservas = JSON.parse(localStorage.getItem('reservasPendentes') || '[]');
+            const primeiroDiaMes = new Date(hoje.getFullYear(), hoje.getMonth(), 1);
+            const contactosMes = reservas.filter(r => {
+                if (!r.barcoId) return false;
+                const barco = barcosCapitao.find(b => b.id == r.barcoId);
+                if (!barco) return false;
+                const dataReserva = new Date(r.dataCriacao || r.data);
+                return dataReserva >= primeiroDiaMes;
+            });
+            document.getElementById('totalContactos').textContent = contactosMes.length;
+            
+            // Calcular avaliação média
+            const avaliacoes = JSON.parse(localStorage.getItem('avaliacoes') || '[]');
+            const avaliacoesCapitao = avaliacoes.filter(a => a.capitaoEmail === emailCapitao);
+            if (avaliacoesCapitao.length > 0) {
+                const soma = avaliacoesCapitao.reduce((acc, a) => acc + (a.nota || 0), 0);
+                const media = (soma / avaliacoesCapitao.length).toFixed(1);
+                document.getElementById('avaliacaoMedia').textContent = media;
+            } else {
+                document.getElementById('avaliacaoMedia').textContent = '--';
+            }
+            document.getElementById('totalAvaliacoes').innerHTML = `<i class="fas fa-star"></i> ${avaliacoesCapitao.length} avaliações`;
+        }
         
         // 🧹 FUNÇÃO PARA LIMPAR BARCOS MOCK/TESTE
         function limparBarcosMock() {

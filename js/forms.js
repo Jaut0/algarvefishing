@@ -191,12 +191,59 @@ function submeterFormulario() {
     const form = document.querySelector('.form-multistep form');
     if (!form) return;
     
+    // Obter usuário logado
+    const usuarioStr = localStorage.getItem('usuarioLogado');
+    if (!usuarioStr) {
+        mostrarToast('Erro: usuário não autenticado', 'erro');
+        window.location.href = 'auth.html';
+        return;
+    }
+    
+    const capitao = JSON.parse(usuarioStr);
+    
+    // Coletar dados do formulário
+    const formData = new FormData(form);
+    const extras = [];
+    formData.getAll('extras').forEach(extra => extras.push(extra));
+    
+    // Criar objeto do barco
+    const barco = {
+        id: Date.now(),
+        nome: formData.get('nome'),
+        tipo: formData.get('tipo'),
+        comprimento: parseFloat(formData.get('comprimento')),
+        ano: parseInt(formData.get('ano')),
+        marcaModelo: formData.get('marcaModelo') || '',
+        porto: formData.get('porto'),
+        lotacao: parseInt(formData.get('lotacao')),
+        tipoMotor: formData.get('tipoMotor'),
+        numeroMotores: parseInt(formData.get('numeroMotores')),
+        potencia: parseInt(formData.get('potencia')),
+        velocidadeMaxima: formData.get('velocidadeMaxima') ? parseInt(formData.get('velocidadeMaxima')) : null,
+        autonomia: formData.get('autonomia') ? parseInt(formData.get('autonomia')) : null,
+        extras: extras,
+        fotos: fotosUpload.map(f => f.url),
+        fotoPrincipal: fotosUpload.find(f => f.principal)?.url || fotosUpload[0]?.url,
+        capitaoEmail: capitao.email,
+        capitaoNome: capitao.nome,
+        status: 'pendente',
+        dataCriacao: new Date().toISOString(),
+        avaliacaoMedia: 0,
+        totalAvaliacoes: 0
+    };
+    
     mostrarLoading();
     
-    // Simular envio de formulário
+    // Salvar no localStorage
     setTimeout(() => {
+        const barcos = JSON.parse(localStorage.getItem('barcos') || '[]');
+        barcos.push(barco);
+        localStorage.setItem('barcos', JSON.stringify(barcos));
+        
+        console.log('✅ Barco registado:', barco);
+        
         esconderLoading();
-        mostrarToast('Barco registado! Aguarda aprovação.', 'aviso');
+        mostrarToast('Barco registado! Aguarda aprovação.', 'sucesso');
         setTimeout(() => {
             alert('✅ Barco registado com sucesso!\n\n⏳ O barco ficará com estado PENDENTE até que a administração valide os documentos:\n• Livrete do Barco\n• Certificado RNAAT\n• Certificado de Seguro\n\n📧 Receberá um email quando o barco for aprovado.\n\n⚠️ Só poderá criar saídas com barcos aprovados.');
             window.location.href = 'dashboard-capitao.html';

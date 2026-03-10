@@ -8,6 +8,52 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/dashboard.css">
+    <style>
+        /* Override para página clara */
+        .form-input,
+        .form-select,
+        .form-textarea {
+            background-color: #ffffff;
+            color: #1a202c;
+            border: 2px solid #e2e8f0;
+        }
+        
+        .form-input::placeholder,
+        .form-select option {
+            color: #a0aec0;
+        }
+        
+        .form-input:focus,
+        .form-select:focus,
+        .form-textarea:focus {
+            border-color: var(--cor-destaque);
+            background-color: #ffffff;
+            box-shadow: 0 0 0 3px rgba(255, 122, 0, 0.1);
+        }
+        
+        .form-label {
+            color: var(--cor-primaria);
+            font-weight: 600;
+        }
+        
+        .form-erro {
+            color: #e53e3e;
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+        }
+        
+        .checkbox-visual-label {
+            background: #ffffff;
+            border: 2px solid #e2e8f0;
+            color: #1a202c;
+        }
+        
+        .checkbox-visual input:checked + .checkbox-visual-label {
+            background: var(--cor-destaque);
+            border-color: var(--cor-destaque);
+            color: #ffffff;
+        }
+    </style>
 </head>
 <body>
     <header class="header">
@@ -56,12 +102,12 @@
                     <div class="form-step-conteudo ativo">
                         <div class="form-grupo">
                             <label class="form-label obrigatorio">Nome do Barco</label>
-                            <input type="text" class="form-input" placeholder="Ex: Mar Azul" required>
+                            <input type="text" name="nome" class="form-input" placeholder="Ex: Mar Azul" required>
                         </div>
                         
                         <div class="form-grupo">
                             <label class="form-label obrigatorio">Tipo de Barco</label>
-                            <select class="form-select" required>
+                            <select name="tipo" class="form-select" required>
                                 <option value="">Selecione...</option>
                                 <option value="lancha">Lancha</option>
                                 <option value="veleiro">Veleiro</option>
@@ -75,27 +121,27 @@
                         <div class="grid grid-2">
                             <div class="form-grupo">
                                 <label class="form-label obrigatorio">Comprimento (metros)</label>
-                                <input type="number" class="form-input" placeholder="12" min="1" required>
+                                <input type="number" name="comprimento" class="form-input" placeholder="12" min="1" required>
                             </div>
                             <div class="form-grupo">
                                 <label class="form-label obrigatorio">Ano de Fabrico</label>
-                                <input type="number" class="form-input" placeholder="2020" min="1950" max="2026" required>
+                                <input type="number" name="ano" class="form-input" placeholder="2020" min="1950" max="2026" required>
                             </div>
                         </div>
                         
                         <div class="form-grupo">
                             <label class="form-label">Marca/Modelo</label>
-                            <input type="text" class="form-input" placeholder="Ex: Bayliner 285">
+                            <input type="text" name="marcaModelo" class="form-input" placeholder="Ex: Bayliner 285">
                         </div>
                         
                         <div class="form-grupo">
                             <label class="form-label obrigatorio">Porto de Amarração</label>
-                            <input type="text" class="form-input" placeholder="Porto de Lisboa" required>
+                            <input type="text" name="porto" class="form-input" placeholder="Porto de Lisboa" required>
                         </div>
                         
                         <div class="form-grupo">
                             <label class="form-label obrigatorio">Lotação Máxima</label>
-                            <input type="number" class="form-input" placeholder="8" min="1" required>
+                            <input type="number" name="lotacao" class="form-input" placeholder="8" min="1" required>
                         </div>
                     </div>
                     
@@ -103,7 +149,7 @@
                     <div class="form-step-conteudo">
                         <div class="form-grupo">
                             <label class="form-label obrigatorio">Tipo de Motor</label>
-                            <select class="form-select" required>
+                            <select name="tipoMotor" class="form-select" required>
                                 <option value="">Selecione...</option>
                                 <option value="interior-diesel">Interior - Diesel</option>
                                 <option value="interior-gasolina">Interior - Gasolina</option>
@@ -115,22 +161,22 @@
                         <div class="grid grid-2">
                             <div class="form-grupo">
                                 <label class="form-label obrigatorio">Número de Motores</label>
-                                <input type="number" class="form-input" placeholder="2" min="1" required>
+                                <input type="number" name="numeroMotores" class="form-input" placeholder="2" min="1" required>
                             </div>
                             <div class="form-grupo">
                                 <label class="form-label obrigatorio">Potência Total (CV)</label>
-                                <input type="number" class="form-input" placeholder="250" min="1" required>
+                                <input type="number" name="potencia" class="form-input" placeholder="250" min="1" required>
                             </div>
                         </div>
                         
                         <div class="grid grid-2">
                             <div class="form-grupo">
                                 <label class="form-label">Velocidade Máxima (nós)</label>
-                                <input type="number" class="form-input" placeholder="30" min="1">
+                                <input type="number" name="velocidadeMaxima" class="form-input" placeholder="30" min="1">
                             </div>
                             <div class="form-grupo">
                                 <label class="form-label">Autonomia (milhas náuticas)</label>
-                                <input type="number" class="form-input" placeholder="200" min="1">
+                                <input type="number" name="autonomia" class="form-input" placeholder="200" min="1">
                             </div>
                         </div>
                     </div>

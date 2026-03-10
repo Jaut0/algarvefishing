@@ -10,7 +10,7 @@ Este projeto está hospedado na Vercel.
 
 ---
 
-## 🧹 SISTEMA LIMPO! (Última atualização: 2026-03-09)
+## 🧹 SISTEMA LIMPO! (Última atualização: 2026-03-10)
 
 **✅ TODOS OS DADOS MOCK FORAM REMOVIDOS!**
 
@@ -20,6 +20,8 @@ O sistema agora está **100% limpo** e pronto para testes finais:
 - ❌ Sem capitães/clientes de teste
 - ❌ Sem reservas fake
 - ✅ Limpeza automática ao carregar páginas
+- ✅ Dashboard capitão com estatísticas dinâmicas
+- ✅ Contador de validade 365 dias visível e ativo
 
 **Ver detalhes**: `LIMPEZA-COMPLETA.md`
 
@@ -40,7 +42,7 @@ O sistema agora está **100% limpo** e pronto para testes finais:
 - ✅ Filtros avançados (localização, tipo, duração, preço)
 - ✅ Reservar saídas (com notificação por email)
 - ✅ Saídas partilhadas (dividir custos)
-- ✅ Dashboard pessoal responsivo
+- ✅ Dashboard pessoal responsivo (sidebar compacta e inputs visíveis)
 - ✅ Sistema de suporte
 
 ### Para Capitães
