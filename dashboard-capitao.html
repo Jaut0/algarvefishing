@@ -213,7 +213,7 @@
                     </div>
                 </div>
                 
-                <!-- NOTIFICAÇÕES -->
+                <!-- NOTIFICAÇÕES DINÂMICAS -->
                 <div class="dashboard-secao">
                     <div class="dashboard-secao-header">
                         <h2 class="dashboard-secao-titulo">
@@ -221,52 +221,8 @@
                             Notificações Recentes
                         </h2>
                     </div>
-                    
-                    <div class="notificacoes-lista">
-                        <div class="notificacao-item nova">
-                            <div class="notificacao-icon">
-                                <i class="fas fa-envelope"></i>
-                            </div>
-                            <div class="notificacao-conteudo">
-                                <div class="notificacao-titulo">Novo Pedido de Contacto</div>
-                                <div class="notificacao-texto">
-                                    João Martins está interessado na saída "Pesca de Alto Mar" para 15/03/2026
-                                </div>
-                                <div class="notificacao-data">Há 2 horas</div>
-                                <div class="notificacao-acoes">
-                                    <button class="btn btn-primario btn-pequeno">Ver Mensagem</button>
-                                    <button class="btn btn-secundario btn-pequeno">
-                                        <i class="fas fa-phone"></i> Ligar
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="notificacao-item">
-                            <div class="notificacao-icon" style="background-color: var(--cor-destaque);">
-                                <i class="fas fa-star"></i>
-                            </div>
-                            <div class="notificacao-conteudo">
-                                <div class="notificacao-titulo">Nova Avaliação</div>
-                                <div class="notificacao-texto">
-                                    Ana Silva deixou uma avaliação de 5 estrelas na sua saída
-                                </div>
-                                <div class="notificacao-data">Há 5 horas</div>
-                            </div>
-                        </div>
-                        
-                        <div class="notificacao-item">
-                            <div class="notificacao-icon" style="background-color: var(--cor-sucesso);">
-                                <i class="fas fa-check"></i>
-                            </div>
-                            <div class="notificacao-conteudo">
-                                <div class="notificacao-titulo">Pagamento Recebido</div>
-                                <div class="notificacao-texto">
-                                    Recebeu o pagamento de 450€ da saída do dia 10/03/2026
-                                </div>
-                                <div class="notificacao-data">Ontem</div>
-                            </div>
-                        </div>
+                    <div id="notificacoesDinamicas">
+                        <!-- Carregado por JavaScript -->
                     </div>
                 </div>
             </div>
@@ -648,6 +604,9 @@
             
             // 📊 CARREGAR ESTATÍSTICAS DO CAPITÃO
             carregarEstatisticas();
+
+            // 🔔 CARREGAR NOTIFICAÇÕES REAIS
+            carregarNotificacoes();
         });
         
         // 📊 FUNÇÃO PARA CARREGAR ESTATÍSTICAS DO CAPITÃO
@@ -673,17 +632,20 @@
             });
             document.getElementById('totalSaidas').textContent = saidasFuturas.length;
             
-            // Carregar contactos este mês (reservas pendentes)
+            // Carregar contactos/reservas pendentes este mês
             const reservas = JSON.parse(localStorage.getItem('reservasPendentes') || '[]');
             const primeiroDiaMes = new Date(hoje.getFullYear(), hoje.getMonth(), 1);
-            const contactosMes = reservas.filter(r => {
-                if (!r.barcoId) return false;
-                const barco = barcosCapitao.find(b => b.id == r.barcoId);
-                if (!barco) return false;
-                const dataReserva = new Date(r.dataCriacao || r.data);
+            const reservasCapitao = reservas.filter(r => r.capitaoEmail === emailCapitao);
+            const contactosMes = reservasCapitao.filter(r => {
+                const dataReserva = new Date(r.dataPedido || r.dataCriacao || r.data);
                 return dataReserva >= primeiroDiaMes;
             });
             document.getElementById('totalContactos').textContent = contactosMes.length;
+            
+            // Atualizar badge de pedidos pendentes na sidebar
+            const pendentesCount = reservasCapitao.filter(r => r.status === 'pendente').length;
+            const badgePendentes = document.querySelector('[data-section="reservas"] .badge, #badgePendentes');
+            if (badgePendentes) badgePendentes.textContent = pendentesCount;
             
             // Calcular avaliação média
             const avaliacoes = JSON.parse(localStorage.getItem('avaliacoes') || '[]');
@@ -797,177 +759,153 @@
         // ============================================
         // CARREGAR RESERVAS
         // ============================================
+        // ════════════════════════════════════════════════
+        // SISTEMA DE RESERVAS – CAPITÃO (novo)
+        // ════════════════════════════════════════════════
         function carregarReservas() {
+            const utilizadorLogado = JSON.parse(localStorage.getItem('usuarioLogado') || 'null');
+            if (!utilizadorLogado) return;
+
+            const reservas = JSON.parse(localStorage.getItem('reservasPendentes') || '[]');
+            const minhas = reservas.filter(r => r.capitaoEmail === utilizadorLogado.email);
+            const pendentes = minhas.filter(r => r.status === 'pendente');
+            const confirmadas = minhas.filter(r => r.status === 'confirmada');
+            const todas = minhas;
+
             const container = document.getElementById('container-reservas');
             const estadoVazio = document.getElementById('estado-vazio-reservas');
-            
-            // Obter utilizador logado
-            const utilizadorLogado = JSON.parse(localStorage.getItem('utilizadorLogado') || '{}');
-            const userId = utilizadorLogado.id;
-            
-            // Obter reservas
-            const reservas = JSON.parse(localStorage.getItem('reservas') || '[]');
-            
-            // Filtrar reservas do capitão (pendentes)
-            const minhasReservas = reservas.filter(r => r.status === 'pendente' && r.capitaoId === userId);
-            
-            console.log('📅 Reservas encontradas:', minhasReservas.length);
-            
-            if (minhasReservas.length === 0) {
+
+            if (!container) return;
+
+            if (todas.length === 0) {
                 container.style.display = 'none';
-                estadoVazio.style.display = 'flex';
+                if (estadoVazio) estadoVazio.style.display = 'flex';
                 return;
             }
-            
-            container.style.display = 'grid';
-            estadoVazio.style.display = 'none';
-            container.innerHTML = '';
-            
-            minhasReservas.forEach(reserva => {
-                const card = document.createElement('div');
-                card.className = 'card';
-                card.style.cssText = 'padding: 1.5rem; background: rgba(255,255,255,0.05); border-radius: 12px;';
-                
-                const diasFormatados = reserva.dias.map(d => {
-                    const [ano, mes, dia] = d.split('-');
-                    return `${dia}/${mes}`;
-                }).join(', ');
-                
-                card.innerHTML = `
-                    <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem;">
-                        <div>
-                            <h3 style="color: #fff; margin: 0 0 0.5rem 0; font-size: 1.1rem;">
-                                <i class="fas fa-calendar-check" style="color: #FFD700;"></i>
-                                Nova Reserva
-                            </h3>
-                            <p style="color: rgba(255,255,255,0.6); margin: 0; font-size: 0.9rem;">
-                                <i class="fas fa-clock"></i> ${new Date(reserva.dataPedido).toLocaleDateString('pt-PT', {day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit'})}
-                            </p>
+
+            if (estadoVazio) estadoVazio.style.display = 'none';
+            container.style.display = 'block';
+
+            // Tabs pendentes / confirmadas / todas
+            container.innerHTML = `
+                <div style="display:flex;gap:0.5rem;margin-bottom:1.5rem;flex-wrap:wrap;">
+                    <button onclick="filtrarReservasCapitao('pendente',this)" class="btn-tab-res ativo" style="padding:0.5rem 1.2rem;border-radius:20px;border:2px solid #F59E0B;background:#FEF3C7;color:#92400E;font-weight:600;cursor:pointer;font-size:0.85rem;">
+                        ⏳ Pendentes (${pendentes.length})
+                    </button>
+                    <button onclick="filtrarReservasCapitao('confirmada',this)" class="btn-tab-res" style="padding:0.5rem 1.2rem;border-radius:20px;border:2px solid #10B981;background:transparent;color:#10B981;font-weight:600;cursor:pointer;font-size:0.85rem;">
+                        ✅ Confirmadas (${confirmadas.length})
+                    </button>
+                    <button onclick="filtrarReservasCapitao('todas',this)" class="btn-tab-res" style="padding:0.5rem 1.2rem;border-radius:20px;border:2px solid #6B7280;background:transparent;color:#6B7280;font-weight:600;cursor:pointer;font-size:0.85rem;">
+                        📋 Todas (${todas.length})
+                    </button>
+                </div>
+                <div id="listaReservasCapitao"></div>
+            `;
+
+            // Guardar referência para filtragem
+            window._todasReservasCapitao = todas;
+            renderizarReservasCapitao(pendentes);
+        }
+
+        function filtrarReservasCapitao(filtro, btn) {
+            // Estilo dos tabs
+            document.querySelectorAll('.btn-tab-res').forEach(b => {
+                b.style.background = 'transparent';
+                b.style.opacity = '0.6';
+            });
+            btn.style.background = filtro === 'pendente' ? '#FEF3C7' : filtro === 'confirmada' ? '#D1FAE5' : '#F3F4F6';
+            btn.style.opacity = '1';
+
+            const todas = window._todasReservasCapitao || [];
+            const lista = filtro === 'todas' ? todas : todas.filter(r => r.status === filtro);
+            renderizarReservasCapitao(lista);
+        }
+
+        function renderizarReservasCapitao(lista) {
+            const div = document.getElementById('listaReservasCapitao');
+            if (!div) return;
+
+            if (lista.length === 0) {
+                div.innerHTML = '<p style="color:#9CA3AF;text-align:center;padding:2rem;">Sem reservas neste estado.</p>';
+                return;
+            }
+
+            const corStatus = { pendente:'#F59E0B', confirmada:'#10B981', cancelada:'#EF4444' };
+            const lblStatus = { pendente:'Pendente', confirmada:'Confirmada', cancelada:'Cancelada' };
+
+            div.innerHTML = lista.sort((a,b) => new Date(b.dataPedido) - new Date(a.dataPedido)).map(r => {
+                const data = r.saidaData ? new Date(r.saidaData).toLocaleDateString('pt-PT',{day:'2-digit',month:'2-digit',year:'numeric'}) : '—';
+                const pedido = r.dataPedido ? new Date(r.dataPedido).toLocaleDateString('pt-PT',{day:'2-digit',month:'long'}) : '—';
+                const st = r.status || 'pendente';
+                const cor = corStatus[st] || '#6B7280';
+                const lbl = lblStatus[st] || st;
+                const tel = (r.clienteTelefone||'').replace(/[^0-9]/g,'');
+
+                return `
+                <div style="background:white;border-radius:12px;border:1px solid #E5E7EB;margin-bottom:1rem;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.06);">
+                    <div style="background:linear-gradient(135deg,#0A1628,#1565C0);padding:1rem 1.25rem;display:flex;justify-content:space-between;align-items:center;">
+                        <div style="color:white;">
+                            <div style="font-weight:700;">${r.saidaTitulo || 'Saída'}</div>
+                            <div style="font-size:0.8rem;opacity:0.75;">${data} ${r.saidaHora ? 'às '+r.saidaHora : ''} · Porto: ${r.saidaPorto || '—'}</div>
                         </div>
-                        <span style="background: rgba(255,215,0,0.2); color: #FFD700; padding: 0.4rem 0.8rem; border-radius: 20px; font-size: 0.85rem; font-weight: 600;">
-                            Pendente
-                        </span>
+                        <span style="background:${cor}22;color:${cor};border:1px solid ${cor};padding:0.3rem 0.75rem;border-radius:20px;font-size:0.8rem;font-weight:700;">${lbl}</span>
                     </div>
-                    
-                    <div style="background: rgba(0,0,0,0.3); padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
-                        <div style="display: grid; gap: 0.8rem;">
-                            <div>
-                                <i class="fas fa-user" style="color: #FFD700; width: 20px;"></i>
-                                <strong style="color: #fff;">Nome:</strong>
-                                <span style="color: rgba(255,255,255,0.9);">${reserva.nome}</span>
+                    <div style="padding:1.25rem;">
+                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin-bottom:1rem;">
+                            <div style="background:#F9FAFB;border-radius:8px;padding:0.75rem;">
+                                <div style="font-size:0.75rem;color:#6B7280;margin-bottom:0.2rem;">Cliente</div>
+                                <div style="font-weight:600;color:#0A1628;">${r.clienteNome || '—'}</div>
+                                <div style="font-size:0.8rem;color:#6B7280;">${r.clienteEmail || ''}</div>
                             </div>
-                            <div>
-                                <i class="fas fa-envelope" style="color: #FFD700; width: 20px;"></i>
-                                <strong style="color: #fff;">Email:</strong>
-                                <span style="color: rgba(255,255,255,0.9);">${reserva.email}</span>
+                            <div style="background:#F9FAFB;border-radius:8px;padding:0.75rem;">
+                                <div style="font-size:0.75rem;color:#6B7280;margin-bottom:0.2rem;">Reserva</div>
+                                <div style="font-weight:600;color:#0A1628;">${r.numPessoas} pessoa(s)</div>
+                                <div style="font-size:0.8rem;color:#10B981;font-weight:600;">€${r.totalPagar}</div>
                             </div>
-                            <div>
-                                <i class="fas fa-phone" style="color: #FFD700; width: 20px;"></i>
-                                <strong style="color: #fff;">Telefone:</strong>
-                                <span style="color: rgba(255,255,255,0.9);">${reserva.telefone}</span>
-                            </div>
-                            <div>
-                                <i class="fas fa-calendar-alt" style="color: #FFD700; width: 20px;"></i>
-                                <strong style="color: #fff;">Dias:</strong>
-                                <span style="color: rgba(255,255,255,0.9);">${diasFormatados} (${reserva.dias.length} dia${reserva.dias.length > 1 ? 's' : ''})</span>
-                            </div>
-                            <div>
-                                <i class="fas fa-users" style="color: #FFD700; width: 20px;"></i>
-                                <strong style="color: #fff;">Pessoas:</strong>
-                                <span style="color: rgba(255,255,255,0.9);">${reserva.numeroPessoas}</span>
-                            </div>
-                            ${reserva.mensagem ? `
-                            <div>
-                                <i class="fas fa-comment" style="color: #FFD700; width: 20px;"></i>
-                                <strong style="color: #fff;">Mensagem:</strong>
-                                <div style="color: rgba(255,255,255,0.8); margin-top: 0.5rem; padding: 0.75rem; background: rgba(255,255,255,0.05); border-radius: 6px; font-style: italic;">
-                                    "${reserva.mensagem}"
-                                </div>
-                            </div>
+                        </div>
+                        ${r.mensagem ? `<div style="background:#FFFBEB;border-left:3px solid #F59E0B;padding:0.75rem;border-radius:4px;font-size:0.85rem;color:#92400E;margin-bottom:1rem;"><i class="fas fa-comment"></i> "${r.mensagem}"</div>` : ''}
+                        <div style="font-size:0.75rem;color:#9CA3AF;margin-bottom:0.75rem;">Pedido em: ${pedido}</div>
+                        <div style="display:flex;gap:0.75rem;flex-wrap:wrap;">
+                            ${tel ? `<a href="https://wa.me/351${tel}" target="_blank" style="display:inline-flex;align-items:center;gap:0.4rem;padding:0.6rem 1rem;background:#25D366;color:white;border-radius:8px;font-weight:600;font-size:0.85rem;text-decoration:none;"><i class="fab fa-whatsapp"></i> WhatsApp</a>` : ''}
+                            ${st === 'pendente' ? `
+                            <button onclick="acaoReservaCapitao(${r.id},'confirmada')" style="padding:0.6rem 1rem;background:#D1FAE5;color:#065F46;border:2px solid #10B981;border-radius:8px;cursor:pointer;font-weight:600;font-size:0.85rem;">
+                                <i class="fas fa-check"></i> Confirmar
+                            </button>
+                            <button onclick="acaoReservaCapitao(${r.id},'cancelada')" style="padding:0.6rem 1rem;background:transparent;color:#EF4444;border:2px solid #EF4444;border-radius:8px;cursor:pointer;font-weight:600;font-size:0.85rem;">
+                                <i class="fas fa-times"></i> Recusar
+                            </button>
                             ` : ''}
                         </div>
                     </div>
-                    
-                    <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
-                        <button onclick="contactarWhatsApp('${reserva.telefone}', '${reserva.nome}', '${diasFormatados}')" 
-                                class="btn" 
-                                style="background: #25D366; color: #fff; padding: 0.75rem 1.5rem; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; flex: 1; min-width: 200px; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
-                            <i class="fab fa-whatsapp" style="font-size: 1.2rem;"></i>
-                            Contactar via WhatsApp
-                        </button>
-                        <button onclick="confirmarReserva('${reserva.id}')" 
-                                class="btn" 
-                                style="background: rgba(76, 175, 80, 0.2); color: #4CAF50; padding: 0.75rem 1.5rem; border: 2px solid #4CAF50; border-radius: 8px; cursor: pointer; font-weight: 600;">
-                            <i class="fas fa-check"></i> Confirmar
-                        </button>
-                        <button onclick="recusarReserva('${reserva.id}')" 
-                                class="btn" 
-                                style="background: rgba(244, 67, 54, 0.2); color: #f44336; padding: 0.75rem 1.5rem; border: 2px solid #f44336; border-radius: 8px; cursor: pointer; font-weight: 600;">
-                            <i class="fas fa-times"></i> Recusar
-                        </button>
-                    </div>
-                `;
-                
-                container.appendChild(card);
-            });
+                </div>`;
+            }).join('');
         }
-        
-        // ============================================
-        // CONTACTAR VIA WHATSAPP
-        // ============================================
-        function contactarWhatsApp(telefone, nome, dias) {
-            // Remover caracteres não numéricos
-            const telefoneClean = telefone.replace(/[^0-9]/g, '');
-            
-            const mensagem = `Olá ${nome}! 👋
 
-Recebi o seu pedido de reserva para os dias: ${dias}
+        function acaoReservaCapitao(id, novoStatus) {
+            const acao = novoStatus === 'confirmada' ? 'confirmar' : 'recusar';
+            if (!confirm(`Tem a certeza que deseja ${acao} esta reserva?`)) return;
 
-Tenho disponibilidade! 🎣
-
-Vamos combinar os detalhes da sua saída de pesca?
-
-Fico a aguardar o seu contacto!
-
-Cumprimentos,
-Algarve Tuna Charter ⚓`;
-            
-            const url = `https://wa.me/${telefoneClean}?text=${encodeURIComponent(mensagem)}`;
-            window.open(url, '_blank');
-        }
-        
-        // ============================================
-        // CONFIRMAR/RECUSAR RESERVA
-        // ============================================
-        function confirmarReserva(reservaId) {
-            if (!confirm('Confirmar esta reserva?')) return;
-            
-            let reservas = JSON.parse(localStorage.getItem('reservas') || '[]');
-            const index = reservas.findIndex(r => r.id === reservaId);
-            
-            if (index !== -1) {
-                reservas[index].status = 'confirmada';
-                localStorage.setItem('reservas', JSON.stringify(reservas));
-                mostrarToast('✅ Reserva confirmada!', 'sucesso');
+            const reservas = JSON.parse(localStorage.getItem('reservasPendentes') || '[]');
+            const idx = reservas.findIndex(r => r.id === id);
+            if (idx !== -1) {
+                reservas[idx].status = novoStatus;
+                localStorage.setItem('reservasPendentes', JSON.stringify(reservas));
+                const msg = novoStatus === 'confirmada' ? '✅ Reserva confirmada!' : 'Reserva recusada.';
+                const tipo = novoStatus === 'confirmada' ? 'sucesso' : 'aviso';
+                if (window.mostrarToast) mostrarToast(msg, tipo);
                 carregarReservas();
             }
         }
-        
-        function recusarReserva(reservaId) {
-            if (!confirm('Recusar esta reserva? Esta ação não pode ser desfeita.')) return;
-            
-            let reservas = JSON.parse(localStorage.getItem('reservas') || '[]');
-            const index = reservas.findIndex(r => r.id === reservaId);
-            
-            if (index !== -1) {
-                reservas[index].status = 'recusada';
-                localStorage.setItem('reservas', JSON.stringify(reservas));
-                mostrarToast('Reserva recusada', 'aviso');
-                carregarReservas();
-            }
+
+        // Manter funções de compatibilidade
+        function confirmarReserva(id) { acaoReservaCapitao(id, 'confirmada'); }
+        function recusarReserva(id) { acaoReservaCapitao(id, 'cancelada'); }
+        function contactarWhatsApp(tel, nome, dias) {
+            const t = tel.replace(/[^0-9]/g,'');
+            window.open(`https://wa.me/${t}?text=${encodeURIComponent('Olá '+nome+'! Confirmo a sua reserva de pesca. ')}`, '_blank');
         }
-        
-        // Função para abrir páginas mantendo a sessão
+
+                // Função para abrir páginas mantendo a sessão
         function abrirPaginaComSessao(url) {
             window.location.href = url;
         }
@@ -1174,6 +1112,90 @@ Algarve Tuna Charter ⚓`;
                     </table>
                 </div>
             `;
+        }
+
+        // ============================================
+        // NOTIFICAÇÕES DINÂMICAS
+        // ============================================
+        function carregarNotificacoes() {
+            const container = document.getElementById('notificacoesDinamicas');
+            if (!container) return;
+
+            const usuarioStr = localStorage.getItem('usuarioLogado');
+            if (!usuarioStr) return;
+            const capitao = JSON.parse(usuarioStr);
+
+            // Verificar reservas recentes (últimos 7 dias)
+            const reservas = JSON.parse(localStorage.getItem('reservasPendentes') || '[]');
+            const barcos = JSON.parse(localStorage.getItem('barcos') || '[]').filter(b => b.capitaoEmail === capitao.email);
+            const barcoIds = barcos.map(b => b.id);
+
+            const seteDias = new Date();
+            seteDias.setDate(seteDias.getDate() - 7);
+
+            const notifs = [];
+
+            // Barcos pendentes de aprovação
+            barcos.filter(b => b.status === 'pendente').forEach(b => {
+                notifs.push({
+                    icon: 'fa-ship', cor: '#FF8F00',
+                    titulo: 'Barco Aguarda Aprovação',
+                    texto: 'O barco "' + b.nome + '" está pendente de validação pela administração.',
+                    data: b.dataCriacao ? new Date(b.dataCriacao) : new Date()
+                });
+            });
+
+            // Barcos aprovados recentemente
+            barcos.filter(b => b.status === 'aprovado' && b.dataAprovacao && new Date(b.dataAprovacao) > seteDias).forEach(b => {
+                notifs.push({
+                    icon: 'fa-check-circle', cor: '#22C55E',
+                    titulo: 'Barco Aprovado! ✅',
+                    texto: 'O barco "' + b.nome + '" foi aprovado. Já pode criar saídas!',
+                    data: new Date(b.dataAprovacao)
+                });
+            });
+
+            // Reservas pendentes recentes
+            reservas.filter(r => barcoIds.includes(r.barcoId || r.barco_id) && r.status === 'pendente').forEach(r => {
+                const barco = barcos.find(b => b.id == (r.barcoId || r.barco_id));
+                notifs.push({
+                    icon: 'fa-envelope', cor: 'var(--cor-secundaria)',
+                    titulo: 'Novo Pedido de Reserva',
+                    texto: 'Pedido para o barco ' + (barco ? barco.nome : '') + ' em ' + (r.data || '--'),
+                    data: r.dataCriacao ? new Date(r.dataCriacao) : new Date()
+                });
+            });
+
+            // Ordenar por data (mais recentes primeiro)
+            notifs.sort((a, b) => b.data - a.data);
+
+            if (notifs.length === 0) {
+                container.innerHTML = `
+                    <div style="text-align:center; padding:2rem; color:rgba(245,245,245,0.4);">
+                        <i class="fas fa-bell-slash" style="font-size:2.5rem; margin-bottom:1rem; display:block;"></i>
+                        <p>Sem notificações de momento.</p>
+                        <small>As notificações aparecerão aqui quando houver actividade.</small>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = '<div class="notificacoes-lista">' +
+                notifs.slice(0, 5).map(n => {
+                    const dataFormatada = n.data.toLocaleDateString('pt-PT', {day:'2-digit', month:'2-digit', year:'numeric'});
+                    return `
+                        <div class="notificacao-item">
+                            <div class="notificacao-icon" style="background-color: ${n.cor}20; border: 1px solid ${n.cor}40;">
+                                <i class="fas ${n.icon}" style="color:${n.cor};"></i>
+                            </div>
+                            <div class="notificacao-conteudo">
+                                <div class="notificacao-titulo">${n.titulo}</div>
+                                <div class="notificacao-texto">${n.texto}</div>
+                                <div class="notificacao-data">${dataFormatada}</div>
+                            </div>
+                        </div>
+                    `;
+                }).join('') + '</div>';
         }
 
         function verSaida(id) {

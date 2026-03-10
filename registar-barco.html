@@ -135,8 +135,52 @@
                         </div>
                         
                         <div class="form-grupo">
-                            <label class="form-label obrigatorio">Porto de Amarração</label>
-                            <input type="text" name="porto" class="form-input" placeholder="Porto de Lisboa" required>
+                            <label class="form-label obrigatorio">Porto de Amarração / Zona de Pesca</label>
+                            <select name="porto" class="form-select" required>
+                                <option value="">Selecione o porto...</option>
+                                <optgroup label="🌅 SOTAVENTO (Costa Leste)">
+                                    <option value="Vila Real de Santo António">Vila Real de Santo António</option>
+                                    <option value="Monte Gordo">Monte Gordo</option>
+                                    <option value="Cabanas de Tavira">Cabanas de Tavira</option>
+                                    <option value="Tavira">Tavira (Rio Gilão)</option>
+                                    <option value="Santa Luzia">Santa Luzia (Capital do Polvo)</option>
+                                    <option value="Fuseta">Fuseta</option>
+                                    <option value="Olhão">Olhão (Porto de Pesca)</option>
+                                    <option value="Faro">Faro (Marina de Faro)</option>
+                                </optgroup>
+                                <optgroup label="🏖️ ZONA CENTRAL">
+                                    <option value="Quarteira">Quarteira</option>
+                                    <option value="Vilamoura">Vilamoura (Marina de Vilamoura)</option>
+                                    <option value="Albufeira">Albufeira (Marina de Albufeira)</option>
+                                    <option value="Armação de Pêra">Armação de Pêra</option>
+                                    <option value="Portimão">Portimão (Marina de Portimão)</option>
+                                    <option value="Alvor">Alvor</option>
+                                    <option value="Lagos">Lagos (Marina de Lagos)</option>
+                                </optgroup>
+                                <optgroup label="🌊 BARLAVENTO (Costa Oeste)">
+                                    <option value="Luz">Luz (Praia da Luz)</option>
+                                    <option value="Burgau">Burgau</option>
+                                    <option value="Salema">Salema</option>
+                                    <option value="Sagres">Sagres (Porto de Sagres)</option>
+                                    <option value="Baleeira">Baleeira (Sagres)</option>
+                                </optgroup>
+                                <optgroup label="⛰️ COSTA VICENTINA">
+                                    <option value="Vila do Bispo">Vila do Bispo</option>
+                                    <option value="Carrapateira">Carrapateira</option>
+                                    <option value="Aljezur">Aljezur</option>
+                                    <option value="Arrifana">Arrifana</option>
+                                    <option value="Odeceixe">Odeceixe</option>
+                                </optgroup>
+                                <optgroup label="🚢 OUTRAS REGIÕES">
+                                    <option value="Lisboa">Lisboa (Marina/Docas)</option>
+                                    <option value="Cascais">Cascais (Marina de Cascais)</option>
+                                    <option value="Setúbal">Setúbal (Porto de Setúbal)</option>
+                                    <option value="Sines">Sines (Porto de Sines)</option>
+                                </optgroup>
+                            </select>
+                            <small style="color: #6B7280; margin-top: 0.25rem; display: block;">
+                                <i class="fas fa-info-circle"></i> A zona selecionada aparecerá nos filtros de pesquisa
+                            </small>
                         </div>
                         
                         <div class="form-grupo">
@@ -286,16 +330,20 @@
                     
                     <!-- ETAPA 4 -->
                     <div class="form-step-conteudo">
-                        <p class="mb-3">Adicione fotos do seu barco (mínimo 3 fotos):</p>
+                        <p class="mb-3">Adicione fotos do seu barco <strong>(pelo menos 1, recomendado 3+)</strong>:</p>
                         
-                        <div class="upload-fotos-container" id="uploadContainer">
+                        <div class="upload-fotos-container" id="uploadContainer" style="cursor:pointer;">
                             <i class="fas fa-cloud-upload-alt upload-fotos-icon"></i>
                             <div class="upload-fotos-texto">Clique ou arraste fotos para aqui</div>
                             <div class="upload-fotos-ajuda">Formatos aceites: JPG, PNG (máx. 5MB cada)</div>
                             <input type="file" id="inputFotos" accept="image/*" multiple style="display: none;">
                         </div>
                         
-                        <div id="fotosPreview" class="fotos-preview"></div>
+                        <div id="contadorFotos" style="text-align:center; margin: 0.75rem 0; font-weight:600; font-size:0.9rem; color:#EF4444;">
+                            0 fotos adicionadas
+                        </div>
+                        
+                        <div id="fotosPreview" class="fotos-preview" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 0.75rem; margin-top: 1rem;"></div>
                     </div>
                     
                     <div class="form-navegacao">
