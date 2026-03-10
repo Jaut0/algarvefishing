@@ -1071,6 +1071,17 @@ Deseja ATIVAR a Saída Partilhada?
                                         <i class="fas fa-anchor"></i>
                                         <span>${barco.tipo || 'Barco'}</span>
                                     </div>
+                                    ${barco.classeNavegacao ? `
+                                    <div class="barco-dashboard-card-info-item" style="flex-basis:100%;margin-top:0.25rem;">
+                                        <i class="fas fa-compass"></i>
+                                        <span style="font-size:0.8rem;">${{
+                                            tipo1_oceanica:'Tipo 1 – Oceânica (∞)',
+                                            tipo2_largo:'Tipo 2 – Ao Largo (200mn)',
+                                            tipo3_costeira:'Tipo 3 – Costeira (40mn)',
+                                            tipo4_costeira_restrita:'Tipo 4 – Restrita (6mn)',
+                                            tipo5_abrigadas:'Tipo 5 – Abrigadas (3mn)'
+                                        }[barco.classeNavegacao] || barco.classeNavegacao}</span>
+                                    </div>` : ''}
                                 </div>
                                 ${barco.status === 'pendente' ? `
                                     <div style="background: rgba(255,143,0,0.15); border: 1px solid rgba(255,143,0,0.3); padding: 0.75rem; border-radius: 8px; margin-top: 1rem; font-size: 0.8rem; color: #FF8F00;">

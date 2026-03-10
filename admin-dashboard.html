@@ -163,7 +163,15 @@
             // Primeira varredura
             destroyPedro();
         } else {
-            document.addEventListener('DOMContentLoaded', () => {
+                    // Labels das classes de navegação
+        const LABELS_CLASSE_NAV = {
+            tipo1_oceanica:        '🌍 Tipo 1 – Oceânica (sem limite)',
+            tipo2_largo:           '🌊 Tipo 2 – Ao Largo (200 mn)',
+            tipo3_costeira:        '⚓ Tipo 3 – Costeira (40 mn)',
+            tipo4_costeira_restrita:'🏖️ Tipo 4 – Costeira Restrita (6 mn)',
+            tipo5_abrigadas:       '🏝️ Tipo 5 – Águas Abrigadas (3 mn)'
+        };
+        document.addEventListener('DOMContentLoaded', () => {
                 observer.observe(document.body, {
                     childList: true,
                     subtree: true

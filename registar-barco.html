@@ -227,8 +227,76 @@
                     
                     <!-- ETAPA 3 -->
                     <div class="form-step-conteudo">
-                        <p class="mb-3">Selecione os extras disponíveis no seu barco:</p>
-                        
+                        <p class="mb-3">Selecione os extras e a classe de navegação do seu barco:</p>
+
+                        <!-- ── CLASSE DE NAVEGAÇÃO ── -->
+                        <div style="margin-bottom:1.5rem;">
+                            <p style="font-weight:700;color:#0A1628;margin-bottom:0.75rem;font-size:0.95rem;">
+                                🧭 Classe de Navegação <span style="color:#EF4444;">*</span>
+                                <span style="font-weight:400;color:#6B7280;font-size:0.82rem;"> — Selecione apenas uma</span>
+                            </p>
+                            <div class="checkbox-visual-grid" style="grid-template-columns:repeat(auto-fill,minmax(220px,1fr));">
+
+                                <div class="checkbox-visual">
+                                    <input type="radio" id="classe1" name="classeNavegacao" value="tipo1_oceanica">
+                                    <label for="classe1" class="checkbox-visual-label">
+                                        <span class="checkbox-visual-icon">🌍</span>
+                                        <span class="checkbox-visual-texto">
+                                            <strong>Tipo 1</strong> – Nav. Oceânica
+                                            <small style="display:block;font-size:0.75rem;color:#6B7280;">Sem limite de área</small>
+                                        </span>
+                                    </label>
+                                </div>
+
+                                <div class="checkbox-visual">
+                                    <input type="radio" id="classe2" name="classeNavegacao" value="tipo2_largo">
+                                    <label for="classe2" class="checkbox-visual-label">
+                                        <span class="checkbox-visual-icon">🌊</span>
+                                        <span class="checkbox-visual-texto">
+                                            <strong>Tipo 2</strong> – Nav. ao Largo
+                                            <small style="display:block;font-size:0.75rem;color:#6B7280;">Até 200 milhas da costa</small>
+                                        </span>
+                                    </label>
+                                </div>
+
+                                <div class="checkbox-visual">
+                                    <input type="radio" id="classe3" name="classeNavegacao" value="tipo3_costeira">
+                                    <label for="classe3" class="checkbox-visual-label">
+                                        <span class="checkbox-visual-icon">⚓</span>
+                                        <span class="checkbox-visual-texto">
+                                            <strong>Tipo 3</strong> – Nav. Costeira
+                                            <small style="display:block;font-size:0.75rem;color:#6B7280;">Até 40 milhas da costa</small>
+                                        </span>
+                                    </label>
+                                </div>
+
+                                <div class="checkbox-visual">
+                                    <input type="radio" id="classe4" name="classeNavegacao" value="tipo4_costeira_restrita">
+                                    <label for="classe4" class="checkbox-visual-label">
+                                        <span class="checkbox-visual-icon">🏖️</span>
+                                        <span class="checkbox-visual-texto">
+                                            <strong>Tipo 4</strong> – Nav. Costeira Restrita
+                                            <small style="display:block;font-size:0.75rem;color:#6B7280;">Até 6 milhas da costa</small>
+                                        </span>
+                                    </label>
+                                </div>
+
+                                <div class="checkbox-visual">
+                                    <input type="radio" id="classe5" name="classeNavegacao" value="tipo5_abrigadas">
+                                    <label for="classe5" class="checkbox-visual-label">
+                                        <span class="checkbox-visual-icon">🏝️</span>
+                                        <span class="checkbox-visual-texto">
+                                            <strong>Tipo 5</strong> – Águas Abrigadas
+                                            <small style="display:block;font-size:0.75rem;color:#6B7280;">Raio de 3 milhas do porto</small>
+                                        </span>
+                                    </label>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <!-- ── CONFORTO A BORDO ── -->
+                        <p style="font-weight:700;color:#0A1628;margin-bottom:0.75rem;font-size:0.95rem;">🛳️ Conforto a Bordo</p>
                         <div class="checkbox-visual-grid">
                             <div class="checkbox-visual">
                                 <input type="checkbox" id="extra1" name="extras" value="ar_condicionado">
@@ -237,7 +305,6 @@
                                     <span class="checkbox-visual-texto">Ar Condicionado</span>
                                 </label>
                             </div>
-                            
                             <div class="checkbox-visual">
                                 <input type="checkbox" id="extra2" name="extras" value="frigorifico">
                                 <label for="extra2" class="checkbox-visual-label">
@@ -245,7 +312,6 @@
                                     <span class="checkbox-visual-texto">Frigorífico</span>
                                 </label>
                             </div>
-                            
                             <div class="checkbox-visual">
                                 <input type="checkbox" id="extra3" name="extras" value="camas">
                                 <label for="extra3" class="checkbox-visual-label">
@@ -253,7 +319,6 @@
                                     <span class="checkbox-visual-texto">Camas/Beliches</span>
                                 </label>
                             </div>
-                            
                             <div class="checkbox-visual">
                                 <input type="checkbox" id="extra4" name="extras" value="casa_banho">
                                 <label for="extra4" class="checkbox-visual-label">
@@ -261,7 +326,6 @@
                                     <span class="checkbox-visual-texto">Casa de Banho</span>
                                 </label>
                             </div>
-                            
                             <div class="checkbox-visual">
                                 <input type="checkbox" id="extra5" name="extras" value="cozinha">
                                 <label for="extra5" class="checkbox-visual-label">
@@ -269,7 +333,32 @@
                                     <span class="checkbox-visual-texto">Cozinha</span>
                                 </label>
                             </div>
-                            
+                            <div class="checkbox-visual">
+                                <input type="checkbox" id="extra_toldo" name="extras" value="toldo">
+                                <label for="extra_toldo" class="checkbox-visual-label">
+                                    <span class="checkbox-visual-icon">☀️</span>
+                                    <span class="checkbox-visual-texto">Toldo / Coberta</span>
+                                </label>
+                            </div>
+                            <div class="checkbox-visual">
+                                <input type="checkbox" id="extra_som" name="extras" value="som">
+                                <label for="extra_som" class="checkbox-visual-label">
+                                    <span class="checkbox-visual-icon">🎵</span>
+                                    <span class="checkbox-visual-texto">Sistema de Som</span>
+                                </label>
+                            </div>
+                            <div class="checkbox-visual">
+                                <input type="checkbox" id="extra_chuveiro" name="extras" value="chuveiro_externo">
+                                <label for="extra_chuveiro" class="checkbox-visual-label">
+                                    <span class="checkbox-visual-icon">🚿</span>
+                                    <span class="checkbox-visual-texto">Chuveiro Externo</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- ── NAVEGAÇÃO E SEGURANÇA ── -->
+                        <p style="font-weight:700;color:#0A1628;margin:1.25rem 0 0.75rem;font-size:0.95rem;">📡 Navegação e Segurança</p>
+                        <div class="checkbox-visual-grid">
                             <div class="checkbox-visual">
                                 <input type="checkbox" id="extra6" name="extras" value="gps">
                                 <label for="extra6" class="checkbox-visual-label">
@@ -277,7 +366,6 @@
                                     <span class="checkbox-visual-texto">GPS/Chartplotter</span>
                                 </label>
                             </div>
-                            
                             <div class="checkbox-visual">
                                 <input type="checkbox" id="extra7" name="extras" value="radio">
                                 <label for="extra7" class="checkbox-visual-label">
@@ -285,47 +373,111 @@
                                     <span class="checkbox-visual-texto">VHF/Rádio</span>
                                 </label>
                             </div>
-                            
                             <div class="checkbox-visual">
                                 <input type="checkbox" id="extra8" name="extras" value="sonar">
                                 <label for="extra8" class="checkbox-visual-label">
                                     <span class="checkbox-visual-icon">🔊</span>
-                                    <span class="checkbox-visual-texto">Sonar</span>
+                                    <span class="checkbox-visual-texto">Sonar / Fish Finder</span>
                                 </label>
                             </div>
-                            
                             <div class="checkbox-visual">
-                                <input type="checkbox" id="extra9" name="extras" value="snorkel">
-                                <label for="extra9" class="checkbox-visual-label">
-                                    <span class="checkbox-visual-icon">🤿</span>
-                                    <span class="checkbox-visual-texto">Equip. Snorkel</span>
+                                <input type="checkbox" id="extra_radar" name="extras" value="radar">
+                                <label for="extra_radar" class="checkbox-visual-label">
+                                    <span class="checkbox-visual-icon">🛰️</span>
+                                    <span class="checkbox-visual-texto">Radar Náutico</span>
                                 </label>
                             </div>
-                            
+                            <div class="checkbox-visual">
+                                <input type="checkbox" id="extra_piloto" name="extras" value="piloto_automatico">
+                                <label for="extra_piloto" class="checkbox-visual-label">
+                                    <span class="checkbox-visual-icon">🤖</span>
+                                    <span class="checkbox-visual-texto">Piloto Automático</span>
+                                </label>
+                            </div>
                             <div class="checkbox-visual">
                                 <input type="checkbox" id="extra10" name="extras" value="coletes">
                                 <label for="extra10" class="checkbox-visual-label">
                                     <span class="checkbox-visual-icon">🦺</span>
-                                    <span class="checkbox-visual-texto">Coletes</span>
+                                    <span class="checkbox-visual-texto">Coletes Salva-vidas</span>
                                 </label>
                             </div>
-                            
                             <div class="checkbox-visual">
-                                <input type="checkbox" id="extra11" name="extras" value="toldo">
-                                <label for="extra11" class="checkbox-visual-label">
-                                    <span class="checkbox-visual-icon">☀️</span>
-                                    <span class="checkbox-visual-texto">Toldo</span>
+                                <input type="checkbox" id="extra_epirb" name="extras" value="epirb">
+                                <label for="extra_epirb" class="checkbox-visual-label">
+                                    <span class="checkbox-visual-icon">🆘</span>
+                                    <span class="checkbox-visual-texto">EPIRB / Baliza</span>
                                 </label>
                             </div>
-                            
                             <div class="checkbox-visual">
-                                <input type="checkbox" id="extra12" name="extras" value="som">
-                                <label for="extra12" class="checkbox-visual-label">
-                                    <span class="checkbox-visual-icon">🎵</span>
-                                    <span class="checkbox-visual-texto">Sistema Som</span>
+                                <input type="checkbox" id="extra_ais" name="extras" value="ais">
+                                <label for="extra_ais" class="checkbox-visual-label">
+                                    <span class="checkbox-visual-icon">📶</span>
+                                    <span class="checkbox-visual-texto">Transponder AIS</span>
                                 </label>
                             </div>
                         </div>
+
+                        <!-- ── EQUIPAMENTO DE PESCA ── -->
+                        <p style="font-weight:700;color:#0A1628;margin:1.25rem 0 0.75rem;font-size:0.95rem;">🎣 Equipamento de Pesca</p>
+                        <div class="checkbox-visual-grid">
+                            <div class="checkbox-visual">
+                                <input type="checkbox" id="extra_canas" name="extras" value="canas_carretos">
+                                <label for="extra_canas" class="checkbox-visual-label">
+                                    <span class="checkbox-visual-icon">🎣</span>
+                                    <span class="checkbox-visual-texto">Canas e Carretos</span>
+                                </label>
+                            </div>
+                            <div class="checkbox-visual">
+                                <input type="checkbox" id="extra_outriggers" name="extras" value="outriggers">
+                                <label for="extra_outriggers" class="checkbox-visual-label">
+                                    <span class="checkbox-visual-icon">🏹</span>
+                                    <span class="checkbox-visual-texto">Outriggers (Trolling)</span>
+                                </label>
+                            </div>
+                            <div class="checkbox-visual">
+                                <input type="checkbox" id="extra_cadeira" name="extras" value="cadeira_pesca">
+                                <label for="extra_cadeira" class="checkbox-visual-label">
+                                    <span class="checkbox-visual-icon">🪑</span>
+                                    <span class="checkbox-visual-texto">Cadeira de Pesca</span>
+                                </label>
+                            </div>
+                            <div class="checkbox-visual">
+                                <input type="checkbox" id="extra_isco" name="extras" value="frigorifico_isco">
+                                <label for="extra_isco" class="checkbox-visual-label">
+                                    <span class="checkbox-visual-icon">🐟</span>
+                                    <span class="checkbox-visual-texto">Frigorífico para Isco</span>
+                                </label>
+                            </div>
+                            <div class="checkbox-visual">
+                                <input type="checkbox" id="extra_viveiro" name="extras" value="viveiro">
+                                <label for="extra_viveiro" class="checkbox-visual-label">
+                                    <span class="checkbox-visual-icon">🪣</span>
+                                    <span class="checkbox-visual-texto">Viveiro (peixe vivo)</span>
+                                </label>
+                            </div>
+                            <div class="checkbox-visual">
+                                <input type="checkbox" id="extra9" name="extras" value="snorkel">
+                                <label for="extra9" class="checkbox-visual-label">
+                                    <span class="checkbox-visual-icon">🤿</span>
+                                    <span class="checkbox-visual-texto">Equip. Snorkel/Mergulho</span>
+                                </label>
+                            </div>
+                            <div class="checkbox-visual">
+                                <input type="checkbox" id="extra_downrigger" name="extras" value="downrigger">
+                                <label for="extra_downrigger" class="checkbox-visual-label">
+                                    <span class="checkbox-visual-icon">⚓</span>
+                                    <span class="checkbox-visual-texto">Downrigger</span>
+                                </label>
+                            </div>
+                            <div class="checkbox-visual">
+                                <input type="checkbox" id="extra_passarola" name="extras" value="passarola">
+                                <label for="extra_passarola" class="checkbox-visual-label">
+                                    <span class="checkbox-visual-icon">🚤</span>
+                                    <span class="checkbox-visual-texto">Bote / Passarola</span>
+                                </label>
+                            </div>
+                        </div>
+
                     </div>
                     
                     <!-- ETAPA 4 -->

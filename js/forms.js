@@ -246,6 +246,7 @@ function submeterFormulario() {
         potencia: parseInt(formData.get('potencia')) || 0,
         velocidadeMaxima: formData.get('velocidadeMaxima') ? parseInt(formData.get('velocidadeMaxima')) : null,
         autonomia: formData.get('autonomia') ? parseInt(formData.get('autonomia')) : null,
+        classeNavegacao: formData.get('classeNavegacao') || '',
         extras: extras,
         fotos: fotosUpload.map(f => f.url),
         fotoPrincipal: fotosUpload.find(f => f.principal)?.url || (fotosUpload[0]?.url || ''),
