@@ -730,54 +730,24 @@ Equipa Algarve Tuna Charter`);
                 return; // Importante: para parar execução até Promise resolver
             }
             
-            // Se não for capitão (CLIENTE), também fica pendente de ativação
-            // ⚠️ GUARDAR NA LISTA DE PENDENTES
-            let usuariosPendentes = JSON.parse(localStorage.getItem('usuariosPendentes') || '[]');
-            usuariosPendentes.push(novoUtilizador);
-            localStorage.setItem('usuariosPendentes', JSON.stringify(usuariosPendentes));
+            // CLIENTE: registo directo, sem activação por email
+            novoUtilizador.status = 'ativo';
+            novoUtilizador.emailConfirmado = true;
             
-            console.log('✅ Cliente registado (pendente de ativação):', novoUtilizador.email);
-            console.log('🔐 Token de ativação:', tokenAtivacao);
+            // ✅ GUARDAR DIRECTAMENTE EM utilizadores (activo imediatamente)
+            let utilizadoresArr = JSON.parse(localStorage.getItem('utilizadores') || '[]');
+            utilizadoresArr.push(novoUtilizador);
+            localStorage.setItem('utilizadores', JSON.stringify(utilizadoresArr));
             
-            // 📧 ENVIAR EMAIL DE ATIVAÇÃO PARA O CLIENTE
-            if (typeof enviarEmailAtivacaoCliente === 'function') {
-                enviarEmailAtivacaoCliente(novoUtilizador, tokenAtivacao).then(result => {
-                    if (result.success) {
-                        console.log('✅ Email de ativação enviado para:', novoUtilizador.email);
-                    } else {
-                        console.error('❌ Erro ao enviar email:', result.error);
-                        mostrarToast('⚠️ Erro ao enviar email. Verifique o email digitado.', 'aviso');
-                    }
-                });
-            } else {
-                console.warn('⚠️ Função enviarEmailAtivacaoCliente não encontrada!');
-            }
+            // 🔑 Iniciar sessão imediatamente
+            localStorage.setItem('usuarioLogado', JSON.stringify(novoUtilizador));
             
-            // Mostrar mensagem de sucesso
-            mostrarToast('✅ Email de ativação enviado! Verifique sua caixa de entrada.', 'sucesso');
+            console.log('✅ Cliente registado e activo:', novoUtilizador.email);
+            
+            mostrarToast('✅ Conta criada com sucesso! Bem-vindo!', 'sucesso');
             
             setTimeout(() => {
-                alert(`📧 EMAIL DE ATIVAÇÃO ENVIADO!
-
-✅ Enviamos um email para: ${email}
-
-⏳ PRÓXIMOS PASSOS:
-
-1️⃣ Verifique sua caixa de entrada (e spam!)
-2️⃣ Clique no link de ativação
-3️⃣ Sua conta será ativada automaticamente
-4️⃣ Faça login após ativar
-
-⚠️ O link expira em 24 horas!
-
-Não recebeu? Verifique:
-• Email digitado corretamente
-• Pasta de spam/lixo eletrônico
-• Aguarde alguns minutos
-
-Equipa Algarve Charter`);
-                
-                window.location.href = 'index.html';
+                window.location.href = 'dashboard-usuario.html';
             }, 2000);
             }); // FIM do formRegistar.addEventListener('submit')
         

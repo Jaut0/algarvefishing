@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reset Sistema - Algarve Tuna Charter</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎣</text></svg>">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/algarve-tuna.css">
+    <style>
+        .reset-container {
+            max-width: 800px;
+            margin: 120px auto 4rem;
+            padding: 3rem;
+            background: rgba(18, 39, 64, 0.9);
+            border-radius: 12px;
+            border: 2px solid var(--tuna-orange);
+        }
+        
+        .reset-icon {
+            font-size: 5rem;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .reset-title {
+            text-align: center;
+            font-size: 2.5rem;
+            color: var(--tuna-orange);
+            margin-bottom: 1rem;
+        }
+        
+        .reset-description {
+            text-align: center;
+            color: rgba(245, 245, 245, 0.8);
+            margin-bottom: 2rem;
+            line-height: 1.8;
+        }
+        
+        .data-info {
+            background: rgba(255, 107, 53, 0.1);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-left: 4px solid var(--tuna-orange);
+            margin: 2rem 0;
+        }
+        
+        .data-info h3 {
+            color: var(--tuna-orange);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+        
+        .data-info ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .data-info li {
+            padding: 0.5rem 0;
+            color: rgba(245, 245, 245, 0.9);
+        }
+        
+        .data-info li i {
+            color: var(--tuna-orange);
+            margin-right: 0.5rem;
+            width: 20px;
+        }
+        
+        .warning-box {
+            background: rgba(211, 47, 47, 0.2);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-left: 4px solid var(--tuna-red);
+            margin: 2rem 0;
+        }
+        
+        .warning-box h4 {
+            color: var(--tuna-red);
+            margin-bottom: 0.5rem;
+        }
+        
+        .warning-box p {
+            color: rgba(245, 245, 245, 0.9);
+        }
+        
+        .reset-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        
+        .reset-actions .btn {
+            flex: 1;
+        }
+        
+        .success-message {
+            display: none;
+            background: rgba(76, 175, 80, 0.2);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-left: 4px solid #4CAF50;
+            margin: 2rem 0;
+            text-align: center;
+        }
+        
+        .success-message.active {
+            display: block;
+        }
+        
+        .success-message i {
+            font-size: 3rem;
+            color: #4CAF50;
+            margin-bottom: 1rem;
+        }
+        
+        .next-steps {
+            background: rgba(33, 150, 243, 0.1);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-left: 4px solid #2196F3;
+            margin: 2rem 0;
+        }
+        
+        .next-steps h4 {
+            color: #2196F3;
+            margin-bottom: 1rem;
+        }
+        
+        .next-steps ol {
+            margin-left: 1.5rem;
+            color: rgba(245, 245, 245, 0.9);
+        }
+        
+        .next-steps li {
+            margin: 0.5rem 0;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <!-- HEADER -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <a href="index.html" class="logo">
+                    ALGARVE TUNA CHARTER
+                </a>
+                <nav class="nav">
+                    <a href="index.html">Início</a>
+                    <a href="admin-login.html">Admin</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <div class="reset-container">
+        <div class="reset-icon">⚙️</div>
+        <h1 class="reset-title">RESET DO SISTEMA</h1>
+        <p class="reset-description">
+            Esta ferramenta permite limpar todos os dados de teste e começar do zero para simular o registo completo de um capitão.
+        </p>
+
+        <div class="data-info">
+            <h3><i class="fas fa-database"></i> Dados que serão removidos:</h3>
+            <ul>
+                <li><i class="fas fa-ship"></i> <strong>Barcos Mock</strong> (12 barcos de demonstração)</li>
+                <li><i class="fas fa-fish"></i> <strong>Saídas de Pesca Mock</strong> (6 expedições demo)</li>
+                <li><i class="fas fa-calendar"></i> <strong>Reservas Pendentes</strong> (pedidos de clientes)</li>
+                <li><i class="fas fa-exclamation-triangle"></i> <strong>Reclamações</strong> (casos de suporte)</li>
+                <li><i class="fas fa-clock"></i> <strong>Estados de Agenda</strong> (dias bloqueados/reservados)</li>
+                <li><i class="fas fa-user-tie"></i> <strong>Capitães Demo</strong> (dados de teste)</li>
+            </ul>
+        </div>
+
+        <div class="warning-box">
+            <h4><i class="fas fa-exclamation-triangle"></i> ATENÇÃO!</h4>
+            <p>Esta ação não pode ser desfeita. Todos os dados armazenados localmente (localStorage) serão permanentemente removidos. Use apenas para testes e desenvolvimento.</p>
+        </div>
+
+        <div class="next-steps">
+            <h4><i class="fas fa-list-ol"></i> Fluxo de Teste Recomendado:</h4>
+            <ol>
+                <li><strong>Limpar dados</strong> - Clique no botão abaixo</li>
+                <li><strong>Registar Capitão</strong> - Vá para <a href="auth.html" style="color: var(--tuna-orange);">auth.html</a> e registe um capitão</li>
+                <li><strong>Upload de Documentos</strong> - Envie Livrete RNAAT e Certificado de Seguro</li>
+                <li><strong>Verificar Estado Pendente</strong> - Conta fica pendente automaticamente</li>
+                <li><strong>Login Admin</strong> - Entre em <a href="admin-login.html" style="color: var(--tuna-orange);">admin-login.html</a> (servico@jauto.pt / 12345678)</li>
+                <li><strong>Aprovar Capitão</strong> - No painel admin, valide documentos e aprove</li>
+                <li><strong>Login como Capitão</strong> - Entre com as credenciais criadas</li>
+                <li><strong>Registar Barco</strong> - Preencha formulário multi-step com documentos</li>
+                <li><strong>Admin Aprova Barco</strong> - Valide e aprove o barco</li>
+                <li><strong>Criar Saída</strong> - Capitão cria expedição de pesca</li>
+                <li><strong>Testar como Cliente</strong> - Registe cliente e faça reserva</li>
+                <li><strong>Gerir Agenda</strong> - Teste bloqueios e reservas</li>
+                <li><strong>Testar Reclamação</strong> - Envie uma reclamação de teste</li>
+            </ol>
+        </div>
+
+        <div class="reset-actions">
+            <a href="index.html" class="btn btn-secondary">
+                <i class="fas fa-arrow-left"></i> Cancelar
+            </a>
+            <button class="btn btn-warning" id="btnLimparTeste" style="background: linear-gradient(135deg, #FF6F00, #FF8F00);">
+                <i class="fas fa-broom"></i> LIMPAR APENAS DADOS DE TESTE
+            </button>
+            <button class="btn btn-danger" id="btnReset">
+                <i class="fas fa-trash-alt"></i> LIMPAR TODOS OS DADOS
+            </button>
+        </div>
+
+        <div class="success-message" id="successMessage">
+            <i class="fas fa-check-circle"></i>
+            <h3 style="color: #4CAF50;">Dados Limpos com Sucesso!</h3>
+            <p style="margin: 1rem 0;">O sistema foi resetado. Pode agora começar o teste do zero.</p>
+            <div style="display: flex; gap: 1rem; justify-content: center; margin-top: 1.5rem;">
+                <a href="auth.html" class="btn btn-primary">
+                    <i class="fas fa-user-plus"></i> REGISTAR CAPITÃO
+                </a>
+                <a href="index.html" class="btn btn-secondary">
+                    <i class="fas fa-home"></i> Voltar ao Início
+                </a>
+            </div>
+        </div>
+
+        <div class="data-info" style="margin-top: 3rem;">
+            <h3><i class="fas fa-info-circle"></i> Credenciais Admin (não serão apagadas):</h3>
+            <ul>
+                <li><i class="fas fa-envelope"></i> <strong>Email:</strong> servico@jauto.pt</li>
+                <li><i class="fas fa-key"></i> <strong>Password:</strong> 12345678</li>
+                <li><i class="fas fa-shield-alt"></i> <strong>URL:</strong> <a href="admin-login.html" style="color: var(--tuna-orange);">admin-login.html</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom" style="text-align: center; padding: 2rem 0;">
+                <p>&copy; 2026 Algarve Tuna Charter - Development Tools</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Limpar APENAS dados de teste (mantém utilizadores reais de hoje)
+        document.getElementById('btnLimparTeste').addEventListener('click', () => {
+            if (confirm('🧹 LIMPAR DADOS DE TESTE?\n\nSerá removido:\n\n• Pedro Silva (Capitão teste)\n• Outros utilizadores antigos\n• Dados mockados\n\nSerá MANTIDO:\n• Utilizadores registados hoje\n• Sessão atual\n\nDeseja continuar?')) {
+                
+                const hoje = new Date().toISOString().split('T')[0]; // 2026-03-08
+                
+                // Limpar utilizadores antigos (manter apenas os de hoje)
+                let utilizadores = JSON.parse(localStorage.getItem('utilizadores') || '[]');
+                const utilizadoresRecentes = utilizadores.filter(u => {
+                    const dataCriacao = new Date(u.dataCriacao).toISOString().split('T')[0];
+                    return dataCriacao === hoje;
+                });
+                
+                localStorage.setItem('utilizadores', JSON.stringify(utilizadoresRecentes));
+                
+                // Limpar dados mockados
+                const keysToRemove = [
+                    'mockBarcos',
+                    'mockSaidas',
+                    'reservasPendentes',
+                    'reclamacoes',
+                    'agendaStatus',
+                    'capitaes',
+                    'barcos',
+                    'saidas'
+                ];
+                
+                keysToRemove.forEach(key => {
+                    localStorage.removeItem(key);
+                });
+                
+                // Mostrar sucesso
+                alert(`✅ Dados de teste removidos!\n\n📊 Removidos: ${utilizadores.length - utilizadoresRecentes.length} utilizadores antigos\n✅ Mantidos: ${utilizadoresRecentes.length} utilizadores de hoje\n\nRecarregue a página para ver as alterações.`);
+                
+                console.log('✅ Dados de teste limpos!');
+                console.log('📊 Utilizadores mantidos:', utilizadoresRecentes);
+                console.log('📊 Utilizadores removidos:', utilizadores.length - utilizadoresRecentes.length);
+                
+                // Recarregar página
+                setTimeout(() => {
+                    window.location.reload();
+                }, 2000);
+            }
+        });
+        
+        // Limpar TODOS os dados
+        document.getElementById('btnReset').addEventListener('click', () => {
+            if (confirm('⚠️ TEM A CERTEZA?\n\nTodos os dados serão permanentemente removidos:\n\n• Barcos mock\n• Saídas de pesca\n• Reservas\n• Reclamações\n• Agendas\n• Dados de teste\n\nEsta ação não pode ser desfeita!')) {
+                
+                // Limpar todos os dados do localStorage
+                const keysToRemove = [
+                    'reservasPendentes',
+                    'reclamacoes',
+                    'agendaStatus',
+                    'capitaes',
+                    'barcos',
+                    'saidas',
+                    'utilizadores',
+                    'currentUser',
+                    'mockBarcos',
+                    'mockSaidas',
+                    'emailsSimulados',
+                    'usuarioLogado'
+                ];
+                
+                keysToRemove.forEach(key => {
+                    localStorage.removeItem(key);
+                });
+                
+                // Mostrar mensagem de sucesso
+                document.querySelector('.warning-box').style.display = 'none';
+                document.querySelector('.data-info').style.display = 'none';
+                document.querySelector('.next-steps').style.display = 'none';
+                document.querySelector('.reset-actions').style.display = 'none';
+                document.getElementById('successMessage').classList.add('active');
+                
+                // Scroll to success message
+                document.getElementById('successMessage').scrollIntoView({ behavior: 'smooth', block: 'center' });
+                
+                console.log('✅ Sistema limpo com sucesso!');
+                console.log('📊 Dados removidos:', keysToRemove);
+            }
+        });
+    </script>
+</body>
+</html>

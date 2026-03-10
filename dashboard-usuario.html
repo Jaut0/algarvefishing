@@ -8,17 +8,87 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/dashboard.css">
+    <style>
+        /* ===== CORRECÇÃO: Secção Perfil — texto visível sobre fundo claro ===== */
+        #secao-perfil .card {
+            background: #ffffff !important;
+            color: #1F2937 !important;
+        }
+        #secao-perfil .form-label,
+        #secao-perfil label {
+            color: #1F2937 !important;
+            font-weight: 600;
+        }
+        #secao-perfil .form-input,
+        #secao-perfil .form-select,
+        #secao-perfil .form-textarea {
+            background-color: #F9FAFB !important;
+            border: 1.5px solid #D1D5DB !important;
+            color: #1F2937 !important;
+            font-size: 1rem !important;
+            padding: 0.875rem 1rem !important;
+        }
+        #secao-perfil .form-input:focus,
+        #secao-perfil .form-select:focus,
+        #secao-perfil .form-textarea:focus {
+            background-color: #fff !important;
+            border-color: #1565C0 !important;
+            box-shadow: 0 0 0 3px rgba(21,101,192,0.15) !important;
+            outline: none;
+        }
+        #secao-perfil .form-input::placeholder { color: #9CA3AF !important; }
+        #secao-perfil small, #secao-perfil p { color: #6B7280 !important; }
+        #secao-perfil h3 { color: #1F2937 !important; }
+        #secao-perfil hr { border-top: 1px solid #E5E7EB !important; }
+        #secao-perfil .form-input[disabled] {
+            background-color: #F3F4F6 !important;
+            color: #9CA3AF !important;
+            cursor: not-allowed;
+        }
+
+        /* ===== Cards de reservas ===== */
+        .reserva-card {
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+            overflow: hidden;
+            border: 1px solid #E5E7EB;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .reserva-card:hover { transform: translateY(-2px); box-shadow: 0 4px 20px rgba(0,0,0,0.12); }
+        .reserva-card-header {
+            background: linear-gradient(135deg,#0A1628,#1565C0);
+            padding: 1rem 1.25rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .reserva-card-body { padding: 1.25rem; }
+        .badge-status {
+            padding: 0.3rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+        .badge-pendente  { background: #FEF3C7; color: #92400E; }
+        .badge-confirmada{ background: #D1FAE5; color: #065F46; }
+        .badge-cancelada { background: #FEE2E2; color: #991B1B; }
+        .badge-concluida { background: #F3F4F6; color: #374151; }
+    </style>
 </head>
 <body>
     <header class="header">
         <div class="header-content container">
-            <a href="#dashboard" class="logo" onclick="event.preventDefault();">
+            <a href="index.html" class="logo">
                 <span class="logo-icon">⚓</span>
                 <span>Algarve Tuna Charter</span>
             </a>
             <nav class="nav-menu">
-                <a href="index.html" class="nav-link" onclick="event.preventDefault(); abrirPaginaComSessao('index.html');">Início</a>
-                <a href="explorar.html" class="nav-link" onclick="event.preventDefault(); abrirPaginaComSessao('explorar.html');">Explorar</a>
+                <a href="index.html" class="nav-link">Início</a>
+                <a href="explorar.html" class="nav-link">Explorar</a>
                 <a href="dashboard-usuario.html" class="nav-link ativo">Dashboard</a>
                 <button class="btn btn-outline btn-pequeno" onclick="logout()">
                     <i class="fas fa-sign-out-alt"></i> Sair
@@ -29,7 +99,7 @@
             </div>
         </div>
     </header>
-    
+
     <div class="dashboard">
         <aside class="sidebar" id="sidebar">
             <div class="sidebar-perfil">
@@ -37,100 +107,77 @@
                 <div class="sidebar-perfil-nome" id="sidebarNome">Carregando...</div>
                 <div class="sidebar-perfil-tipo">Utilizador</div>
             </div>
-            
             <nav class="sidebar-menu">
                 <a href="#" class="sidebar-menu-item ativo" data-section="dashboard">
-                    <i class="fas fa-home"></i>
-                    <span>Dashboard</span>
+                    <i class="fas fa-home"></i><span>Dashboard</span>
                 </a>
                 <a href="#" class="sidebar-menu-item" data-section="reservas">
-                    <i class="fas fa-ticket-alt"></i>
-                    <span>Minhas Reservas</span>
+                    <i class="fas fa-ticket-alt"></i><span>Minhas Reservas</span>
                 </a>
                 <a href="#" class="sidebar-menu-item" data-section="historico">
-                    <i class="fas fa-history"></i>
-                    <span>Histórico</span>
+                    <i class="fas fa-history"></i><span>Histórico</span>
                 </a>
                 <a href="#" class="sidebar-menu-item" data-section="favoritos">
-                    <i class="fas fa-heart"></i>
-                    <span>Favoritos</span>
+                    <i class="fas fa-heart"></i><span>Favoritos</span>
                 </a>
                 <a href="#" class="sidebar-menu-item" data-section="perfil">
-                    <i class="fas fa-user"></i>
-                    <span>Meu Perfil</span>
+                    <i class="fas fa-user"></i><span>Meu Perfil</span>
                 </a>
             </nav>
         </aside>
-        
+
         <button class="sidebar-toggle" id="sidebarToggle">
             <i class="fas fa-bars"></i>
         </button>
-        
+
         <main class="dashboard-conteudo">
+
+            <!-- ========== DASHBOARD ========== -->
             <div class="dashboard-secao-wrapper" id="secao-dashboard">
                 <div class="dashboard-header">
                     <div class="dashboard-header-top">
                         <h1 class="dashboard-titulo" id="dashboardTitulo">Bem-vindo! 👋</h1>
                     </div>
                 </div>
-                
+
                 <div class="stats-grid">
                     <div class="stat-card">
-                        <div class="stat-icon azul">
-                            <i class="fas fa-calendar-check"></i>
-                        </div>
+                        <div class="stat-icon azul"><i class="fas fa-calendar-check"></i></div>
                         <div class="stat-info">
                             <div class="stat-label">Reservas Ativas</div>
                             <div class="stat-valor" id="statReservasAtivas">0</div>
-                            <div class="stat-mudanca positiva">
-                                <i class="fas fa-arrow-up"></i> <span id="statReservasSemana">+0 esta semana</span>
-                            </div>
                         </div>
                     </div>
-                    
                     <div class="stat-card">
-                        <div class="stat-icon verde">
-                            <i class="fas fa-fish"></i>
-                        </div>
+                        <div class="stat-icon verde"><i class="fas fa-fish"></i></div>
                         <div class="stat-info">
                             <div class="stat-label">Saídas Realizadas</div>
                             <div class="stat-valor" id="statSaidasRealizadas">0</div>
-                            <div class="stat-mudanca positiva">
-                                <i class="fas fa-arrow-up"></i> <span id="statSaidasMes">+0 este mês</span>
-                            </div>
                         </div>
                     </div>
-                    
                     <div class="stat-card">
-                        <div class="stat-icon roxo">
-                            <i class="fas fa-heart"></i>
-                        </div>
+                        <div class="stat-icon roxo"><i class="fas fa-heart"></i></div>
                         <div class="stat-info">
                             <div class="stat-label">Favoritos</div>
                             <div class="stat-valor" id="statFavoritos">0</div>
                         </div>
                     </div>
-                    
                     <div class="stat-card">
-                        <div class="stat-icon laranja">
-                            <i class="fas fa-star"></i>
-                        </div>
+                        <div class="stat-icon laranja"><i class="fas fa-star"></i></div>
                         <div class="stat-info">
                             <div class="stat-label">Avaliações Dadas</div>
                             <div class="stat-valor" id="statAvaliacoes">0</div>
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="dashboard-secao">
                     <div class="dashboard-secao-header">
                         <h2 class="dashboard-secao-titulo">
-                            <i class="fas fa-calendar-alt"></i>
-                            Próximas Reservas
+                            <i class="fas fa-calendar-alt"></i> Próximas Reservas
                         </h2>
-                        <a href="#" class="btn btn-primario btn-pequeno" data-section="reservas">Ver Todas</a>
+                        <a href="#" class="btn btn-primario btn-pequeno" onclick="event.preventDefault();navegarSecao('reservas')">Ver Todas</a>
                     </div>
-                    
                     <div id="proximasReservasContainer">
                         <div class="estado-vazio">
                             <i class="fas fa-calendar-times estado-vazio-icon"></i>
@@ -142,65 +189,23 @@
                         </div>
                     </div>
                 </div>
-                
-                <div class="dashboard-secao">
+
+                <div class="dashboard-secao" style="margin-top:2rem;">
                     <div class="dashboard-secao-header">
                         <h2 class="dashboard-secao-titulo">
-                            <i class="fas fa-compass"></i>
-                            Recomendações Para Si
+                            <i class="fas fa-compass"></i> Descobrir Saídas
                         </h2>
                     </div>
-                    
-                    <div id="recomendacoesContainer">
-                        <div class="estado-vazio">
-                            <i class="fas fa-fish estado-vazio-icon"></i>
-                            <h3 class="estado-vazio-titulo">Em breve teremos recomendações personalizadas!</h3>
-                            <p class="estado-vazio-texto">Complete o seu perfil e reserve a sua primeira saída.</p>
-                        </div>
-                    </div>
-                                <a href="detalhe-saida.html" class="btn btn-primario btn-bloco btn-pequeno">
-                                    Ver Detalhes
-                                </a>
-                            </div>
-                        </div>
-                        
-                        <div class="barco-card">
-                            <div class="barco-card-imagem">
-                                <img src="https://images.unsplash.com/photo-1534008897995-27a23e859048?w=600&h=400&fit=crop" alt="Barco">
-                            </div>
-                            <div class="barco-card-info">
-                                <div class="barco-card-localizacao">
-                                    <i class="fas fa-map-marker-alt"></i>
-                                    <span>Porto do Funchal</span>
-                                </div>
-                                <h3 class="card-titulo">Pesca de Atum</h3>
-                                <div class="barco-card-preco">120€ <span>/ pessoa</span></div>
-                                <a href="detalhe-saida.html" class="btn btn-primario btn-bloco btn-pequeno">
-                                    Ver Detalhes
-                                </a>
-                            </div>
-                        </div>
-                        
-                        <div class="barco-card">
-                            <div class="barco-card-imagem">
-                                <img src="https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=600&h=400&fit=crop" alt="Barco">
-                            </div>
-                            <div class="barco-card-info">
-                                <div class="barco-card-localizacao">
-                                    <i class="fas fa-map-marker-alt"></i>
-                                    <span>Porto de Leixões</span>
-                                </div>
-                                <h3 class="card-titulo">Pesca Desportiva</h3>
-                                <div class="barco-card-preco">65€ <span>/ pessoa</span></div>
-                                <a href="detalhe-saida.html" class="btn btn-primario btn-bloco btn-pequeno">
-                                    Ver Detalhes
-                                </a>
-                            </div>
-                        </div>
+                    <div style="text-align:center;padding:2rem;">
+                        <p style="color:rgba(245,245,245,0.7);margin-bottom:1rem;">Explore as melhores saídas de pesca disponíveis no Algarve.</p>
+                        <a href="explorar.html" class="btn btn-primario">
+                            <i class="fas fa-search"></i> Explorar Saídas
+                        </a>
                     </div>
                 </div>
             </div>
-            
+
+            <!-- ========== RESERVAS ========== -->
             <div class="dashboard-secao-wrapper oculto" id="secao-reservas">
                 <div class="dashboard-header">
                     <h1 class="dashboard-titulo">Minhas Reservas</h1>
@@ -210,7 +215,8 @@
                     <!-- Preenchido dinamicamente -->
                 </div>
             </div>
-            
+
+            <!-- ========== HISTÓRICO ========== -->
             <div class="dashboard-secao-wrapper oculto" id="secao-historico">
                 <div class="dashboard-header">
                     <h1 class="dashboard-titulo">Histórico de Saídas</h1>
@@ -221,7 +227,8 @@
                     <p class="estado-vazio-texto">Ainda não realizou nenhuma saída de pesca.<br>As suas experiências aparecerão aqui após conclusão.</p>
                 </div>
             </div>
-            
+
+            <!-- ========== FAVORITOS ========== -->
             <div class="dashboard-secao-wrapper oculto" id="secao-favoritos">
                 <div class="dashboard-header">
                     <h1 class="dashboard-titulo">Favoritos</h1>
@@ -230,129 +237,75 @@
                     <i class="fas fa-heart estado-vazio-icon"></i>
                     <h3 class="estado-vazio-titulo">Sem Favoritos</h3>
                     <p class="estado-vazio-texto">Ainda não adicionou nenhuma saída aos favoritos.<br>Explore e guarde as suas saídas preferidas!</p>
-                    <a href="explorar.html" class="btn btn-primario" style="margin-top: 1.5rem;">
+                    <a href="explorar.html" class="btn btn-primario" style="margin-top:1.5rem;">
                         <i class="fas fa-compass"></i> Descobrir Saídas
                     </a>
                 </div>
             </div>
-            
+
+            <!-- ========== PERFIL ========== -->
             <div class="dashboard-secao-wrapper oculto" id="secao-perfil">
                 <div class="dashboard-header">
                     <h1 class="dashboard-titulo">Meu Perfil</h1>
-                    <p style="color: rgba(245,245,245,0.8); margin-top: 0.5rem;">Gerir as suas informações pessoais</p>
+                    <p style="color:rgba(245,245,245,0.8);margin-top:0.5rem;">Gerir as suas informações pessoais</p>
                 </div>
-                
-                <div class="card" style="max-width: 100%; width: 100%; box-sizing: border-box; padding: 2rem;">
-                    <style>
-                        #secao-perfil .form-input,
-                        #secao-perfil .form-select,
-                        #secao-perfil .form-textarea {
-                            background-color: rgba(255, 255, 255, 0.08) !important;
-                            border: 2px solid rgba(255, 255, 255, 0.2) !important;
-                            color: #ffffff !important;
-                            font-size: 1rem !important;
-                            padding: 0.875rem 1rem !important;
-                        }
-                        
-                        #secao-perfil .form-input:focus,
-                        #secao-perfil .form-select:focus,
-                        #secao-perfil .form-textarea:focus {
-                            background-color: rgba(255, 255, 255, 0.12) !important;
-                            border-color: var(--cor-destaque) !important;
-                            box-shadow: 0 0 0 3px rgba(255, 143, 0, 0.2) !important;
-                        }
-                        
-                        #secao-perfil .form-label {
-                            font-weight: 600;
-                            color: rgba(255, 255, 255, 0.95);
-                            margin-bottom: 0.75rem;
-                            font-size: 0.95rem;
-                        }
-                        
-                        #secao-perfil .form-input::placeholder {
-                            color: rgba(255, 255, 255, 0.4) !important;
-                        }
-                    </style>
+
+                <div class="card" style="max-width:100%;width:100%;box-sizing:border-box;padding:2rem;">
                     <form id="formEditarPerfil">
                         <div class="form-grid">
                             <div class="form-grupo">
-                                <label class="form-label">
-                                    <i class="fas fa-user"></i> Nome Completo
-                                </label>
+                                <label class="form-label"><i class="fas fa-user"></i> Nome Completo *</label>
                                 <input type="text" id="perfilNome" class="form-input" placeholder="Seu nome completo" required>
                             </div>
-                            
                             <div class="form-grupo">
-                                <label class="form-label">
-                                    <i class="fas fa-envelope"></i> Email
-                                </label>
-                                <input type="email" id="perfilEmail" class="form-input" placeholder="seu@email.com" disabled style="opacity: 0.7; cursor: not-allowed;">
-                                <small style="color: rgba(245,245,245,0.6); font-size: 0.85rem;">
-                                    <i class="fas fa-info-circle"></i> O email não pode ser alterado
-                                </small>
+                                <label class="form-label"><i class="fas fa-envelope"></i> Email</label>
+                                <input type="email" id="perfilEmail" class="form-input" disabled>
+                                <small><i class="fas fa-info-circle"></i> O email não pode ser alterado</small>
                             </div>
-                            
                             <div class="form-grupo">
-                                <label class="form-label">
-                                    <i class="fas fa-phone"></i> Telefone
-                                </label>
+                                <label class="form-label"><i class="fas fa-phone"></i> Telefone</label>
                                 <input type="tel" id="perfilTelefone" class="form-input" placeholder="+351 912 345 678">
                             </div>
-                            
                             <div class="form-grupo">
-                                <label class="form-label">
-                                    <i class="fas fa-map-marker-alt"></i> Morada
-                                </label>
+                                <label class="form-label"><i class="fas fa-map-marker-alt"></i> Morada</label>
                                 <input type="text" id="perfilMorada" class="form-input" placeholder="Rua, número, andar">
                             </div>
-                            
                             <div class="form-grupo">
-                                <label class="form-label">
-                                    <i class="fas fa-city"></i> Cidade
-                                </label>
+                                <label class="form-label"><i class="fas fa-city"></i> Cidade</label>
                                 <input type="text" id="perfilCidade" class="form-input" placeholder="Cidade">
                             </div>
-                            
                             <div class="form-grupo">
-                                <label class="form-label">
-                                    <i class="fas fa-mail-bulk"></i> Código Postal
-                                </label>
+                                <label class="form-label"><i class="fas fa-mail-bulk"></i> Código Postal</label>
                                 <input type="text" id="perfilCodigoPostal" class="form-input" placeholder="0000-000">
                             </div>
                         </div>
-                        
-                        <div class="form-grupo" style="margin-top: 1.5rem;">
-                            <label class="form-label">
-                                <i class="fas fa-id-card"></i> NIF (Opcional)
-                            </label>
+
+                        <div class="form-grupo" style="margin-top:1.5rem;">
+                            <label class="form-label"><i class="fas fa-id-card"></i> NIF (Opcional)</label>
                             <input type="text" id="perfilNIF" class="form-input" placeholder="000000000" maxlength="9">
                         </div>
-                        
-                        <hr style="margin: 2rem 0; border: none; border-top: 1px solid rgba(245,245,245,0.1);">
-                        
-                        <h3 style="color: var(--cor-branco); margin-bottom: 1rem;">
-                            <i class="fas fa-lock"></i> Alterar Password (Opcional)
-                        </h3>
-                        
+
+                        <hr style="margin:2rem 0;">
+
+                        <h3 style="margin-bottom:1rem;"><i class="fas fa-lock"></i> Alterar Password (Opcional)</h3>
+
                         <div class="form-grid">
                             <div class="form-grupo">
                                 <label class="form-label">Password Atual</label>
                                 <input type="password" id="perfilPasswordAtual" class="form-input" placeholder="••••••••">
                             </div>
-                            
                             <div class="form-grupo">
                                 <label class="form-label">Nova Password</label>
                                 <input type="password" id="perfilNovaPassword" class="form-input" placeholder="••••••••">
                             </div>
-                            
                             <div class="form-grupo">
                                 <label class="form-label">Confirmar Nova Password</label>
                                 <input type="password" id="perfilConfirmarPassword" class="form-input" placeholder="••••••••">
                             </div>
                         </div>
-                        
-                        <div class="form-acoes" style="margin-top: 2rem;">
-                            <button type="submit" class="btn btn-primary">
+
+                        <div class="form-acoes" style="margin-top:2rem;">
+                            <button type="submit" class="btn btn-primario">
                                 <i class="fas fa-save"></i> Guardar Alterações
                             </button>
                             <button type="button" class="btn btn-outline" onclick="carregarDadosPerfil()">
@@ -362,19 +315,21 @@
                     </form>
                 </div>
             </div>
+
         </main>
     </div>
-    
+
     <script src="js/main.js"></script>
     <script>
-        // Carregar dados do utilizador logado
         let utilizadorLogado = null;
-        
+
+        // ============================
+        // INICIALIZAÇÃO
+        // ============================
         document.addEventListener('DOMContentLoaded', () => {
             carregarUtilizador();
-            carregarDadosPerfil();
         });
-        
+
         function carregarUtilizador() {
             const usuarioStr = localStorage.getItem('usuarioLogado');
             if (!usuarioStr) {
@@ -382,162 +337,75 @@
                 return;
             }
             utilizadorLogado = JSON.parse(usuarioStr);
-            
-            console.log('✅ Utilizador carregado:', utilizadorLogado);
-            
-            // Atualizar nome no dashboard usando ID
-            const tituloElement = document.getElementById('dashboardTitulo');
-            if (tituloElement) {
-                tituloElement.textContent = `Bem-vindo, ${utilizadorLogado.nome.split(' ')[0]}! 👋`;
-            }
-            
-            // Atualizar sidebar usando IDs
-            const avatarElement = document.getElementById('sidebarAvatar');
-            const nomeElement = document.getElementById('sidebarNome');
-            if (avatarElement && nomeElement) {
-                const iniciais = utilizadorLogado.nome.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
-                avatarElement.textContent = iniciais;
-                nomeElement.textContent = utilizadorLogado.nome;
-            }
-        }
-        
-        function carregarDadosPerfil() {
-            if (!utilizadorLogado) return;
-            
-            document.getElementById('perfilNome').value = utilizadorLogado.nome || '';
-            document.getElementById('perfilEmail').value = utilizadorLogado.email || '';
-            document.getElementById('perfilTelefone').value = utilizadorLogado.telefone || '';
-            document.getElementById('perfilMorada').value = utilizadorLogado.morada || '';
-            document.getElementById('perfilCidade').value = utilizadorLogado.cidade || '';
-            document.getElementById('perfilCodigoPostal').value = utilizadorLogado.codigoPostal || '';
-            document.getElementById('perfilNIF').value = utilizadorLogado.nif || '';
-            
-            // Limpar campos de password
-            document.getElementById('perfilPasswordAtual').value = '';
-            document.getElementById('perfilNovaPassword').value = '';
-            document.getElementById('perfilConfirmarPassword').value = '';
-        }
-        
-        // Form de edição de perfil
-        document.getElementById('formEditarPerfil').addEventListener('submit', (e) => {
-            e.preventDefault();
-            
-            const nome = document.getElementById('perfilNome').value.trim();
-            const telefone = document.getElementById('perfilTelefone').value.trim();
-            const morada = document.getElementById('perfilMorada').value.trim();
-            const cidade = document.getElementById('perfilCidade').value.trim();
-            const codigoPostal = document.getElementById('perfilCodigoPostal').value.trim();
-            const nif = document.getElementById('perfilNIF').value.trim();
-            
-            const passwordAtual = document.getElementById('perfilPasswordAtual').value;
-            const novaPassword = document.getElementById('perfilNovaPassword').value;
-            const confirmarPassword = document.getElementById('perfilConfirmarPassword').value;
-            
-            // Validações
-            if (!nome) {
-                mostrarToast('❌ Nome é obrigatório!', 'erro');
+
+            // Se for capitão, redirecionar para o dashboard correcto
+            if (utilizadorLogado.tipo === 'capitao') {
+                window.location.href = 'dashboard-capitao.html';
                 return;
             }
-            
-            // Se está a tentar mudar password
-            if (passwordAtual || novaPassword || confirmarPassword) {
-                if (!passwordAtual) {
-                    mostrarToast('❌ Digite a password atual!', 'erro');
-                    return;
-                }
-                
-                if (passwordAtual !== utilizadorLogado.password) {
-                    mostrarToast('❌ Password atual incorreta!', 'erro');
-                    return;
-                }
-                
-                if (novaPassword !== confirmarPassword) {
-                    mostrarToast('❌ As novas passwords não coincidem!', 'erro');
-                    return;
-                }
-                
-                if (novaPassword.length < 6) {
-                    mostrarToast('❌ A nova password deve ter pelo menos 6 caracteres!', 'erro');
-                    return;
-                }
-            }
-            
-            // Atualizar dados no localStorage
-            let utilizadores = JSON.parse(localStorage.getItem('utilizadores') || '[]');
-            const index = utilizadores.findIndex(u => u.email === utilizadorLogado.email);
-            
-            if (index !== -1) {
-                utilizadores[index].nome = nome;
-                utilizadores[index].telefone = telefone;
-                utilizadores[index].morada = morada;
-                utilizadores[index].cidade = cidade;
-                utilizadores[index].codigoPostal = codigoPostal;
-                utilizadores[index].nif = nif;
-                
-                if (novaPassword) {
-                    utilizadores[index].password = novaPassword;
-                }
-                
-                utilizadores[index].dataAtualizacao = new Date().toISOString();
-                
-                localStorage.setItem('utilizadores', JSON.stringify(utilizadores));
-                
-                // Atualizar sessão
-                utilizadorLogado = utilizadores[index];
-                localStorage.setItem('usuarioLogado', JSON.stringify(utilizadorLogado));
-                
-                mostrarToast('✅ Perfil atualizado com sucesso!', 'sucesso');
-                
-                // Recarregar dados
-                carregarUtilizador();
-                carregarDadosPerfil();
-            } else {
-                mostrarToast('❌ Erro ao atualizar perfil!', 'erro');
-            }
-        });
-        
-        const menuItems = document.querySelectorAll('.sidebar-menu-item');
-        const sections = document.querySelectorAll('.dashboard-secao-wrapper');
 
-        function navegarSecao(nome) {
-            const sectionId = 'secao-' + nome;
-            menuItems.forEach(i => i.classList.remove('ativo'));
-            sections.forEach(s => s.classList.add('oculto'));
-            const item = document.querySelector(`[data-section="${nome}"]`);
-            if (item) item.classList.add('ativo');
-            const sec = document.getElementById(sectionId);
-            if (sec) sec.classList.remove('oculto');
-            if (nome === 'reservas') carregarMinhasReservas();
+            // Actualizar sidebar
+            const iniciais = utilizadorLogado.nome.split(' ').map(n => n[0]).join('').substring(0,2).toUpperCase();
+            document.getElementById('sidebarAvatar').textContent = iniciais;
+            document.getElementById('sidebarNome').textContent = utilizadorLogado.nome;
+            document.getElementById('dashboardTitulo').textContent = `Bem-vindo, ${utilizadorLogado.nome.split(' ')[0]}! 👋`;
+
+            // Carregar dados iniciais
+            carregarDadosPerfil();
+            atualizarStats();
+            carregarProximasReservas();
+
+            // Navegação por hash
+            const hash = window.location.hash.replace('#','');
+            if (hash) setTimeout(() => navegarSecao(hash), 100);
         }
 
-        menuItems.forEach(item => {
-            item.addEventListener('click', (e) => {
-                e.preventDefault();
-                navegarSecao(item.dataset.section);
-            });
-        });
-
-        // Navegação por hash
-        const hash = window.location.hash.replace('#','');
-        if (hash) { setTimeout(() => navegarSecao(hash), 100); }
-
-        // Botão "Ver Todas" nas reservas
-        document.querySelectorAll('[data-section="reservas"]').forEach(el => {
-            el.addEventListener('click', e => { e.preventDefault(); navegarSecao('reservas'); });
-        });
-        
-        const sidebarToggle = document.getElementById('sidebarToggle');
-        const sidebar = document.getElementById('sidebar');
-        sidebarToggle.addEventListener('click', () => {
-            sidebar.classList.toggle('ativo');
-        });
-        
-        // Função para abrir páginas mantendo a sessão
-        function abrirPaginaComSessao(url) {
-            window.location.href = url;
+        // ============================
+        // STATS
+        // ============================
+        function atualizarStats() {
+            if (!utilizadorLogado) return;
+            const reservas = JSON.parse(localStorage.getItem('reservasPendentes') || '[]');
+            const minhas = reservas.filter(r => r.clienteEmail === utilizadorLogado.email);
+            const ativas = minhas.filter(r => r.status === 'pendente' || r.status === 'confirmada').length;
+            const concluidas = minhas.filter(r => r.status === 'concluida').length;
+            document.getElementById('statReservasAtivas').textContent = ativas;
+            document.getElementById('statSaidasRealizadas').textContent = concluidas;
         }
-        
 
+        // ============================
+        // PRÓXIMAS RESERVAS (dashboard)
+        // ============================
+        function carregarProximasReservas() {
+            if (!utilizadorLogado) return;
+            const reservas = JSON.parse(localStorage.getItem('reservasPendentes') || '[]');
+            const proximas = reservas
+                .filter(r => r.clienteEmail === utilizadorLogado.email && (r.status === 'pendente' || r.status === 'confirmada'))
+                .sort((a,b) => new Date(a.dataPedido) - new Date(b.dataPedido))
+                .slice(0,3);
+
+            const container = document.getElementById('proximasReservasContainer');
+            if (!container) return;
+
+            if (proximas.length === 0) {
+                container.innerHTML = `
+                    <div class="estado-vazio">
+                        <i class="fas fa-calendar-times estado-vazio-icon"></i>
+                        <h3 class="estado-vazio-titulo">Nenhuma Reserva Agendada</h3>
+                        <p class="estado-vazio-texto">Explore as melhores experiências de pesca no Algarve!</p>
+                        <a href="explorar.html" class="btn btn-primario"><i class="fas fa-search"></i> Explorar Saídas</a>
+                    </div>`;
+                return;
+            }
+
+            container.innerHTML = `<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1rem;">
+                ${proximas.map(r => buildReservaCard(r)).join('')}
+            </div>`;
+        }
+
+        // ============================
+        // LISTA COMPLETA DE RESERVAS
+        // ============================
         function carregarMinhasReservas() {
             if (!utilizadorLogado) return;
             const reservas = JSON.parse(localStorage.getItem('reservasPendentes') || '[]');
@@ -558,54 +426,61 @@
                 return;
             }
 
-            const corStatus = { pendente:'#F59E0B', confirmada:'#10B981', cancelada:'#EF4444', concluida:'#6B7280' };
-            const iconStatus = { pendente:'fa-clock', confirmada:'fa-check-circle', cancelada:'fa-times-circle', concluida:'fa-flag-checkered' };
-            const labelStatus = { pendente:'Pendente', confirmada:'Confirmada', cancelada:'Cancelada', concluida:'Concluída' };
-
-            container.innerHTML = `
-                <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:1.5rem;padding:1rem 0;">
-                    ${minhas.sort((a,b) => new Date(b.dataPedido) - new Date(a.dataPedido)).map(r => {
-                        const data = r.saidaData ? new Date(r.saidaData).toLocaleDateString('pt-PT',{day:'2-digit',month:'2-digit',year:'numeric'}) : '—';
-                        const st = r.status || 'pendente';
-                        const cor = corStatus[st] || '#6B7280';
-                        const ic = iconStatus[st] || 'fa-circle';
-                        const lbl = labelStatus[st] || st;
-                        return \`
-                        <div style="background:white;border-radius:12px;box-shadow:0 2px 12px rgba(0,0,0,0.08);overflow:hidden;border:1px solid #E5E7EB;">
-                            <div style="background:linear-gradient(135deg,#0A1628,#1565C0);padding:1rem 1.25rem;display:flex;justify-content:space-between;align-items:center;">
-                                <div style="color:white;">
-                                    <div style="font-weight:700;font-size:1rem;">\${r.saidaTitulo || 'Saída'}</div>
-                                    <div style="font-size:0.8rem;opacity:0.8;">\${data} \${r.saidaHora ? 'às '+r.saidaHora : ''}</div>
-                                </div>
-                                <span style="background:rgba(255,255,255,0.15);color:white;padding:0.3rem 0.75rem;border-radius:20px;font-size:0.75rem;font-weight:600;">
-                                    <i class="fas \${ic}"></i> \${lbl}
-                                </span>
-                            </div>
-                            <div style="padding:1.25rem;">
-                                <div style="display:flex;gap:1rem;flex-wrap:wrap;font-size:0.85rem;color:#6B7280;margin-bottom:0.75rem;">
-                                    <span><i class="fas fa-ship"></i> \${r.barcoNome || '—'}</span>
-                                    <span><i class="fas fa-user-tie"></i> \${r.capitaoNome || '—'}</span>
-                                    <span><i class="fas fa-map-marker-alt"></i> \${r.saidaPorto || '—'}</span>
-                                </div>
-                                <div style="display:flex;justify-content:space-between;align-items:center;background:#F9FAFB;border-radius:8px;padding:0.75rem;">
-                                    <div>
-                                        <div style="font-size:0.8rem;color:#6B7280;">Pessoas / Total</div>
-                                        <div style="font-weight:700;color:#0A1628;">\${r.numPessoas} pessoa(s) · €\${r.totalPagar}</div>
-                                    </div>
-                                    <a href="detalhe-saida.html?id=\${r.saidaId}" style="color:var(--cor-secundaria);font-size:0.85rem;font-weight:600;">
-                                        Ver Saída <i class="fas fa-arrow-right"></i>
-                                    </a>
-                                </div>
-                                \${r.status === 'pendente' ? \`
-                                <button onclick="cancelarReserva(\${r.id})" style="width:100%;margin-top:0.75rem;padding:0.5rem;background:transparent;border:1px solid #EF4444;color:#EF4444;border-radius:6px;cursor:pointer;font-size:0.85rem;">
-                                    <i class="fas fa-times"></i> Cancelar Reserva
-                                </button>\` : ''}
-                            </div>
-                        </div>\`;
-                    }).join('')}
-                </div>`;
+            const sorted = minhas.sort((a,b) => new Date(b.dataPedido) - new Date(a.dataPedido));
+            container.innerHTML = `<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:1.5rem;padding:1rem 0;">
+                ${sorted.map(r => buildReservaCard(r, true)).join('')}
+            </div>`;
         }
 
+        function buildReservaCard(r, showCancel = false) {
+            const corStatus  = { pendente:'#F59E0B', confirmada:'#10B981', cancelada:'#EF4444', concluida:'#6B7280' };
+            const iconStatus = { pendente:'fa-clock', confirmada:'fa-check-circle', cancelada:'fa-times-circle', concluida:'fa-flag-checkered' };
+            const lblStatus  = { pendente:'Pendente', confirmada:'Confirmada', cancelada:'Cancelada', concluida:'Concluída' };
+            const st  = r.status || 'pendente';
+            const cor = corStatus[st]  || '#6B7280';
+            const ic  = iconStatus[st] || 'fa-circle';
+            const lbl = lblStatus[st]  || st;
+            const dataFmt = r.saidaData
+                ? new Date(r.saidaData).toLocaleDateString('pt-PT',{day:'2-digit',month:'2-digit',year:'numeric'})
+                : '—';
+
+            return `
+            <div class="reserva-card">
+                <div class="reserva-card-header">
+                    <div style="color:white;">
+                        <div style="font-weight:700;font-size:1rem;">${r.saidaTitulo || 'Saída'}</div>
+                        <div style="font-size:0.8rem;opacity:0.8;">${dataFmt}</div>
+                    </div>
+                    <span class="badge-status badge-${st}">
+                        <i class="fas ${ic}"></i> ${lbl}
+                    </span>
+                </div>
+                <div class="reserva-card-body">
+                    <div style="display:flex;gap:1rem;flex-wrap:wrap;font-size:0.85rem;color:#6B7280;margin-bottom:0.75rem;">
+                        <span><i class="fas fa-ship"></i> ${r.barcoNome || '—'}</span>
+                        <span><i class="fas fa-user-tie"></i> ${r.capitaoNome || '—'}</span>
+                        <span><i class="fas fa-map-marker-alt"></i> ${r.saidaPorto || '—'}</span>
+                    </div>
+                    <div style="display:flex;justify-content:space-between;align-items:center;background:#F9FAFB;border-radius:8px;padding:0.75rem;">
+                        <div>
+                            <div style="font-size:0.8rem;color:#6B7280;">Pessoas / Total</div>
+                            <div style="font-weight:700;color:#0A1628;">${r.numPessoas} pessoa(s) · €${r.totalPagar}</div>
+                        </div>
+                        <a href="detalhe-saida.html?id=${r.saidaId}" style="color:var(--cor-secundaria);font-size:0.85rem;font-weight:600;">
+                            Ver Saída <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                    ${showCancel && r.status === 'pendente' ? `
+                    <button onclick="cancelarReserva(${r.id})" style="width:100%;margin-top:0.75rem;padding:0.5rem;background:transparent;border:1px solid #EF4444;color:#EF4444;border-radius:6px;cursor:pointer;font-size:0.85rem;">
+                        <i class="fas fa-times"></i> Cancelar Reserva
+                    </button>` : ''}
+                </div>
+            </div>`;
+        }
+
+        // ============================
+        // CANCELAR RESERVA
+        // ============================
         function cancelarReserva(id) {
             if (!confirm('Tem a certeza que deseja cancelar esta reserva?')) return;
             const reservas = JSON.parse(localStorage.getItem('reservasPendentes') || '[]');
@@ -623,9 +498,101 @@
                 localStorage.setItem('reservasPendentes', JSON.stringify(reservas));
                 if (window.mostrarToast) mostrarToast('Reserva cancelada.', 'aviso');
                 carregarMinhasReservas();
+                atualizarStats();
             }
         }
 
+        // ============================
+        // PERFIL
+        // ============================
+        function carregarDadosPerfil() {
+            if (!utilizadorLogado) return;
+            document.getElementById('perfilNome').value        = utilizadorLogado.nome          || '';
+            document.getElementById('perfilEmail').value       = utilizadorLogado.email         || '';
+            document.getElementById('perfilTelefone').value    = utilizadorLogado.telefone      || '';
+            document.getElementById('perfilMorada').value      = utilizadorLogado.morada        || '';
+            document.getElementById('perfilCidade').value      = utilizadorLogado.cidade        || '';
+            document.getElementById('perfilCodigoPostal').value= utilizadorLogado.codigoPostal  || '';
+            document.getElementById('perfilNIF').value         = utilizadorLogado.nif           || '';
+            document.getElementById('perfilPasswordAtual').value  = '';
+            document.getElementById('perfilNovaPassword').value   = '';
+            document.getElementById('perfilConfirmarPassword').value = '';
+        }
+
+        document.getElementById('formEditarPerfil').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const nome          = document.getElementById('perfilNome').value.trim();
+            const telefone      = document.getElementById('perfilTelefone').value.trim();
+            const morada        = document.getElementById('perfilMorada').value.trim();
+            const cidade        = document.getElementById('perfilCidade').value.trim();
+            const codigoPostal  = document.getElementById('perfilCodigoPostal').value.trim();
+            const nif           = document.getElementById('perfilNIF').value.trim();
+            const passwordAtual = document.getElementById('perfilPasswordAtual').value;
+            const novaPassword  = document.getElementById('perfilNovaPassword').value;
+            const confirmarPwd  = document.getElementById('perfilConfirmarPassword').value;
+
+            if (!nome) { mostrarToast('❌ Nome é obrigatório!', 'erro'); return; }
+
+            if (passwordAtual || novaPassword || confirmarPwd) {
+                if (!passwordAtual) { mostrarToast('❌ Digite a password atual!', 'erro'); return; }
+                if (passwordAtual !== utilizadorLogado.password) { mostrarToast('❌ Password atual incorreta!', 'erro'); return; }
+                if (novaPassword !== confirmarPwd) { mostrarToast('❌ As novas passwords não coincidem!', 'erro'); return; }
+                if (novaPassword.length < 6) { mostrarToast('❌ Mínimo 6 caracteres!', 'erro'); return; }
+            }
+
+            let utilizadores = JSON.parse(localStorage.getItem('utilizadores') || '[]');
+            const index = utilizadores.findIndex(u => u.email === utilizadorLogado.email);
+
+            if (index !== -1) {
+                utilizadores[index].nome        = nome;
+                utilizadores[index].telefone    = telefone;
+                utilizadores[index].morada      = morada;
+                utilizadores[index].cidade      = cidade;
+                utilizadores[index].codigoPostal= codigoPostal;
+                utilizadores[index].nif         = nif;
+                if (novaPassword) utilizadores[index].password = novaPassword;
+                utilizadores[index].dataAtualizacao = new Date().toISOString();
+                localStorage.setItem('utilizadores', JSON.stringify(utilizadores));
+                utilizadorLogado = utilizadores[index];
+                localStorage.setItem('usuarioLogado', JSON.stringify(utilizadorLogado));
+                mostrarToast('✅ Perfil atualizado com sucesso!', 'sucesso');
+                carregarUtilizador();
+                carregarDadosPerfil();
+            } else {
+                mostrarToast('❌ Erro ao atualizar perfil!', 'erro');
+            }
+        });
+
+        // ============================
+        // NAVEGAÇÃO SIDEBAR
+        // ============================
+        const menuItems = document.querySelectorAll('.sidebar-menu-item');
+        const sections  = document.querySelectorAll('.dashboard-secao-wrapper');
+
+        function navegarSecao(nome) {
+            menuItems.forEach(i => i.classList.remove('ativo'));
+            sections.forEach(s => s.classList.add('oculto'));
+            const item = document.querySelector(`[data-section="${nome}"]`);
+            if (item) item.classList.add('ativo');
+            const sec = document.getElementById('secao-' + nome);
+            if (sec) sec.classList.remove('oculto');
+            if (nome === 'reservas') carregarMinhasReservas();
+        }
+
+        menuItems.forEach(item => {
+            item.addEventListener('click', e => {
+                e.preventDefault();
+                navegarSecao(item.dataset.section);
+            });
+        });
+
+        document.getElementById('sidebarToggle').addEventListener('click', () => {
+            document.getElementById('sidebar').classList.toggle('ativo');
+        });
+
+        // ============================
+        // LOGOUT
+        // ============================
         function logout() {
             if (confirm('Tem a certeza que deseja sair?')) {
                 localStorage.removeItem('usuarioLogado');
