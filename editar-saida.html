@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Saída - Algarve Tuna Charter</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>⚓</text></svg>">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* ── Reset visibilidade dos forms ── */
+        body { background: #F5F7FA; color: #1F2937; }
+
+        .form-input, .form-select, .form-textarea {
+            width: 100%; box-sizing: border-box;
+            padding: 0.875rem 1rem;
+            border: 2px solid #E0E5EB; border-radius: 8px;
+            background-color: #ffffff !important; color: #1F2937 !important;
+            font-size: 1rem; font-family: inherit;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            -webkit-appearance: none; appearance: none;
+        }
+        .form-input:focus, .form-select:focus, .form-textarea:focus {
+            outline: none; border-color: #1565C0;
+            box-shadow: 0 0 0 3px rgba(21,101,192,0.12);
+        }
+        .form-input::placeholder, .form-textarea::placeholder { color: #9CA3AF; }
+        .form-select {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%236B7280'%3E%3Cpath fill-rule='evenodd' d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat; background-position: right 0.75rem center;
+            background-size: 1.25rem; padding-right: 2.75rem;
+        }
+        .form-textarea { min-height: 110px; resize: vertical; }
+        .form-label {
+            display: block; margin-bottom: 0.5rem;
+            font-weight: 600; color: #0A1628 !important; font-size: 0.95rem;
+        }
+        .form-label.req::after { content: ' *'; color: #EF4444; }
+        .form-grupo { margin-bottom: 1.5rem; }
+
+        /* ── Layout ── */
+        .page-header {
+            background: linear-gradient(135deg, #0A1628 0%, #1565C0 100%);
+            margin-top: 70px; padding: 2.5rem 0; color: white;
+        }
+        .page-header h1 { color: white; margin: 0 0 0.25rem; font-size: 1.75rem; }
+        .page-header p  { color: rgba(255,255,255,0.75); margin: 0; font-size: 0.95rem; }
+
+        .form-card {
+            background: white; border-radius: 16px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+            padding: 2.5rem; margin: 2rem auto; max-width: 820px;
+        }
+        .sec-title {
+            font-size: 0.95rem; font-weight: 700; text-transform: uppercase;
+            letter-spacing: 0.05em; color: #6B7280;
+            border-bottom: 2px solid #F3F4F6; padding-bottom: 0.5rem;
+            margin: 2rem 0 1.25rem;
+        }
+        .sec-title:first-child { margin-top: 0; }
+
+        /* ── Grid ── */
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+        @media (max-width: 600px) { .grid-2 { grid-template-columns: 1fr; } }
+
+        /* ── Tipos de pesca ── */
+        .tipos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(170px,1fr));
+            gap: 0.65rem;
+        }
+        .tipo-cb {
+            display: flex; align-items: center; gap: 0.55rem;
+            padding: 0.7rem 0.875rem;
+            background: #F9FAFB; border: 2px solid #E5E7EB; border-radius: 8px;
+            cursor: pointer; transition: all 0.15s; user-select: none; font-size: 0.9rem;
+        }
+        .tipo-cb input { display: none; }
+        .tipo-cb.selected { background: #EFF6FF; border-color: #1565C0; color: #1565C0; font-weight: 600; }
+        .tipo-icon { font-size: 1.1rem; }
+
+        /* ── Incluído ── */
+        .inclui-grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(200px,1fr)); gap: 0.5rem;
+        }
+        .inclui-cb {
+            display: flex; align-items: center; gap: 0.5rem;
+            padding: 0.6rem 0.75rem; background: #F9FAFB;
+            border: 1.5px solid #E5E7EB; border-radius: 6px;
+            cursor: pointer; font-size: 0.875rem; user-select: none;
+        }
+        .inclui-cb input { accent-color: #1565C0; }
+        .inclui-cb.selected { background: #EFF6FF; border-color: #BAD0F8; color: #1565C0; }
+
+        /* ── Partilha ── */
+        .card-partilha {
+            background: #EFF6FF; border: 2px solid #BAD0F8;
+            border-radius: 12px; padding: 1.25rem;
+        }
+        .toggle-row {
+            display: flex; align-items: center; gap: 0.75rem; cursor: pointer; margin-bottom: 0.5rem;
+        }
+        .toggle-row input[type=checkbox] { width: 18px; height: 18px; accent-color: #1565C0; cursor: pointer; }
+        .toggle-label-text { font-weight: 600; color: #1565C0; font-size: 1rem; }
+        .toggle-desc { font-size: 0.875rem; color: #374151; margin: 0.25rem 0 0.75rem; }
+        .partilha-extra { margin-top: 0.75rem; }
+
+        /* ── Botões ── */
+        .btn-guardar {
+            display: inline-flex; align-items: center; gap: 0.6rem;
+            background: linear-gradient(135deg,#1565C0,#0D47A1);
+            color: white; border: none; padding: 0.9rem 2rem;
+            border-radius: 10px; font-size: 1rem; font-weight: 700;
+            cursor: pointer; transition: all 0.2s; text-decoration: none;
+        }
+        .btn-guardar:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(21,101,192,0.35); }
+        .btn-guardar:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+        .btn-cancelar {
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            background: white; color: #6B7280;
+            border: 2px solid #E5E7EB; padding: 0.9rem 1.5rem;
+            border-radius: 10px; font-size: 1rem; font-weight: 600;
+            cursor: pointer; transition: all 0.2s; text-decoration: none;
+        }
+        .btn-cancelar:hover { border-color: #9CA3AF; color: #374151; }
+
+        /* ── Aviso loading ── */
+        #loadingMsg { text-align:center; padding: 3rem; color: #6B7280; }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar" style="position:fixed;top:0;width:100%;z-index:1000;">
+        <div class="container navbar-container">
+            <a href="index.html" class="navbar-logo">
+                <i class="fas fa-anchor"></i> Algarve Tuna Charter
+            </a>
+            <a href="dashboard-capitao.html#saidas" class="btn btn-outline btn-pequeno">
+                <i class="fas fa-arrow-left"></i> Voltar às Saídas
+            </a>
+        </div>
+    </nav>
+
+    <!-- CABEÇALHO -->
+    <div class="page-header">
+        <div class="container">
+            <h1><i class="fas fa-edit"></i> Editar Saída de Pesca</h1>
+            <p id="subtituloSaida">A carregar dados da saída…</p>
+        </div>
+    </div>
+
+    <div class="container">
+
+        <div id="loadingMsg">
+            <i class="fas fa-spinner fa-spin" style="font-size:2rem;color:#1565C0;"></i>
+            <p style="margin-top:1rem;">A carregar saída…</p>
+        </div>
+
+        <form id="formEditarSaida" class="form-card" style="display:none;" novalidate>
+
+            <!-- ══ 1. BARCO ══ -->
+            <div class="sec-title">⚓ Barco</div>
+            <div class="form-grupo">
+                <label class="form-label req">Barco Associado</label>
+                <select class="form-select" id="selectBarco" required>
+                    <option value="">A carregar barcos aprovados…</option>
+                </select>
+            </div>
+
+            <!-- ══ 2. DETALHES ══ -->
+            <div class="sec-title">📋 Detalhes da Saída</div>
+
+            <div class="form-grupo">
+                <label class="form-label req">Título</label>
+                <input type="text" class="form-input" id="titulo"
+                       placeholder="Ex: Pesca de Atum – Aventura no Atlântico" required>
+            </div>
+            <div class="form-grupo">
+                <label class="form-label req">Descrição</label>
+                <textarea class="form-textarea" id="descricao"
+                          placeholder="Descreva a saída: espécies esperadas, técnicas, equipamento…" required></textarea>
+            </div>
+
+            <div class="form-grupo">
+                <label class="form-label req">Tipos de Pesca <span style="font-weight:400;color:#6B7280;font-size:0.85rem;">(selecione todos os que se aplicam)</span></label>
+                <div class="tipos-grid">
+                    <label class="tipo-cb" data-val="fundo">    <input type="checkbox" name="tipos_pesca" value="fundo">    <span class="tipo-icon">🐟</span> Fundo</label>
+                    <label class="tipo-cb" data-val="altoMar">  <input type="checkbox" name="tipos_pesca" value="altoMar">  <span class="tipo-icon">🌊</span> Alto Mar</label>
+                    <label class="tipo-cb" data-val="jigging">  <input type="checkbox" name="tipos_pesca" value="jigging">  <span class="tipo-icon">🎣</span> Jigging</label>
+                    <label class="tipo-cb" data-val="trolling"> <input type="checkbox" name="tipos_pesca" value="trolling"> <span class="tipo-icon">🪝</span> Trolling</label>
+                    <label class="tipo-cb" data-val="atum">     <input type="checkbox" name="tipos_pesca" value="atum">     <span class="tipo-icon">🐡</span> Pesca de Atum</label>
+                    <label class="tipo-cb" data-val="costeira"> <input type="checkbox" name="tipos_pesca" value="costeira"> <span class="tipo-icon">⚓</span> Costeira</label>
+                    <label class="tipo-cb" data-val="desportiva"><input type="checkbox" name="tipos_pesca" value="desportiva"><span class="tipo-icon">🏆</span> Desportiva</label>
+                    <label class="tipo-cb" data-val="torneio">  <input type="checkbox" name="tipos_pesca" value="torneio">  <span class="tipo-icon">🏅</span> Torneio</label>
+                </div>
+            </div>
+
+            <!-- ══ 3. LOGÍSTICA ══ -->
+            <div class="sec-title">📅 Logística</div>
+
+            <div class="form-grupo" style="max-width:320px;">
+                <label class="form-label req">Duração Total da Saída (horas)</label>
+                <input type="number" class="form-input" id="duracao"
+                       placeholder="Ex: 8" min="1" max="24" required>
+                <small style="color:#6B7280;font-size:0.8rem;margin-top:0.3rem;display:block;">
+                    Tempo total da saída, da partida ao regresso (ex: 4h, 8h, 12h)
+                </small>
+            </div>
+
+            <div class="form-grupo">
+                <label class="form-label req">Porto de Saída</label>
+                <select class="form-select" id="selectPorto" required>
+                    <option value="">Selecione o porto…</option>
+                    <optgroup label="🌅 SOTAVENTO (Costa Leste)">
+                        <option>Vila Real de Santo António</option>
+                        <option>Monte Gordo</option>
+                        <option>Cabanas de Tavira</option>
+                        <option>Tavira (Rio Gilão)</option>
+                        <option>Santa Luzia (Capital do Polvo)</option>
+                        <option>Fuseta</option>
+                        <option>Olhão (Porto de Pesca)</option>
+                        <option>Faro (Marina de Faro)</option>
+                    </optgroup>
+                    <optgroup label="🏖️ ZONA CENTRAL">
+                        <option>Quarteira</option>
+                        <option>Vilamoura (Marina de Vilamoura)</option>
+                        <option>Albufeira (Marina de Albufeira)</option>
+                        <option>Armação de Pêra</option>
+                        <option>Portimão (Marina de Portimão)</option>
+                        <option>Alvor</option>
+                        <option>Lagos (Marina de Lagos)</option>
+                    </optgroup>
+                    <optgroup label="🌊 BARLAVENTO (Costa Oeste)">
+                        <option>Luz (Praia da Luz)</option>
+                        <option>Burgau</option>
+                        <option>Salema</option>
+                        <option>Sagres (Porto de Sagres)</option>
+                        <option>Baleeira (Sagres)</option>
+                    </optgroup>
+                    <optgroup label="⛰️ COSTA VICENTINA">
+                        <option>Vila do Bispo</option>
+                        <option>Carrapateira</option>
+                        <option>Aljezur</option>
+                        <option>Arrifana</option>
+                        <option>Odeceixe</option>
+                    </optgroup>
+                    <optgroup label="🏙️ OUTRAS REGIÕES">
+                        <option>Lisboa (Marina/Docas)</option>
+                        <option>Cascais (Marina de Cascais)</option>
+                        <option>Setúbal (Porto de Setúbal)</option>
+                        <option>Sines (Porto de Sines)</option>
+                    </optgroup>
+                </select>
+            </div>
+
+            <!-- ══ 4. LICENÇA E PREÇO ══ -->
+            <div class="sec-title">📜 Licença e Preço</div>
+
+            <div class="grid-2">
+                <div class="form-grupo">
+                    <label class="form-label req">Licença de Pesca Exigida</label>
+                    <select class="form-select" id="licenca" required>
+                        <option value="">Selecione…</option>
+                        <option value="nao_necessaria">✅ Não necessária (incluída)</option>
+                        <option value="local">🪪 Licença Local (fornecemos)</option>
+                        <option value="nacional">📄 Licença Nacional (cliente traz)</option>
+                        <option value="desportiva">🏆 Licença Desportiva (cliente traz)</option>
+                        <option value="competicao">🥇 Licença de Competição</option>
+                    </select>
+                </div>
+                <div class="form-grupo">
+                    <label class="form-label req">Nível de Dificuldade</label>
+                    <select class="form-select" id="nivel" required>
+                        <option value="">Selecione…</option>
+                        <option value="iniciante">🟢 Iniciante – Para todos</option>
+                        <option value="intermedio">🟡 Intermédio – Alguma experiência</option>
+                        <option value="avancado">🔴 Avançado – Pescadores experientes</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="grid-2">
+                <div class="form-grupo">
+                    <label class="form-label req">Nº Máximo de Pescadores</label>
+                    <input type="number" class="form-input" id="capacidade"
+                           placeholder="Ex: 8" min="1" max="50" required>
+                </div>
+                <div class="form-grupo">
+                    <label class="form-label req">Preço por Pessoa (€)</label>
+                    <input type="number" class="form-input" id="preco"
+                           placeholder="Ex: 75" min="1" required>
+                </div>
+            </div>
+
+            <!-- ══ 5. INCLUÍDO ══ -->
+            <div class="sec-title">✅ O Que Está Incluído</div>
+            <div class="inclui-grid">
+                <label class="inclui-cb"><input type="checkbox" name="inclui" value="Equipamento de Pesca"> Equipamento de Pesca</label>
+                <label class="inclui-cb"><input type="checkbox" name="inclui" value="Isco/Engodo"> Isco / Engodo</label>
+                <label class="inclui-cb"><input type="checkbox" name="inclui" value="Lanches e Bebidas"> Lanches e Bebidas</label>
+                <label class="inclui-cb"><input type="checkbox" name="inclui" value="GPS/Sonar"> GPS / Sonar</label>
+                <label class="inclui-cb"><input type="checkbox" name="inclui" value="Coletes Salva-vidas"> Coletes Salva-vidas</label>
+                <label class="inclui-cb"><input type="checkbox" name="inclui" value="Casa de Banho a Bordo"> Casa de Banho a Bordo</label>
+                <label class="inclui-cb"><input type="checkbox" name="inclui" value="Canas e Carretos Premium"> Canas e Carretos Premium</label>
+                <label class="inclui-cb"><input type="checkbox" name="inclui" value="Transferência do Hotel"> Transferência do Hotel</label>
+                <label class="inclui-cb"><input type="checkbox" name="inclui" value="Fotos da Experiência"> Fotos da Experiência</label>
+                <label class="inclui-cb"><input type="checkbox" name="inclui" value="Limpeza do Peixe"> Limpeza do Peixe</label>
+            </div>
+
+            <!-- ══ 6. SAÍDA PARTILHADA ══ -->
+            <div class="sec-title">👥 Saída Partilhada</div>
+            <div class="card-partilha">
+                <label class="toggle-row">
+                    <input type="checkbox" id="permitePartilha">
+                    <div>
+                        <div class="toggle-label-text"><i class="fas fa-users"></i> Esta saída pode ser Partilhada</div>
+                    </div>
+                </label>
+                <p class="toggle-desc">
+                    A ativação real da partilha é feita pelo capitão <strong>quando aceita uma reserva</strong>
+                    com menos pessoas do que a capacidade total.
+                </p>
+                <div class="partilha-extra" id="partilhaExtra" style="display:none;">
+                    <div class="form-grupo" style="margin-bottom:0;max-width:280px;">
+                        <label class="form-label" style="color:#1D4ED8 !important;">Nº Máximo de Pescadores na Partilha</label>
+                        <input type="number" class="form-input" id="maxPartilha" placeholder="Ex: 6" min="2" max="50">
+                    </div>
+                </div>
+            </div>
+
+            <!-- ══ 7. OBSERVAÇÕES ══ -->
+            <div class="sec-title" style="margin-top:2rem;">📝 Observações</div>
+            <div class="form-grupo">
+                <label class="form-label">Regras e Observações <span style="font-weight:400;color:#9CA3AF;">(opcional)</span></label>
+                <textarea class="form-textarea" id="regras"
+                          placeholder="Regras específicas, restrições de idade, o que levar, recomendações…"></textarea>
+            </div>
+
+            <!-- ══ Botões ══ -->
+            <div style="display:flex;gap:1rem;margin-top:2.5rem;flex-wrap:wrap;align-items:center;">
+                <a href="dashboard-capitao.html#saidas" class="btn-cancelar">
+                    <i class="fas fa-times"></i> Cancelar
+                </a>
+                <button type="submit" class="btn-guardar" id="btnGuardar">
+                    <i class="fas fa-save"></i> Guardar Alterações
+                </button>
+            </div>
+
+        </form>
+
+        <!-- Mensagem de erro (saída não encontrada) -->
+        <div id="errMsg" style="display:none;text-align:center;padding:4rem 2rem;">
+            <i class="fas fa-exclamation-triangle" style="font-size:3rem;color:#EF4444;"></i>
+            <h2 style="margin:1rem 0 0.5rem;color:#0A1628;">Saída não encontrada</h2>
+            <p style="color:#6B7280;margin-bottom:1.5rem;">Não foi possível encontrar esta saída ou não tem permissão para a editar.</p>
+            <a href="dashboard-capitao.html#saidas" class="btn-guardar">
+                <i class="fas fa-arrow-left"></i> Voltar às Minhas Saídas
+            </a>
+        </div>
+
+    </div><!-- /container -->
+
+    <script src="js/main.js"></script>
+    <script>
+    // ── Utilitários visuais ──
+    document.querySelectorAll('.tipo-cb').forEach(label => {
+        label.addEventListener('click', () => {
+            const cb = label.querySelector('input');
+            setTimeout(() => label.classList.toggle('selected', cb.checked), 0);
+        });
+    });
+    document.querySelectorAll('.inclui-cb').forEach(label => {
+        label.addEventListener('click', () => {
+            const cb = label.querySelector('input');
+            setTimeout(() => label.classList.toggle('selected', cb.checked), 0);
+        });
+    });
+    document.getElementById('permitePartilha').addEventListener('change', function() {
+        document.getElementById('partilhaExtra').style.display = this.checked ? 'block' : 'none';
+    });
+
+    // ── Carregar dados da saída ──
+    document.addEventListener('DOMContentLoaded', () => {
+        const usuarioStr = localStorage.getItem('usuarioLogado');
+        if (!usuarioStr) { window.location.href = 'auth.html'; return; }
+        const capitao = JSON.parse(usuarioStr);
+        if (capitao.tipo !== 'capitao') { window.location.href = 'dashboard-usuario.html'; return; }
+
+        // Ler ID da URL
+        const params = new URLSearchParams(window.location.search);
+        const saidaId = parseInt(params.get('id'));
+        if (!saidaId) { mostrarErro(); return; }
+
+        // Encontrar a saída
+        const saidas = JSON.parse(localStorage.getItem('saidasData') || '[]');
+        const saida = saidas.find(s => s.id === saidaId);
+        if (!saida) { mostrarErro(); return; }
+
+        // Verificar que pertence ao capitão
+        if (saida.capitaoEmail !== capitao.email) { mostrarErro(); return; }
+
+        // Carregar barcos aprovados
+        const todosBarcos = JSON.parse(localStorage.getItem('barcos') || '[]');
+        const barcosAprovados = todosBarcos.filter(b => b.capitaoEmail === capitao.email && b.status === 'aprovado');
+        const selectBarco = document.getElementById('selectBarco');
+        if (barcosAprovados.length === 0) {
+            selectBarco.innerHTML = '<option value="">Sem barcos aprovados</option>';
+            selectBarco.disabled = true;
+        } else {
+            selectBarco.innerHTML = '<option value="">Escolha um barco…</option>' +
+                barcosAprovados.map(b =>
+                    `<option value="${b.id}" data-lotacao="${b.capacidade || b.lotacao || 8}"
+                        ${b.id == saida.barcoId ? 'selected' : ''}>
+                        ${b.nome} (${b.comprimento}m · ${b.capacidade || b.lotacao || 8} pessoas)
+                    </option>`
+                ).join('');
+        }
+
+        // Preencher formulário com dados actuais
+        preencherFormulario(saida);
+
+        // Mostrar form
+        document.getElementById('loadingMsg').style.display = 'none';
+        document.getElementById('formEditarSaida').style.display = 'block';
+        document.getElementById('subtituloSaida').textContent = 'A editar: ' + saida.titulo;
+    });
+
+    function preencherFormulario(saida) {
+        // Campos simples
+        document.getElementById('titulo').value    = saida.titulo || '';
+        document.getElementById('descricao').value = saida.descricao || '';
+        document.getElementById('duracao').value   = saida.duracao || '';
+        document.getElementById('capacidade').value= saida.lotacao || saida.capacidade || '';
+        document.getElementById('preco').value     = saida.preco || '';
+        document.getElementById('regras').value    = saida.regras || '';
+
+        // Porto
+        const selectPorto = document.getElementById('selectPorto');
+        const porto = saida.localizacao || saida.porto || '';
+        for (let i = 0; i < selectPorto.options.length; i++) {
+            if (selectPorto.options[i].value === porto || selectPorto.options[i].text === porto) {
+                selectPorto.selectedIndex = i; break;
+            }
+        }
+        // Se não encontrou match exacto, tentar match parcial
+        if (!selectPorto.value && porto) {
+            for (let i = 0; i < selectPorto.options.length; i++) {
+                if (selectPorto.options[i].text.includes(porto.split('(')[0].trim())) {
+                    selectPorto.selectedIndex = i; break;
+                }
+            }
+        }
+
+        // Licença
+        if (saida.licenca) document.getElementById('licenca').value = saida.licenca;
+
+        // Nível
+        if (saida.nivel) document.getElementById('nivel').value = saida.nivel;
+
+        // Tipos de pesca
+        const tipos = saida.tipos || [];
+        document.querySelectorAll('[name="tipos_pesca"]').forEach(cb => {
+            if (tipos.includes(cb.value)) {
+                cb.checked = true;
+                cb.closest('.tipo-cb').classList.add('selected');
+            }
+        });
+
+        // Incluído
+        const incluiArr = typeof saida.inclui === 'string'
+            ? saida.inclui.split('\n').map(s => s.trim()).filter(Boolean)
+            : (Array.isArray(saida.inclui) ? saida.inclui : []);
+        document.querySelectorAll('[name="inclui"]').forEach(cb => {
+            if (incluiArr.includes(cb.value)) {
+                cb.checked = true;
+                cb.closest('.inclui-cb').classList.add('selected');
+            }
+        });
+
+        // Partilha
+        const permitePartilha = !!saida.permitePartilha;
+        document.getElementById('permitePartilha').checked = permitePartilha;
+        document.getElementById('partilhaExtra').style.display = permitePartilha ? 'block' : 'none';
+        if (saida.maxPartilha) document.getElementById('maxPartilha').value = saida.maxPartilha;
+    }
+
+    function mostrarErro() {
+        document.getElementById('loadingMsg').style.display = 'none';
+        document.getElementById('errMsg').style.display = 'block';
+    }
+
+    // ── Labels ──
+    const LABELS_LICENCA = {
+        nao_necessaria: 'Não necessária (incluída)',
+        local: 'Licença Local (fornecemos)',
+        nacional: 'Licença Nacional (cliente traz)',
+        desportiva: 'Licença Desportiva (cliente traz)',
+        competicao: 'Licença de Competição'
+    };
+
+    // ── Submeter alterações ──
+    document.getElementById('formEditarSaida').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const usuarioStr = localStorage.getItem('usuarioLogado');
+        if (!usuarioStr) { window.location.href = 'auth.html'; return; }
+        const capitao = JSON.parse(usuarioStr);
+
+        const params = new URLSearchParams(window.location.search);
+        const saidaId = parseInt(params.get('id'));
+
+        // Recolher valores
+        const selectBarco = document.getElementById('selectBarco');
+        const barcoOpt    = selectBarco.options[selectBarco.selectedIndex];
+        const barcoId     = parseInt(selectBarco.value);
+        const barcoNome   = barcoOpt ? barcoOpt.text.split('(')[0].trim() : '';
+        const barcoLotacao= barcoOpt ? parseInt(barcoOpt.getAttribute('data-lotacao')) || 8 : 8;
+
+        const titulo    = document.getElementById('titulo').value.trim();
+        const descricao = document.getElementById('descricao').value.trim();
+        const duracao   = parseInt(document.getElementById('duracao').value) || 0;
+        const porto     = document.getElementById('selectPorto').value;
+        const licenca   = document.getElementById('licenca').value;
+        const capacidade= parseInt(document.getElementById('capacidade').value) || barcoLotacao;
+        const preco     = parseFloat(document.getElementById('preco').value) || 0;
+        const nivel     = document.getElementById('nivel').value;
+        const regras    = document.getElementById('regras').value.trim();
+        const tiposSelecionados  = Array.from(document.querySelectorAll('[name="tipos_pesca"]:checked')).map(c => c.value);
+        const incluiSelecionados = Array.from(document.querySelectorAll('[name="inclui"]:checked')).map(c => c.value);
+        const permitePartilha = document.getElementById('permitePartilha').checked;
+        const maxPartilha = permitePartilha ? (parseInt(document.getElementById('maxPartilha').value) || capacidade) : null;
+
+        // Validações
+        const erros = [];
+        if (!barcoId)                         erros.push('Selecione um barco aprovado');
+        if (!titulo)                          erros.push('Preencha o título da saída');
+        if (tiposSelecionados.length === 0)   erros.push('Selecione pelo menos um tipo de pesca');
+        if (!duracao || duracao < 1)          erros.push('Indique a duração total em horas');
+        if (!porto)                           erros.push('Selecione o porto de saída');
+        if (!licenca)                         erros.push('Selecione o tipo de licença exigida');
+        if (!capacidade || capacidade < 1)    erros.push('Indique o nº máximo de pescadores');
+        if (!preco || preco < 1)              erros.push('Indique o preço por pessoa');
+        if (!nivel)                           erros.push('Selecione o nível de dificuldade');
+
+        if (erros.length > 0) {
+            mostrarToast('⚠️ ' + erros[0], 'erro');
+            return;
+        }
+
+        // Atualizar a saída no localStorage
+        const saidas = JSON.parse(localStorage.getItem('saidasData') || '[]');
+        const idx = saidas.findIndex(s => s.id === saidaId);
+        if (idx === -1) {
+            mostrarToast('❌ Saída não encontrada.', 'erro');
+            return;
+        }
+
+        // Preservar campos que não devem ser alterados (vagas, reservas, etc.)
+        const saidaOriginal = saidas[idx];
+        saidas[idx] = {
+            ...saidaOriginal,           // preserva id, capitao, imagem, vagas, reservas, etc.
+            titulo,
+            descricao,
+            barco: barcoNome,
+            barcoId,
+            localizacao: porto,
+            duracao,
+            preco,
+            lotacao: capacidade,
+            tipos: tiposSelecionados,
+            nivel,
+            licenca,
+            licencaLabel: LABELS_LICENCA[licenca] || licenca,
+            inclui: incluiSelecionados.join('\n'),
+            regras,
+            permitePartilha,
+            maxPartilha,
+            dataEdicao: new Date().toISOString()
+        };
+
+        localStorage.setItem('saidasData', JSON.stringify(saidas));
+
+        const btn = document.getElementById('btnGuardar');
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fas fa-check-circle"></i> Guardado!';
+
+        mostrarToast('✅ Saída actualizada com sucesso!', 'sucesso');
+        setTimeout(() => { window.location.href = 'dashboard-capitao.html#saidas'; }, 1800);
+    });
+    </script>
+</body>
+</html>

@@ -1141,8 +1141,8 @@ Deseja ATIVAR a Saída Partilhada?
                             <tr>
                                 <th>Título</th>
                                 <th>Barco</th>
-                                <th>Data</th>
-                                <th>Hora</th>
+                                <th>Duração</th>
+                                <th>Porto</th>
                                 <th>Vagas</th>
                                 <th>Preço</th>
                                 <th>Estado</th>
@@ -1171,12 +1171,19 @@ Deseja ATIVAR a Saída Partilhada?
                                     estadoBadge = '<span class="badge badge-sucesso">Ativa</span>';
                                 }
 
+                                const portoLabel = (saida.localizacao || saida.porto || '—').split('(')[0].trim();
+                                const duracaoLabel = saida.duracao ? saida.duracao + 'h' : '—';
+
                                 return `
-                                    <tr>
-                                        <td><strong>${saida.titulo}</strong></td>
+                                    <tr style="${saida.partilhada ? 'background:#FFFBEB;' : ''}">
+                                        <td>
+                                            <strong>${saida.titulo}</strong>
+                                            ${saida.partilhada ? '<br><span style="font-size:0.75rem;color:#D97706;">🤝 Partilhada</span>' : ''}
+                                            ${saida.permitePartilha && !saida.partilhada ? '<br><span style="font-size:0.75rem;color:#0C5460;">✓ Pode partilhar</span>' : ''}
+                                        </td>
                                         <td>${saida.barco}</td>
-                                        <td>${dataFormatada}</td>
-                                        <td>${saida.hora || '--'}</td>
+                                        <td><span style="font-weight:600;color:#1565C0;">${duracaoLabel}</span></td>
+                                        <td style="font-size:0.85rem;">${portoLabel}</td>
                                         <td><span class="badge badge-destaque">${vagas}/${lotacao}</span></td>
                                         <td><strong>€${saida.preco}</strong>/pess.</td>
                                         <td>${estadoBadge}</td>
@@ -1186,8 +1193,12 @@ Deseja ATIVAR a Saída Partilhada?
                                                     <i class="fas fa-eye"></i>
                                                 </button>
                                                 ${!passada ? `
+                                                <a href="editar-saida.html?id=${saida.id}" class="tabela-btn"
+                                                    style="background:rgba(21,101,192,0.1);color:#1565C0;display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:6px;text-decoration:none;" title="Editar saída">
+                                                    <i class="fas fa-edit"></i>
+                                                </a>
                                                 <button class="tabela-btn" onclick="cancelarSaida(${saida.id})"
-                                                    style="background: rgba(239,68,68,0.1); color: #EF4444;" title="Cancelar">
+                                                    style="background: rgba(239,68,68,0.1); color: #EF4444;" title="Eliminar">
                                                     <i class="fas fa-trash"></i>
                                                 </button>` : ''}
                                             </div>
