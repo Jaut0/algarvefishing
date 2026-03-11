@@ -463,6 +463,24 @@ Receberá um email quando a sua conta for aprovada.`);
                 return;
             }
             
+            // ⚠️ Verificar se email foi confirmado (clientes novos)
+            if (utilizador.emailConfirmado === false || utilizador.status === 'pendente_ativacao') {
+                mostrarToast('📧 Conta não ativada! Verifique o seu email.', 'aviso');
+                setTimeout(() => {
+                    if (confirm(`📧 CONTA NÃO ATIVADA\n\nAinda não ativou a sua conta!\n\n✉️ Enviámos um email para: ${email}\n\nClique no link no email para ativar a conta.\n\nNão recebeu o email? Clique OK para reenviar.`)) {
+                        // Reenviar email de confirmação
+                        if (typeof enviarEmailAtivacaoCliente === 'function') {
+                            enviarEmailAtivacaoCliente(utilizador, utilizador.tokenConfirmacao || utilizador.token || '').then(() => {
+                                mostrarToast('📧 Email reenviado! Verifique a sua caixa de entrada.', 'sucesso');
+                            }).catch(() => {
+                                mostrarToast('⚠️ Erro ao reenviar email.', 'erro');
+                            });
+                        }
+                    }
+                }, 300);
+                return;
+            }
+            
             // Verificar certificação expirada (capitães)
             if (utilizador.tipo === 'capitao' && utilizador.status === 'expirado') {
                 mostrarToast('⚠️ Certificação expirada!', 'erro');
@@ -730,39 +748,37 @@ Equipa Algarve Tuna Charter`);
                 return; // Importante: para parar execução até Promise resolver
             }
             
-            // CLIENTE: registo directo com email de boas-vindas
-            novoUtilizador.status = 'ativo';
-            novoUtilizador.emailConfirmado = true;
+            // CLIENTE: registo pendente de confirmação de email
+            // ⚠️ NÃO ativar imediatamente - cliente DEVE confirmar email primeiro
+            novoUtilizador.status = 'pendente_ativacao';
+            novoUtilizador.emailConfirmado = false;
+            novoUtilizador.tokenConfirmacao = tokenAtivacao; // reutilizar token já gerado
             
-            // ✅ GUARDAR DIRECTAMENTE EM utilizadores (activo imediatamente)
+            // ✅ GUARDAR EM utilizadores (pendente de ativação)
             let utilizadoresArr = JSON.parse(localStorage.getItem('utilizadores') || '[]');
             utilizadoresArr.push(novoUtilizador);
             localStorage.setItem('utilizadores', JSON.stringify(utilizadoresArr));
             
-            // 🔑 Iniciar sessão imediatamente
-            localStorage.setItem('usuarioLogado', JSON.stringify(novoUtilizador));
+            console.log('✅ Cliente registado (pendente ativação):', novoUtilizador.email);
             
-            console.log('✅ Cliente registado e activo:', novoUtilizador.email);
-            
-            // 📧 Enviar email de boas-vindas ao cliente
-            if (typeof enviarEmailContaAtivadaCliente === 'function') {
-                enviarEmailContaAtivadaCliente(novoUtilizador).then(result => {
+            // 📧 Enviar email de confirmação com link de ativação
+            if (typeof enviarEmailAtivacaoCliente === 'function') {
+                enviarEmailAtivacaoCliente(novoUtilizador, tokenAtivacao).then(result => {
                     if (result && result.success) {
-                        console.log('✅ Email de boas-vindas enviado para:', novoUtilizador.email);
+                        console.log('✅ Email de confirmação enviado para:', novoUtilizador.email);
                     } else {
                         console.warn('⚠️ Email não enviado (EmailJS pode não estar configurado)');
                     }
-                }).catch(err => console.warn('Email erro:', err));
-            } else if (typeof enviarEmailAtivacaoCliente === 'function') {
-                // fallback para função antiga
-                enviarEmailAtivacaoCliente(novoUtilizador, 'BOAS-VINDAS').catch(() => {});
+                }).catch(err => console.warn('Email confirmação erro:', err));
             }
             
-            mostrarToast('✅ Conta criada! Email de boas-vindas enviado. Bem-vindo!', 'sucesso');
+            mostrarToast('✅ Conta criada! Verifique o seu email para ativar a conta.', 'sucesso');
             
+            // Mostrar página de aguarda confirmação
             setTimeout(() => {
-                window.location.href = 'dashboard-usuario.html';
-            }, 2000);
+                // Redirecionar para página de aviso "verifique o email"
+                window.location.href = 'confirmar-email.html?email=' + encodeURIComponent(novoUtilizador.email) + '&tipo=pendente';
+            }, 2500);
             }); // FIM do formRegistar.addEventListener('submit')
         
         }); // FIM do DOMContentLoaded

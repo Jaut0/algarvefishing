@@ -1,3 +1,0 @@
-# Ficheiros com possíveis dados sensíveis — alertar em PR
-admin-login.html linguist-detectable=false
-js/email-config.js linguist-detectable=false

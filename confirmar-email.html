@@ -236,12 +236,19 @@
     <script>
         // Processar confirmação de email
         document.addEventListener('DOMContentLoaded', () => {
-            // Obter token da URL
             const urlParams = new URLSearchParams(window.location.search);
             const token = urlParams.get('token');
+            const tipo = urlParams.get('tipo');
+            const emailParam = urlParams.get('email');
+            
+            // Modo "pendente": redireccionado após registo, sem token ainda
+            if (tipo === 'pendente') {
+                mostrarAguardaEmail(emailParam);
+                return;
+            }
             
             if (!token) {
-                mostrarErro('Token de confirmação não encontrado na URL.');
+                mostrarErro('Link de confirmação inválido ou em falta.');
                 return;
             }
             
@@ -251,13 +258,53 @@
             }, 500);
         });
         
+        function mostrarAguardaEmail(email) {
+            const container = document.getElementById('confirmacao-container') || document.body;
+            // Try to find and update the main content area
+            const mainCard = document.querySelector('.auth-card, .card, main, .container');
+            const targetEl = mainCard || document.body;
+            
+            // Use a dedicated div if it exists, otherwise create overlay content
+            const el = document.getElementById('estado-confirmacao') || document.createElement('div');
+            el.innerHTML = `
+                <div style="text-align:center;padding:2rem;">
+                    <div style="font-size:4rem;margin-bottom:1rem;">✉️</div>
+                    <h2 style="color:#1565C0;margin-bottom:1rem;">Verifique o seu Email!</h2>
+                    <p style="color:#374151;font-size:1rem;margin-bottom:1rem;">
+                        Enviámos um email de confirmação para:<br>
+                        <strong style="color:#0A1628;">${email || 'o seu email'}</strong>
+                    </p>
+                    <div style="background:#EFF6FF;border:1px solid #BFDBFE;border-radius:8px;padding:1rem;margin:1.5rem 0;text-align:left;">
+                        <p style="margin:0;color:#1E40AF;font-size:0.9rem;">
+                            <strong>📋 Próximos passos:</strong><br>
+                            1️⃣ Abra a sua caixa de entrada (e verifique o spam!)<br>
+                            2️⃣ Clique no link de ativação no email<br>
+                            3️⃣ A conta fica ativa automaticamente<br>
+                            4️⃣ Volte aqui para fazer login
+                        </p>
+                    </div>
+                    <p style="color:#6B7280;font-size:0.85rem;">⏳ O link expira em 24 horas.</p>
+                    <a href="auth.html" style="display:inline-block;margin-top:1.5rem;background:linear-gradient(135deg,#1565C0,#0A1628);color:#fff;padding:0.75rem 2rem;border-radius:8px;text-decoration:none;font-weight:700;">
+                        <i class="fas fa-sign-in-alt"></i> Ir para Login
+                    </a>
+                </div>`;
+            
+            // Find best place to insert
+            const heroSection = document.querySelector('.auth-card, .card-auth, .confirmacao-card');
+            if (heroSection) {
+                heroSection.innerHTML = el.innerHTML;
+            } else {
+                document.body.insertAdjacentHTML('afterbegin', `<div style="max-width:500px;margin:4rem auto;padding:1rem;">${el.innerHTML}</div>`);
+            }
+        }
+        
         function confirmarEmail(token) {
             try {
                 // Obter utilizadores do localStorage
                 const utilizadores = JSON.parse(localStorage.getItem('utilizadores') || '[]');
                 
                 // Encontrar utilizador pelo token
-                const index = utilizadores.findIndex(u => u.tokenConfirmacao === token);
+                const index = utilizadores.findIndex(u => (u.tokenConfirmacao === token || u.token === token));
                 
                 if (index === -1) {
                     mostrarErro('Token inválido ou conta não encontrada.');
