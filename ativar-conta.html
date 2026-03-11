@@ -181,25 +181,56 @@
         function processarAtivacao(token) {
             console.log('🔍 Processando token:', token);
 
-            // Pegar usuários pendentes
+            // ── Sistema NOVO: utilizadores (status pendente_ativacao) ──
+            const utilizadoresStr = localStorage.getItem('utilizadores') || '[]';
+            const utilizadores = JSON.parse(utilizadoresStr);
+            let usuarioNovo = utilizadores.find(u =>
+                (u.tokenConfirmacao === token || u.token === token) &&
+                u.status === 'pendente_ativacao'
+            );
+
+            if (usuarioNovo) {
+                // Activar via sistema novo
+                const idx = utilizadores.indexOf(usuarioNovo);
+                utilizadores[idx].emailConfirmado = true;
+                utilizadores[idx].dataConfirmacao = new Date().toISOString();
+                utilizadores[idx].status = utilizadores[idx].tipo === 'capitao' ? 'pendente' : 'ativo';
+                delete utilizadores[idx].tokenConfirmacao;
+                localStorage.setItem('utilizadores', JSON.stringify(utilizadores));
+                console.log('✅ Conta ativada (sistema novo):', utilizadores[idx].email);
+                mostrarSucesso(utilizadores[idx]);
+                return;
+            }
+
+            // ── Sistema ANTIGO: usuariosPendentes (fallback) ──
             const pendentesStr = localStorage.getItem('usuariosPendentes') || '[]';
             const pendentes = JSON.parse(pendentesStr);
+            console.log('📋 Usuários pendentes (sistema antigo):', pendentes.length);
 
-            console.log('📋 Usuários pendentes:', pendentes);
-
-            // Buscar usuário com este token
             const usuario = pendentes.find(u => u.token === token);
 
             if (!usuario) {
-                mostrarErro(
-                    'Token inválido',
-                    'Este link de ativação não é válido ou já foi utilizado.',
-                    [
-                        'O link já foi usado anteriormente',
-                        'O registo expirou (24 horas)',
-                        'O link foi copiado incorretamente'
-                    ]
+                // Verificar se já foi ativado anteriormente
+                const jaAtivo = utilizadores.find(u =>
+                    u.tokenConfirmacao === token || u.token === token
                 );
+                if (jaAtivo) {
+                    mostrarErro(
+                        'Conta já ativada',
+                        'Esta conta já foi ativada anteriormente.',
+                        ['Pode fazer login normalmente']
+                    );
+                } else {
+                    mostrarErro(
+                        'Token inválido',
+                        'Este link de ativação não é válido ou já foi utilizado.',
+                        [
+                            'O link já foi usado anteriormente',
+                            'O registo expirou (24 horas)',
+                            'O link foi copiado incorretamente'
+                        ]
+                    );
+                }
                 return;
             }
 
