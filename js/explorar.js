@@ -123,6 +123,7 @@ function renderizarSaidas() {
                         ${esgotado ? '<i class="fas fa-ban"></i> Esgotado' : '<i class="fas fa-arrow-right"></i> Ver Detalhes'}
                     </a>
                 </div>
+                ${saida.views > 0 ? `<div style="text-align:right;font-size:0.75rem;color:#9CA3AF;margin-top:0.3rem;"><i class="fas fa-eye" style="margin-right:3px;"></i>${saida.views} ${saida.views===1?'pessoa viu':'pessoas viram'}</div>` : ''}
             </div>
         </div>
         `;

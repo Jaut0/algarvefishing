@@ -3,23 +3,19 @@
 
 // 🧹 LIMPEZA AUTOMÁTICA DE DADOS MOCK/TESTE
 (function limparDadosMock() {
-    // Limpar reservas pendentes mock/teste
     const reservas = JSON.parse(localStorage.getItem('reservasPendentes') || '[]');
     const reservasReais = reservas.filter(r => {
-        // Remover reservas de teste
-        const emailTeste = r.cliente?.email?.toLowerCase() || '';
-        const nomeTeste = r.cliente?.nome?.toLowerCase() || '';
-        return !emailTeste.includes('teste') && 
-               !emailTeste.includes('test') && 
-               !nomeTeste.includes('teste') &&
-               !nomeTeste.includes('test') &&
-               r.cliente?.telefone && // Deve ter telefone
-               r.cliente?.email && // Deve ter email
-               r.dias && r.dias.length > 0; // Deve ter dias
+        // Suporta ambos os formatos: r.clienteEmail (novo) e r.cliente?.email (antigo)
+        const email = (r.clienteEmail || r.cliente?.email || '').toLowerCase();
+        const nome = (r.clienteNome || r.cliente?.nome || '').toLowerCase();
+        // Só remove se claramente for dado de teste sem email nenhum
+        if (!email) return false;
+        // Mantém reservas reais (com email válido e id)
+        return r.id && email.includes('@');
     });
     
     if (reservas.length !== reservasReais.length) {
-        console.log(`🧹 Limpeza: ${reservas.length - reservasReais.length} reservas mock removidas`);
+        console.log(`🧹 Limpeza: ${reservas.length - reservasReais.length} reservas inválidas removidas`);
         localStorage.setItem('reservasPendentes', JSON.stringify(reservasReais));
     }
 })();
@@ -30,7 +26,10 @@ function loadPedidosPendentes() {
     const badge = document.getElementById('badgePendentes');
     
     // Filter only pending reservations
-    const pendentes = reservas.filter(r => r.status === 'pendente');
+    // Filtrar por capitão logado E por status pendente
+    const utilizadorLogado = JSON.parse(localStorage.getItem('usuarioLogado') || 'null');
+    const emailCapitao = utilizadorLogado?.email || '';
+    const pendentes = reservas.filter(r => r.status === 'pendente' && r.capitaoEmail === emailCapitao);
     
     // Update badge
     badge.textContent = pendentes.length;

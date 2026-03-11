@@ -336,6 +336,18 @@
                 <!-- ══ 3. LICENÇA + LOGÍSTICA ══ -->
                 <div class="sec-title">📅 Logística</div>
 
+                <div class="grid-2">
+                    <div class="form-grupo">
+                        <label class="form-label req">📅 Data da Saída</label>
+                        <input type="date" class="form-input" id="dataSaida" required>
+                        <small style="color:#6B7280;font-size:0.8rem;margin-top:0.3rem;display:block;">Data em que a saída vai acontecer</small>
+                    </div>
+                    <div class="form-grupo">
+                        <label class="form-label">🕐 Hora de Partida</label>
+                        <input type="time" class="form-input" id="horaSaida" value="08:00">
+                    </div>
+                </div>
+
                 <div class="form-grupo" style="max-width:320px;">
                     <label class="form-label req">Duração Total da Saída (horas)</label>
                     <input type="number" class="form-input" id="duracao"
@@ -533,7 +545,10 @@
             const capitao = JSON.parse(usuarioStr);
             if (capitao.tipo !== 'capitao') { window.location.href = 'dashboard-usuario.html'; return; }
 
-            // (data removida - apenas duração é necessária na criação)
+            // Definir data mínima como hoje
+            const hoje = new Date().toISOString().split('T')[0];
+            const campoData = document.getElementById('dataSaida');
+            if (campoData) campoData.min = hoje;
 
             // Carregar barcos aprovados
             const todosBarcos = JSON.parse(localStorage.getItem('barcos') || '[]');
@@ -625,6 +640,9 @@
             if (!capacidade || capacidade < 1) erros.push('Indique o nº máximo de pescadores');
             if (!preco || preco < 1) erros.push('Indique o preço por pessoa');
             if (!nivel) erros.push('Selecione o nível de dificuldade');
+            const dataSaida = document.getElementById('dataSaida').value;
+            const horaSaida = document.getElementById('horaSaida').value || '08:00';
+            if (!dataSaida) erros.push('Selecione a data da saída');
 
             if (erros.length > 0) {
                 mostrarToast('⚠️ ' + erros[0], 'erro');
@@ -664,6 +682,8 @@
                 precoPartilhado: null,
                 rating: 0,
                 avaliacoes: 0,
+                data: dataSaida,
+                hora: horaSaida,
                 status: 'ativa',
                 dataCriacao: new Date().toISOString()
             };

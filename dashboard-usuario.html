@@ -259,7 +259,23 @@
             margin-bottom: 0.6rem;
         }
 
-        </style>
+        
+        /* ── Sistema de Feedback / Avaliação ── */
+        .feedback-stars { display:flex; gap:0.3rem; margin:0.5rem 0; }
+        .feedback-star { font-size:1.5rem; cursor:pointer; color:#D1D5DB; transition:color 0.15s; }
+        .feedback-star.ativa, .feedback-star:hover { color:#F59E0B; }
+        .modal-feedback { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:9999; align-items:center; justify-content:center; }
+        .modal-feedback.aberto { display:flex; }
+        .modal-feedback-card { background:#fff; border-radius:16px; padding:2rem; max-width:480px; width:90%; }
+        .modal-feedback-titulo { font-size:1.2rem; font-weight:700; color:#1F2937; margin-bottom:1rem; }
+        .btn-avaliar { background:linear-gradient(135deg,#F59E0B,#FBBF24); color:#fff; border:none; padding:0.5rem 1rem; border-radius:8px; cursor:pointer; font-size:0.85rem; font-weight:600; }
+        .btn-avaliar:hover { opacity:0.9; }
+        .feedback-dado { background:#FEF3C7; border:1px solid #FCD34D; border-radius:8px; padding:0.4rem 0.8rem; font-size:0.82rem; color:#92400E; display:inline-flex; align-items:center; gap:4px; }
+        .upload-fotos-area { border:2px dashed #D1D5DB; border-radius:10px; padding:1.5rem; text-align:center; cursor:pointer; transition:border-color 0.2s; margin-top:0.8rem; }
+        .upload-fotos-area:hover { border-color:#F59E0B; }
+        .fotos-preview { display:flex; flex-wrap:wrap; gap:0.5rem; margin-top:0.8rem; }
+        .foto-thumb { width:70px; height:70px; object-fit:cover; border-radius:6px; border:2px solid #E5E7EB; }
+</style>
 </head>
 <body>
     <header class="header">
@@ -778,6 +794,17 @@
                     <button onclick="cancelarReserva(${r.id})" style="width:100%;margin-top:0.75rem;padding:0.5rem;background:transparent;border:1px solid #EF4444;color:#EF4444;border-radius:6px;cursor:pointer;font-size:0.85rem;">
                         <i class="fas fa-times"></i> Cancelar Reserva
                     </button>` : ''}
+                    ${(() => {
+                        const hoje = new Date();
+                        const dataSaida = r.saidaData ? new Date(r.saidaData) : null;
+                        const passou = dataSaida && dataSaida < hoje;
+                        if (r.status === 'confirmada' && passou && !r.avaliada) {
+                            return `<button class="btn-avaliar" onclick="abrirModalFeedback('${r.id}','${r.saidaId}','${(r.saidaTitulo||'').replace(/'/g,"\'")}')">⭐ Avaliar Saída</button>`;
+                        } else if (r.avaliada) {
+                            return '<span class="feedback-dado">⭐ Avaliada</span>';
+                        }
+                        return '';
+                    })()}
                 </div>
             </div>`;
         }
@@ -1084,5 +1111,150 @@
         }
 
 </script>
+
+    <!-- Modal de Feedback / Avaliação -->
+    <div class="modal-feedback" id="modalFeedback">
+        <div class="modal-feedback-card">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;">
+                <div class="modal-feedback-titulo">⭐ Avaliar Saída</div>
+                <button onclick="fecharModalFeedback()" style="background:none;border:none;font-size:1.4rem;cursor:pointer;color:#6B7280;">✕</button>
+            </div>
+            <p id="feedbackSaidaTitulo" style="color:#6B7280;font-size:0.9rem;margin-bottom:1rem;"></p>
+
+            <label style="font-weight:600;color:#374151;display:block;margin-bottom:0.4rem;">A sua avaliação *</label>
+            <div class="feedback-stars" id="feedbackStars">
+                <span class="feedback-star" data-val="1">★</span>
+                <span class="feedback-star" data-val="2">★</span>
+                <span class="feedback-star" data-val="3">★</span>
+                <span class="feedback-star" data-val="4">★</span>
+                <span class="feedback-star" data-val="5">★</span>
+            </div>
+            <p id="feedbackLabel" style="font-size:0.85rem;color:#9CA3AF;margin-bottom:1rem;">Clique para avaliar</p>
+
+            <label style="font-weight:600;color:#374151;display:block;margin-bottom:0.4rem;">Comentário (opcional)</label>
+            <textarea id="feedbackComentario" rows="3" style="width:100%;padding:0.7rem;border:1.5px solid #D1D5DB;border-radius:8px;resize:vertical;font-family:inherit;font-size:0.9rem;" placeholder="Conte como foi a sua experiência..."></textarea>
+
+            <label style="font-weight:600;color:#374151;display:block;margin-top:1rem;margin-bottom:0.4rem;">📸 Fotos da experiência (opcional)</label>
+            <div class="upload-fotos-area" onclick="document.getElementById('inputFotos').click()">
+                <i class="fas fa-camera" style="font-size:1.5rem;color:#9CA3AF;"></i>
+                <p style="color:#9CA3AF;font-size:0.85rem;margin:0.4rem 0 0;">Clique para adicionar fotos</p>
+            </div>
+            <input type="file" id="inputFotos" multiple accept="image/*" style="display:none;" onchange="previewFotos(this)">
+            <div class="fotos-preview" id="fotosPreview"></div>
+
+            <div style="display:flex;gap:1rem;margin-top:1.5rem;">
+                <button onclick="fecharModalFeedback()" style="flex:1;padding:0.7rem;border:1.5px solid #D1D5DB;border-radius:8px;background:#fff;cursor:pointer;font-weight:600;color:#6B7280;">Cancelar</button>
+                <button onclick="submeterFeedback()" style="flex:2;padding:0.7rem;background:linear-gradient(135deg,#F59E0B,#FBBF24);color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:700;font-size:1rem;">⭐ Publicar Avaliação</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    // ── Sistema de Feedback / Avaliação ──
+    let _feedbackReservaId = null;
+    let _feedbackSaidaId = null;
+    let _feedbackNota = 0;
+    let _feedbackFotos = [];
+
+    function abrirModalFeedback(reservaId, saidaId, saidaTitulo) {
+        _feedbackReservaId = reservaId;
+        _feedbackSaidaId = saidaId;
+        _feedbackNota = 0;
+        _feedbackFotos = [];
+        document.getElementById('feedbackSaidaTitulo').textContent = saidaTitulo || 'Saída de Pesca';
+        document.getElementById('feedbackComentario').value = '';
+        document.getElementById('fotosPreview').innerHTML = '';
+        document.getElementById('feedbackLabel').textContent = 'Clique para avaliar';
+        document.querySelectorAll('.feedback-star').forEach(s => s.classList.remove('ativa'));
+        document.getElementById('modalFeedback').classList.add('aberto');
+    }
+
+    function fecharModalFeedback() {
+        document.getElementById('modalFeedback').classList.remove('aberto');
+    }
+
+    // Stars interativas
+    document.querySelectorAll('.feedback-star').forEach(star => {
+        star.addEventListener('click', function() {
+            _feedbackNota = parseInt(this.dataset.val);
+            const labels = ['','😞 Mau','😐 Razoável','🙂 Bom','😊 Muito Bom','🤩 Excelente!'];
+            document.getElementById('feedbackLabel').textContent = labels[_feedbackNota];
+            document.querySelectorAll('.feedback-star').forEach(s => {
+                s.classList.toggle('ativa', parseInt(s.dataset.val) <= _feedbackNota);
+            });
+        });
+        star.addEventListener('mouseover', function() {
+            const v = parseInt(this.dataset.val);
+            document.querySelectorAll('.feedback-star').forEach(s => {
+                s.style.color = parseInt(s.dataset.val) <= v ? '#F59E0B' : '#D1D5DB';
+            });
+        });
+        star.addEventListener('mouseout', function() {
+            document.querySelectorAll('.feedback-star').forEach(s => {
+                s.style.color = parseInt(s.dataset.val) <= _feedbackNota ? '#F59E0B' : '#D1D5DB';
+            });
+        });
+    });
+
+    function previewFotos(input) {
+        const preview = document.getElementById('fotosPreview');
+        _feedbackFotos = [];
+        Array.from(input.files).forEach(file => {
+            const reader = new FileReader();
+            reader.onload = e => {
+                _feedbackFotos.push(e.target.result);
+                const img = document.createElement('img');
+                img.src = e.target.result;
+                img.className = 'foto-thumb';
+                preview.appendChild(img);
+            };
+            reader.readAsDataURL(file);
+        });
+    }
+
+    function submeterFeedback() {
+        if (_feedbackNota === 0) {
+            if (window.mostrarToast) mostrarToast('⚠️ Selecione uma avaliação (1-5 estrelas)', 'erro');
+            return;
+        }
+        const comentario = document.getElementById('feedbackComentario').value.trim();
+        const usuario = JSON.parse(localStorage.getItem('usuarioLogado') || 'null');
+
+        // Guardar avaliação
+        const avaliacoes = JSON.parse(localStorage.getItem('avaliacoesSaidas') || '[]');
+        avaliacoes.push({
+            id: Date.now(),
+            reservaId: _feedbackReservaId,
+            saidaId: _feedbackSaidaId,
+            clienteEmail: usuario?.email || '',
+            clienteNome: usuario?.nome || '',
+            nota: _feedbackNota,
+            comentario,
+            fotos: _feedbackFotos,
+            data: new Date().toISOString()
+        });
+        localStorage.setItem('avaliacoesSaidas', JSON.stringify(avaliacoes));
+
+        // Atualizar rating médio da saída
+        const saidas = JSON.parse(localStorage.getItem('saidasData') || '[]');
+        const idx = saidas.findIndex(s => String(s.id) === String(_feedbackSaidaId));
+        if (idx !== -1) {
+            const avsDestaSaida = avaliacoes.filter(a => String(a.saidaId) === String(_feedbackSaidaId));
+            const media = avsDestaSaida.reduce((acc, a) => acc + a.nota, 0) / avsDestaSaida.length;
+            saidas[idx].rating = Math.round(media * 10) / 10;
+            saidas[idx].avaliacoes = avsDestaSaida.length;
+            localStorage.setItem('saidasData', JSON.stringify(saidas));
+        }
+
+        // Marcar reserva como avaliada
+        const reservas = JSON.parse(localStorage.getItem('reservasPendentes') || '[]');
+        const rIdx = reservas.findIndex(r => String(r.id) === String(_feedbackReservaId));
+        if (rIdx !== -1) { reservas[rIdx].avaliada = true; localStorage.setItem('reservasPendentes', JSON.stringify(reservas)); }
+
+        fecharModalFeedback();
+        if (window.mostrarToast) mostrarToast('⭐ Obrigado pela sua avaliação!', 'sucesso');
+        setTimeout(() => location.reload(), 1500);
+    }
+    </script>
 </body>
 </html>

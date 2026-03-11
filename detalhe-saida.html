@@ -234,6 +234,7 @@
                 <div class="badge badge-destaque mb-2" id="heroBadge" style="display:none;">
                     <i class="fas fa-users"></i> Saída Partilhada
                 </div>
+                <span id="contadorViews" style="display:none;background:rgba(0,0,0,0.45);color:#fff;padding:0.3rem 0.9rem;border-radius:20px;font-size:0.85rem;align-items:center;gap:5px;margin-bottom:0.5rem;"></span>
                 <h1 style="color: white; margin-bottom: 1rem;" id="heroTitulo">A carregar...</h1>
                 <div style="display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap; color: rgba(255,255,255,0.9);">
                     <span id="heroLocal"><i class="fas fa-map-marker-alt"></i> —</span>
@@ -397,6 +398,14 @@
                 <div class="info-row"><span class="info-label">Preço por Pessoa</span><strong id="modalPrecoSaida" class="info-value" style="color:var(--cor-destaque);font-size:1.1rem;"></strong></div>
             </div>
 
+            <!-- Info cliente logado -->
+            <div id="modalInfoCliente" style="display:none;background:#F0FDF4;border:1.5px solid #86EFAC;border-radius:10px;padding:1rem;margin-bottom:1.2rem;">
+                <p style="font-size:0.82rem;font-weight:700;color:#166534;margin-bottom:0.5rem;">👤 A reservar como:</p>
+                <p style="font-size:0.88rem;color:#374151;margin:0.25rem 0;"><strong>Nome:</strong> <span id="modalClienteNome">—</span></p>
+                <p style="font-size:0.88rem;color:#374151;margin:0.25rem 0;"><strong>Email:</strong> <span id="modalClienteEmail">—</span></p>
+                <p style="font-size:0.88rem;color:#374151;margin:0.25rem 0;"><strong>Telefone:</strong> <span id="modalClienteTelefone">—</span></p>
+            </div>
+
             <label class="form-label-modal">Número de Pessoas *</label>
             <select class="form-select-modal" id="modalNumPessoas">
                 <option value="1">1 pessoa</option>
@@ -459,6 +468,14 @@
             const saidas = JSON.parse(localStorage.getItem('saidasData') || '[]');
             saidaAtual = saidas.find(s => String(s.id) === String(saidaId));
 
+            // Registar view (contador de visitas)
+            if (saidaAtual) {
+                const idxView = saidas.findIndex(s => String(s.id) === String(saidaId));
+                saidas[idxView].views = (saidas[idxView].views || 0) + 1;
+                localStorage.setItem('saidasData', JSON.stringify(saidas));
+                saidaAtual = saidas[idxView];
+            }
+
             if (!saidaAtual) { mostrarNaoEncontrado(); return; }
 
             renderizarSaida(saidaAtual);
@@ -484,6 +501,12 @@
             }
             document.getElementById('heroTitulo').textContent = s.titulo;
             document.getElementById('heroLocal').innerHTML = `<i class="fas fa-map-marker-alt"></i> ${s.localizacao || s.porto || '—'}`;
+            // Mostrar contador de views
+            const viewsEl = document.getElementById('contadorViews');
+            if (viewsEl && s.views > 0) {
+                viewsEl.style.display = 'inline-flex';
+                viewsEl.innerHTML = `<i class="fas fa-eye" style="margin-right:4px;"></i> ${s.views} ${s.views === 1 ? 'pessoa viu' : 'pessoas viram'} esta saída`;
+            }
             const dataFormatada = s.data ? new Date(s.data).toLocaleDateString('pt-PT', {day:'2-digit',month:'2-digit',year:'numeric'}) : '—';
             document.getElementById('heroData').innerHTML = `<i class="fas fa-calendar-alt"></i> ${dataFormatada} ${s.hora ? 'às ' + s.hora : ''}`;
             document.getElementById('heroDuracao').innerHTML = `<i class="fas fa-clock"></i> ${s.duracao || '—'} horas`;
@@ -597,11 +620,23 @@
                 btnReservar.style.display = 'none';
             }
 
-            // Preencher modal
+            // Preencher modal com dados da saída
             document.getElementById('modalTituloSaida').textContent = s.titulo;
             document.getElementById('modalDataSaida').textContent = `${dataFormatada} ${s.hora ? 'às '+s.hora : ''}`;
             document.getElementById('modalPortoSaida').textContent = s.localizacao || s.porto || '—';
             document.getElementById('modalPrecoSaida').textContent = `€${s.preco}/pessoa`;
+
+            // Auto-fill dados do cliente logado
+            if (utilizadorAtual) {
+                const nomeField = document.getElementById('modalClienteNome');
+                const emailField = document.getElementById('modalClienteEmail');
+                const telField = document.getElementById('modalClienteTelefone');
+                if (nomeField) nomeField.textContent = utilizadorAtual.nome || '—';
+                if (emailField) emailField.textContent = utilizadorAtual.email || '—';
+                if (telField) telField.textContent = utilizadorAtual.telefone || 'Não indicado';
+                const infoCliente = document.getElementById('modalInfoCliente');
+                if (infoCliente) infoCliente.style.display = 'block';
+            }
 
             // Atualizar total ao mudar nº pessoas
             document.getElementById('modalNumPessoas').addEventListener('change', function() {
