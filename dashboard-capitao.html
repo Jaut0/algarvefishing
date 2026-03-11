@@ -672,12 +672,9 @@
             // Carregar saídas agendadas (apenas futuras)
             const todasSaidas = JSON.parse(localStorage.getItem('saidasData') || '[]');
             const hoje = new Date();
-            const saidasFuturas = todasSaidas.filter(s => {
-                if (s.capitaoEmail !== emailCapitao) return false;
-                const dataSaida = new Date(s.data);
-                return dataSaida >= hoje;
-            });
-            document.getElementById('totalSaidas').textContent = saidasFuturas.length;
+            // Contar todas as saídas ativas do capitão (já não têm data fixa)
+            const saidasCapitao = todasSaidas.filter(s => s.capitaoEmail === emailCapitao && s.status !== 'cancelada');
+            document.getElementById('totalSaidas').textContent = saidasCapitao.length;
             
             // Carregar contactos/reservas pendentes este mês
             const reservas = JSON.parse(localStorage.getItem('reservasPendentes') || '[]');
@@ -1123,7 +1120,7 @@ Deseja ATIVAR a Saída Partilhada?
             const capitao = JSON.parse(usuarioStr);
 
             const todasSaidas = JSON.parse(localStorage.getItem('saidasData') || '[]');
-            const minhasSaidas = todasSaidas.filter(s => s.capitaoEmail === capitao.email);
+            const minhasSaidas = todasSaidas.filter(s => s.capitaoEmail === capitao.email && s.status !== 'cancelada');
 
             if (minhasSaidas.length === 0) {
                 container.innerHTML = `
@@ -1154,6 +1151,7 @@ Deseja ATIVAR a Saída Partilhada?
                                 <th>Barco</th>
                                 <th>Duração</th>
                                 <th>Porto</th>
+                                <th>Temporada</th>
                                 <th>Vagas</th>
                                 <th>Preço</th>
                                 <th>Estado</th>
@@ -1162,12 +1160,22 @@ Deseja ATIVAR a Saída Partilhada?
                         </thead>
                         <tbody>
                             ${minhasSaidas.map(saida => {
-                                const dataSaida = new Date(saida.data);
-                                dataSaida.setHours(0, 0, 0, 0);
-                                const passada = dataSaida < hoje;
+                                // Usar temporada em vez de data fixa
+                                const hoje2 = new Date();
+                                hoje2.setHours(0,0,0,0);
+                                // Verificar se saída está "passada" (só se temporadaFim existir e já passou)
+                                const passada = saida.temporadaFim ? new Date(saida.temporadaFim) < hoje2 : false;
                                 const vagas = saida.vagas !== undefined ? saida.vagas : saida.lotacao;
                                 const lotacao = saida.lotacao || saida.capacidade || vagas;
-                                const dataFormatada = dataSaida.toLocaleDateString('pt-PT', {day:'2-digit', month:'2-digit', year:'numeric'});
+                                // Formatar temporada para mostrar na tabela
+                                let dataFormatada = 'Aberta';
+                                if (saida.temporadaInicio && saida.temporadaFim) {
+                                    const ini = new Date(saida.temporadaInicio).toLocaleDateString('pt-PT', {day:'2-digit', month:'2-digit'});
+                                    const fim = new Date(saida.temporadaFim).toLocaleDateString('pt-PT', {day:'2-digit', month:'2-digit', year:'numeric'});
+                                    dataFormatada = ini + ' → ' + fim;
+                                } else if (saida.temporadaInicio) {
+                                    dataFormatada = 'A partir de ' + new Date(saida.temporadaInicio).toLocaleDateString('pt-PT', {day:'2-digit', month:'2-digit', year:'numeric'});
+                                }
 
                                 let estadoBadge;
                                 if (passada) {
@@ -1195,6 +1203,7 @@ Deseja ATIVAR a Saída Partilhada?
                                         <td>${saida.barco}</td>
                                         <td><span style="font-weight:600;color:#1565C0;">${duracaoLabel}</span></td>
                                         <td style="font-size:0.85rem;">${portoLabel}</td>
+                                        <td style="font-size:0.82rem;color:#555;">${dataFormatada}</td>
                                         <td><span class="badge badge-destaque">${vagas}/${lotacao}</span></td>
                                         <td><strong>€${saida.preco}</strong>/pess.</td>
                                         <td>${estadoBadge}</td>

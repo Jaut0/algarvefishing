@@ -210,6 +210,34 @@
             margin-bottom: 2rem;
             position: relative;
         }
+    
+        .hero-tagline {
+            margin-top: 1.2rem;
+            display: inline-flex;
+            align-items: center;
+            background: rgba(255, 143, 0, 0.12);
+            border: 1px solid rgba(255, 143, 0, 0.35);
+            border-radius: 50px;
+            padding: 0.5rem 1.2rem;
+            color: rgba(255, 255, 255, 0.88);
+            font-size: 0.9rem;
+            font-style: italic;
+            gap: 0.5rem;
+        }
+        .hero-tagline i { color: #FF8F00; }
+
+        .site-version-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 20px;
+            padding: 0.25rem 0.75rem;
+            font-size: 0.75rem;
+            color: rgba(255,255,255,0.5);
+            margin-top: 0.5rem;
+        }
     </style>
 </head>
 <body>
@@ -245,6 +273,9 @@
             <div class="hero-badge">🐟 BIG GAME FISHING • ALGARVE</div>
             <h1>PESCA AO ATUM<br>NO ATLÂNTICO</h1>
             <p>Viva a adrenalina da pesca profissional ao atum gigante. Barcos equipados, capitães experientes, aventura garantida.</p>
+            <div class="hero-tagline">
+                <span><i class="fas fa-fish"></i> Uma plataforma criada por pescadores, para pescadores &mdash; porque quem pesca sabe o que quer.</span>
+            </div>
             <div class="hero-buttons">
                 <a href="escolher-barco.html" class="btn btn-primary">
                     <i class="fas fa-anchor"></i> RESERVAR EXPEDIÇÃO
@@ -443,6 +474,7 @@
             </div>
             <div class="footer-bottom">
                 <p>&copy; 2026 Algarve Tuna Charter. Todos os direitos reservados.</p>
+                <p><span class="site-version-badge"><i class="fas fa-code-branch"></i> v1.18</span></p>
                 <div style="margin-top: 1rem;">
                     <a href="admin-login.html" id="adminLink" style="color: rgba(245, 245, 245, 0.6); font-size: 0.9rem; padding: 0.5rem 1rem; border: 1px solid rgba(245, 245, 245, 0.3); border-radius: 4px; text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem; transition: all 0.3s ease;">
                         <i class="fas fa-shield-alt"></i> Área de Administração
@@ -601,6 +633,35 @@
                 console.error('Erro ao verificar sessão:', e);
             }
         })();
+    </script>
+
+    <script>
+    // ===== CONTADOR DE VISITAS DO SITE =====
+    (function() {
+        try {
+            const hoje = new Date().toISOString().slice(0,10); // YYYY-MM-DD
+            let stats = JSON.parse(localStorage.getItem('siteVisitStats') || '{}');
+            
+            // Total visitas
+            stats.total = (stats.total || 0) + 1;
+            
+            // Visitas hoje
+            if (!stats.porDia) stats.porDia = {};
+            stats.porDia[hoje] = (stats.porDia[hoje] || 0) + 1;
+            
+            // Última visita
+            stats.ultimaVisita = new Date().toISOString();
+            
+            // Manter apenas últimos 30 dias
+            const limite = new Date();
+            limite.setDate(limite.getDate() - 30);
+            Object.keys(stats.porDia).forEach(d => {
+                if (new Date(d) < limite) delete stats.porDia[d];
+            });
+            
+            localStorage.setItem('siteVisitStats', JSON.stringify(stats));
+        } catch(e) {}
+    })();
     </script>
 </body>
 </html>

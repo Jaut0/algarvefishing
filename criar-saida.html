@@ -336,15 +336,20 @@
                 <!-- ══ 3. LICENÇA + LOGÍSTICA ══ -->
                 <div class="sec-title">📅 Logística</div>
 
+                <!-- ══ TEMPORADA (opcional) ══ -->
+                <div class="info-box azul" style="margin-bottom:1rem;">
+                    <i class="fas fa-info-circle" style="flex-shrink:0;margin-top:0.1rem;"></i>
+                    <span>📅 <strong>A data é escolhida pelo cliente ao reservar.</strong> Pode definir uma temporada (opcional) para limitar o período disponível.</span>
+                </div>
                 <div class="grid-2">
                     <div class="form-grupo">
-                        <label class="form-label req">📅 Data da Saída</label>
-                        <input type="date" class="form-input" id="dataSaida" required>
-                        <small style="color:#6B7280;font-size:0.8rem;margin-top:0.3rem;display:block;">Data em que a saída vai acontecer</small>
+                        <label class="form-label">🌅 Início da Temporada <span style="font-weight:400;color:#9CA3AF;">(opcional)</span></label>
+                        <input type="date" class="form-input" id="temporadaInicio">
+                        <small style="color:#6B7280;font-size:0.8rem;margin-top:0.3rem;display:block;">Deixe em branco se disponível todo o ano</small>
                     </div>
                     <div class="form-grupo">
-                        <label class="form-label">🕐 Hora de Partida</label>
-                        <input type="time" class="form-input" id="horaSaida" value="08:00">
+                        <label class="form-label">🍂 Fim da Temporada <span style="font-weight:400;color:#9CA3AF;">(opcional)</span></label>
+                        <input type="date" class="form-input" id="temporadaFim">
                     </div>
                 </div>
 
@@ -545,10 +550,9 @@
             const capitao = JSON.parse(usuarioStr);
             if (capitao.tipo !== 'capitao') { window.location.href = 'dashboard-usuario.html'; return; }
 
-            // Definir data mínima como hoje
+            // Definir datas mínimas como hoje para temporada
             const hoje = new Date().toISOString().split('T')[0];
-            const campoData = document.getElementById('dataSaida');
-            if (campoData) campoData.min = hoje;
+            ['temporadaInicio','temporadaFim'].forEach(id => { const el = document.getElementById(id); if (el) el.min = hoje; });
 
             // Carregar barcos aprovados
             const todosBarcos = JSON.parse(localStorage.getItem('barcos') || '[]');
@@ -640,9 +644,8 @@
             if (!capacidade || capacidade < 1) erros.push('Indique o nº máximo de pescadores');
             if (!preco || preco < 1) erros.push('Indique o preço por pessoa');
             if (!nivel) erros.push('Selecione o nível de dificuldade');
-            const dataSaida = document.getElementById('dataSaida').value;
-            const horaSaida = document.getElementById('horaSaida').value || '08:00';
-            if (!dataSaida) erros.push('Selecione a data da saída');
+            const temporadaInicio = document.getElementById('temporadaInicio') ? document.getElementById('temporadaInicio').value : '';
+            const temporadaFim = document.getElementById('temporadaFim') ? document.getElementById('temporadaFim').value : '';
 
             if (erros.length > 0) {
                 mostrarToast('⚠️ ' + erros[0], 'erro');
@@ -682,8 +685,9 @@
                 precoPartilhado: null,
                 rating: 0,
                 avaliacoes: 0,
-                data: dataSaida,
-                hora: horaSaida,
+                temporadaInicio: temporadaInicio || null,
+                temporadaFim: temporadaFim || null,
+                // Data escolhida pelo cliente ao reservar
                 status: 'ativa',
                 dataCriacao: new Date().toISOString()
             };

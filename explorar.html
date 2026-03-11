@@ -218,5 +218,19 @@
             } catch(e) { console.error('Erro sessão:', e); }
         })();
     </script>
+
+    <script>
+    (function() {
+        try {
+            const hoje = new Date().toISOString().slice(0,10);
+            let stats = JSON.parse(localStorage.getItem('siteVisitStats') || '{}');
+            stats.total = (stats.total || 0) + 1;
+            if (!stats.porDia) stats.porDia = {};
+            stats.porDia[hoje] = (stats.porDia[hoje] || 0) + 1;
+            stats.ultimaVisita = new Date().toISOString();
+            localStorage.setItem('siteVisitStats', JSON.stringify(stats));
+        } catch(e) {}
+    })();
+    </script>
 </body>
 </html>

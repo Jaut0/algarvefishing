@@ -393,9 +393,29 @@
 
             <div class="reserva-resumo">
                 <div style="font-weight:700; color:#0A1628; margin-bottom:0.75rem;" id="modalTituloSaida"></div>
-                <div class="info-row"><span class="info-label">Data</span><span id="modalDataSaida" class="info-value"></span></div>
+                <div class="info-row" id="rowDataSaida" style="display:none;"><span class="info-label">Data Fixa</span><span id="modalDataSaida" class="info-value"></span></div>
                 <div class="info-row"><span class="info-label">Porto</span><span id="modalPortoSaida" class="info-value"></span></div>
                 <div class="info-row"><span class="info-label">Preço por Pessoa</span><strong id="modalPrecoSaida" class="info-value" style="color:var(--cor-destaque);font-size:1.1rem;"></strong></div>
+            </div>
+
+            <!-- Data escolhida pelo cliente -->
+            <div style="margin-bottom:1rem;">
+                <label style="font-weight:600;color:#374151;display:block;margin-bottom:0.4rem;">📅 Data pretendida *</label>
+                <input type="date" id="modalDataEscolhida" style="width:100%;padding:0.7rem;border:1.5px solid #D1D5DB;border-radius:8px;font-size:0.95rem;" required>
+                <div id="modalAvisoTemporada" style="display:none;background:#FEF3C7;border:1px solid #FCD34D;border-radius:6px;padding:0.4rem 0.7rem;font-size:0.82rem;color:#92400E;margin-top:0.4rem;"></div>
+            </div>
+            <div style="margin-bottom:1rem;">
+                <label style="font-weight:600;color:#374151;display:block;margin-bottom:0.4rem;">🕐 Hora preferida</label>
+                <select id="modalHoraEscolhida" style="width:100%;padding:0.7rem;border:1.5px solid #D1D5DB;border-radius:8px;font-size:0.95rem;">
+                    <option value="06:00">06:00 (Madrugada)</option>
+                    <option value="07:00">07:00</option>
+                    <option value="08:00" selected>08:00 (Manhã)</option>
+                    <option value="09:00">09:00</option>
+                    <option value="10:00">10:00</option>
+                    <option value="12:00">12:00 (Meio-dia)</option>
+                    <option value="14:00">14:00 (Tarde)</option>
+                    <option value="16:00">16:00</option>
+                </select>
             </div>
 
             <!-- Info cliente logado -->
@@ -507,8 +527,18 @@
                 viewsEl.style.display = 'inline-flex';
                 viewsEl.innerHTML = `<i class="fas fa-eye" style="margin-right:4px;"></i> ${s.views} ${s.views === 1 ? 'pessoa viu' : 'pessoas viram'} esta saída`;
             }
-            const dataFormatada = s.data ? new Date(s.data).toLocaleDateString('pt-PT', {day:'2-digit',month:'2-digit',year:'numeric'}) : '—';
-            document.getElementById('heroData').innerHTML = `<i class="fas fa-calendar-alt"></i> ${dataFormatada} ${s.hora ? 'às ' + s.hora : ''}`;
+            // Mostrar temporada ou data
+                let dataFormatada = '—';
+                if (s.temporadaInicio && s.temporadaFim) {
+                    const ini = new Date(s.temporadaInicio).toLocaleDateString('pt-PT', {day:'2-digit',month:'short'});
+                    const fim = new Date(s.temporadaFim).toLocaleDateString('pt-PT', {day:'2-digit',month:'short',year:'numeric'});
+                    dataFormatada = ini + ' → ' + fim;
+                } else if (s.temporadaInicio) {
+                    dataFormatada = 'A partir de ' + new Date(s.temporadaInicio).toLocaleDateString('pt-PT', {day:'2-digit',month:'2-digit',year:'numeric'});
+                } else if (s.data) {
+                    dataFormatada = new Date(s.data).toLocaleDateString('pt-PT', {day:'2-digit',month:'2-digit',year:'numeric'});
+                }
+                document.getElementById('heroData').innerHTML = `<i class="fas fa-calendar-alt"></i> ${dataFormatada}`;
             document.getElementById('heroDuracao').innerHTML = `<i class="fas fa-clock"></i> ${s.duracao || '—'} horas`;
 
             // Descrição
@@ -638,6 +668,23 @@
                 if (infoCliente) infoCliente.style.display = 'block';
             }
 
+            // Definir data mínima como hoje e mostrar aviso de temporada
+            const hoje2 = new Date().toISOString().split('T')[0];
+            document.getElementById('modalDataEscolhida').min = hoje2;
+            document.getElementById('modalDataEscolhida').value = '';
+            // Mostrar aviso de temporada se definida
+            const avisoTemp = document.getElementById('modalAvisoTemporada');
+            if (s.temporadaInicio || s.temporadaFim) {
+                const ini = s.temporadaInicio ? new Date(s.temporadaInicio).toLocaleDateString('pt-PT') : '—';
+                const fim = s.temporadaFim ? new Date(s.temporadaFim).toLocaleDateString('pt-PT') : '—';
+                avisoTemp.textContent = `🌅 Temporada disponível: ${ini} a ${fim}`;
+                avisoTemp.style.display = 'block';
+                if (s.temporadaInicio) document.getElementById('modalDataEscolhida').min = s.temporadaInicio;
+                if (s.temporadaFim) document.getElementById('modalDataEscolhida').max = s.temporadaFim;
+            } else {
+                avisoTemp.style.display = 'none';
+            }
+
             // Atualizar total ao mudar nº pessoas
             document.getElementById('modalNumPessoas').addEventListener('change', function() {
                 const n = parseInt(this.value) || 1;
@@ -671,6 +718,12 @@
 
             const numPessoas = parseInt(document.getElementById('modalNumPessoas').value) || 1;
             const mensagem = document.getElementById('modalMensagem').value;
+            const dataEscolhida = document.getElementById('modalDataEscolhida') ? document.getElementById('modalDataEscolhida').value : '';
+            const horaEscolhida = document.getElementById('modalHoraEscolhida') ? document.getElementById('modalHoraEscolhida').value : '08:00';
+            if (!dataEscolhida) {
+                if (window.mostrarToast) mostrarToast('⚠️ Selecione a data pretendida', 'erro');
+                return;
+            }
             const total = numPessoas * saidaAtual.preco;
 
             // Criar reserva
@@ -692,6 +745,8 @@
                 precoPorPessoa: saidaAtual.preco,
                 totalPagar: total,
                 mensagem: mensagem,
+                saidaData: dataEscolhida,
+                saidaHora: horaEscolhida,
                 status: 'pendente',
                 dataPedido: new Date().toISOString()
             };
@@ -748,6 +803,20 @@
             });
         } catch(e) {}
     });
+    </script>
+
+    <script>
+    (function() {
+        try {
+            const hoje = new Date().toISOString().slice(0,10);
+            let stats = JSON.parse(localStorage.getItem('siteVisitStats') || '{}');
+            stats.total = (stats.total || 0) + 1;
+            if (!stats.porDia) stats.porDia = {};
+            stats.porDia[hoje] = (stats.porDia[hoje] || 0) + 1;
+            stats.ultimaVisita = new Date().toISOString();
+            localStorage.setItem('siteVisitStats', JSON.stringify(stats));
+        } catch(e) {}
+    })();
     </script>
 </body>
 </html>

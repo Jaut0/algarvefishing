@@ -730,7 +730,7 @@ Equipa Algarve Tuna Charter`);
                 return; // Importante: para parar execução até Promise resolver
             }
             
-            // CLIENTE: registo directo, sem activação por email
+            // CLIENTE: registo directo com email de boas-vindas
             novoUtilizador.status = 'ativo';
             novoUtilizador.emailConfirmado = true;
             
@@ -744,7 +744,21 @@ Equipa Algarve Tuna Charter`);
             
             console.log('✅ Cliente registado e activo:', novoUtilizador.email);
             
-            mostrarToast('✅ Conta criada com sucesso! Bem-vindo!', 'sucesso');
+            // 📧 Enviar email de boas-vindas ao cliente
+            if (typeof enviarEmailContaAtivadaCliente === 'function') {
+                enviarEmailContaAtivadaCliente(novoUtilizador).then(result => {
+                    if (result && result.success) {
+                        console.log('✅ Email de boas-vindas enviado para:', novoUtilizador.email);
+                    } else {
+                        console.warn('⚠️ Email não enviado (EmailJS pode não estar configurado)');
+                    }
+                }).catch(err => console.warn('Email erro:', err));
+            } else if (typeof enviarEmailAtivacaoCliente === 'function') {
+                // fallback para função antiga
+                enviarEmailAtivacaoCliente(novoUtilizador, 'BOAS-VINDAS').catch(() => {});
+            }
+            
+            mostrarToast('✅ Conta criada! Email de boas-vindas enviado. Bem-vindo!', 'sucesso');
             
             setTimeout(() => {
                 window.location.href = 'dashboard-usuario.html';

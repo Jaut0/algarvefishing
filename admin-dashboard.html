@@ -246,6 +246,10 @@
                     <span>Reclamações</span>
                     <span class="badge-count" id="badgeReclamacoes">0</span>
                 </a>
+                <a href="#" class="sidebar-menu-item" data-section="visitas">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Visitas ao Site</span>
+                </a>
                 <a href="#" class="sidebar-menu-item" data-section="relatorios">
                     <i class="fas fa-chart-bar"></i>
                     <span>Relatórios</span>
@@ -321,6 +325,20 @@
                             <div class="stat-valor" id="statReclamacoes">0</div>
                             <div class="stat-mudanca negativa">
                                 <i class="fas fa-arrow-up"></i> Requer atenção
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- VISITAS AO SITE -->
+                    <div class="stat-card" style="cursor:pointer;" onclick="navegarAdminSecao('visitas')">
+                        <div class="stat-icon" style="background:linear-gradient(135deg,#0288D1,#01579B);">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="stat-info">
+                            <div class="stat-label">Visitas ao Site</div>
+                            <div class="stat-valor" id="statVisitasTotal">—</div>
+                            <div class="stat-mudanca positiva" id="statVisitasHoje">
+                                <i class="fas fa-calendar-day"></i> <span id="visHoje">—</span> hoje
                             </div>
                         </div>
                     </div>
@@ -491,6 +509,51 @@
                 </div>
             </div>
             
+            <!-- ===== VISITAS AO SITE ===== -->
+            <div class="dashboard-secao-wrapper oculto" id="secao-visitas">
+                <div class="dashboard-header">
+                    <h1 class="dashboard-titulo">📊 Visitas ao Site</h1>
+                    <p style="color:rgba(245,245,245,0.8);margin-top:0.5rem;">Monitorização de visitas à plataforma (dados locais do seu browser)</p>
+                </div>
+                
+                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.5rem;margin-bottom:2rem;">
+                    <div class="card" style="text-align:center;padding:2rem;">
+                        <div style="font-size:3rem;font-weight:900;color:#0288D1;" id="visitasTotalNum">—</div>
+                        <div style="color:#94A3B8;font-size:0.9rem;margin-top:0.4rem;">Total de Visitas</div>
+                    </div>
+                    <div class="card" style="text-align:center;padding:2rem;">
+                        <div style="font-size:3rem;font-weight:900;color:#10B981;" id="visitasHojeNum">—</div>
+                        <div style="color:#94A3B8;font-size:0.9rem;margin-top:0.4rem;">Hoje</div>
+                    </div>
+                    <div class="card" style="text-align:center;padding:2rem;">
+                        <div style="font-size:3rem;font-weight:900;color:#F59E0B;" id="visitasSetimanaNum">—</div>
+                        <div style="color:#94A3B8;font-size:0.9rem;margin-top:0.4rem;">Esta Semana</div>
+                    </div>
+                    <div class="card" style="text-align:center;padding:2rem;">
+                        <div style="font-size:1rem;font-weight:700;color:#CBD5E1;" id="visitasUltimaData">—</div>
+                        <div style="color:#94A3B8;font-size:0.9rem;margin-top:0.4rem;">Última Visita</div>
+                    </div>
+                </div>
+
+                <div class="card" style="padding:1.5rem;">
+                    <h3 style="color:#F1F5F9;margin-bottom:1rem;"><i class="fas fa-calendar-alt" style="color:#0288D1;"></i> Visitas nos Últimos 30 Dias</h3>
+                    <div id="visitasGrafico" style="overflow-x:auto;padding-bottom:0.5rem;">
+                        <div style="color:#64748B;text-align:center;padding:2rem;">A carregar dados...</div>
+                    </div>
+                </div>
+
+                <div class="card" style="padding:1.5rem;margin-top:1.5rem;">
+                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;">
+                        <h3 style="color:#F1F5F9;"><i class="fas fa-info-circle" style="color:#F59E0B;"></i> Nota Importante</h3>
+                    </div>
+                    <p style="color:#94A3B8;font-size:0.9rem;line-height:1.6;">
+                        ⚠️ Este contador usa <strong style="color:#CBD5E1;">localStorage</strong> — regista apenas visitas no <strong style="color:#CBD5E1;">seu próprio browser</strong>. 
+                        Para contagem real de todos os visitantes, é necessário integrar o <strong style="color:#CBD5E1;">Google Analytics</strong> ou <strong style="color:#CBD5E1;">Cloudflare Analytics</strong> (gratuito). 
+                        Quando migrarmos para <strong style="color:#10B981;">Supabase</strong>, implementaremos um contador real de visitas.
+                    </p>
+                </div>
+            </div>
+            
         </main>
     </div>
     
@@ -586,8 +649,91 @@
                 carregarBarcosPendentes();
             } else if (secao === 'todos-barcos') {
                 carregarTodosBarcos();
+            } else if (secao === 'visitas') {
+                carregarVisitasSite();
             }
         }
+        
+        // Also expose for onclick calls
+        window.navegarAdminSecao = navegarSecao;
+        
+        // ===== CONTADOR DE VISITAS =====
+        function carregarVisitasSite() {
+            try {
+                const stats = JSON.parse(localStorage.getItem('siteVisitStats') || '{}');
+                const hoje = new Date().toISOString().slice(0,10);
+                const porDia = stats.porDia || {};
+                
+                // Total
+                const total = stats.total || 0;
+                document.getElementById('visitasTotalNum').textContent = total.toLocaleString('pt-PT');
+                document.getElementById('statVisitasTotal').textContent = total.toLocaleString('pt-PT');
+                
+                // Hoje
+                const hojeCount = porDia[hoje] || 0;
+                document.getElementById('visitasHojeNum').textContent = hojeCount;
+                document.getElementById('visHoje').textContent = hojeCount;
+                
+                // Esta semana (últimos 7 dias)
+                let semanaCount = 0;
+                for (let i = 0; i < 7; i++) {
+                    const d = new Date(); d.setDate(d.getDate() - i);
+                    const key = d.toISOString().slice(0,10);
+                    semanaCount += porDia[key] || 0;
+                }
+                document.getElementById('visitasSetimanaNum').textContent = semanaCount;
+                
+                // Última visita
+                if (stats.ultimaVisita) {
+                    const dt = new Date(stats.ultimaVisita);
+                    document.getElementById('visitasUltimaData').textContent = 
+                        dt.toLocaleDateString('pt-PT') + ' ' + dt.toLocaleTimeString('pt-PT', {hour:'2-digit',minute:'2-digit'});
+                }
+                
+                // Gráfico de barras simples dos últimos 14 dias
+                const maxVal = Math.max(1, ...Object.values(porDia));
+                const ultimos14 = [];
+                for (let i = 13; i >= 0; i--) {
+                    const d = new Date(); d.setDate(d.getDate() - i);
+                    const key = d.toISOString().slice(0,10);
+                    const val = porDia[key] || 0;
+                    const dia = d.toLocaleDateString('pt-PT', {day:'2-digit',month:'2-digit'});
+                    ultimos14.push({dia, val});
+                }
+                
+                const grafico = document.getElementById('visitasGrafico');
+                if (grafico) {
+                    grafico.innerHTML = `
+                        <div style="display:flex;align-items:flex-end;gap:6px;height:120px;padding:0.5rem 0;">
+                            ${ultimos14.map(({dia, val}) => `
+                                <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;" title="${dia}: ${val} visitas">
+                                    <div style="font-size:0.7rem;color:#94A3B8;">${val > 0 ? val : ''}</div>
+                                    <div style="width:100%;background:${val === 0 ? 'rgba(255,255,255,0.05)' : 'linear-gradient(180deg,#0288D1,#01579B)'};
+                                         border-radius:4px 4px 0 0;height:${Math.max(4, Math.round((val/maxVal)*90))}px;
+                                         transition:all 0.3s;cursor:default;"></div>
+                                    <div style="font-size:0.62rem;color:#64748B;white-space:nowrap;">${dia}</div>
+                                </div>`).join('')}
+                        </div>
+                    `;
+                }
+            } catch(e) { console.warn('Erro ao carregar visitas:', e); }
+        }
+        
+        // Atualizar contadores no painel principal
+        window.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                try {
+                    const stats = JSON.parse(localStorage.getItem('siteVisitStats') || '{}');
+                    const hoje = new Date().toISOString().slice(0,10);
+                    const total = stats.total || 0;
+                    const hojeC = (stats.porDia || {})[hoje] || 0;
+                    const elT = document.getElementById('statVisitasTotal');
+                    const elH = document.getElementById('visHoje');
+                    if (elT) elT.textContent = total.toLocaleString('pt-PT');
+                    if (elH) elH.textContent = hojeC;
+                } catch(e) {}
+            }, 300);
+        });
         
         // 🔥 NOVA FUNÇÃO: Carregar seção de Capitães Pendentes (página específica)
         function carregarSecaoPendentes() {
@@ -1009,8 +1155,8 @@
                             <div class="card-conteudo" style="padding: 1.5rem;">
                                 <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem;">
                                     <div>
-                                        <h3 style="color: var(--cor-texto); font-size: 1.25rem; margin-bottom: 0.25rem;">${barco.nome}</h3>
-                                        <div style="color: rgba(245,245,245,0.6); font-size: 0.85rem;">
+                                        <h3 style="color: #F1F5F9; font-size: 1.25rem; margin-bottom: 0.25rem;">${barco.nome}</h3>
+                                        <div style="color: #94A3B8; font-size: 0.85rem;">
                                             <i class="fas fa-user-tie"></i> ${barco.capitaoNome || barco.capitaoEmail}
                                             &nbsp;·&nbsp;
                                             <i class="fas fa-calendar"></i> Registado em ${dataRegisto}
@@ -1019,34 +1165,34 @@
                                 </div>
                                 <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; margin-bottom: 1rem;">
                                     <div style="background: rgba(255,255,255,0.05); padding: 0.75rem; border-radius: 8px; text-align: center;">
-                                        <div style="font-size: 0.75rem; color: rgba(245,245,245,0.5); margin-bottom: 0.25rem;">TIPO</div>
-                                        <div style="font-weight: 600; color: var(--cor-texto); text-transform: capitalize;">${barco.tipo || '--'}</div>
+                                        <div style="font-size: 0.75rem; color: #CBD5E1; margin-bottom: 0.25rem; text-transform:uppercase; letter-spacing:0.05em;">TIPO</div>
+                                        <div style="font-weight: 600; color: #F1F5F9; text-transform: capitalize;">${barco.tipo || '--'}</div>
                                     </div>
                                     <div style="background: rgba(255,255,255,0.05); padding: 0.75rem; border-radius: 8px; text-align: center;">
-                                        <div style="font-size: 0.75rem; color: rgba(245,245,245,0.5); margin-bottom: 0.25rem;">COMPRIMENTO</div>
-                                        <div style="font-weight: 600; color: var(--cor-texto);">${barco.comprimento}m</div>
+                                        <div style="font-size: 0.75rem; color: #CBD5E1; margin-bottom: 0.25rem; text-transform:uppercase; letter-spacing:0.05em;">COMPRIMENTO</div>
+                                        <div style="font-weight: 600; color: #F1F5F9;">${barco.comprimento}m</div>
                                     </div>
                                     <div style="background: rgba(255,255,255,0.05); padding: 0.75rem; border-radius: 8px; text-align: center;">
-                                        <div style="font-size: 0.75rem; color: rgba(245,245,245,0.5); margin-bottom: 0.25rem;">LOTAÇÃO</div>
-                                        <div style="font-weight: 600; color: var(--cor-texto);">${barco.lotacao || '?'} pess.</div>
+                                        <div style="font-size: 0.75rem; color: #CBD5E1; margin-bottom: 0.25rem; text-transform:uppercase; letter-spacing:0.05em;">LOTAÇÃO</div>
+                                        <div style="font-weight: 600; color: #F1F5F9;">${barco.lotacao || '?'} pess.</div>
                                     </div>
                                     <div style="background: rgba(255,255,255,0.05); padding: 0.75rem; border-radius: 8px; text-align: center;">
-                                        <div style="font-size: 0.75rem; color: rgba(245,245,245,0.5); margin-bottom: 0.25rem;">ANO</div>
-                                        <div style="font-weight: 600; color: var(--cor-texto);">${barco.ano || '--'}</div>
+                                        <div style="font-size: 0.75rem; color: #CBD5E1; margin-bottom: 0.25rem; text-transform:uppercase; letter-spacing:0.05em;">ANO</div>
+                                        <div style="font-weight: 600; color: #F1F5F9;">${barco.ano || '--'}</div>
                                     </div>
                                     <div style="background: rgba(255,255,255,0.05); padding: 0.75rem; border-radius: 8px; text-align: center;">
-                                        <div style="font-size: 0.75rem; color: rgba(245,245,245,0.5); margin-bottom: 0.25rem;">MOTOR</div>
-                                        <div style="font-weight: 600; color: var(--cor-texto);">${barco.potencia || '?'} CV</div>
+                                        <div style="font-size: 0.75rem; color: #CBD5E1; margin-bottom: 0.25rem; text-transform:uppercase; letter-spacing:0.05em;">MOTOR</div>
+                                        <div style="font-weight: 600; color: #F1F5F9;">${barco.potencia || '?'} CV</div>
                                     </div>
                                     <div style="background: rgba(255,255,255,0.05); padding: 0.75rem; border-radius: 8px; text-align: center;">
-                                        <div style="font-size: 0.75rem; color: rgba(245,245,245,0.5); margin-bottom: 0.25rem;">PORTO</div>
-                                        <div style="font-weight: 600; color: var(--cor-texto); font-size: 0.85rem;">${(barco.porto || '--').substring(0,15)}</div>
+                                        <div style="font-size: 0.75rem; color: #CBD5E1; margin-bottom: 0.25rem; text-transform:uppercase; letter-spacing:0.05em;">PORTO</div>
+                                        <div style="font-weight: 600; color: #F1F5F9; font-size: 0.85rem;">${(barco.porto || '--').substring(0,15)}</div>
                                     </div>
                                 </div>
                                 ${extrasList !== 'Nenhum' ? `
                                 <div style="margin-bottom: 1rem;">
                                     <span style="font-size: 0.8rem; color: rgba(245,245,245,0.5);">Extras:</span>
-                                    <span style="font-size: 0.85rem; color: var(--cor-texto);">${extrasList}</span>
+                                    <span style="font-size: 0.85rem; color: #F1F5F9;">${extrasList}</span>
                                 </div>` : ''}
                                 <!-- Botões de ação -->
                                 <div style="display: flex; gap: 0.75rem; margin-top: 1.25rem; flex-wrap: wrap;">

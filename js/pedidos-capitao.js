@@ -47,7 +47,7 @@ function loadPedidosPendentes() {
     
     // Render pending reservations
     container.innerHTML = pendentes.map(reserva => {
-        const diasFormatted = reserva.dias.map(d => formatDateShort(d)).join(', ');
+        const diasFormatted = (reserva.dias ? reserva.dias.map(d => formatDateShort(d)).join(', ') : (reserva.saidaData ? formatDateReadable(reserva.saidaData) + (reserva.saidaHora ? ' às ' + reserva.saidaHora : '') : '—'));
         
         return `
             <div class="pedido-card" data-id="${reserva.id}">
@@ -65,7 +65,7 @@ function loadPedidosPendentes() {
                             <i class="fas fa-user"></i>
                             <div>
                                 <span class="label">Cliente</span>
-                                <span class="value">${reserva.cliente.nome}</span>
+                                <span class="value">${reserva.clienteNome || reserva.cliente?.nome || '—'}</span>
                             </div>
                         </div>
                         
@@ -73,7 +73,7 @@ function loadPedidosPendentes() {
                             <i class="fas fa-calendar-alt"></i>
                             <div>
                                 <span class="label">Dias Solicitados</span>
-                                <span class="value">${reserva.dias.length} dia(s)</span>
+                                <span class="value">${(reserva.dias ? reserva.dias.length : 1)} dia(s)</span>
                             </div>
                         </div>
                         
@@ -81,7 +81,7 @@ function loadPedidosPendentes() {
                             <i class="fas fa-users"></i>
                             <div>
                                 <span class="label">Pescadores</span>
-                                <span class="value">${reserva.cliente.numPescadores} pessoa(s)</span>
+                                <span class="value">${reserva.numPessoas || reserva.cliente?.numPescadores || 1} pessoa(s)</span>
                             </div>
                         </div>
                         
@@ -100,17 +100,17 @@ function loadPedidosPendentes() {
                     
                     <div class="pedido-contacto">
                         <div>
-                            <i class="fas fa-envelope"></i> ${reserva.cliente.email}
+                            <i class="fas fa-envelope"></i> ${reserva.clienteEmail || reserva.cliente?.email || '—'}
                         </div>
                         <div>
-                            <i class="fas fa-phone"></i> ${reserva.cliente.telefone}
+                            <i class="fas fa-phone"></i> ${reserva.clienteTelefone || reserva.cliente?.telefone || '—'}
                         </div>
                     </div>
                     
-                    ${reserva.cliente.mensagem ? `
+                    ${reserva.mensagem || reserva.cliente?.mensagem || '' ? `
                         <div class="pedido-mensagem">
                             <strong>💬 Mensagem:</strong>
-                            <p>${reserva.cliente.mensagem}</p>
+                            <p>${reserva.mensagem || reserva.cliente?.mensagem || ''}</p>
                         </div>
                     ` : ''}
                 </div>
@@ -119,10 +119,10 @@ function loadPedidosPendentes() {
                     <button class="btn btn-success" onclick="aceitarPedido(${reserva.id})">
                         <i class="fas fa-check"></i> Aceitar e Reservar Dias
                     </button>
-                    <button class="btn btn-secondary" onclick="contactarCliente('${reserva.cliente.telefone}')">
+                    <button class="btn btn-secondary" onclick="contactarCliente('${reserva.clienteTelefone || reserva.cliente?.telefone || '—'}')">
                         <i class="fas fa-phone"></i> Ligar
                     </button>
-                    <button class="btn btn-secondary" onclick="emailCliente('${reserva.cliente.email}')">
+                    <button class="btn btn-secondary" onclick="emailCliente('${reserva.clienteEmail || reserva.cliente?.email || '—'}')">
                         <i class="fas fa-envelope"></i> Email
                     </button>
                     <button class="btn btn-danger-outline" onclick="rejeitarPedido(${reserva.id})">
@@ -159,9 +159,9 @@ window.aceitarPedido = function(reservaId) {
                 ${reserva.dias.map(d => `<div>📅 ${formatDateReadable(d)}</div>`).join('')}
             </div>
             <p style="color: var(--text-secondary); font-size: 0.9rem; margin: 1rem 0;">
-                <strong>Cliente:</strong> ${reserva.cliente.nome}<br>
-                <strong>Telefone:</strong> ${reserva.cliente.telefone}<br>
-                <strong>Pescadores:</strong> ${reserva.cliente.numPescadores}
+                <strong>Cliente:</strong> ${reserva.clienteNome || reserva.cliente?.nome || '—'}<br>
+                <strong>Telefone:</strong> ${reserva.clienteTelefone || reserva.cliente?.telefone || '—'}<br>
+                <strong>Pescadores:</strong> ${reserva.numPessoas || reserva.cliente?.numPescadores || 1}
             </p>
             <div style="display: flex; gap: 1rem; margin-top: 1.5rem;">
                 <button class="btn btn-secondary" style="flex: 1;" onclick="this.closest('.modal').remove()">
@@ -191,12 +191,12 @@ window.confirmarAceitacao = function(reservaId) {
     
     // Update agenda with reserved days
     const agendaStatus = JSON.parse(localStorage.getItem('agendaStatus') || '{}');
-    reserva.dias.forEach(dia => {
+    (reserva.dias || [reserva.saidaData]).filter(Boolean).forEach(dia => {
         agendaStatus[dia] = {
             status: 'reservado',
-            cliente: reserva.cliente.nome,
-            telefone: reserva.cliente.telefone,
-            numPescadores: reserva.cliente.numPescadores
+            cliente: reserva.clienteNome || reserva.cliente?.nome || '—',
+            telefone: reserva.clienteTelefone || reserva.cliente?.telefone || '—',
+            numPescadores: reserva.numPessoas || reserva.cliente?.numPescadores || 1
         };
     });
     localStorage.setItem('agendaStatus', JSON.stringify(agendaStatus));
