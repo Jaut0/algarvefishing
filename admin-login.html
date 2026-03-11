@@ -150,7 +150,7 @@
         }
 
         // SHA-256 do email + password admin (gerado fora do código-fonte)
-        const ADMIN_HASH = '29a95d80e32ad14ff4d996ebbb49463cbc5ba9a0b2f895e5f56259904811e94a';
+        const ADMIN_HASH = '7ce309d55277dff36b68fb362e82accaa6924b7c938f32888bf1b136b7a0152d';
         const ADMIN_EMAIL_HASH = 'b3f4b5a2e9adf265f4d4fbc0c61d40b70d11f21e28a0e59fa1c8f3e2a10c5d71';
 
         document.getElementById('formAdminLogin').addEventListener('submit', async (e) => {
@@ -161,7 +161,7 @@
 
             const pwHash = await hashPassword(password);
 
-            if (email === 'geral@algarvetunacharter.pt' && pwHash === ADMIN_HASH) {
+            if (email === 'example@mail.pt' && pwHash === ADMIN_HASH) {
                 mostrarLoading();
                 setTimeout(() => {
                     esconderLoading();
