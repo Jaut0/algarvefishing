@@ -66,7 +66,7 @@ if (typeof emailjs !== 'undefined') {
  * Enviar Email de Ativação de Capitão
  */
 async function enviarEmailAtivacaoCapitao(dados, token) {
-    const linkAtivacao = `${window.location.origin}/confirmar-email.html?token=${token}`;
+    const linkAtivacao = `${window.location.origin}/ativar-conta.html?token=${token}`;
     
     const params = {
         to_email: dados.email,
