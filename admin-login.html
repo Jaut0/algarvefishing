@@ -107,7 +107,7 @@
                             <label class="form-label obrigatorio">
                                 <i class="fas fa-envelope"></i> Email de Admin
                             </label>
-                            <input type="email" class="form-input" id="adminEmail" placeholder="geral@algarvetunacharter.pt" required autocomplete="username">
+                            <input type="email" class="form-input" id="adminEmail" placeholder="Email de administrador" required autocomplete="username">
                         </div>
                         
                         <div class="form-grupo">
@@ -143,14 +143,25 @@
     
     <script src="js/main.js"></script>
     <script>
-        document.getElementById('formAdminLogin').addEventListener('submit', (e) => {
+        // Hash SHA-256 (password nunca exposta em plaintext no código)
+        async function hashPassword(str) {
+            const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+            return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+        }
+
+        // SHA-256 do email + password admin (gerado fora do código-fonte)
+        const ADMIN_HASH = '29a95d80e32ad14ff4d996ebbb49463cbc5ba9a0b2f895e5f56259904811e94a';
+        const ADMIN_EMAIL_HASH = 'b3f4b5a2e9adf265f4d4fbc0c61d40b70d11f21e28a0e59fa1c8f3e2a10c5d71';
+
+        document.getElementById('formAdminLogin').addEventListener('submit', async (e) => {
             e.preventDefault();
-            
-            const email = document.getElementById('adminEmail').value;
+
+            const email = document.getElementById('adminEmail').value.trim().toLowerCase();
             const password = document.getElementById('adminPassword').value;
-            
-            // Validação simples (em produção usar backend)
-            if (email === 'geral@algarvetunacharter.pt' && password === 'Abc.1234!jauto') {
+
+            const pwHash = await hashPassword(password);
+
+            if (email === 'geral@algarvetunacharter.pt' && pwHash === ADMIN_HASH) {
                 mostrarLoading();
                 setTimeout(() => {
                     esconderLoading();

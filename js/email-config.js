@@ -45,7 +45,7 @@ function initEmailJS() {
     }
     
     emailjs.init(EMAIL_CONFIG.publicKey);
-    console.log('✅ EmailJS inicializado com Public Key:', EMAIL_CONFIG.publicKey);
+    console.log('✅ EmailJS inicializado com sucesso.');
     return true;
 }
 
