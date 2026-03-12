@@ -278,6 +278,14 @@ document.getElementById('reservaForm').addEventListener('submit', (e) => {
             numPescadores: document.getElementById('numPescadores').value,
             mensagem: document.getElementById('mensagemCliente').value
         },
+                // Campos compatíveis com dashboards
+        clienteNome: document.getElementById('nomeCliente').value,
+        clienteEmail: document.getElementById('emailCliente').value,
+        clienteTelefone: document.getElementById('telefoneCliente').value,
+        capitaoNome: barco.capitao.nome,
+        numPessoas: parseInt(document.getElementById('numPescadores').value) || 1,
+        totalPagar: null,
+        dataPedido: new Date().toISOString(),
         status: 'pendente',
         dataEnvio: new Date().toISOString()
     };

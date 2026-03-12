@@ -7,6 +7,7 @@
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>⚓</text></svg>">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/wicked-tuna.css">
     <style>
         .detalhe-hero {
             position: relative;
@@ -746,6 +747,14 @@
             }
             const total = numPessoas * saidaAtual.preco;
 
+            // Obter telefone/WhatsApp do capitão (se existir)
+            let telCapitao = '';
+            try {
+                const utilizadores = JSON.parse(localStorage.getItem('utilizadores') || '[]');
+                const cap = utilizadores.find(u => (u.email || '').toLowerCase() === String(saidaAtual.capitaoEmail || '').toLowerCase());
+                telCapitao = cap?.telefone || '';
+            } catch(e) {}
+
             // Criar reserva
             const reserva = {
                 id: Date.now(),
@@ -757,6 +766,7 @@
                 saidaImagem: saidaAtual.imagem || '',
                 capitaoEmail: saidaAtual.capitaoEmail,
                 capitaoNome: saidaAtual.capitao,
+                capitaoTelefone: telCapitao,
                 barcoNome: saidaAtual.barco,
                 clienteEmail: utilizadorAtual.email,
                 clienteNome: utilizadorAtual.nome,

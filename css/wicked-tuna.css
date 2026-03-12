@@ -1,0 +1,144 @@
+/* ============================================================
+   Wicked Tuna skin (Theme A)
+   Dark Offshore Navy + Electric Blue accents
+   Safe overrides: keeps layout/markup, upgrades look & feel.
+   ============================================================ */
+
+:root{
+  --wt-navy-900:#060C16;
+  --wt-navy-800:#0A1628; /* existing brand primary */
+  --wt-navy-700:#0F233D;
+  --wt-steel-600:#1C2F48;
+
+  --wt-blue-500:#1565C0; /* existing */
+  --wt-blue-400:#1E88E5;
+  --wt-cyan-400:#00C2FF;
+
+  --wt-amber-400:#FF8F00; /* existing accent */
+  --wt-text:#EAF2FF;
+  --wt-text-dim:rgba(234,242,255,.78);
+
+  --wt-surface: rgba(10, 22, 40, .72);
+  --wt-surface-2: rgba(10, 22, 40, .55);
+  --wt-border: rgba(255,255,255,.12);
+  --wt-glow: 0 0 0 3px rgba(0,194,255,.18);
+}
+
+/* Subtle offshore backdrop (doesn't force full dark pages) */
+body{
+  background-image:
+    radial-gradient(1200px 500px at 20% -10%, rgba(0,194,255,.10), transparent 55%),
+    radial-gradient(1000px 480px at 90% 0%, rgba(21,101,192,.10), transparent 60%),
+    radial-gradient(900px 520px at 50% 120%, rgba(255,143,0,.06), transparent 55%);
+  background-attachment: fixed;
+}
+
+/* Headers / hero ribbons */
+.page-header,
+.hero,
+.header{
+  position: relative;
+}
+
+.page-header{
+  background: linear-gradient(135deg, var(--wt-navy-900) 0%, var(--wt-navy-800) 45%, rgba(21,101,192,.85) 100%) !important;
+  border-bottom: 1px solid rgba(255,255,255,.08);
+}
+
+/* Cards: sharper, more premium */
+.card,
+.form-card,
+.dashboard-card,
+.saida-card,
+.barco-card{
+  border: 1px solid rgba(255,255,255,.08);
+  box-shadow: 0 18px 45px rgba(0,0,0,.18);
+}
+
+/* Form elements: more tactical focus state */
+.form-input:focus,
+.form-select:focus,
+.form-textarea:focus,
+input:focus,
+select:focus,
+textarea:focus{
+  box-shadow: var(--wt-glow) !important;
+}
+
+/* Section titles with icons */
+.section-title,
+.section-titulo,
+.form-section-title{
+  letter-spacing: .02em;
+}
+
+.section-title i,
+.section-titulo i,
+.form-section-title i,
+.tipo-icon i{
+  color: var(--wt-cyan-400);
+}
+
+/* Checkbox / pill selectors (fishing types) */
+.tipo-cb{
+  border: 1px solid rgba(255,255,255,.10) !important;
+  background: linear-gradient(180deg, rgba(10,22,40,.04), rgba(10,22,40,.02)) !important;
+}
+.tipo-cb:hover{
+  transform: translateY(-1px);
+  box-shadow: 0 14px 34px rgba(0,0,0,.10);
+}
+.tipo-cb.active,
+.tipo-cb:has(input:checked){
+  border-color: rgba(0,194,255,.45) !important;
+  box-shadow: 0 0 0 2px rgba(0,194,255,.16);
+}
+
+/* Primary buttons: more "radical" */
+.btn,
+.btn-primary,
+.btn-confirmar,
+button.btn-primary,
+button[type="submit"]{
+  position: relative;
+  background: linear-gradient(135deg, var(--wt-blue-500), var(--wt-cyan-400)) !important;
+  border: 1px solid rgba(255,255,255,.14) !important;
+  box-shadow: 0 14px 30px rgba(0,0,0,.18);
+}
+.btn:hover,
+.btn-primary:hover,
+button.btn-primary:hover,
+button[type="submit"]:hover{
+  transform: translateY(-1px);
+  filter: saturate(1.08);
+}
+
+/* Secondary buttons */
+.btn-outline,
+.btn-cancelar{
+  border: 1px solid rgba(10,22,40,.22) !important;
+}
+
+/* Badges */
+.badge,
+.status-badge,
+.barco-card-badge{
+  border: 1px solid rgba(255,255,255,.16);
+  backdrop-filter: blur(10px);
+}
+
+/* Language switcher: a bit more "offshore" */
+.lang-switcher{
+  background: rgba(6, 12, 22, .55) !important;
+  border: 1px solid rgba(255,255,255,.14) !important;
+}
+.lang-btn.active{
+  background: rgba(0,194,255,.18) !important;
+  border: 1px solid rgba(0,194,255,.38) !important;
+}
+
+/* Reduce emoji visual prominence where they remain */
+.emoji{
+  filter: grayscale(.15);
+  opacity: .95;
+}

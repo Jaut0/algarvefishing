@@ -1,0 +1,54 @@
+# Ficheiros de documentação (não necessários em produção)
+*.md
+!README.md
+
+# Ficheiros de teste
+teste-*.html
+*-demo.html
+reset-system.html
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs
+*.log
+npm-debug.log*
+
+# Temporários
+*.tmp
+*.bak
+
+# === SEGURANÇA - Ficheiros sensíveis ===
+# Nunca versionar ficheiros com credenciais reais
+*.env
+.env.*
+config.local.js
+secrets.js
+credentials.js
+
+# Ficheiros de teste com dados reais
+teste-registo-cliente.html
+reset-system.html
+
+# Dependências e build
+node_modules/
+dist/
+build/
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/

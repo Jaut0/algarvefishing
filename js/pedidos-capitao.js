@@ -185,9 +185,9 @@ window.confirmarAceitacao = function(reservaId) {
     
     const reserva = reservas[index];
     
-    // Update status to accepted
-    reserva.status = 'aceite';
-    reserva.dataAceite = new Date().toISOString();
+    // Update status to confirmed (cliente vê como "Confirmada")
+    reserva.status = 'confirmada';
+    reserva.dataConfirmada = new Date().toISOString();
     
     // Update agenda with reserved days
     const agendaStatus = JSON.parse(localStorage.getItem('agendaStatus') || '{}');
@@ -207,9 +207,35 @@ window.confirmarAceitacao = function(reservaId) {
     // Close modal
     document.querySelector('.modal')?.remove();
     
+    // 📧 Avisar o cliente por email + mostrar contacto direto do capitão (WhatsApp)
+    try {
+        if (typeof enviarEmailReservaAceiteCliente === 'function') {
+            const utilizadorLogado = JSON.parse(localStorage.getItem('usuarioLogado') || 'null');
+            const telCapitao = (utilizadorLogado && utilizadorLogado.telefone) ? utilizadorLogado.telefone : (reserva.capitaoTelefone || reserva.capitao?.telefone || '');
+            const datasSelecionadas = (reserva.dias && Array.isArray(reserva.dias))
+                ? reserva.dias.map(d => formatDateReadable(d)).join(', ')
+                : (reserva.saidaData ? formatDateReadable(reserva.saidaData) : '—');
+
+            enviarEmailReservaAceiteCliente({
+                clienteNome: reserva.clienteNome || reserva.cliente?.nome || 'Cliente',
+                clienteEmail: reserva.clienteEmail || reserva.cliente?.email || '',
+                clienteTelefone: reserva.clienteTelefone || reserva.cliente?.telefone || '',
+                capitaoNome: reserva.capitao || reserva.capitaoNome || utilizadorLogado?.nome || 'Capitão',
+                capitaoTelefone: telCapitao,
+                barcoNome: reserva.barcoNome || '—',
+                datasSelecionadas,
+                numPescadores: reserva.numPessoas || reserva.cliente?.numPescadores || 1
+            });
+        }
+    } catch (e) {
+        console.warn('Falha ao enviar email de confirmação ao cliente:', e);
+    }
+
     // Show success toast
-    showToast('Reserva aceite! Os dias foram bloqueados na agenda.', 'success');
-    
+    if (window.mostrarToast) {
+        mostrarToast('✅ Reserva confirmada! O cliente foi notificado.', 'sucesso');
+    }
+
     // Reload list
     loadPedidosPendentes();
 };
@@ -266,7 +292,7 @@ window.confirmarRejeicao = function(reservaId) {
     document.querySelector('.modal')?.remove();
     
     // Show toast
-    showToast('Pedido rejeitado', 'info');
+    if (window.mostrarToast) mostrarToast('Pedido rejeitado', 'aviso');
     
     // Reload list
     loadPedidosPendentes();
