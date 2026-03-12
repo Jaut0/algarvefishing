@@ -3947,6 +3947,31 @@
     }
   };
 
+  // ------------------------------------------------------------
+  // Guard: prevent polluted auto-translations (MyMemory quota warnings)
+  // ------------------------------------------------------------
+  const BAD_TRANSLATION_RE = /MYMEMORY WARNING|USED ALL AVAILABLE FREE TRANSLATIONS|mymemory\.translated\.net|NEXT AVAILABLE IN/i;
+
+  function isBadAutoTranslation(str) {
+    if (!str || typeof str !== 'string') return false;
+    return BAD_TRANSLATION_RE.test(str);
+  }
+
+  function sanitizeDict() {
+    try {
+      ['en','fr','de'].forEach(l => {
+        if (!DICT[l]) return;
+        Object.keys(DICT[l]).forEach(k => {
+          const v = DICT[l][k];
+          if (isBadAutoTranslation(v)) {
+            // drop the polluted entry so we fallback to PT key
+            delete DICT[l][k];
+          }
+        });
+      });
+    } catch (_) {}
+  }
+
   function normalizeLang(lang) {
     if (!lang) return 'pt';
     const l = String(lang).toLowerCase();
@@ -3976,7 +4001,8 @@
   function t(ptText, lang) {
     const l = normalizeLang(lang || getLang());
     if (l === 'pt') return ptText;
-    return (DICT[l] && DICT[l][ptText]) ? DICT[l][ptText] : ptText;
+    const out = (DICT[l] && DICT[l][ptText]) ? DICT[l][ptText] : ptText;
+    return isBadAutoTranslation(out) ? ptText : out;
   }
 
   function annotateElementsWithKeys() {
@@ -4167,6 +4193,7 @@
   };
 
   document.addEventListener('DOMContentLoaded', () => {
+    sanitizeDict();
     applyI18n(getLang());
   });
 })();
