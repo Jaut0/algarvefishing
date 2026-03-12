@@ -444,7 +444,25 @@
                 <strong id="modalTotal" style="color:#C2410C; font-size:1.4rem; display:block; margin-top:0.25rem;"></strong>
             </div>
 
-            <button class="btn-modal-confirm" id="btnConfirmarReserva" onclick="confirmarReserva()">
+            
+            <!-- Aviso de cancelamentos -->
+            <div id="avisoCancelamentosCheckout" style="background:#EFF6FF; border:1.5px solid #BFDBFE; border-radius:10px; padding:0.9rem 1rem; margin-top:1rem;">
+                <div style="display:flex; gap:0.7rem; align-items:flex-start;">
+                    <div style="font-size:1.2rem; line-height:1; margin-top:0.05rem;">ℹ️</div>
+                    <div>
+                        <div style="font-weight:800; color:#1E40AF; margin-bottom:0.25rem;">Política de cancelamentos</div>
+                        <div style="font-size:0.9rem; color:#1F2937; line-height:1.45;">
+                            <strong>Até 7 dias</strong>: pode cancelar. <strong>Menos de 7 dias</strong>: decisão do capitão.
+                            <br/>
+                            <strong>Mau tempo</strong> ou <strong>avaria do barco</strong>: <strong>reembolso total</strong>.
+                            <br/>
+                            <a href="cancelamentos.html" style="color:#1D4ED8; font-weight:700; text-decoration:underline;">Ver detalhes</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+<button class="btn-modal-confirm" id="btnConfirmarReserva" onclick="confirmarReserva()">
                 <i class="fas fa-check-circle"></i> Confirmar Pedido de Reserva
             </button>
             <button class="btn-modal-cancel" onclick="fecharModalReserva()">Cancelar</button>
@@ -820,5 +838,7 @@
         } catch(e) {}
     })();
     </script>
+
+    <script src="js/i18n.js"></script>
 </body>
 </html>

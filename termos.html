@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Termos e Condições - Algarve Tuna Charter</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>⚓</text></svg>">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header class="header" id="header">
+        <div class="header-content container">
+            <a href="index.html" class="logo">
+                <span class="logo-icon">⚓</span>
+                <span>Algarve Tuna Charter</span>
+            </a>
+            <nav class="nav-menu" id="navMenu">
+                <a href="index.html" class="nav-link">Início</a>
+                <a href="explorar.html" class="nav-link">Explorar</a>
+                <a href="cancelamentos.html" class="nav-link">Cancelamentos</a>
+                <a href="auth.html" class="btn btn-primario btn-pequeno">Entrar</a>
+            </nav>
+            <div class="menu-toggle" id="menuToggle">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+    </header>
+
+    <section class="secao" style="margin-top: 80px;">
+        <div class="container">
+            <h1 class="mb-3">Termos e Condições</h1>
+            <p class="texto-grande texto-cinza mb-4">Informação essencial sobre o uso da plataforma.</p>
+
+            <div class="card" style="padding: 1.5rem; border-radius: 14px;">
+                
+<p><strong>Versão:</strong> v1.19 &nbsp;|&nbsp; <strong>Última atualização:</strong> 2026-03-11</p>
+<hr style="margin: 1rem 0; opacity: 0.2;" />
+
+<h2 class="mb-2"><i class="fas fa-file-contract"></i> 1) Natureza do serviço</h2>
+<p>A Algarve Tuna Charter é um <strong>serviço autónomo</strong> para gestão de pedidos de reserva e divulgação de saídas de pesca anunciadas por Capitães. A Plataforma não executa a saída no mar.</p>
+
+<h2 class="mb-2" style="margin-top: 1.25rem;"><i class="fas fa-user-check"></i> 2) Contas e ativação</h2>
+<ul style="margin-left: 1.2rem; line-height: 1.8;">
+  <li><strong>Cliente:</strong> só pode fazer login após confirmar o e-mail pelo link recebido.</li>
+  <li><strong>Capitão:</strong> pode exigir documentos e ficar pendente de aprovação administrativa.</li>
+</ul>
+
+<h2 class="mb-2" style="margin-top: 1.25rem;"><i class="fas fa-credit-card"></i> 3) Pagamentos e faturas</h2>
+<p>A Plataforma <strong>não processa pagamentos</strong>, não recebe valores e <strong>não emite faturas</strong>. Qualquer pagamento é combinado diretamente entre Cliente e Capitão. Qualquer fatura/recibo (quando aplicável) é emitida pela atividade/empresa do Capitão.</p>
+
+<h2 class="mb-2" style="margin-top: 1.25rem;"><i class="fas fa-calendar-times"></i> 4) Cancelamentos e reembolsos</h2>
+<p>Consulte as regras na página: <a href="cancelamentos.html">Cancelamentos e Reembolsos</a>.</p>
+
+<h2 class="mb-2" style="margin-top: 1.25rem;"><i class="fas fa-scale-balanced"></i> 5) Lei aplicável</h2>
+<p>Portugal.</p>
+
+            </div>
+
+            <div class="card" style="padding: 1.25rem; border-radius: 14px; margin-top: 1.25rem; background: rgba(2, 136, 209, 0.06); border: 1px solid rgba(2, 136, 209, 0.18);">
+                <h3 class="mb-2"><i class="fas fa-life-ring"></i> Contato</h3>
+                <p class="mb-0">Dúvidas sobre estes textos? Escreva para <a href="mailto:geral@algarvetunacharter.pt">geral@algarvetunacharter.pt</a>.</p>
+            </div>
+        </div>
+    </section>
+<footer class="footer">
+        <div class="container">
+            <div class="footer-conteudo">
+                <div class="footer-secao">
+                    <div class="logo mb-3">
+                        <span class="logo-icon">⚓</span>
+                        <span>Algarve Tuna Charter</span>
+                    </div>
+                    <p style="color: rgba(255, 255, 255, 0.8);">
+                        A sua plataforma de confiança para encontrar as melhores experiências de pesca.
+                    </p>
+                </div>
+                <div class="footer-secao">
+                    <h3>Links Rápidos</h3>
+                    <div class="footer-links">
+                        <a href="index.html" class="footer-link">Início</a>
+                        <a href="explorar.html" class="footer-link">Explorar</a>
+                        <a href="cancelamentos.html" class="footer-link">Cancelamentos</a>
+                        <a href="termos.html" class="footer-link">Termos</a>
+                        <a href="privacidade.html" class="footer-link">Privacidade</a>
+                        <a href="auth.html" class="footer-link">Entrar</a>
+                    </div>
+                </div>
+            </div>
+                        <div class="footer-bottom">
+                <p>&copy; 2026 Algarve Tuna Charter. Todos os direitos reservados.</p>
+                <p><span class="site-version-badge"><i class="fas fa-code-branch"></i> v1.19</span></p>
+            </div>
+        </div>
+    </footer>
+    
+    <script src="js/main.js"></script>
+    <script src="js/explorar.js"></script>
+    <script>
+        // 🔐 VERIFICAR SESSÃO ATIVA
+        (function verificarSessaoActiva() {
+            try {
+                const raw = localStorage.getItem('usuarioLogado');
+                if (!raw) return;
+                const usuario = JSON.parse(raw);
+                if (!usuario || !usuario.email) return;
+                
+                const dashboardUrl = usuario.tipo === 'capitao' ? 'dashboard-capitao.html' : 'dashboard-usuario.html';
+                
+                // Actualizar TODOS os links de auth.html
+                document.querySelectorAll('a[href="auth.html"], a[href="./auth.html"]').forEach(btn => {
+                    btn.textContent = '🔐 Dashboard';
+                    btn.href = dashboardUrl;
+                    if (btn.classList.contains('btn') || btn.classList.contains('btn-primario') || btn.classList.contains('btn-outline')) {
+                        btn.style.background = 'linear-gradient(135deg, #FF8F00, #FFB74D)';
+                        btn.style.border = '2px solid #FF8F00';
+                        btn.style.color = '#fff';
+                    }
+                });
+            } catch(e) { console.error('Erro sessão:', e); }
+        })();
+    </script>
+
+    <script>
+    (function() {
+        try {
+            const hoje = new Date().toISOString().slice(0,10);
+            let stats = JSON.parse(localStorage.getItem('siteVisitStats') || '{}');
+            stats.total = (stats.total || 0) + 1;
+            if (!stats.porDia) stats.porDia = {};
+            stats.porDia[hoje] = (stats.porDia[hoje] || 0) + 1;
+            stats.ultimaVisita = new Date().toISOString();
+            localStorage.setItem('siteVisitStats', JSON.stringify(stats));
+        } catch(e) {}
+    })();
+    </script>
+
+    <script src="js/i18n.js"></script>
+</body>
+</html>
