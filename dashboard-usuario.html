@@ -7,7 +7,7 @@
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>⚓</text></svg>">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/wicked-tuna.css?v=1.27">
+    <link rel="stylesheet" href="css/wicked-tuna.css?v=1.28">
     <link rel="stylesheet" href="css/dashboard.css">
     <style>
         /* ===== CORRECÇÃO: Secção Perfil — texto visível sobre fundo claro ===== */
@@ -406,25 +406,6 @@
                         </h2>
                         <a href="#" class="btn btn-primario btn-pequeno" onclick="event.preventDefault();navegarSecao('reservas')">Ver Todas</a>
                     </div>
-
-                    ${(() => {
-                        if ((r.status || 'pendente') !== 'confirmada') return '';
-                        const telRaw = (r.capitaoTelefone || '').toString();
-                        const digits = telRaw.replace(/[^0-9]/g,'');
-                        if (!digits) return '';
-                        let wa = digits;
-                        // Se for número PT (9 dígitos), prefixar 351
-                        if (wa.length === 9) wa = '351' + wa;
-                        const msg = encodeURIComponent(`Olá ${r.capitaoNome || 'Capitão'}! Estou a confirmar detalhes da minha reserva: ${r.saidaTitulo || 'Saída'}.`);
-                        return `
-                        <div style="margin-top:0.85rem;background:#FFFBEB;border:1px solid rgba(245,158,11,0.35);border-radius:10px;padding:0.85rem;">
-                            <div style="display:flex;align-items:center;gap:0.5rem;font-weight:800;color:#92400E;margin-bottom:0.4rem;"><i class="fab fa-whatsapp" style="color:#25D366"></i> Contato direto com o Capitão</div>
-                            <div style="font-size:0.85rem;color:#92400E;opacity:0.95;">WhatsApp: <strong>${telRaw}</strong></div>
-                            <a href="https://wa.me/${wa}?text=${msg}" target="_blank" style="margin-top:0.6rem;display:inline-flex;align-items:center;gap:0.45rem;padding:0.55rem 0.9rem;background:#25D366;color:#fff;border-radius:10px;font-weight:800;font-size:0.85rem;text-decoration:none;">
-                                <i class="fab fa-whatsapp"></i> Abrir WhatsApp
-                            </a>
-                        </div>`;
-                    })()}
                     <div id="proximasReservasContainer">
                         <div class="estado-vazio">
                             <i class="fas fa-calendar-times estado-vazio-icon"></i>
@@ -840,17 +821,6 @@
                     <button onclick="cancelarReserva(${r.id})" style="width:100%;margin-top:0.75rem;padding:0.5rem;background:transparent;border:1px solid #EF4444;color:#EF4444;border-radius:6px;cursor:pointer;font-size:0.85rem;">
                         <i class="fas fa-times"></i> Cancelar Reserva
                     </button>` : ''}
-                    ${(() => {
-                        const hoje = new Date();
-                        const dataSaida = r.saidaData ? new Date(r.saidaData) : null;
-                        const passou = dataSaida && dataSaida < hoje;
-                        if (r.status === 'confirmada' && passou && !r.avaliada) {
-                            return `<button class="btn-avaliar" onclick="abrirModalFeedback('${r.id}','${r.saidaId}','${(r.saidaTitulo||'').replace(/'/g,"\'")}')">⭐ Avaliar Saída</button>`;
-                        } else if (r.avaliada) {
-                            return '<span class="feedback-dado">⭐ Avaliada</span>';
-                        }
-                        return '';
-                    })()}
                 </div>
             </div>`;
         }
