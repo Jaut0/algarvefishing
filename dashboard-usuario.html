@@ -7,7 +7,7 @@
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>⚓</text></svg>">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/wicked-tuna.css?v=1.28">
+    <link rel="stylesheet" href="css/wicked-tuna.css?v=1.29">
     <link rel="stylesheet" href="css/dashboard.css">
     <style>
         /* ===== CORRECÇÃO: Secção Perfil — texto visível sobre fundo claro ===== */
@@ -277,25 +277,18 @@
         .fotos-preview { display:flex; flex-wrap:wrap; gap:0.5rem; margin-top:0.8rem; }
         .foto-thumb { width:70px; height:70px; object-fit:cover; border-radius:6px; border:2px solid #E5E7EB; }
 
-        /* ── Fix cores saídas partilhadas ── */
-        #secao-partilhadas { color: #1F2937 !important; }
-        #secao-partilhadas h1, #secao-partilhadas h2, #secao-partilhadas h3,
-        #secao-partilhadas p, #secao-partilhadas span, #secao-partilhadas div,
-        #secao-partilhadas label { color: #1F2937 !important; }
-        #secao-partilhadas .card-saida, #secao-partilhadas .saida-card {
-            background: #FFFFFF !important;
-            color: #1F2937 !important;
-            border: 1px solid #E5E7EB !important;
-        }
-        #secao-partilhadas .badge, #secao-partilhadas .badge-partilha {
-            color: #fff !important;
-        }
-        #secao-partilhadas input, #secao-partilhadas select {
-            background: #F9FAFB !important;
-            color: #1F2937 !important;
-            border: 1.5px solid #D1D5DB !important;
-        }
-</style>
+        /* ===== Partilhadas readability (v1.29) ===== */
+        #secao-partilhadas { color: var(--wt-text) !important; }
+        #secao-partilhadas .dashboard-titulo { color: var(--wt-text) !important; }
+        #secao-partilhadas .partilhadas-hero h3 { color: #FFB74D !important; }
+        #secao-partilhadas .partilhadas-hero p { color: rgba(234,242,255,0.82) !important; }
+        #secao-partilhadas .partilhadas-vazia p,
+        #secao-partilhadas .partilhadas-vazia strong { color: rgba(234,242,255,0.78) !important; }
+        /* do NOT force selects to white on dark hero */
+        #secao-partilhadas select { background: rgba(255,255,255,0.08) !important; color: #fff !important; border: 1px solid rgba(255,255,255,0.22) !important; }
+        #secao-partilhadas select option,
+        #secao-partilhadas optgroup { background: #0F233D !important; color:#fff !important; }
+        </style>
 </head>
 <body>
     <header class="header">
@@ -1273,6 +1266,6 @@
     }
     </script>
 
-    <script src="js/i18n.js?v=1.25"></script>
+    <script src="js/i18n.js?v=1.29"></script>
 </body>
 </html>

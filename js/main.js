@@ -1,5 +1,5 @@
 // Versão do portal
-const SITE_VERSION = 'v1.28';
+const SITE_VERSION = 'v1.29';
 
 // ============================================
 // FishingHub - JavaScript Principal

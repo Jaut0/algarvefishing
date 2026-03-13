@@ -4222,6 +4222,22 @@
   // Auto-translate dynamic content (cards/lists rendered via JS)
   // ------------------------------------------------------------
   function startI18nObserver() {
+  // DEBOUNCED_I18N_OBSERVER_V1_29
+  let __i18nObsTimer = null;
+  let __i18nApplying = false;
+  function scheduleApplyI18n() {
+    if (__i18nApplying) return;
+    if (__i18nObsTimer) clearTimeout(__i18nObsTimer);
+    __i18nObsTimer = setTimeout(() => {
+      try {
+        __i18nApplying = true;
+        scheduleApplyI18n();
+      } finally {
+        __i18nApplying = false;
+      }
+    }, 60);
+  }
+
     if (window.__i18nObserverStarted) return;
     if (typeof MutationObserver === 'undefined') return;
 
@@ -4283,7 +4299,7 @@
 
   document.addEventListener('DOMContentLoaded', () => {
     sanitizeDict();
-    applyI18n(getLang());
+    scheduleApplyI18n();
     startI18nObserver();
   });
 })();
