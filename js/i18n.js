@@ -4103,6 +4103,7 @@
 
   function applyTranslations(lang) {
     const l = normalizeLang(lang);
+    if (l === 'pt') return;
 
     document.querySelectorAll('[data-i18n]').forEach(el => {
       const key = el.getAttribute('data-i18n');
@@ -4115,13 +4116,27 @@
       }
 
       let replaced = false;
+
+      // If element starts with a <strong> label (e.g., 'Cliente:'), avoid duplicating the label
+      // when translating: translate full key but apply only the remainder to the text node.
+      let translatedRemainder = translated;
+      try {
+        const firstEl = el.firstElementChild;
+        if (firstEl && firstEl.tagName === 'STRONG') {
+          const prefix = (firstEl.textContent || '').replace(/\s+/g, ' ').trim();
+          if (prefix && translatedRemainder.startsWith(prefix)) {
+            translatedRemainder = translatedRemainder.slice(prefix.length).trimStart();
+          }
+        }
+      } catch (_) {}
+
       el.childNodes.forEach(n => {
         if (replaced) return;
         if (n.nodeType === Node.TEXT_NODE) {
           const raw = n.nodeValue || '';
           const trimmed = raw.replace(/\s+/g, ' ').trim();
           if (!trimmed) return;
-          n.nodeValue = raw.replace(trimmed, translated);
+          n.nodeValue = raw.replace(trimmed, translatedRemainder);
           replaced = true;
         }
       });
