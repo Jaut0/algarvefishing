@@ -7,7 +7,7 @@
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>⚓</text></svg>">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/wicked-tuna.css?v=1.31">
+    <link rel="stylesheet" href="css/wicked-tuna.css?v=1.32">
     <link rel="stylesheet" href="css/dashboard.css">
     <style>
         /* ===== CORRECÇÃO: Secção Perfil — texto visível sobre fundo claro ===== */
@@ -520,31 +520,27 @@
                 <!-- Filtros -->
                 <div class="partilhadas-filtros">
                     <select id="filtroPartilhaZona" onchange="carregarSaidasPartilhadas()">
-                        <option value="">🌊 Todas as Zonas</option>
-                        <optgroup label="🌅 Sotavento">
-                            <option value="Vila Real de Santo António">Vila Real de Santo António</option>
-                            <option value="Monte Gordo">Monte Gordo</option>
-                            <option value="Tavira">Tavira</option>
-                            <option value="Santa Luzia">Santa Luzia</option>
-                            <option value="Fuseta">Fuseta</option>
-                            <option value="Olhão">Olhão</option>
-                            <option value="Faro">Faro</option>
-                        </optgroup>
-                        <optgroup label="🏖️ Zona Central">
-                            <option value="Quarteira">Quarteira</option>
-                            <option value="Vilamoura">Vilamoura</option>
-                            <option value="Albufeira">Albufeira</option>
-                            <option value="Armação de Pêra">Armação de Pêra</option>
-                            <option value="Portimão">Portimão</option>
-                            <option value="Alvor">Alvor</option>
-                            <option value="Lagos">Lagos</option>
-                        </optgroup>
-                        <optgroup label="🌊 Barlavento">
-                            <option value="Luz">Luz</option>
-                            <option value="Sagres">Sagres</option>
-                            <option value="Baleeira">Baleeira</option>
-                        </optgroup>
-                    </select>
+<option value="">🌊 Todas as Zonas do Algarve</option>
+<option value="Vila Real de Santo António">Vila Real de Santo António</option>
+<option value="Monte Gordo">Monte Gordo</option>
+<option value="Cabanas de Tavira">Cabanas de Tavira</option>
+<option value="Tavira">Tavira (Rio Gilão)</option>
+<option value="Santa Luzia">Santa Luzia (Capital do Polvo)</option>
+<option value="Fuseta">Fuseta</option>
+<option value="Olhão">Olhão (Porto de Pesca)</option>
+<option value="Faro">Faro (Marina de Faro)</option>
+<option value="Quarteira">Quarteira</option>
+<option value="Vilamoura">Vilamoura (Marina de Vilamoura)</option>
+<option value="Albufeira">Albufeira (Marina de Albufeira)</option>
+<option value="Armação de Pêra">Armação de Pêra</option>
+<option value="Portimão">Portimão (Marina de Portimão)</option>
+<option value="Alvor">Alvor</option>
+<option value="Lagos">Lagos (Marina de Lagos)</option>
+<option value="Luz">Luz (Praia da Luz)</option>
+<option value="Burgau">Burgau</option>
+<option value="Salema">Salema</option>
+<option value="Baleeira">Baleeira (Sagres)</option>
+</select>
                     <select id="filtroPartilhaTipo" onchange="carregarSaidasPartilhadas()">
                         <option value="">🎣 Todos os Tipos</option>
                         <option value="fundo">🐟 Pesca de Fundo</option>
@@ -1272,6 +1268,6 @@
     }
     </script>
 
-    <script src="js/i18n.js?v=1.31"></script>
+    <script src="js/i18n.js?v=1.32"></script>
 </body>
 </html>
