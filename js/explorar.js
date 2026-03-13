@@ -2,6 +2,15 @@
 // FishingHub - JavaScript para Explorar / Filtros
 // ============================================
 
+
+// i18n helper (safe even if i18n loads after this script)
+function TT(key) {
+    try {
+        if (window.PortalI18n && typeof window.PortalI18n.t === 'function') return window.PortalI18n.t(key);
+    } catch (_) {}
+    return key;
+}
+
 // Carregar saídas do localStorage
 let saidasData = [];
 let saidasFiltradas = [];
@@ -45,12 +54,12 @@ function renderizarSaidas() {
         container.innerHTML = `
             <div class="estado-vazio" style="grid-column: 1 / -1;">
                 <i class="fas fa-search estado-vazio-icon"></i>
-                <h3 class="estado-vazio-titulo">Nenhuma saída encontrada</h3>
+                <h3 class="estado-vazio-titulo">${TT('Nenhuma saída encontrada')}</h3>
                 <p class="estado-vazio-texto">
-                    Tente ajustar os filtros para encontrar mais resultados
+                    ${TT('Tente ajustar os filtros para encontrar mais resultados')}
                 </p>
                 <button class="btn btn-primario" onclick="limparFiltros()">
-                    Limpar Filtros
+                    ${TT('Limpar Filtros')}
                 </button>
             </div>
         `;
@@ -72,13 +81,12 @@ function renderizarSaidas() {
 
         return `
         <div class="saida-card fade-in" style="${cardStyle}">
-            ${saida.partilhada ? `<div style="background:linear-gradient(90deg,#F59E0B,#D97706);color:white;text-align:center;padding:0.3rem 0.75rem;font-size:0.8rem;font-weight:700;letter-spacing:0.03em;">🤝 SAÍDA PARTILHADA – Lugares disponíveis!</div>` : (saida.permitePartilha ? `<div style="background:#EFF6FF;color:#1D4ED8;text-align:center;padding:0.25rem;font-size:0.78rem;font-weight:600;">✓ Pode ser partilhada</div>` : '')}
+            ${saida.partilhada ? `<div style="background:linear-gradient(90deg,#F59E0B,#D97706);color:white;text-align:center;padding:0.3rem 0.75rem;font-size:0.8rem;font-weight:700;letter-spacing:0.03em;">🤝 ${TT('SAÍDA PARTILHADA – Lugares disponíveis!')}</div>` : (saida.permitePartilha ? `<div style="background:#EFF6FF;color:#1D4ED8;text-align:center;padding:0.25rem;font-size:0.78rem;font-weight:600;">✓ ${TT('Pode ser partilhada')}</div>` : '')}
             <img src="${imagem}" alt="${saida.titulo}" class="saida-card-imagem" onerror="this.src='${placeholderImg}'">
             <div class="saida-card-conteudo">
                 <h3 class="saida-card-titulo">${saida.titulo}</h3>
                 <p class="saida-card-descricao">
-                    Saída de pesca com o Capitão ${saida.capitao} a bordo do barco "${saida.barco}".
-                </p>
+                    ${TT('Saída de pesca com o Capitão')} ${saida.capitao} ${TT('a bordo do barco')} \"${saida.barco}\". </p>
                 
                 <div class="saida-card-info">
                     <div class="saida-card-info-item">
@@ -87,17 +95,17 @@ function renderizarSaidas() {
                     </div>
                     <div class="saida-card-info-item">
                         <i class="fas fa-clock"></i>
-                        <span>${saida.duracao ? saida.duracao + 'h de pesca' : 'Duração a combinar'}</span>
+                        <span>${saida.duracao ? saida.duracao + ' ' + TT('h de pesca') : TT('Duração a combinar')}</span>
                     </div>
                     ${!saida.partilhada ? `
                         <div class="saida-card-info-item">
                             <i class="fas fa-users"></i>
-                            <span>${vagas}/${saida.lotacao || saida.capacidade || '?'} vagas</span>
+                            <span>${vagas}/${saida.lotacao || saida.capacidade || '?'} ${TT('vagas')}</span>
                         </div>
                     ` : `
                         <div class="saida-card-info-item">
                             <i class="fas fa-user-friends"></i>
-                            <span>Partilhada (${saida.vagasOcupadas || 0}/${saida.vagasDisponiveis})</span>
+                            <span>${TT('Partilhada')} (${saida.vagasOcupadas || 0}/${saida.vagasDisponiveis})</span>
                         </div>
                     `}
                     ${saida.rating ? `
@@ -117,13 +125,13 @@ function renderizarSaidas() {
                 <div class="saida-card-preco">
                     <div>
                         <div class="saida-card-preco-valor">€${saida.preco}</div>
-                        <div class="saida-card-preco-label">por pessoa</div>
+                        <div class="saida-card-preco-label">${TT('por pessoa')}</div>
                     </div>
                     <a href="detalhe-saida.html?id=${saida.id}" class="btn btn-primario btn-pequeno">
-                        ${esgotado ? '<i class="fas fa-ban"></i> Esgotado' : '<i class="fas fa-arrow-right"></i> Ver Detalhes'}
+                        ${esgotado ? `<i class="fas fa-ban"></i> ${TT('Esgotado')}` : `<i class="fas fa-arrow-right"></i> ${TT('Ver Detalhes')}`}
                     </a>
                 </div>
-                ${saida.views > 0 ? `<div style="text-align:right;font-size:0.75rem;color:#9CA3AF;margin-top:0.3rem;"><i class="fas fa-eye" style="margin-right:3px;"></i>${saida.views} ${saida.views===1?'pessoa viu':'pessoas viram'}</div>` : ''}
+                ${saida.views > 0 ? `<div style="text-align:right;font-size:0.75rem;color:#9CA3AF;margin-top:0.3rem;"><i class="fas fa-eye" style="margin-right:3px;"></i>${saida.views} ${saida.views===1?TT('pessoa viu'):TT('pessoas viram')}</div>` : ''}
             </div>
         </div>
         `;
@@ -146,7 +154,7 @@ function formatarTipoPesca(tipo) {
         'tuna': 'Pesca de Atum',
         'big-game': 'Big Game'
     };
-    return mapa[tipo] || tipo;
+    return TT(mapa[tipo] || tipo);
 }
 
 // ============================================
@@ -249,7 +257,7 @@ function atualizarContadorResultados() {
     const contador = document.getElementById('contadorResultados');
     if (contador) {
         const n = saidasFiltradas.length;
-        contador.textContent = `${n} saída${n !== 1 ? 's' : ''} encontrada${n !== 1 ? 's' : ''}`;
+        contador.textContent = `${n} ${n === 1 ? TT('saída encontrada') : TT('saídas encontradas')}`;
     }
 }
 

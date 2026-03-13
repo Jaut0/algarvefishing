@@ -3,6 +3,15 @@
 // Lê de localStorage('barcos') e mapeia campos do registar-barco
 // ============================================================
 
+
+// i18n helper (safe even if i18n loads after this script)
+function TT(key) {
+    try {
+        if (window.PortalI18n && typeof window.PortalI18n.t === 'function') return window.PortalI18n.t(key);
+    } catch (_) {}
+    return key;
+}
+
 const PLACEHOLDER_BARCO = 'https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=600&h=400&fit=crop';
 
 function getBarcos() {
@@ -31,13 +40,13 @@ function renderBarcos(lista) {
         grid.innerHTML = `
             <div style="grid-column:1/-1;text-align:center;padding:4rem 2rem;">
                 <i class="fas fa-ship" style="font-size:4rem;color:#FF8F00;margin-bottom:1rem;opacity:0.5;"></i>
-                <h3 style="color:#1F2937;margin-bottom:0.75rem;">Nenhum Barco Disponível</h3>
+                <h3 style="color:#1F2937;margin-bottom:0.75rem;">${TT('Nenhum Barco Disponível')}</h3>
                 <p style="color:#6B7280;margin-bottom:2rem;max-width:500px;margin-left:auto;margin-right:auto;">
-                    Ainda não existem barcos aprovados na plataforma.<br>Se é capitão, registe-se e adicione o seu barco!
+                    ${TT('Ainda não existem barcos aprovados na plataforma.')}<br>${TT('Se é capitão, registe-se e adicione o seu barco!')}
                 </p>
                 <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
-                    <a href="auth.html" class="btn btn-primario"><i class="fas fa-user-plus"></i> Registar como Capitão</a>
-                    <a href="index.html" class="btn btn-outline"><i class="fas fa-home"></i> Início</a>
+                    <a href="auth.html" class="btn btn-primario"><i class="fas fa-user-plus"></i> ${TT('Registar como Capitão')}</a>
+                    <a href="index.html" class="btn btn-outline"><i class="fas fa-home"></i> ${TT('Início')}</a>
                 </div>
             </div>`;
         return;
@@ -53,7 +62,7 @@ function renderBarcos(lista) {
         const rating      = b.avaliacaoMedia || b.rating || 0;
         const avaliacoes  = b.totalAvaliacoes || b.avaliacoes || 0;
         const extras      = Array.isArray(b.extras) ? b.extras.slice(0,5) : [];
-        const classeNav   = b.classeNavegacao ? ` · Classe ${b.classeNavegacao.replace('tipo','Tipo ')}` : '';
+        const classeNav   = b.classeNavegacao ? ` · ${TT('Classe')} ${b.classeNavegacao.replace('tipo', TT('Tipo') + ' ')}` : '';
 
         return `
         <div class="barco-card-pub">
@@ -68,12 +77,12 @@ function renderBarcos(lista) {
                             <i class="fas fa-map-marker-alt"></i> ${b.porto}${classeNav}
                         </span>
                     </div>
-                    <span class="badge-aprovado"><i class="fas fa-check-circle"></i> Aprovado</span>
+                    <span class="badge-aprovado"><i class="fas fa-check-circle"></i> ${TT('Aprovado')}</span>
                 </div>
 
                 <div class="barco-card-pub-specs">
                     <div class="spec"><i class="fas fa-ruler-horizontal"></i><span>${b.comprimento}m</span></div>
-                    <div class="spec"><i class="fas fa-users"></i><span>${capacidade} pax</span></div>
+                    <div class="spec"><i class="fas fa-users"></i><span>${capacidade} ${TT('pax')}</span></div>
                     <div class="spec"><i class="fas fa-ship"></i><span>${b.tipo}</span></div>
                     <div class="spec"><i class="fas fa-cog"></i><span>${motor}</span></div>
                 </div>
@@ -81,9 +90,9 @@ function renderBarcos(lista) {
                 <div class="barco-card-pub-capitao">
                     <div class="capitao-av">${capitaoNome.split(' ').map(n=>n[0]).join('').substring(0,2).toUpperCase()}</div>
                     <div>
-                        <div style="font-weight:600;color:#1F2937;">Capitão ${capitaoNome}</div>
+                        <div style="font-weight:600;color:#1F2937;">${TT('Capitão')} ${capitaoNome}</div>
                         <div style="font-size:0.82rem;color:#6B7280;">
-                            ${experiencia ? experiencia + ' anos exp.' : ''}
+                            ${experiencia ? experiencia + ' ' + TT('anos exp.') : ''}
                             ${rating > 0 ? `<span style="color:#F59E0B;margin-left:0.5rem;"><i class="fas fa-star"></i> ${rating.toFixed(1)} (${avaliacoes})</span>` : ''}
                         </div>
                     </div>
