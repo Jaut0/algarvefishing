@@ -1,14 +1,15 @@
 <!DOCTYPE html>
+
 <html lang="pt">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reservar Barco - Algarve Tuna Charter</title>
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚓</text></svg>">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/wicked-tuna.css?v=1.32">
-    <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Reservar Barco - Algarve Tuna Charter</title>
+<link href="data:image/svg+xml,&lt;svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22&gt;&lt;text y=%22.9em%22 font-size=%2290%22&gt;⚓&lt;/text&gt;&lt;/svg&gt;" rel="icon"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<link href="css/style.css" rel="stylesheet"/>
+<link href="css/wicked-tuna.css?v=1.35" rel="stylesheet"/>
+<style>
         .reserva-container {
             display: grid;
             grid-template-columns: 1fr 400px;
@@ -362,186 +363,141 @@
             }
         }
     </style>
-    
-    <!-- EmailJS SDK -->
-    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-    <script src="js/email-config.js"></script>
+<!-- EmailJS SDK -->
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+<script src="js/email-config.js"></script>
 </head>
 <body>
-    <!-- Header -->
-    <header class="header">
-        <div class="container">
-            <div class="header-content">
-                <a href="index.html" class="logo">
-                    <i class="fas fa-anchor"></i>
-                    <span>Algarve Tuna Charter</span>
+<!-- Header -->
+<header class="header">
+<div class="container">
+<div class="header-content">
+<a class="logo" href="index.html">
+<i class="fas fa-anchor"></i>
+<span>Algarve Tuna Charter</span>
+</a>
+<nav class="nav" id="mainNav">
+<a href="index.html">Início</a>
+<a href="explorar.html">Explorar</a>
+<a href="escolher-barco.html">Reservar</a>
+<a href="auth.html">Entrar</a>
+<a class="btn btn-primary" href="auth.html">Registar</a>
+</nav>
+<button class="mobile-toggle" id="mobileToggle">
+<i class="fas fa-bars"></i>
+</button>
+</div>
+</div>
+</header>
+<!-- Main Content -->
+<main class="main-content">
+<section class="hero-small">
+<div class="container">
+<a class="btn" href="escolher-barco.html" style="margin-bottom: 1rem;">
+<i class="fas fa-arrow-left"></i> Voltar aos Barcos
                 </a>
-                <nav class="nav" id="mainNav">
-                    <a href="index.html">Início</a>
-                    <a href="explorar.html">Explorar</a>
-                    <a href="escolher-barco.html">Reservar</a>
-                    <a href="auth.html">Entrar</a>
-                    <a href="auth.html" class="btn btn-primary">Registar</a>
-                </nav>
-                <button class="mobile-toggle" id="mobileToggle">
-                    <i class="fas fa-bars"></i>
-                </button>
-            </div>
-        </div>
-    </header>
-
-    <!-- Main Content -->
-    <main class="main-content">
-        <section class="hero-small">
-            <div class="container">
-                <a href="escolher-barco.html" class="btn" style="margin-bottom: 1rem;">
-                    <i class="fas fa-arrow-left"></i> Voltar aos Barcos
-                </a>
-                <h1><i class="fas fa-calendar-check"></i> Reservar Barco</h1>
-                <p>Selecione até 5 dias na agenda do barco</p>
-            </div>
-        </section>
-
-        <section class="section">
-            <div class="container">
-                <div class="reserva-container">
-                    <!-- Barco Info -->
-                    <div class="barco-info-card" id="barcoInfo">
-                        <!-- Loaded by JavaScript -->
-                    </div>
-
-                    <!-- Calendar & Form -->
-                    <div class="calendario-card">
-                        <div class="calendario-header">
-                            <h3><i class="fas fa-calendar-alt"></i> Agenda</h3>
+<h1><i class="fas fa-calendar-check"></i> Reservar Barco</h1>
+<p>Selecione até 5 dias na agenda do barco</p>
+</div>
+</section>
+<section class="section">
+<div class="container">
+<div class="reserva-container">
+<!-- Barco Info -->
+<div class="barco-info-card" id="barcoInfo">
+<!-- Loaded by JavaScript -->
+</div>
+<!-- Calendar & Form -->
+<div class="calendario-card">
+<div class="calendario-header">
+<h3><i class="fas fa-calendar-alt"></i> Agenda</h3>
+</div>
+<div class="mes-navegacao">
+<button id="mesAnterior"><i class="fas fa-chevron-left"></i></button>
+<div class="mes-atual" id="mesAtual">Janeiro 2026</div>
+<button id="mesSeguinte"><i class="fas fa-chevron-right"></i></button>
+</div>
+<div class="calendario-grid" id="calendarioGrid">
+<!-- Calendar will be loaded here -->
+</div>
+<div class="legenda-calendario">
+<div class="legenda-item">
+<div class="legenda-cor" style="background: rgba(255, 255, 255, 0.05);"></div>
+<span>Disponível</span>
+</div>
+<div class="legenda-item">
+<div class="legenda-cor" style="background: var(--accent);"></div>
+<span>Selecionado</span>
+</div>
+<div class="legenda-item">
+<div class="legenda-cor" style="background: rgba(33, 150, 243, 0.3);"></div>
+<span>Reservado</span>
+</div>
+<div class="legenda-item">
+<div class="legenda-cor" style="background: rgba(244, 67, 54, 0.2);"></div>
+<span>Bloqueado</span>
+</div>
+</div>
+<div class="dias-selecionados-info" id="diasSelecionadosInfo" style="display: none;">
+<h4><i class="fas fa-check-circle"></i> Dias Selecionados</h4>
+<p class="dias-count"><span id="diasCount">0</span> / 5 dias</p>
+<div class="dias-lista" id="diasLista"></div>
+</div>
+<div class="alerta-info">
+<i class="fas fa-info-circle"></i> Selecione até 5 dias. Após enviar o pedido, o capitão irá contactá-lo para confirmar.
                         </div>
-                        
-                        <div class="mes-navegacao">
-                            <button id="mesAnterior"><i class="fas fa-chevron-left"></i></button>
-                            <div class="mes-atual" id="mesAtual">Janeiro 2026</div>
-                            <button id="mesSeguinte"><i class="fas fa-chevron-right"></i></button>
-                        </div>
-                        
-                        <div class="calendario-grid" id="calendarioGrid">
-                            <!-- Calendar will be loaded here -->
-                        </div>
-                        
-                        <div class="legenda-calendario">
-                            <div class="legenda-item">
-                                <div class="legenda-cor" style="background: rgba(255, 255, 255, 0.05);"></div>
-                                <span>Disponível</span>
-                            </div>
-                            <div class="legenda-item">
-                                <div class="legenda-cor" style="background: var(--accent);"></div>
-                                <span>Selecionado</span>
-                            </div>
-                            <div class="legenda-item">
-                                <div class="legenda-cor" style="background: rgba(33, 150, 243, 0.3);"></div>
-                                <span>Reservado</span>
-                            </div>
-                            <div class="legenda-item">
-                                <div class="legenda-cor" style="background: rgba(244, 67, 54, 0.2);"></div>
-                                <span>Bloqueado</span>
-                            </div>
-                        </div>
-                        
-                        <div class="dias-selecionados-info" id="diasSelecionadosInfo" style="display: none;">
-                            <h4><i class="fas fa-check-circle"></i> Dias Selecionados</h4>
-                            <p class="dias-count"><span id="diasCount">0</span> / 5 dias</p>
-                            <div class="dias-lista" id="diasLista"></div>
-                        </div>
-                        
-                        <div class="alerta-info">
-                            <i class="fas fa-info-circle"></i> Selecione até 5 dias. Após enviar o pedido, o capitão irá contactá-lo para confirmar.
-                        </div>
-                        
-                        <form id="reservaForm">
-                            <div class="form-group">
-                                <label for="nomeCliente">Nome Completo *</label>
-                                <input type="text" id="nomeCliente" required placeholder="Seu nome">
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="emailCliente">Email *</label>
-                                <input type="email" id="emailCliente" required placeholder="seu@email.com">
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="telefoneCliente">Telefone / WhatsApp *</label>
-                                <input type="tel" id="telefoneCliente" required placeholder="+351 912 345 678">
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="numPescadores">Número de Pescadores *</label>
-                                <input type="number" id="numPescadores" required min="1" max="20" placeholder="Ex: 4">
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="mensagemCliente">Mensagem / Observações</label>
-                                <textarea id="mensagemCliente" placeholder="Tipo de pesca preferida, experiências anteriores, necessidades especiais..."></textarea>
-                            </div>
-                            
-                            
-                            <!-- Aviso de cancelamentos -->
-                            <div id="avisoCancelamentosCheckout" style="background:#EFF6FF; border:1.5px solid #BFDBFE; border-radius:10px; padding:0.9rem 1rem; margin-top:1rem;">
-                                <div style="display:flex; gap:0.7rem; align-items:flex-start;">
-                                    <div style="font-size:1.2rem; line-height:1; margin-top:0.05rem;">ℹ️</div>
-                                    <div>
-                                        <div style="font-weight:800; color:#1E40AF; margin-bottom:0.25rem;">Política de cancelamentos</div>
-                                        <div style="font-size:0.9rem; color:#1F2937; line-height:1.45;">
-                                            <strong>Até 7 dias</strong>: pode cancelar. <strong>Menos de 7 dias</strong>: decisão do capitão.
+<form id="reservaForm">
+<div class="form-group">
+<label for="nomeCliente">Nome Completo *</label>
+<input id="nomeCliente" placeholder="Seu nome" required="" type="text"/>
+</div>
+<div class="form-group">
+<label for="emailCliente">Email *</label>
+<input id="emailCliente" placeholder="seu@email.com" required="" type="email"/>
+</div>
+<div class="form-group">
+<label for="telefoneCliente">Telefone / WhatsApp *</label>
+<input id="telefoneCliente" placeholder="+351 912 345 678" required="" type="tel"/>
+</div>
+<div class="form-group">
+<label for="numPescadores">Número de Pescadores *</label>
+<input id="numPescadores" max="20" min="1" placeholder="Ex: 4" required="" type="number"/>
+</div>
+<div class="form-group">
+<label for="mensagemCliente">Mensagem / Observações</label>
+<textarea id="mensagemCliente" placeholder="Tipo de pesca preferida, experiências anteriores, necessidades especiais..."></textarea>
+</div>
+<!-- Aviso de cancelamentos -->
+<div id="avisoCancelamentosCheckout" style="background:#EFF6FF; border:1.5px solid #BFDBFE; border-radius:10px; padding:0.9rem 1rem; margin-top:1rem;">
+<div style="display:flex; gap:0.7rem; align-items:flex-start;">
+<div style="font-size:1.2rem; line-height:1; margin-top:0.05rem;">ℹ️</div>
+<div>
+<div style="font-weight:800; color:#1E40AF; margin-bottom:0.25rem;">Política de cancelamentos</div>
+<div style="font-size:0.9rem; color:#1F2937; line-height:1.45;">
+<strong>Até 7 dias</strong>: pode cancelar. <strong>Menos de 7 dias</strong>: decisão do capitão.
                                             <br/>
-                                            <strong>Mau tempo</strong> ou <strong>avaria do barco</strong>: <strong>reembolso total</strong>.
+<strong>Mau tempo</strong> ou <strong>avaria do barco</strong>: <strong>reembolso total</strong>.
                                             <br/>
-                                            <a href="cancelamentos.html" style="color:#1D4ED8; font-weight:700; text-decoration:underline;">Ver detalhes</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-<button type="submit" class="btn btn-primary" style="width: 100%;" id="btnEnviarReserva" disabled>
-                                <i class="fas fa-paper-plane"></i> Enviar Pedido de Reserva
+<a href="cancelamentos.html" style="color:#1D4ED8; font-weight:700; text-decoration:underline;">Ver detalhes</a>
+</div>
+</div>
+</div>
+</div>
+<button class="btn btn-primary" disabled="" id="btnEnviarReserva" style="width: 100%;" type="submit">
+<i class="fas fa-paper-plane"></i> Enviar Pedido de Reserva
                             </button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
+</form>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="footer">
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h3>Algarve Tuna Charter</h3>
-                    <p>A sua plataforma de confiança para experiências de pesca inesquecíveis em Portugal.</p>
-                </div>
-                <div class="footer-section">
-                    <h4>Links Rápidos</h4>
-                    <ul>
-                        <li><a href="index.html">Início</a></li>
-                        <li><a href="explorar.html">Explorar</a></li>
-                        <li><a href="escolher-barco.html">Reservar</a></li>
-                        <li><a href="auth.html">Entrar</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h4>Contacto</h4>
-                    <p><i class="fas fa-envelope"></i> servico@jauto.pt</p>
-                    <p><i class="fas fa-phone"></i> +351 912 345 678</p>
-                </div>
-            </div>
-                        <div class="footer-bottom">
-                <p>&copy; 2026 Algarve Tuna Charter. Todos os direitos reservados.</p>
-                <p><span class="site-version-badge"><i class="fas fa-code-branch"></i> v1.27</span></p>
-            </div>
-        </div>
-    </footer>
-
-    <script src="js/main.js"></script>
-    <script src="js/reservar-barco.js"></script>
-
-    <script src="js/i18n.js?v=1.32"></script>
+</footer>
+<script src="js/main.js"></script>
+<script src="js/reservar-barco.js"></script>
+<script src="js/i18n.js?v=1.35"></script>
 </body>
 </html>

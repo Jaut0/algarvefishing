@@ -1,17 +1,17 @@
 <!DOCTYPE html>
+
 <!-- VERSÃO CORRIGIDA: 2026-03-08-18-30 - BOTÃO APAGAR ADICIONADO -->
 <html lang="pt">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate, max-age=0">
-    <meta http-equiv="Pragma" content="no-cache">
-    <meta http-equiv="Expires" content="0">
-    <title>Admin - Algarve Tuna Charter</title>
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>⚓</text></svg>">
-    
-    <!-- 💀 LIMPEZA AUTOMÁTICA DE DADOS MOCK E DUPLICADOS -->
-    <script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="no-cache, no-store, must-revalidate, max-age=0" http-equiv="Cache-Control"/>
+<meta content="no-cache" http-equiv="Pragma"/>
+<meta content="0" http-equiv="Expires"/>
+<title>Admin - Algarve Tuna Charter</title>
+<link href="data:image/svg+xml,&lt;svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'&gt;&lt;text y='0.9em' font-size='90'&gt;⚓&lt;/text&gt;&lt;/svg&gt;" rel="icon"/>
+<!-- 💀 LIMPEZA AUTOMÁTICA DE DADOS MOCK E DUPLICADOS -->
+<script>
     (function(){
         console.log('%c🧹 SISTEMA DE LIMPEZA AUTOMÁTICA ATIVO', 'color: blue; font-size: 20px; font-weight: bold;');
         
@@ -78,12 +78,10 @@
         });
     })();
     </script>
-    
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="css/style.css?v=20260308160000">
-    <link rel="stylesheet" href="css/dashboard.css?v=20260308160000">
-    
-    <script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<link href="css/style.css?v=20260308160000" rel="stylesheet"/>
+<link href="css/dashboard.css?v=20260308160000" rel="stylesheet"/>
+<script>
     // 🔥 SCRIPT DE AUTO-DESTRUIÇÃO DO PEDRO SILVA - VERSÃO NUCLEAR
     // Executa ANTES de qualquer outra coisa
     (function() {
@@ -182,448 +180,406 @@
         }
     })();
     </script>
-    <!-- EmailJS SDK -->
-    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-    <script src="js/email-config.js"></script>
+<!-- EmailJS SDK -->
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+<script src="js/email-config.js"></script>
 </head>
 <body>
-    <header class="header">
-        <div class="header-content container">
-            <a href="index.html" class="logo">
-                <span class="logo-icon">⚓</span>
-                <span>Algarve Tuna Charter Admin</span>
-            </a>
-            <nav class="nav-menu">
-                <span style="color: var(--cor-cinza-escuro); margin-right: 1rem;">
-                    <i class="fas fa-user-shield"></i> Administrador
+<header class="header">
+<div class="header-content container">
+<a class="logo" href="index.html">
+<span class="logo-icon">⚓</span>
+<span>Algarve Tuna Charter Admin</span>
+</a>
+<nav class="nav-menu">
+<span style="color: var(--cor-cinza-escuro); margin-right: 1rem;">
+<i class="fas fa-user-shield"></i> Administrador
                 </span>
-                <button class="btn btn-outline btn-pequeno" onclick="logout()">
-                    <i class="fas fa-sign-out-alt"></i> Sair
+<button class="btn btn-outline btn-pequeno" onclick="logout()">
+<i class="fas fa-sign-out-alt"></i> Sair
                 </button>
-            </nav>
-        </div>
-    </header>
-    
-    <div class="dashboard">
-        <aside class="sidebar" id="sidebar">
-            <div class="sidebar-perfil">
-                <div class="sidebar-perfil-avatar" style="background: linear-gradient(135deg, #EF4444, #DC2626);">
-                    <i class="fas fa-user-shield"></i>
-                </div>
-                <div class="sidebar-perfil-nome">Admin</div>
-                <div class="sidebar-perfil-tipo">Administrador</div>
-            </div>
-            
-            <nav class="sidebar-menu">
-                <a href="#" class="sidebar-menu-item ativo" data-section="dashboard">
-                    <i class="fas fa-chart-line"></i>
-                    <span>Dashboard</span>
-                </a>
-                <a href="#" class="sidebar-menu-item" data-section="pendentes">
-                    <i class="fas fa-clock"></i>
-                    <span>Capitães Pendentes</span>
-                    <span class="badge badge-destaque" style="margin-left: auto;">3</span>
-                </a>
-                <a href="#" class="sidebar-menu-item" data-section="capitaes">
-                    <i class="fas fa-user-tie"></i>
-                    <span>Capitães Aprovados</span>
-                </a>
-                <a href="#" class="sidebar-menu-item" data-section="barcos">
-                    <i class="fas fa-ship"></i>
-                    <span>Barcos Pendentes</span>
-                    <span class="badge badge-destaque" style="margin-left: auto;">5</span>
-                </a>
-                <a href="#" class="sidebar-menu-item" data-section="todos-barcos">
-                    <i class="fas fa-list"></i>
-                    <span>Todos os Barcos</span>
-                </a>
-                <a href="#" class="sidebar-menu-item" data-section="usuarios">
-                    <i class="fas fa-users"></i>
-                    <span>Utilizadores</span>
-                </a>
-                <a href="#" class="sidebar-menu-item" data-section="reclamacoes">
-                    <i class="fas fa-exclamation-triangle"></i>
-                    <span>Reclamações</span>
-                    <span class="badge-count" id="badgeReclamacoes">0</span>
-                </a>
-                <a href="#" class="sidebar-menu-item" data-section="visitas">
-                    <i class="fas fa-chart-line"></i>
-                    <span>Visitas ao Site</span>
-                </a>
-                <a href="#" class="sidebar-menu-item" data-section="relatorios">
-                    <i class="fas fa-chart-bar"></i>
-                    <span>Relatórios</span>
-                </a>
-            
-        <!-- Versão do site -->
-        <div style="text-align:center;padding:1rem 0 0.5rem;border-top:1px solid rgba(255,255,255,0.08);margin-top:1rem;">
-            <span style="font-size:0.72rem;color:rgba(255,255,255,0.35);font-family:monospace;letter-spacing:0.05em;">
-                <i class="fas fa-code-branch"></i> v1.19
+</nav>
+</div>
+</header>
+<div class="dashboard">
+<aside class="sidebar" id="sidebar">
+<div class="sidebar-perfil">
+<div class="sidebar-perfil-avatar" style="background: linear-gradient(135deg, #EF4444, #DC2626);">
+<i class="fas fa-user-shield"></i>
+</div>
+<div class="sidebar-perfil-nome">Admin</div>
+<div class="sidebar-perfil-tipo">Administrador</div>
+</div>
+<nav class="sidebar-menu">
+<a class="sidebar-menu-item ativo" data-section="dashboard" href="#">
+<i class="fas fa-chart-line"></i>
+<span>Dashboard</span>
+</a>
+<a class="sidebar-menu-item" data-section="pendentes" href="#">
+<i class="fas fa-clock"></i>
+<span>Capitães Pendentes</span>
+<span class="badge badge-destaque" style="margin-left: auto;">3</span>
+</a>
+<a class="sidebar-menu-item" data-section="capitaes" href="#">
+<i class="fas fa-user-tie"></i>
+<span>Capitães Aprovados</span>
+</a>
+<a class="sidebar-menu-item" data-section="barcos" href="#">
+<i class="fas fa-ship"></i>
+<span>Barcos Pendentes</span>
+<span class="badge badge-destaque" style="margin-left: auto;">5</span>
+</a>
+<a class="sidebar-menu-item" data-section="todos-barcos" href="#">
+<i class="fas fa-list"></i>
+<span>Todos os Barcos</span>
+</a>
+<a class="sidebar-menu-item" data-section="usuarios" href="#">
+<i class="fas fa-users"></i>
+<span>Utilizadores</span>
+</a>
+<a class="sidebar-menu-item" data-section="reclamacoes" href="#">
+<i class="fas fa-exclamation-triangle"></i>
+<span>Reclamações</span>
+<span class="badge-count" id="badgeReclamacoes">0</span>
+</a>
+<a class="sidebar-menu-item" data-section="visitas" href="#">
+<i class="fas fa-chart-line"></i>
+<span>Visitas ao Site</span>
+</a>
+<a class="sidebar-menu-item" data-section="relatorios" href="#">
+<i class="fas fa-chart-bar"></i>
+<span>Relatórios</span>
+</a>
+<!-- Versão do site -->
+<div style="text-align:center;padding:1rem 0 0.5rem;border-top:1px solid rgba(255,255,255,0.08);margin-top:1rem;">
+<span style="font-size:0.72rem;color:rgba(255,255,255,0.35);font-family:monospace;letter-spacing:0.05em;">
+<i class="fas fa-code-branch"></i> v1.19
             </span>
-        </div>
-        </nav>
-        </aside>
-        
-        <button class="sidebar-toggle" id="sidebarToggle">
-            <i class="fas fa-bars"></i>
-        </button>
-        
-        <main class="dashboard-conteudo">
-            
-            <!-- DASHBOARD -->
-            <div class="dashboard-secao-wrapper" id="secao-dashboard">
-                <div class="dashboard-header">
-                    <h1 class="dashboard-titulo">Painel de Administração</h1>
-                </div>
-                
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <div class="stat-icon laranja">
-                            <i class="fas fa-clock"></i>
-                        </div>
-                        <div class="stat-info">
-                            <div class="stat-label">Capitães Pendentes</div>
-                            <div class="stat-valor">3</div>
-                            <div class="stat-mudanca positiva">
-                                <i class="fas fa-arrow-up"></i> Requer atenção
+</div>
+</nav>
+</aside>
+<button class="sidebar-toggle" id="sidebarToggle">
+<i class="fas fa-bars"></i>
+</button>
+<main class="dashboard-conteudo">
+<!-- DASHBOARD -->
+<div class="dashboard-secao-wrapper" id="secao-dashboard">
+<div class="dashboard-header">
+<h1 class="dashboard-titulo">Painel de Administração</h1>
+</div>
+<div class="stats-grid">
+<div class="stat-card">
+<div class="stat-icon laranja">
+<i class="fas fa-clock"></i>
+</div>
+<div class="stat-info">
+<div class="stat-label">Capitães Pendentes</div>
+<div class="stat-valor">3</div>
+<div class="stat-mudanca positiva">
+<i class="fas fa-arrow-up"></i> Requer atenção
                             </div>
-                        </div>
-                    </div>
-                    
-                    <div class="stat-card">
-                        <div class="stat-icon azul">
-                            <i class="fas fa-user-tie"></i>
-                        </div>
-                        <div class="stat-info">
-                            <div class="stat-label">Capitães Aprovados</div>
-                            <div class="stat-valor">12</div>
-                        </div>
-                    </div>
-                    
-                    <div class="stat-card">
-                        <div class="stat-icon roxo">
-                            <i class="fas fa-ship"></i>
-                        </div>
-                        <div class="stat-info">
-                            <div class="stat-label">Barcos Pendentes</div>
-                            <div class="stat-valor">5</div>
-                            <div class="stat-mudanca positiva">
-                                <i class="fas fa-arrow-up"></i> Requer validação
+</div>
+</div>
+<div class="stat-card">
+<div class="stat-icon azul">
+<i class="fas fa-user-tie"></i>
+</div>
+<div class="stat-info">
+<div class="stat-label">Capitães Aprovados</div>
+<div class="stat-valor">12</div>
+</div>
+</div>
+<div class="stat-card">
+<div class="stat-icon roxo">
+<i class="fas fa-ship"></i>
+</div>
+<div class="stat-info">
+<div class="stat-label">Barcos Pendentes</div>
+<div class="stat-valor">5</div>
+<div class="stat-mudanca positiva">
+<i class="fas fa-arrow-up"></i> Requer validação
                             </div>
-                        </div>
-                    </div>
-                    
-                    <div class="stat-card">
-                        <div class="stat-icon verde">
-                            <i class="fas fa-check-circle"></i>
-                        </div>
-                        <div class="stat-info">
-                            <div class="stat-label">Barcos Ativos</div>
-                            <div class="stat-valor">28</div>
-                        </div>
-                    </div>
-                    
-                    <div class="stat-card">
-                        <div class="stat-icon vermelho">
-                            <i class="fas fa-exclamation-triangle"></i>
-                        </div>
-                        <div class="stat-info">
-                            <div class="stat-label">Reclamações Pendentes</div>
-                            <div class="stat-valor" id="statReclamacoes">0</div>
-                            <div class="stat-mudanca negativa">
-                                <i class="fas fa-arrow-up"></i> Requer atenção
+</div>
+</div>
+<div class="stat-card">
+<div class="stat-icon verde">
+<i class="fas fa-check-circle"></i>
+</div>
+<div class="stat-info">
+<div class="stat-label">Barcos Ativos</div>
+<div class="stat-valor">28</div>
+</div>
+</div>
+<div class="stat-card">
+<div class="stat-icon vermelho">
+<i class="fas fa-exclamation-triangle"></i>
+</div>
+<div class="stat-info">
+<div class="stat-label">Reclamações Pendentes</div>
+<div class="stat-valor" id="statReclamacoes">0</div>
+<div class="stat-mudanca negativa">
+<i class="fas fa-arrow-up"></i> Requer atenção
                             </div>
-                        </div>
-                    </div>
-                    
-                    <!-- VISITAS AO SITE -->
-                    <div class="stat-card" style="cursor:pointer;" onclick="navegarAdminSecao('visitas')">
-                        <div class="stat-icon" style="background:linear-gradient(135deg,#0288D1,#01579B);">
-                            <i class="fas fa-chart-line"></i>
-                        </div>
-                        <div class="stat-info">
-                            <div class="stat-label">Visitas ao Site</div>
-                            <div class="stat-valor" id="statVisitasTotal">—</div>
-                            <div class="stat-mudanca positiva" id="statVisitasHoje">
-                                <i class="fas fa-calendar-day"></i> <span id="visHoje">—</span> hoje
+</div>
+</div>
+<!-- VISITAS AO SITE -->
+<div class="stat-card" onclick="navegarAdminSecao('visitas')" style="cursor:pointer;">
+<div class="stat-icon" style="background:linear-gradient(135deg,#0288D1,#01579B);">
+<i class="fas fa-chart-line"></i>
+</div>
+<div class="stat-info">
+<div class="stat-label">Visitas ao Site</div>
+<div class="stat-valor" id="statVisitasTotal">—</div>
+<div class="stat-mudanca positiva" id="statVisitasHoje">
+<i class="fas fa-calendar-day"></i> <span id="visHoje">—</span> hoje
                             </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="grid grid-2 gap-lg" style="margin-top: 2rem;">
-                    <div class="dashboard-secao">
-                        <div class="dashboard-secao-header">
-                            <h2 class="dashboard-secao-titulo">
-                                <i class="fas fa-exclamation-circle" style="color: var(--cor-destaque);"></i>
+</div>
+</div>
+</div>
+<div class="grid grid-2 gap-lg" style="margin-top: 2rem;">
+<div class="dashboard-secao">
+<div class="dashboard-secao-header">
+<h2 class="dashboard-secao-titulo">
+<i class="fas fa-exclamation-circle" style="color: var(--cor-destaque);"></i>
                                 Ações Pendentes
                             </h2>
-                        </div>
-                        
-                        <div style="display: flex; flex-direction: column; gap: 1rem;">
-                            <div class="card" style="cursor: pointer; transition: var(--transicao-normal);" onclick="navegarSecao('pendentes')">
-                                <div class="card-conteudo" style="display: flex; align-items: center; gap: 1rem;">
-                                    <div style="width: 50px; height: 50px; border-radius: 50%; background: linear-gradient(135deg, var(--cor-destaque), #FFB74D); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: white;">
+</div>
+<div style="display: flex; flex-direction: column; gap: 1rem;">
+<div class="card" onclick="navegarSecao('pendentes')" style="cursor: pointer; transition: var(--transicao-normal);">
+<div class="card-conteudo" style="display: flex; align-items: center; gap: 1rem;">
+<div style="width: 50px; height: 50px; border-radius: 50%; background: linear-gradient(135deg, var(--cor-destaque), #FFB74D); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: white;">
                                         3
                                     </div>
-                                    <div style="flex: 1;">
-                                        <div style="font-weight: 600; margin-bottom: 0.25rem;">Novos Capitães para Aprovar</div>
-                                        <div class="texto-pequeno texto-cinza">Verificar documentação</div>
-                                    </div>
-                                    <i class="fas fa-chevron-right" style="color: var(--cor-cinza);"></i>
-                                </div>
-                            </div>
-                            
-                            <div class="card" style="cursor: pointer; transition: var(--transicao-normal);" onclick="navegarSecao('barcos')">
-                                <div class="card-conteudo" style="display: flex; align-items: center; gap: 1rem;">
-                                    <div style="width: 50px; height: 50px; border-radius: 50%; background: linear-gradient(135deg, var(--cor-secundaria), var(--cor-terciaria)); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: white;">
+<div style="flex: 1;">
+<div style="font-weight: 600; margin-bottom: 0.25rem;">Novos Capitães para Aprovar</div>
+<div class="texto-pequeno texto-cinza">Verificar documentação</div>
+</div>
+<i class="fas fa-chevron-right" style="color: var(--cor-cinza);"></i>
+</div>
+</div>
+<div class="card" onclick="navegarSecao('barcos')" style="cursor: pointer; transition: var(--transicao-normal);">
+<div class="card-conteudo" style="display: flex; align-items: center; gap: 1rem;">
+<div style="width: 50px; height: 50px; border-radius: 50%; background: linear-gradient(135deg, var(--cor-secundaria), var(--cor-terciaria)); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: white;">
                                         5
                                     </div>
-                                    <div style="flex: 1;">
-                                        <div style="font-weight: 600; margin-bottom: 0.25rem;">Barcos Aguardam Aprovação</div>
-                                        <div class="texto-pequeno texto-cinza">Validar documentos dos barcos</div>
-                                    </div>
-                                    <i class="fas fa-chevron-right" style="color: var(--cor-cinza);"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="dashboard-secao">
-                        <div class="dashboard-secao-header">
-                            <h2 class="dashboard-secao-titulo">
-                                <i class="fas fa-history"></i>
+<div style="flex: 1;">
+<div style="font-weight: 600; margin-bottom: 0.25rem;">Barcos Aguardam Aprovação</div>
+<div class="texto-pequeno texto-cinza">Validar documentos dos barcos</div>
+</div>
+<i class="fas fa-chevron-right" style="color: var(--cor-cinza);"></i>
+</div>
+</div>
+</div>
+</div>
+<div class="dashboard-secao">
+<div class="dashboard-secao-header">
+<h2 class="dashboard-secao-titulo">
+<i class="fas fa-history"></i>
                                 Atividade Recente
                             </h2>
-                        </div>
-                        
-                        <div class="estado-vazio">
-                            <i class="fas fa-clock estado-vazio-icon"></i>
-                            <h3 class="estado-vazio-titulo">Sem Atividade Recente</h3>
-                            <p class="estado-vazio-texto">A atividade da plataforma aparecerá aqui</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- CAPITÃES PENDENTES -->
-            <div class="dashboard-secao-wrapper oculto" id="secao-pendentes">
-                <div class="dashboard-header">
-                    <h1 class="dashboard-titulo">
-                        <i class="fas fa-clock"></i> Capitães Pendentes de Aprovação
+</div>
+<div class="estado-vazio">
+<i class="fas fa-clock estado-vazio-icon"></i>
+<h3 class="estado-vazio-titulo">Sem Atividade Recente</h3>
+<p class="estado-vazio-texto">A atividade da plataforma aparecerá aqui</p>
+</div>
+</div>
+</div>
+</div>
+<!-- CAPITÃES PENDENTES -->
+<div class="dashboard-secao-wrapper oculto" id="secao-pendentes">
+<div class="dashboard-header">
+<h1 class="dashboard-titulo">
+<i class="fas fa-clock"></i> Capitães Pendentes de Aprovação
                     </h1>
-                </div>
-                
-                <div class="dashboard-secao">
-                    <div style="display: flex; flex-direction: column; gap: 1.5rem;">
-                        <!-- ✅ Capitães carregados dinamicamente via JavaScript (função carregarCapitaesPendentes) -->
-                        <!-- 🔄 Cache busted: v2.0 - 08/03/2026 14:35 -->
-                        
-                        <!-- Estado vazio (quando não há pendentes) -->
-                        <div class="estado-vazio" style="display: none;" id="semPendentes">
-                            <i class="fas fa-check-circle estado-vazio-icon" style="color: var(--cor-sucesso);"></i>
-                            <h3 class="estado-vazio-titulo">Tudo em Dia!</h3>
-                            <p class="estado-vazio-texto">Não há capitães pendentes de aprovação no momento</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- BARCOS PENDENTES -->
-            <div class="dashboard-secao-wrapper oculto" id="secao-barcos">
-                <div class="dashboard-header">
-                    <h1 class="dashboard-titulo">
-                        <i class="fas fa-ship"></i> Barcos Pendentes de Aprovação
+</div>
+<div class="dashboard-secao">
+<div style="display: flex; flex-direction: column; gap: 1.5rem;">
+<!-- ✅ Capitães carregados dinamicamente via JavaScript (função carregarCapitaesPendentes) -->
+<!-- 🔄 Cache busted: v2.0 - 08/03/2026 14:35 -->
+<!-- Estado vazio (quando não há pendentes) -->
+<div class="estado-vazio" id="semPendentes" style="display: none;">
+<i class="fas fa-check-circle estado-vazio-icon" style="color: var(--cor-sucesso);"></i>
+<h3 class="estado-vazio-titulo">Tudo em Dia!</h3>
+<p class="estado-vazio-texto">Não há capitães pendentes de aprovação no momento</p>
+</div>
+</div>
+</div>
+</div>
+<!-- BARCOS PENDENTES -->
+<div class="dashboard-secao-wrapper oculto" id="secao-barcos">
+<div class="dashboard-header">
+<h1 class="dashboard-titulo">
+<i class="fas fa-ship"></i> Barcos Pendentes de Aprovação
                     </h1>
-                </div>
-                <div class="dashboard-secao">
-                    <p class="texto-cinza mb-3">Barcos que aguardam validação de documentos</p>
-                    <div id="containerBarcosPendentes">
-                        <!-- Carregado dinamicamente -->
-                    </div>
-                </div>
-            </div>
-            
-            <!-- OUTRAS SECÇÕES (simplificadas) -->
-            <div class="dashboard-secao-wrapper oculto" id="secao-capitaes">
-                <div class="dashboard-header">
-                    <h1 class="dashboard-titulo">Capitães Aprovados</h1>
-                </div>
-                <div class="estado-vazio">
-                    <i class="fas fa-user-tie estado-vazio-icon"></i>
-                    <h3 class="estado-vazio-titulo">Capitães Aprovados</h3>
-                    <p class="estado-vazio-texto">Lista de todos os capitães aprovados</p>
-                </div>
-            </div>
-            
-            <div class="dashboard-secao-wrapper oculto" id="secao-todos-barcos">
-                <div class="dashboard-header">
-                    <h1 class="dashboard-titulo">Todos os Barcos</h1>
-                </div>
-                <div class="dashboard-secao">
-                    <div id="containerTodosBarcos">
-                        <!-- Carregado dinamicamente -->
-                    </div>
-                </div>
-            </div>
-            
-            <div class="dashboard-secao-wrapper oculto" id="secao-usuarios">
-                <div class="dashboard-header">
-                    <h1 class="dashboard-titulo">
-                        <i class="fas fa-users"></i> Utilizadores Registados
+</div>
+<div class="dashboard-secao">
+<p class="texto-cinza mb-3">Barcos que aguardam validação de documentos</p>
+<div id="containerBarcosPendentes">
+<!-- Carregado dinamicamente -->
+</div>
+</div>
+</div>
+<!-- OUTRAS SECÇÕES (simplificadas) -->
+<div class="dashboard-secao-wrapper oculto" id="secao-capitaes">
+<div class="dashboard-header">
+<h1 class="dashboard-titulo">Capitães Aprovados</h1>
+</div>
+<div class="estado-vazio">
+<i class="fas fa-user-tie estado-vazio-icon"></i>
+<h3 class="estado-vazio-titulo">Capitães Aprovados</h3>
+<p class="estado-vazio-texto">Lista de todos os capitães aprovados</p>
+</div>
+</div>
+<div class="dashboard-secao-wrapper oculto" id="secao-todos-barcos">
+<div class="dashboard-header">
+<h1 class="dashboard-titulo">Todos os Barcos</h1>
+</div>
+<div class="dashboard-secao">
+<div id="containerTodosBarcos">
+<!-- Carregado dinamicamente -->
+</div>
+</div>
+</div>
+<div class="dashboard-secao-wrapper oculto" id="secao-usuarios">
+<div class="dashboard-header">
+<h1 class="dashboard-titulo">
+<i class="fas fa-users"></i> Utilizadores Registados
                     </h1>
-                    <p style="color: rgba(245,245,245,0.8); margin-top: 0.5rem;">Lista de todos os utilizadores privados (clientes) da plataforma</p>
-                </div>
-                
-                <div class="card">
-                    <div class="filtros-container" style="display: flex; gap: 1rem; margin-bottom: 1.5rem; flex-wrap: wrap; align-items: center;">
-                        <div class="form-grupo" style="margin: 0; flex: 1; min-width: 250px;">
-                            <input type="text" id="filtroUsuarios" class="form-input" placeholder="🔍 Buscar por nome ou email...">
+<p style="color: rgba(245,245,245,0.8); margin-top: 0.5rem;">Lista de todos os utilizadores privados (clientes) da plataforma</p>
+</div>
+<div class="card">
+<div class="filtros-container" style="display: flex; gap: 1rem; margin-bottom: 1.5rem; flex-wrap: wrap; align-items: center;">
+<div class="form-grupo" style="margin: 0; flex: 1; min-width: 250px;">
+<input class="form-input" id="filtroUsuarios" placeholder="🔍 Buscar por nome ou email..." type="text"/>
+</div>
+<div class="info-count" style="color: var(--tuna-orange); font-weight: 600;">
+<i class="fas fa-user"></i> <span id="countUsuarios">0</span> utilizadores
                         </div>
-                        <div class="info-count" style="color: var(--tuna-orange); font-weight: 600;">
-                            <i class="fas fa-user"></i> <span id="countUsuarios">0</span> utilizadores
-                        </div>
-                    </div>
-                    
-                    <div id="containerUsuarios">
-                        <!-- Populated by JavaScript -->
-                    </div>
-                </div>
-            </div>
-            
-            <!-- RECLAMAÇÕES -->
-            <div class="dashboard-secao-wrapper oculto" id="secao-reclamacoes">
-                <div class="dashboard-header">
-                    <h1 class="dashboard-titulo">
-                        <i class="fas fa-exclamation-triangle"></i>
+</div>
+<div id="containerUsuarios">
+<!-- Populated by JavaScript -->
+</div>
+</div>
+</div>
+<!-- RECLAMAÇÕES -->
+<div class="dashboard-secao-wrapper oculto" id="secao-reclamacoes">
+<div class="dashboard-header">
+<h1 class="dashboard-titulo">
+<i class="fas fa-exclamation-triangle"></i>
                         Gestão de Reclamações
                     </h1>
-                </div>
-                
-                <div id="reclamacoesContainer">
-                    <!-- Loaded by JavaScript -->
-                </div>
-            </div>
-            
-            <div class="dashboard-secao-wrapper oculto" id="secao-relatorios">
-                <div class="dashboard-header">
-                    <h1 class="dashboard-titulo">Relatórios</h1>
-                </div>
-                <div class="estado-vazio">
-                    <i class="fas fa-chart-bar estado-vazio-icon"></i>
-                    <h3 class="estado-vazio-titulo">Relatórios</h3>
-                    <p class="estado-vazio-texto">Estatísticas e relatórios da plataforma</p>
-                </div>
-            </div>
-            
-            <!-- ===== VISITAS AO SITE ===== -->
-            <div class="dashboard-secao-wrapper oculto" id="secao-visitas">
-                <div class="dashboard-header">
-                    <h1 class="dashboard-titulo">📊 Visitas ao Site</h1>
-                    <p style="color:rgba(245,245,245,0.8);margin-top:0.5rem;">Monitorização de visitas à plataforma (dados locais do seu browser)</p>
-                </div>
-                
-                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.5rem;margin-bottom:2rem;">
-                    <div class="card" style="text-align:center;padding:2rem;">
-                        <div style="font-size:3rem;font-weight:900;color:#0288D1;" id="visitasTotalNum">—</div>
-                        <div style="color:#94A3B8;font-size:0.9rem;margin-top:0.4rem;">Total de Visitas</div>
-                    </div>
-                    <div class="card" style="text-align:center;padding:2rem;">
-                        <div style="font-size:3rem;font-weight:900;color:#10B981;" id="visitasHojeNum">—</div>
-                        <div style="color:#94A3B8;font-size:0.9rem;margin-top:0.4rem;">Hoje</div>
-                    </div>
-                    <div class="card" style="text-align:center;padding:2rem;">
-                        <div style="font-size:3rem;font-weight:900;color:#F59E0B;" id="visitasSetimanaNum">—</div>
-                        <div style="color:#94A3B8;font-size:0.9rem;margin-top:0.4rem;">Esta Semana</div>
-                    </div>
-                    <div class="card" style="text-align:center;padding:2rem;">
-                        <div style="font-size:1rem;font-weight:700;color:#CBD5E1;" id="visitasUltimaData">—</div>
-                        <div style="color:#94A3B8;font-size:0.9rem;margin-top:0.4rem;">Última Visita</div>
-                    </div>
-                </div>
-
-                <div class="card" style="padding:1.5rem;">
-                    <h3 style="color:#F1F5F9;margin-bottom:1rem;"><i class="fas fa-calendar-alt" style="color:#0288D1;"></i> Visitas nos Últimos 30 Dias</h3>
-                    <div id="visitasGrafico" style="overflow-x:auto;padding-bottom:0.5rem;">
-                        <div style="color:#64748B;text-align:center;padding:2rem;">A carregar dados...</div>
-                    </div>
-                </div>
-
-                <div class="card" style="padding:1.5rem;margin-top:1.5rem;">
-                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;">
-                        <h3 style="color:#F1F5F9;"><i class="fas fa-info-circle" style="color:#F59E0B;"></i> Nota Importante</h3>
-                    </div>
-                    <p style="color:#94A3B8;font-size:0.9rem;line-height:1.6;">
+</div>
+<div id="reclamacoesContainer">
+<!-- Loaded by JavaScript -->
+</div>
+</div>
+<div class="dashboard-secao-wrapper oculto" id="secao-relatorios">
+<div class="dashboard-header">
+<h1 class="dashboard-titulo">Relatórios</h1>
+</div>
+<div class="estado-vazio">
+<i class="fas fa-chart-bar estado-vazio-icon"></i>
+<h3 class="estado-vazio-titulo">Relatórios</h3>
+<p class="estado-vazio-texto">Estatísticas e relatórios da plataforma</p>
+</div>
+</div>
+<!-- ===== VISITAS AO SITE ===== -->
+<div class="dashboard-secao-wrapper oculto" id="secao-visitas">
+<div class="dashboard-header">
+<h1 class="dashboard-titulo">📊 Visitas ao Site</h1>
+<p style="color:rgba(245,245,245,0.8);margin-top:0.5rem;">Monitorização de visitas à plataforma (dados locais do seu browser)</p>
+</div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.5rem;margin-bottom:2rem;">
+<div class="card" style="text-align:center;padding:2rem;">
+<div id="visitasTotalNum" style="font-size:3rem;font-weight:900;color:#0288D1;">—</div>
+<div style="color:#94A3B8;font-size:0.9rem;margin-top:0.4rem;">Total de Visitas</div>
+</div>
+<div class="card" style="text-align:center;padding:2rem;">
+<div id="visitasHojeNum" style="font-size:3rem;font-weight:900;color:#10B981;">—</div>
+<div style="color:#94A3B8;font-size:0.9rem;margin-top:0.4rem;">Hoje</div>
+</div>
+<div class="card" style="text-align:center;padding:2rem;">
+<div id="visitasSetimanaNum" style="font-size:3rem;font-weight:900;color:#F59E0B;">—</div>
+<div style="color:#94A3B8;font-size:0.9rem;margin-top:0.4rem;">Esta Semana</div>
+</div>
+<div class="card" style="text-align:center;padding:2rem;">
+<div id="visitasUltimaData" style="font-size:1rem;font-weight:700;color:#CBD5E1;">—</div>
+<div style="color:#94A3B8;font-size:0.9rem;margin-top:0.4rem;">Última Visita</div>
+</div>
+</div>
+<div class="card" style="padding:1.5rem;">
+<h3 style="color:#F1F5F9;margin-bottom:1rem;"><i class="fas fa-calendar-alt" style="color:#0288D1;"></i> Visitas nos Últimos 30 Dias</h3>
+<div id="visitasGrafico" style="overflow-x:auto;padding-bottom:0.5rem;">
+<div style="color:#64748B;text-align:center;padding:2rem;">A carregar dados...</div>
+</div>
+</div>
+<div class="card" style="padding:1.5rem;margin-top:1.5rem;">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;">
+<h3 style="color:#F1F5F9;"><i class="fas fa-info-circle" style="color:#F59E0B;"></i> Nota Importante</h3>
+</div>
+<p style="color:#94A3B8;font-size:0.9rem;line-height:1.6;">
                         ⚠️ Este contador usa <strong style="color:#CBD5E1;">localStorage</strong> — regista apenas visitas no <strong style="color:#CBD5E1;">seu próprio browser</strong>. 
                         Para contagem real de todos os visitantes, é necessário integrar o <strong style="color:#CBD5E1;">Google Analytics</strong> ou <strong style="color:#CBD5E1;">Cloudflare Analytics</strong> (gratuito). 
                         Quando migrarmos para <strong style="color:#10B981;">Supabase</strong>, implementaremos um contador real de visitas.
                     </p>
-                </div>
-            </div>
-            
-        </main>
-    </div>
-    
-    <!-- Modal Rejeitar -->
-    <div class="modal" id="modalRejeitar">
-        <div class="modal-conteudo">
-            <button class="modal-fechar" onclick="fecharModal('modalRejeitar')">&times;</button>
-            <h2 class="mb-3">Rejeitar Capitão</h2>
-            <p class="texto-cinza mb-4">Indique o motivo da rejeição</p>
-            
-            <form id="formRejeitar">
-                <div class="form-grupo">
-                    <label class="form-label obrigatorio">Motivo</label>
-                    <select class="form-select" required>
-                        <option value="">Selecione...</option>
-                        <option value="docs">Documentação incompleta</option>
-                        <option value="invalidos">Documentos inválidos</option>
-                        <option value="cedula">Cédula marítima inválida</option>
-                        <option value="seguro">Problema com seguro</option>
-                        <option value="outro">Outro</option>
-                    </select>
-                </div>
-                
-                <div class="form-grupo">
-                    <label class="form-label">Observações</label>
-                    <textarea class="form-textarea" placeholder="Detalhes sobre a rejeição..."></textarea>
-                </div>
-                
-                <div class="flex gap-md">
-                    <button type="button" class="btn btn-outline" onclick="fecharModal('modalRejeitar')">
+</div>
+</div>
+</main>
+</div>
+<!-- Modal Rejeitar -->
+<div class="modal" id="modalRejeitar">
+<div class="modal-conteudo">
+<button class="modal-fechar" onclick="fecharModal('modalRejeitar')">×</button>
+<h2 class="mb-3">Rejeitar Capitão</h2>
+<p class="texto-cinza mb-4">Indique o motivo da rejeição</p>
+<form id="formRejeitar">
+<div class="form-grupo">
+<label class="form-label obrigatorio">Motivo</label>
+<select class="form-select" required="">
+<option value="">Selecione...</option>
+<option value="docs">Documentação incompleta</option>
+<option value="invalidos">Documentos inválidos</option>
+<option value="cedula">Cédula marítima inválida</option>
+<option value="seguro">Problema com seguro</option>
+<option value="outro">Outro</option>
+</select>
+</div>
+<div class="form-grupo">
+<label class="form-label">Observações</label>
+<textarea class="form-textarea" placeholder="Detalhes sobre a rejeição..."></textarea>
+</div>
+<div class="flex gap-md">
+<button class="btn btn-outline" onclick="fecharModal('modalRejeitar')" type="button">
                         Cancelar
                     </button>
-                    <button type="submit" class="btn" style="flex: 1; background-color: var(--cor-erro); color: white;">
-                        <i class="fas fa-times"></i> Rejeitar
+<button class="btn" style="flex: 1; background-color: var(--cor-erro); color: white;" type="submit">
+<i class="fas fa-times"></i> Rejeitar
                     </button>
-                </div>
-            </form>
-        </div>
-    </div>
-    
-    <!-- Modal Visualizar Documento -->
-    <div class="modal" id="modalVisualizarDoc">
-        <div class="modal-conteudo" style="max-width: 90%; max-height: 90vh;">
-            <button class="modal-fechar" onclick="fecharModal('modalVisualizarDoc')">&times;</button>
-            <h2 class="mb-3" id="tituloModalDoc">Visualizar Documento</h2>
-            
-            <div id="conteudoModalDoc" style="max-height: 70vh; overflow: auto;">
-                <!-- Documento será carregado aqui -->
-            </div>
-            
-            <div style="margin-top: 1.5rem; display: flex; gap: 1rem; justify-content: flex-end;">
-                <button class="btn btn-outline" onclick="fecharModal('modalVisualizarDoc')">
-                    <i class="fas fa-times"></i> Fechar
+</div>
+</form>
+</div>
+</div>
+<!-- Modal Visualizar Documento -->
+<div class="modal" id="modalVisualizarDoc">
+<div class="modal-conteudo" style="max-width: 90%; max-height: 90vh;">
+<button class="modal-fechar" onclick="fecharModal('modalVisualizarDoc')">×</button>
+<h2 class="mb-3" id="tituloModalDoc">Visualizar Documento</h2>
+<div id="conteudoModalDoc" style="max-height: 70vh; overflow: auto;">
+<!-- Documento será carregado aqui -->
+</div>
+<div style="margin-top: 1.5rem; display: flex; gap: 1rem; justify-content: flex-end;">
+<button class="btn btn-outline" onclick="fecharModal('modalVisualizarDoc')">
+<i class="fas fa-times"></i> Fechar
                 </button>
-                <button class="btn btn-primary" id="btnDownloadDocModal">
-                    <i class="fas fa-download"></i> Download
+<button class="btn btn-primary" id="btnDownloadDocModal">
+<i class="fas fa-download"></i> Download
                 </button>
-            </div>
-        </div>
-    </div>
-    
-    <script src="js/main.js"></script>
-    <script>
+</div>
+</div>
+</div>
+<script src="js/main.js"></script>
+<script>
         // Navegação sidebar
         const menuItems = document.querySelectorAll('.sidebar-menu-item');
         const sections = document.querySelectorAll('.dashboard-secao-wrapper');
@@ -2318,6 +2274,6 @@ Equipa Algarve Tuna Charter
             }
         }
     </script>
-    <script src="js/admin-reclamacoes.js"></script>
+<script src="js/admin-reclamacoes.js"></script>
 </body>
 </html>

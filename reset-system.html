@@ -1,14 +1,15 @@
 <!DOCTYPE html>
+
 <html lang="pt">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reset Sistema - Algarve Tuna Charter</title>
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎣</text></svg>">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="css/wicked-tuna.css?v=1.32">
-    <link rel="stylesheet" href="css/algarve-tuna.css">
-    <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Reset Sistema - Algarve Tuna Charter</title>
+<link href="data:image/svg+xml,&lt;svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22&gt;&lt;text y=%22.9em%22 font-size=%2290%22&gt;🎣&lt;/text&gt;&lt;/svg&gt;" rel="icon"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<link href="css/wicked-tuna.css?v=1.35" rel="stylesheet"/>
+<link href="css/algarve-tuna.css" rel="stylesheet"/>
+<style>
         .reset-container {
             max-width: 800px;
             margin: 120px auto 4rem;
@@ -140,111 +141,102 @@
     </style>
 </head>
 <body>
-    <!-- HEADER -->
-    <header class="header">
-        <div class="container">
-            <div class="header-content">
-                <a href="index.html" class="logo">
+<!-- HEADER -->
+<header class="header">
+<div class="container">
+<div class="header-content">
+<a class="logo" href="index.html">
                     ALGARVE TUNA CHARTER
                 </a>
-                <nav class="nav">
-                    <a href="index.html">Início</a>
-                    <a href="admin-login.html">Admin</a>
-                </nav>
-            </div>
-        </div>
-    </header>
-
-    <!-- MAIN CONTENT -->
-    <div class="reset-container">
-        <div class="reset-icon">⚙️</div>
-        <h1 class="reset-title">RESET DO SISTEMA</h1>
-        <p class="reset-description">
+<nav class="nav">
+<a href="index.html">Início</a>
+<a href="admin-login.html">Admin</a>
+</nav>
+</div>
+</div>
+</header>
+<!-- MAIN CONTENT -->
+<div class="reset-container">
+<div class="reset-icon">⚙️</div>
+<h1 class="reset-title">RESET DO SISTEMA</h1>
+<p class="reset-description">
             Esta ferramenta permite limpar todos os dados de teste e começar do zero para simular o registo completo de um capitão.
         </p>
-
-        <div class="data-info">
-            <h3><i class="fas fa-database"></i> Dados que serão removidos:</h3>
-            <ul>
-                <li><i class="fas fa-ship"></i> <strong>Barcos Mock</strong> (12 barcos de demonstração)</li>
-                <li><i class="fas fa-fish"></i> <strong>Saídas de Pesca Mock</strong> (6 expedições demo)</li>
-                <li><i class="fas fa-calendar"></i> <strong>Reservas Pendentes</strong> (pedidos de clientes)</li>
-                <li><i class="fas fa-exclamation-triangle"></i> <strong>Reclamações</strong> (casos de suporte)</li>
-                <li><i class="fas fa-clock"></i> <strong>Estados de Agenda</strong> (dias bloqueados/reservados)</li>
-                <li><i class="fas fa-user-tie"></i> <strong>Capitães Demo</strong> (dados de teste)</li>
-            </ul>
-        </div>
-
-        <div class="warning-box">
-            <h4><i class="fas fa-exclamation-triangle"></i> ATENÇÃO!</h4>
-            <p>Esta ação não pode ser desfeita. Todos os dados armazenados localmente (localStorage) serão permanentemente removidos. Use apenas para testes e desenvolvimento.</p>
-        </div>
-
-        <div class="next-steps">
-            <h4><i class="fas fa-list-ol"></i> Fluxo de Teste Recomendado:</h4>
-            <ol>
-                <li><strong>Limpar dados</strong> - Clique no botão abaixo</li>
-                <li><strong>Registar Capitão</strong> - Vá para <a href="auth.html" style="color: var(--tuna-orange);">auth.html</a> e registe um capitão</li>
-                <li><strong>Upload de Documentos</strong> - Envie Livrete RNAAT e Certificado de Seguro</li>
-                <li><strong>Verificar Estado Pendente</strong> - Conta fica pendente automaticamente</li>
-                <li><strong>Login Admin</strong> - Entre em <a href="admin-login.html" style="color: var(--tuna-orange);">admin-login.html</a> (use as suas credenciais de administrador)</li>
-                <li><strong>Aprovar Capitão</strong> - No painel admin, valide documentos e aprove</li>
-                <li><strong>Login como Capitão</strong> - Entre com as credenciais criadas</li>
-                <li><strong>Registar Barco</strong> - Preencha formulário multi-step com documentos</li>
-                <li><strong>Admin Aprova Barco</strong> - Valide e aprove o barco</li>
-                <li><strong>Criar Saída</strong> - Capitão cria expedição de pesca</li>
-                <li><strong>Testar como Cliente</strong> - Registe cliente e faça reserva</li>
-                <li><strong>Gerir Agenda</strong> - Teste bloqueios e reservas</li>
-                <li><strong>Testar Reclamação</strong> - Envie uma reclamação de teste</li>
-            </ol>
-        </div>
-
-        <div class="reset-actions">
-            <a href="index.html" class="btn btn-secondary">
-                <i class="fas fa-arrow-left"></i> Cancelar
+<div class="data-info">
+<h3><i class="fas fa-database"></i> Dados que serão removidos:</h3>
+<ul>
+<li><i class="fas fa-ship"></i> <strong>Barcos Mock</strong> (12 barcos de demonstração)</li>
+<li><i class="fas fa-fish"></i> <strong>Saídas de Pesca Mock</strong> (6 expedições demo)</li>
+<li><i class="fas fa-calendar"></i> <strong>Reservas Pendentes</strong> (pedidos de clientes)</li>
+<li><i class="fas fa-exclamation-triangle"></i> <strong>Reclamações</strong> (casos de suporte)</li>
+<li><i class="fas fa-clock"></i> <strong>Estados de Agenda</strong> (dias bloqueados/reservados)</li>
+<li><i class="fas fa-user-tie"></i> <strong>Capitães Demo</strong> (dados de teste)</li>
+</ul>
+</div>
+<div class="warning-box">
+<h4><i class="fas fa-exclamation-triangle"></i> ATENÇÃO!</h4>
+<p>Esta ação não pode ser desfeita. Todos os dados armazenados localmente (localStorage) serão permanentemente removidos. Use apenas para testes e desenvolvimento.</p>
+</div>
+<div class="next-steps">
+<h4><i class="fas fa-list-ol"></i> Fluxo de Teste Recomendado:</h4>
+<ol>
+<li><strong>Limpar dados</strong> - Clique no botão abaixo</li>
+<li><strong>Registar Capitão</strong> - Vá para <a href="auth.html" style="color: var(--tuna-orange);">auth.html</a> e registe um capitão</li>
+<li><strong>Upload de Documentos</strong> - Envie Livrete RNAAT e Certificado de Seguro</li>
+<li><strong>Verificar Estado Pendente</strong> - Conta fica pendente automaticamente</li>
+<li><strong>Login Admin</strong> - Entre em <a href="admin-login.html" style="color: var(--tuna-orange);">admin-login.html</a> (use as suas credenciais de administrador)</li>
+<li><strong>Aprovar Capitão</strong> - No painel admin, valide documentos e aprove</li>
+<li><strong>Login como Capitão</strong> - Entre com as credenciais criadas</li>
+<li><strong>Registar Barco</strong> - Preencha formulário multi-step com documentos</li>
+<li><strong>Admin Aprova Barco</strong> - Valide e aprove o barco</li>
+<li><strong>Criar Saída</strong> - Capitão cria expedição de pesca</li>
+<li><strong>Testar como Cliente</strong> - Registe cliente e faça reserva</li>
+<li><strong>Gerir Agenda</strong> - Teste bloqueios e reservas</li>
+<li><strong>Testar Reclamação</strong> - Envie uma reclamação de teste</li>
+</ol>
+</div>
+<div class="reset-actions">
+<a class="btn btn-secondary" href="index.html">
+<i class="fas fa-arrow-left"></i> Cancelar
             </a>
-            <button class="btn btn-warning" id="btnLimparTeste" style="background: linear-gradient(135deg, #FF6F00, #FF8F00);">
-                <i class="fas fa-broom"></i> LIMPAR APENAS DADOS DE TESTE
+<button class="btn btn-warning" id="btnLimparTeste" style="background: linear-gradient(135deg, #FF6F00, #FF8F00);">
+<i class="fas fa-broom"></i> LIMPAR APENAS DADOS DE TESTE
             </button>
-            <button class="btn btn-danger" id="btnReset">
-                <i class="fas fa-trash-alt"></i> LIMPAR TODOS OS DADOS
+<button class="btn btn-danger" id="btnReset">
+<i class="fas fa-trash-alt"></i> LIMPAR TODOS OS DADOS
             </button>
-        </div>
-
-        <div class="success-message" id="successMessage">
-            <i class="fas fa-check-circle"></i>
-            <h3 style="color: #4CAF50;">Dados Limpos com Sucesso!</h3>
-            <p style="margin: 1rem 0;">O sistema foi resetado. Pode agora começar o teste do zero.</p>
-            <div style="display: flex; gap: 1rem; justify-content: center; margin-top: 1.5rem;">
-                <a href="auth.html" class="btn btn-primary">
-                    <i class="fas fa-user-plus"></i> REGISTAR CAPITÃO
+</div>
+<div class="success-message" id="successMessage">
+<i class="fas fa-check-circle"></i>
+<h3 style="color: #4CAF50;">Dados Limpos com Sucesso!</h3>
+<p style="margin: 1rem 0;">O sistema foi resetado. Pode agora começar o teste do zero.</p>
+<div style="display: flex; gap: 1rem; justify-content: center; margin-top: 1.5rem;">
+<a class="btn btn-primary" href="auth.html">
+<i class="fas fa-user-plus"></i> REGISTAR CAPITÃO
                 </a>
-                <a href="index.html" class="btn btn-secondary">
-                    <i class="fas fa-home"></i> Voltar ao Início
+<a class="btn btn-secondary" href="index.html">
+<i class="fas fa-home"></i> Voltar ao Início
                 </a>
-            </div>
-        </div>
-
-        <div class="data-info" style="margin-top: 3rem;">
-            <h3><i class="fas fa-info-circle"></i> Credenciais Admin (não serão apagadas):</h3>
-            <ul>
-                <li><i class="fas fa-envelope"></i> <strong>Email:</strong> [configurado pelo administrador]</li>
-                <li><i class="fas fa-key"></i> <strong>Password:</strong> [definida pelo administrador]</li>
-                <li><i class="fas fa-shield-alt"></i> <strong>URL:</strong> <a href="admin-login.html" style="color: var(--tuna-orange);">admin-login.html</a></li>
-            </ul>
-        </div>
-    </div>
-
-    <!-- FOOTER -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-bottom" style="text-align: center; padding: 2rem 0;">
-                <p>&copy; 2026 Algarve Tuna Charter - Development Tools</p>
-            </div>
-        </div>
-    </footer>
-
-    <script>
+</div>
+</div>
+<div class="data-info" style="margin-top: 3rem;">
+<h3><i class="fas fa-info-circle"></i> Credenciais Admin (não serão apagadas):</h3>
+<ul>
+<li><i class="fas fa-envelope"></i> <strong>Email:</strong> [configurado pelo administrador]</li>
+<li><i class="fas fa-key"></i> <strong>Password:</strong> [definida pelo administrador]</li>
+<li><i class="fas fa-shield-alt"></i> <strong>URL:</strong> <a href="admin-login.html" style="color: var(--tuna-orange);">admin-login.html</a></li>
+</ul>
+</div>
+</div>
+<!-- FOOTER -->
+<footer class="footer">
+<div class="container">
+<div class="footer-bottom" style="text-align: center; padding: 2rem 0;">
+<p>© 2026 Algarve Tuna Charter - Development Tools</p>
+</div>
+</div>
+</footer>
+<script>
         // Limpar APENAS dados de teste (mantém utilizadores reais de hoje)
         document.getElementById('btnLimparTeste').addEventListener('click', () => {
             if (confirm('🧹 LIMPAR DADOS DE TESTE?\n\nSerá removido:\n\n• Pedro Silva (Capitão teste)\n• Outros utilizadores antigos\n• Dados mockados\n\nSerá MANTIDO:\n• Utilizadores registados hoje\n• Sessão atual\n\nDeseja continuar?')) {

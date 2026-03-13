@@ -1,15 +1,16 @@
 <!DOCTYPE html>
+
 <html lang="pt">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Alertas de Segurança - Algarve Tuna Charter</title>
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚠️</text></svg>">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="css/wicked-tuna.css?v=1.32">
-    <link rel="stylesheet" href="css/algarve-tuna.css">
-    <link rel="stylesheet" href="css/dashboard.css">
-    <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Alertas de Segurança - Algarve Tuna Charter</title>
+<link href="data:image/svg+xml,&lt;svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22&gt;&lt;text y=%22.9em%22 font-size=%2290%22&gt;⚠️&lt;/text&gt;&lt;/svg&gt;" rel="icon"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<link href="css/wicked-tuna.css?v=1.35" rel="stylesheet"/>
+<link href="css/algarve-tuna.css" rel="stylesheet"/>
+<link href="css/dashboard.css" rel="stylesheet"/>
+<style>
         .header-alertas {
             background: linear-gradient(135deg, #D32F2F, #F57C00);
             padding: 3rem 2rem;
@@ -400,295 +401,259 @@
     </style>
 </head>
 <body>
-    <!-- HEADER -->
-    <header class="header-principal">
-        <div class="container">
-            <div class="header-content">
-                <a href="index.html" class="logo">
-                    <i class="fas fa-fish" style="color: var(--tuna-orange);"></i>
-                    <span>Algarve Tuna Charter</span>
-                </a>
-                <nav class="nav-principal" id="navPrincipal">
-                    <a href="dashboard-capitao.html"><i class="fas fa-chart-line"></i> Dashboard</a>
-                    <a href="gerir-agenda.html"><i class="fas fa-calendar-alt"></i> Agenda</a>
-                    <a href="alertas-seguranca.html" class="ativo"><i class="fas fa-shield-alt"></i> Alertas</a>
-                    <button class="btn btn-outline btn-pequeno" onclick="logout()">
-                        <i class="fas fa-sign-out-alt"></i> Sair
+<!-- HEADER -->
+<header class="header-principal">
+<div class="container">
+<div class="header-content">
+<a class="logo" href="index.html">
+<i class="fas fa-fish" style="color: var(--tuna-orange);"></i>
+<span>Algarve Tuna Charter</span>
+</a>
+<nav class="nav-principal" id="navPrincipal">
+<a href="dashboard-capitao.html"><i class="fas fa-chart-line"></i> Dashboard</a>
+<a href="gerir-agenda.html"><i class="fas fa-calendar-alt"></i> Agenda</a>
+<a class="ativo" href="alertas-seguranca.html"><i class="fas fa-shield-alt"></i> Alertas</a>
+<button class="btn btn-outline btn-pequeno" onclick="logout()">
+<i class="fas fa-sign-out-alt"></i> Sair
                     </button>
-                </nav>
-                <button class="menu-toggle" id="menuToggle">
-                    <i class="fas fa-bars"></i>
-                </button>
-            </div>
-        </div>
-    </header>
-
-    <!-- HEADER ALERTAS -->
-    <div class="header-alertas">
-        <h1><i class="fas fa-shield-alt"></i> ALERTAS DE SEGURANÇA</h1>
-        <p class="subtitulo">
+</nav>
+<button class="menu-toggle" id="menuToggle">
+<i class="fas fa-bars"></i>
+</button>
+</div>
+</div>
+</header>
+<!-- HEADER ALERTAS -->
+<div class="header-alertas">
+<h1><i class="fas fa-shield-alt"></i> ALERTAS DE SEGURANÇA</h1>
+<p class="subtitulo">
             Sistema de partilha de incidentes entre capitães para proteger a comunidade profissional
         </p>
-    </div>
-
-    <!-- AVISO CONFIDENCIAL -->
-    <div class="container">
-        <div class="aviso-confidencial">
-            <h3>
-                <i class="fas fa-lock"></i>
+</div>
+<!-- AVISO CONFIDENCIAL -->
+<div class="container">
+<div class="aviso-confidencial">
+<h3>
+<i class="fas fa-lock"></i>
                 Acesso Restrito - Apenas Capitães
             </h3>
-            <p style="color: rgba(0,0,0,0.7); margin: 0; line-height: 1.6;">
-                <strong>Esta área é confidencial e exclusiva para capitães verificados.</strong><br>
+<p style="color: rgba(0,0,0,0.7); margin: 0; line-height: 1.6;">
+<strong>Esta área é confidencial e exclusiva para capitães verificados.</strong><br/>
                 As informações aqui partilhadas têm como objetivo proteger a comunidade profissional de pesca. 
                 Use este sistema de forma responsável e ética. Reporte apenas incidentes reais e comprovados.
                 <strong>Uso indevido pode resultar na suspensão da conta.</strong>
-            </p>
-        </div>
-    </div>
-
-    <!-- STATS -->
-    <div class="container">
-        <div class="stats-alertas">
-            <div class="stat-card-alerta total">
-                <div class="stat-numero" id="statTotal">0</div>
-                <div class="stat-label">Total de Alertas</div>
+</p>
+</div>
+</div>
+<!-- STATS -->
+<div class="container">
+<div class="stats-alertas">
+<div class="stat-card-alerta total">
+<div class="stat-numero" id="statTotal">0</div>
+<div class="stat-label">Total de Alertas</div>
+</div>
+<div class="stat-card-alerta criticos">
+<div class="stat-numero" id="statCriticos">0</div>
+<div class="stat-label">Alertas Críticos</div>
+</div>
+<div class="stat-card-alerta mes">
+<div class="stat-numero" id="statMes">0</div>
+<div class="stat-label">Este Mês</div>
+</div>
+</div>
+</div>
+<!-- TABS -->
+<div class="container">
+<div class="tabs-alertas">
+<div class="tab-alerta ativo" data-tab="consultar">
+<i class="fas fa-search"></i> Consultar Alertas
             </div>
-            <div class="stat-card-alerta criticos">
-                <div class="stat-numero" id="statCriticos">0</div>
-                <div class="stat-label">Alertas Críticos</div>
+<div class="tab-alerta" data-tab="reportar">
+<i class="fas fa-exclamation-triangle"></i> Reportar Incidente
             </div>
-            <div class="stat-card-alerta mes">
-                <div class="stat-numero" id="statMes">0</div>
-                <div class="stat-label">Este Mês</div>
-            </div>
-        </div>
-    </div>
-
-    <!-- TABS -->
-    <div class="container">
-        <div class="tabs-alertas">
-            <div class="tab-alerta ativo" data-tab="consultar">
-                <i class="fas fa-search"></i> Consultar Alertas
-            </div>
-            <div class="tab-alerta" data-tab="reportar">
-                <i class="fas fa-exclamation-triangle"></i> Reportar Incidente
-            </div>
-        </div>
-
-        <!-- TAB: CONSULTAR ALERTAS -->
-        <div class="conteudo-tab ativo" id="tabConsultar">
-            <div class="lista-alertas">
-                <div class="filtros-alertas">
-                    <div class="form-grupo" style="flex: 1; min-width: 200px;">
-                        <input type="text" id="filtroNome" class="form-input" placeholder="🔍 Pesquisar por nome do cliente...">
-                    </div>
-                    <div class="form-grupo" style="min-width: 150px;">
-                        <select id="filtroGravidade" class="form-input">
-                            <option value="">Todas as Gravidades</option>
-                            <option value="critico">🔴 Crítico</option>
-                            <option value="alto">🟠 Alto</option>
-                            <option value="medio">🟡 Médio</option>
-                            <option value="baixo">🟢 Baixo</option>
-                        </select>
-                    </div>
-                    <div class="form-grupo" style="min-width: 150px;">
-                        <select id="filtroCategoria" class="form-input">
-                            <option value="">Todas as Categorias</option>
-                            <option value="nao-pagamento">Não Pagamento</option>
-                            <option value="comportamento">Comportamento</option>
-                            <option value="danos">Danos ao Barco</option>
-                            <option value="seguranca">Segurança</option>
-                            <option value="embriaguez">Embriaguez</option>
-                            <option value="cancelamento">Cancelamento</option>
-                            <option value="outro">Outro</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div id="listaAlertasContainer">
-                    <!-- Alertas serão carregados via JS -->
-                </div>
-            </div>
-        </div>
-
-        <!-- TAB: REPORTAR INCIDENTE -->
-        <div class="conteudo-tab" id="tabReportar">
-            <form class="formulario-incidente" id="formReportar">
-                <h2 style="text-align: center; color: var(--cor-branco); margin-bottom: 2rem;">
-                    <i class="fas fa-exclamation-triangle"></i> Reportar Novo Incidente
+</div>
+<!-- TAB: CONSULTAR ALERTAS -->
+<div class="conteudo-tab ativo" id="tabConsultar">
+<div class="lista-alertas">
+<div class="filtros-alertas">
+<div class="form-grupo" style="flex: 1; min-width: 200px;">
+<input class="form-input" id="filtroNome" placeholder="🔍 Pesquisar por nome do cliente..." type="text"/>
+</div>
+<div class="form-grupo" style="min-width: 150px;">
+<select class="form-input" id="filtroGravidade">
+<option value="">Todas as Gravidades</option>
+<option value="critico">🔴 Crítico</option>
+<option value="alto">🟠 Alto</option>
+<option value="medio">🟡 Médio</option>
+<option value="baixo">🟢 Baixo</option>
+</select>
+</div>
+<div class="form-grupo" style="min-width: 150px;">
+<select class="form-input" id="filtroCategoria">
+<option value="">Todas as Categorias</option>
+<option value="nao-pagamento">Não Pagamento</option>
+<option value="comportamento">Comportamento</option>
+<option value="danos">Danos ao Barco</option>
+<option value="seguranca">Segurança</option>
+<option value="embriaguez">Embriaguez</option>
+<option value="cancelamento">Cancelamento</option>
+<option value="outro">Outro</option>
+</select>
+</div>
+</div>
+<div id="listaAlertasContainer">
+<!-- Alertas serão carregados via JS -->
+</div>
+</div>
+</div>
+<!-- TAB: REPORTAR INCIDENTE -->
+<div class="conteudo-tab" id="tabReportar">
+<form class="formulario-incidente" id="formReportar">
+<h2 style="text-align: center; color: var(--cor-branco); margin-bottom: 2rem;">
+<i class="fas fa-exclamation-triangle"></i> Reportar Novo Incidente
                 </h2>
-
-                <div class="form-grupo">
-                    <label class="form-label obrigatorio">Nível de Gravidade</label>
-                    <div class="nivel-gravidade">
-                        <div class="nivel-opcao">
-                            <input type="radio" name="gravidade" id="gravBaixo" value="baixo" required>
-                            <label for="gravBaixo" class="nivel-label baixo">
-                                <i class="fas fa-info-circle nivel-icon"></i>
-                                <strong>Baixo</strong>
-                                <small style="color: rgba(255,255,255,0.6);">Incidente menor</small>
+<div class="form-grupo">
+<label class="form-label obrigatorio">Nível de Gravidade</label>
+<div class="nivel-gravidade">
+<div class="nivel-opcao">
+<input id="gravBaixo" name="gravidade" required="" type="radio" value="baixo"/>
+<label class="nivel-label baixo" for="gravBaixo">
+<i class="fas fa-info-circle nivel-icon"></i>
+<strong>Baixo</strong>
+<small style="color: rgba(255,255,255,0.6);">Incidente menor</small>
+</label>
+</div>
+<div class="nivel-opcao">
+<input id="gravMedio" name="gravidade" type="radio" value="medio"/>
+<label class="nivel-label medio" for="gravMedio">
+<i class="fas fa-exclamation-circle nivel-icon"></i>
+<strong>Médio</strong>
+<small style="color: rgba(255,255,255,0.6);">Requer atenção</small>
+</label>
+</div>
+<div class="nivel-opcao">
+<input id="gravAlto" name="gravidade" type="radio" value="alto"/>
+<label class="nivel-label alto" for="gravAlto">
+<i class="fas fa-exclamation-triangle nivel-icon"></i>
+<strong>Alto</strong>
+<small style="color: rgba(255,255,255,0.6);">Incidente grave</small>
+</label>
+</div>
+<div class="nivel-opcao">
+<input id="gravCritico" name="gravidade" type="radio" value="critico"/>
+<label class="nivel-label critico" for="gravCritico">
+<i class="fas fa-skull-crossbones nivel-icon"></i>
+<strong>Crítico</strong>
+<small style="color: rgba(255,255,255,0.6);">Evitar cliente</small>
+</label>
+</div>
+</div>
+</div>
+<div class="form-grupo">
+<label class="form-label obrigatorio">Categoria(s) do Incidente</label>
+<div class="categoria-chips">
+<div class="chip-categoria">
+<input id="catNaoPagamento" name="categorias" type="checkbox" value="nao-pagamento"/>
+<label class="chip-label" for="catNaoPagamento">
+<i class="fas fa-money-bill-wave"></i> Não Pagamento / Burla
                             </label>
-                        </div>
-                        <div class="nivel-opcao">
-                            <input type="radio" name="gravidade" id="gravMedio" value="medio">
-                            <label for="gravMedio" class="nivel-label medio">
-                                <i class="fas fa-exclamation-circle nivel-icon"></i>
-                                <strong>Médio</strong>
-                                <small style="color: rgba(255,255,255,0.6);">Requer atenção</small>
+</div>
+<div class="chip-categoria">
+<input id="catComportamento" name="categorias" type="checkbox" value="comportamento"/>
+<label class="chip-label" for="catComportamento">
+<i class="fas fa-user-times"></i> Comportamento Inadequado
                             </label>
-                        </div>
-                        <div class="nivel-opcao">
-                            <input type="radio" name="gravidade" id="gravAlto" value="alto">
-                            <label for="gravAlto" class="nivel-label alto">
-                                <i class="fas fa-exclamation-triangle nivel-icon"></i>
-                                <strong>Alto</strong>
-                                <small style="color: rgba(255,255,255,0.6);">Incidente grave</small>
+</div>
+<div class="chip-categoria">
+<input id="catDanos" name="categorias" type="checkbox" value="danos"/>
+<label class="chip-label" for="catDanos">
+<i class="fas fa-wrench"></i> Danos ao Barco/Equipamento
                             </label>
-                        </div>
-                        <div class="nivel-opcao">
-                            <input type="radio" name="gravidade" id="gravCritico" value="critico">
-                            <label for="gravCritico" class="nivel-label critico">
-                                <i class="fas fa-skull-crossbones nivel-icon"></i>
-                                <strong>Crítico</strong>
-                                <small style="color: rgba(255,255,255,0.6);">Evitar cliente</small>
+</div>
+<div class="chip-categoria">
+<input id="catSeguranca" name="categorias" type="checkbox" value="seguranca"/>
+<label class="chip-label" for="catSeguranca">
+<i class="fas fa-life-ring"></i> Risco de Segurança
                             </label>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-grupo">
-                    <label class="form-label obrigatorio">Categoria(s) do Incidente</label>
-                    <div class="categoria-chips">
-                        <div class="chip-categoria">
-                            <input type="checkbox" name="categorias" id="catNaoPagamento" value="nao-pagamento">
-                            <label for="catNaoPagamento" class="chip-label">
-                                <i class="fas fa-money-bill-wave"></i> Não Pagamento / Burla
+</div>
+<div class="chip-categoria">
+<input id="catEmbriaguez" name="categorias" type="checkbox" value="embriaguez"/>
+<label class="chip-label" for="catEmbriaguez">
+<i class="fas fa-glass-whiskey"></i> Embriaguez / Substâncias
                             </label>
-                        </div>
-                        <div class="chip-categoria">
-                            <input type="checkbox" name="categorias" id="catComportamento" value="comportamento">
-                            <label for="catComportamento" class="chip-label">
-                                <i class="fas fa-user-times"></i> Comportamento Inadequado
+</div>
+<div class="chip-categoria">
+<input id="catCancelamento" name="categorias" type="checkbox" value="cancelamento"/>
+<label class="chip-label" for="catCancelamento">
+<i class="fas fa-ban"></i> Cancelamento de Última Hora
                             </label>
-                        </div>
-                        <div class="chip-categoria">
-                            <input type="checkbox" name="categorias" id="catDanos" value="danos">
-                            <label for="catDanos" class="chip-label">
-                                <i class="fas fa-wrench"></i> Danos ao Barco/Equipamento
+</div>
+<div class="chip-categoria">
+<input id="catOutro" name="categorias" type="checkbox" value="outro"/>
+<label class="chip-label" for="catOutro">
+<i class="fas fa-ellipsis-h"></i> Outro
                             </label>
-                        </div>
-                        <div class="chip-categoria">
-                            <input type="checkbox" name="categorias" id="catSeguranca" value="seguranca">
-                            <label for="catSeguranca" class="chip-label">
-                                <i class="fas fa-life-ring"></i> Risco de Segurança
-                            </label>
-                        </div>
-                        <div class="chip-categoria">
-                            <input type="checkbox" name="categorias" id="catEmbriaguez" value="embriaguez">
-                            <label for="catEmbriaguez" class="chip-label">
-                                <i class="fas fa-glass-whiskey"></i> Embriaguez / Substâncias
-                            </label>
-                        </div>
-                        <div class="chip-categoria">
-                            <input type="checkbox" name="categorias" id="catCancelamento" value="cancelamento">
-                            <label for="catCancelamento" class="chip-label">
-                                <i class="fas fa-ban"></i> Cancelamento de Última Hora
-                            </label>
-                        </div>
-                        <div class="chip-categoria">
-                            <input type="checkbox" name="categorias" id="catOutro" value="outro">
-                            <label for="catOutro" class="chip-label">
-                                <i class="fas fa-ellipsis-h"></i> Outro
-                            </label>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-grupo">
-                    <label class="form-label obrigatorio">Nome do Cliente</label>
-                    <input type="text" id="nomeCliente" class="form-input" placeholder="Nome completo do cliente" required>
-                </div>
-
-                <div class="form-row">
-                    <div class="form-grupo">
-                        <label class="form-label obrigatorio">Email do Cliente</label>
-                        <input type="email" id="emailCliente" class="form-input" placeholder="email@exemplo.com" required>
-                    </div>
-                    <div class="form-grupo">
-                        <label class="form-label obrigatorio">Contacto Telefónico</label>
-                        <input type="tel" id="telefoneCliente" class="form-input" placeholder="+351 912 345 678" required>
-                    </div>
-                </div>
-
-                <div class="form-grupo">
-                    <label class="form-label obrigatorio">Descrição Detalhada do Incidente</label>
-                    <textarea id="descricaoIncidente" class="form-input" rows="6" 
-                        placeholder="Descreva o incidente de forma clara e objetiva. Inclua: data, local, tipo de saída, o que aconteceu, testemunhas (se houver), evidências, etc." 
-                        required></textarea>
-                    <small style="color: rgba(255,255,255,0.6); display: block; margin-top: 0.5rem;">
+</div>
+</div>
+</div>
+<div class="form-grupo">
+<label class="form-label obrigatorio">Nome do Cliente</label>
+<input class="form-input" id="nomeCliente" placeholder="Nome completo do cliente" required="" type="text"/>
+</div>
+<div class="form-row">
+<div class="form-grupo">
+<label class="form-label obrigatorio">Email do Cliente</label>
+<input class="form-input" id="emailCliente" placeholder="email@exemplo.com" required="" type="email"/>
+</div>
+<div class="form-grupo">
+<label class="form-label obrigatorio">Contacto Telefónico</label>
+<input class="form-input" id="telefoneCliente" placeholder="+351 912 345 678" required="" type="tel"/>
+</div>
+</div>
+<div class="form-grupo">
+<label class="form-label obrigatorio">Descrição Detalhada do Incidente</label>
+<textarea class="form-input" id="descricaoIncidente" placeholder="Descreva o incidente de forma clara e objetiva. Inclua: data, local, tipo de saída, o que aconteceu, testemunhas (se houver), evidências, etc." required="" rows="6"></textarea>
+<small style="color: rgba(255,255,255,0.6); display: block; margin-top: 0.5rem;">
                         Mínimo 50 caracteres. Seja específico e profissional.
                     </small>
-                </div>
-
-                <div class="form-grupo">
-                    <label class="form-label">Data do Incidente</label>
-                    <input type="date" id="dataIncidente" class="form-input" required>
-                </div>
-
-                <div style="background: rgba(239, 68, 68, 0.1); border: 2px solid rgba(239, 68, 68, 0.3); border-radius: var(--radius-medio); padding: 1.5rem; margin: 1.5rem 0;">
-                    <h4 style="color: #EF4444; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
-                        <i class="fas fa-gavel"></i> Declaração de Responsabilidade
+</div>
+<div class="form-grupo">
+<label class="form-label">Data do Incidente</label>
+<input class="form-input" id="dataIncidente" required="" type="date"/>
+</div>
+<div style="background: rgba(239, 68, 68, 0.1); border: 2px solid rgba(239, 68, 68, 0.3); border-radius: var(--radius-medio); padding: 1.5rem; margin: 1.5rem 0;">
+<h4 style="color: #EF4444; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+<i class="fas fa-gavel"></i> Declaração de Responsabilidade
                     </h4>
-                    <div class="form-grupo" style="margin: 0;">
-                        <label class="form-checkbox-label" style="color: rgba(255,255,255,0.9); align-items: flex-start;">
-                            <input type="checkbox" class="form-checkbox" id="concordoTermos" required>
-                            <span style="line-height: 1.6;">
+<div class="form-grupo" style="margin: 0;">
+<label class="form-checkbox-label" style="color: rgba(255,255,255,0.9); align-items: flex-start;">
+<input class="form-checkbox" id="concordoTermos" required="" type="checkbox"/>
+<span style="line-height: 1.6;">
                                 Declaro que as informações fornecidas são <strong>verdadeiras e comprovadas</strong>. 
                                 Compreendo que este sistema é para proteção da comunidade e que <strong>reportes falsos 
                                 resultarão na suspensão imediata da minha conta</strong> e possíveis ações legais.
                             </span>
-                        </label>
-                    </div>
-                </div>
-
-                <div style="display: flex; gap: 1rem; justify-content: center; margin-top: 2rem;">
-                    <button type="button" class="btn btn-outline" onclick="limparFormulario()">
-                        <i class="fas fa-times"></i> Cancelar
+</label>
+</div>
+</div>
+<div style="display: flex; gap: 1rem; justify-content: center; margin-top: 2rem;">
+<button class="btn btn-outline" onclick="limparFormulario()" type="button">
+<i class="fas fa-times"></i> Cancelar
                     </button>
-                    <button type="submit" class="btn btn-primary">
-                        <i class="fas fa-paper-plane"></i> Enviar Alerta
+<button class="btn btn-primary" type="submit">
+<i class="fas fa-paper-plane"></i> Enviar Alerta
                     </button>
-                </div>
-            </form>
-        </div>
-    </div>
+</div>
+</form>
+</div>
+</div>
+<!-- FOOTER -->
+<footer class="footer" style="margin-top: 4rem;">
 
-    <!-- FOOTER -->
-    <footer class="footer" style="margin-top: 4rem;">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-secao">
-                    <h3><i class="fas fa-fish"></i> Algarve Tuna Charter</h3>
-                    <p>Sistema profissional de gestão e segurança para capitães de pesca desportiva.</p>
-                </div>
-                <div class="footer-secao">
-                    <h4>Suporte</h4>
-                    <p><i class="fas fa-envelope"></i> suporte@algarvetunacharter.com</p>
-                    <p><i class="fas fa-phone"></i> +351 289 123 456</p>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2026 Algarve Tuna Charter. Sistema de Alertas Confidencial.</p>
-            </div>
-        </div>
-    </footer>
-
-    <script src="js/main.js"></script>
-    <script src="js/alertas-seguranca.js"></script>
-
-    <p style="text-align:center;margin-top:1.5rem;font-size:0.72rem;color:rgba(100,116,139,0.7);font-family:monospace;"><i class="fas fa-code-branch"></i> v1.19</p>
-
-    <script src="js/i18n.js?v=1.32"></script>
+</footer>
+<script src="js/main.js"></script>
+<script src="js/alertas-seguranca.js"></script>
+<p style="text-align:center;margin-top:1.5rem;font-size:0.72rem;color:rgba(100,116,139,0.7);font-family:monospace;"><i class="fas fa-code-branch"></i> v1.19</p>
+<script src="js/i18n.js?v=1.35"></script>
 </body>
 </html>

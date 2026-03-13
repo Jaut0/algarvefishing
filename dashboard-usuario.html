@@ -1,15 +1,16 @@
 <!DOCTYPE html>
+
 <html lang="pt">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meu Dashboard - Algarve Tuna Charter</title>
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>⚓</text></svg>">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/wicked-tuna.css?v=1.32">
-    <link rel="stylesheet" href="css/dashboard.css">
-    <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Meu Dashboard - Algarve Tuna Charter</title>
+<link href="data:image/svg+xml,&lt;svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'&gt;&lt;text y='0.9em' font-size='90'&gt;⚓&lt;/text&gt;&lt;/svg&gt;" rel="icon"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<link href="css/style.css" rel="stylesheet"/>
+<link href="css/wicked-tuna.css?v=1.35" rel="stylesheet"/>
+<link href="css/dashboard.css" rel="stylesheet"/>
+<style>
         /* ===== CORRECÇÃO: Secção Perfil — texto visível sobre fundo claro ===== */
         #secao-perfil .card {
             background: #ffffff !important;
@@ -297,371 +298,343 @@
         </style>
 </head>
 <body>
-    <header class="header">
-        <div class="header-content container">
-            <a href="index.html" class="logo">
-                <span class="logo-icon">⚓</span>
-                <span>Algarve Tuna Charter</span>
-            </a>
-            <nav class="nav-menu">
-                <a href="index.html" class="nav-link">Início</a>
-                <a href="explorar.html" class="nav-link">Explorar</a>
-                <a href="dashboard-usuario.html" class="nav-link ativo">Dashboard</a>
-                <button class="btn btn-outline btn-pequeno" onclick="logout()">
-                    <i class="fas fa-sign-out-alt"></i> Sair
+<header class="header">
+<div class="header-content container">
+<a class="logo" href="index.html">
+<span class="logo-icon">⚓</span>
+<span>Algarve Tuna Charter</span>
+</a>
+<nav class="nav-menu">
+<a class="nav-link" href="index.html">Início</a>
+<a class="nav-link" href="explorar.html">Explorar</a>
+<a class="nav-link ativo" href="dashboard-usuario.html">Dashboard</a>
+<button class="btn btn-outline btn-pequeno" onclick="logout()">
+<i class="fas fa-sign-out-alt"></i> Sair
                 </button>
-            </nav>
-            <div class="menu-toggle" id="menuToggle">
-                <span></span><span></span><span></span>
-            </div>
-        </div>
-    </header>
-
-    <div class="dashboard">
-        <aside class="sidebar" id="sidebar">
-            <div class="sidebar-perfil">
-                <div class="sidebar-perfil-avatar" id="sidebarAvatar">--</div>
-                <div class="sidebar-perfil-nome" id="sidebarNome">Carregando...</div>
-                <div class="sidebar-perfil-tipo">Utilizador</div>
-            </div>
-            <nav class="sidebar-menu">
-                <a href="#" class="sidebar-menu-item ativo" data-section="dashboard">
-                    <i class="fas fa-home"></i><span>Dashboard</span>
-                </a>
-                <a href="#" class="sidebar-menu-item" data-section="reservas">
-                    <i class="fas fa-ticket-alt"></i><span>Minhas Reservas</span>
-                </a>
-                <a href="#" class="sidebar-menu-item" data-section="historico">
-                    <i class="fas fa-history"></i><span>Histórico</span>
-                </a>
-                <a href="#" class="sidebar-menu-item" data-section="favoritos">
-                    <i class="fas fa-heart"></i><span>Favoritos</span>
-                </a>
-                <a href="#" class="sidebar-menu-item" data-section="partilhadas" style="border-left: 3px solid #F59E0B;">
-                    <i class="fas fa-users" style="color:#F59E0B;"></i><span>🤝 Saídas Partilhadas</span>
-                </a>
-                <a href="#" class="sidebar-menu-item" data-section="perfil">
-                    <i class="fas fa-user"></i><span>Meu Perfil</span>
-                </a>
-            
-        <!-- Versão do site -->
-        <div style="text-align:center;padding:1rem 0 0.5rem;border-top:1px solid rgba(255,255,255,0.08);margin-top:1rem;">
-            <span style="font-size:0.72rem;color:rgba(255,255,255,0.35);font-family:monospace;letter-spacing:0.05em;">
-                <i class="fas fa-code-branch"></i> v1.19
+</nav>
+<div class="menu-toggle" id="menuToggle">
+<span></span><span></span><span></span>
+</div>
+</div>
+</header>
+<div class="dashboard">
+<aside class="sidebar" id="sidebar">
+<div class="sidebar-perfil">
+<div class="sidebar-perfil-avatar" id="sidebarAvatar">--</div>
+<div class="sidebar-perfil-nome" id="sidebarNome">Carregando...</div>
+<div class="sidebar-perfil-tipo">Utilizador</div>
+</div>
+<nav class="sidebar-menu">
+<a class="sidebar-menu-item ativo" data-section="dashboard" href="#">
+<i class="fas fa-home"></i><span>Dashboard</span>
+</a>
+<a class="sidebar-menu-item" data-section="reservas" href="#">
+<i class="fas fa-ticket-alt"></i><span>Minhas Reservas</span>
+</a>
+<a class="sidebar-menu-item" data-section="historico" href="#">
+<i class="fas fa-history"></i><span>Histórico</span>
+</a>
+<a class="sidebar-menu-item" data-section="favoritos" href="#">
+<i class="fas fa-heart"></i><span>Favoritos</span>
+</a>
+<a class="sidebar-menu-item" data-section="partilhadas" href="#" style="border-left: 3px solid #F59E0B;">
+<i class="fas fa-users" style="color:#F59E0B;"></i><span>🤝 Saídas Partilhadas</span>
+</a>
+<a class="sidebar-menu-item" data-section="perfil" href="#">
+<i class="fas fa-user"></i><span>Meu Perfil</span>
+</a>
+<!-- Versão do site -->
+<div style="text-align:center;padding:1rem 0 0.5rem;border-top:1px solid rgba(255,255,255,0.08);margin-top:1rem;">
+<span style="font-size:0.72rem;color:rgba(255,255,255,0.35);font-family:monospace;letter-spacing:0.05em;">
+<i class="fas fa-code-branch"></i> v1.19
             </span>
-        </div>
-        </nav>
-        </aside>
-
-        <button class="sidebar-toggle" id="sidebarToggle">
-            <i class="fas fa-bars"></i>
-        </button>
-
-        <main class="dashboard-conteudo">
-
-            <!-- ========== DASHBOARD ========== -->
-            <div class="dashboard-secao-wrapper" id="secao-dashboard">
-                <div class="dashboard-header">
-                    <div class="dashboard-header-top">
-                        <h1 class="dashboard-titulo" id="dashboardTitulo">Bem-vindo! 👋</h1>
-                    </div>
-                </div>
-
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <div class="stat-icon azul"><i class="fas fa-calendar-check"></i></div>
-                        <div class="stat-info">
-                            <div class="stat-label">Reservas Ativas</div>
-                            <div class="stat-valor" id="statReservasAtivas">0</div>
-                        </div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-icon verde"><i class="fas fa-fish"></i></div>
-                        <div class="stat-info">
-                            <div class="stat-label">Saídas Realizadas</div>
-                            <div class="stat-valor" id="statSaidasRealizadas">0</div>
-                        </div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-icon roxo"><i class="fas fa-heart"></i></div>
-                        <div class="stat-info">
-                            <div class="stat-label">Favoritos</div>
-                            <div class="stat-valor" id="statFavoritos">0</div>
-                        </div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-icon laranja"><i class="fas fa-star"></i></div>
-                        <div class="stat-info">
-                            <div class="stat-label">Avaliações Dadas</div>
-                            <div class="stat-valor" id="statAvaliacoes">0</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="dashboard-secao">
-                    <div class="dashboard-secao-header">
-                        <h2 class="dashboard-secao-titulo">
-                            <i class="fas fa-calendar-alt"></i> Próximas Reservas
+</div>
+</nav>
+</aside>
+<button class="sidebar-toggle" id="sidebarToggle">
+<i class="fas fa-bars"></i>
+</button>
+<main class="dashboard-conteudo">
+<!-- ========== DASHBOARD ========== -->
+<div class="dashboard-secao-wrapper" id="secao-dashboard">
+<div class="dashboard-header">
+<div class="dashboard-header-top">
+<h1 class="dashboard-titulo" id="dashboardTitulo">Bem-vindo! 👋</h1>
+</div>
+</div>
+<div class="stats-grid">
+<div class="stat-card">
+<div class="stat-icon azul"><i class="fas fa-calendar-check"></i></div>
+<div class="stat-info">
+<div class="stat-label">Reservas Ativas</div>
+<div class="stat-valor" id="statReservasAtivas">0</div>
+</div>
+</div>
+<div class="stat-card">
+<div class="stat-icon verde"><i class="fas fa-fish"></i></div>
+<div class="stat-info">
+<div class="stat-label">Saídas Realizadas</div>
+<div class="stat-valor" id="statSaidasRealizadas">0</div>
+</div>
+</div>
+<div class="stat-card">
+<div class="stat-icon roxo"><i class="fas fa-heart"></i></div>
+<div class="stat-info">
+<div class="stat-label">Favoritos</div>
+<div class="stat-valor" id="statFavoritos">0</div>
+</div>
+</div>
+<div class="stat-card">
+<div class="stat-icon laranja"><i class="fas fa-star"></i></div>
+<div class="stat-info">
+<div class="stat-label">Avaliações Dadas</div>
+<div class="stat-valor" id="statAvaliacoes">0</div>
+</div>
+</div>
+</div>
+<div class="dashboard-secao">
+<div class="dashboard-secao-header">
+<h2 class="dashboard-secao-titulo">
+<i class="fas fa-calendar-alt"></i> Próximas Reservas
                         </h2>
-                        <a href="#" class="btn btn-primario btn-pequeno" onclick="event.preventDefault();navegarSecao('reservas')">Ver Todas</a>
-                    </div>
-                    <div id="proximasReservasContainer">
-                        <div class="estado-vazio">
-                            <i class="fas fa-calendar-times estado-vazio-icon"></i>
-                            <h3 class="estado-vazio-titulo">Nenhuma Reserva Agendada</h3>
-                            <p class="estado-vazio-texto">Explore as melhores experiências de pesca no Algarve!</p>
-                            <a href="explorar.html" class="btn btn-primario">
-                                <i class="fas fa-search"></i> Explorar Saídas
+<a class="btn btn-primario btn-pequeno" href="#" onclick="event.preventDefault();navegarSecao('reservas')">Ver Todas</a>
+</div>
+<div id="proximasReservasContainer">
+<div class="estado-vazio">
+<i class="fas fa-calendar-times estado-vazio-icon"></i>
+<h3 class="estado-vazio-titulo">Nenhuma Reserva Agendada</h3>
+<p class="estado-vazio-texto">Explore as melhores experiências de pesca no Algarve!</p>
+<a class="btn btn-primario" href="explorar.html">
+<i class="fas fa-search"></i> Explorar Saídas
                             </a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Acesso Rápido: Saídas Partilhadas -->
-                <div class="dashboard-secao" style="margin-top:2rem;">
-                    <div class="dashboard-secao-header">
-                        <h2 class="dashboard-secao-titulo">
-                            <i class="fas fa-users" style="color:#F59E0B;"></i> Saídas Partilhadas
+</div>
+</div>
+</div>
+<!-- Acesso Rápido: Saídas Partilhadas -->
+<div class="dashboard-secao" style="margin-top:2rem;">
+<div class="dashboard-secao-header">
+<h2 class="dashboard-secao-titulo">
+<i class="fas fa-users" style="color:#F59E0B;"></i> Saídas Partilhadas
                         </h2>
-                        <a href="#" class="btn btn-primario btn-pequeno" onclick="event.preventDefault();navegarSecao('partilhadas')" style="background:linear-gradient(135deg,#F59E0B,#D97706);">Ver Todas</a>
-                    </div>
-                    <div id="resumoPartilhadasDashboard">
-                        <div class="partilhadas-hero" style="padding:1.25rem;">
-                            <p style="color:rgba(255,255,255,0.8);font-size:0.9rem;margin-bottom:1rem;">
+<a class="btn btn-primario btn-pequeno" href="#" onclick="event.preventDefault();navegarSecao('partilhadas')" style="background:linear-gradient(135deg,#F59E0B,#D97706);">Ver Todas</a>
+</div>
+<div id="resumoPartilhadasDashboard">
+<div class="partilhadas-hero" style="padding:1.25rem;">
+<p style="color:rgba(255,255,255,0.8);font-size:0.9rem;margin-bottom:1rem;">
                                 🤝 Junte-se a outros pescadores numa saída partilhada e pague apenas a sua parte!
                             </p>
-                            <div id="contadoresPartilhaDashboard" style="display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:1rem;">
-                                <div style="background:rgba(255,255,255,0.06);border-radius:10px;padding:0.75rem 1.2rem;text-align:center;min-width:110px;">
-                                    <div id="dashCountBarcos" style="font-size:1.8rem;font-weight:800;color:#FFB74D;">—</div>
-                                    <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);">Barcos Disponíveis</div>
-                                </div>
-                                <div style="background:rgba(255,255,255,0.06);border-radius:10px;padding:0.75rem 1.2rem;text-align:center;min-width:110px;">
-                                    <div id="dashCountEmCurso" style="font-size:1.8rem;font-weight:800;color:#10B981;">—</div>
-                                    <div style="font-size:0.78rem;color:rgba(255,255,255,0.6);">Saídas com Vagas</div>
-                                </div>
-                            </div>
-                            <a href="#" onclick="event.preventDefault();navegarSecao('partilhadas')" style="display:inline-flex;align-items:center;gap:0.5rem;background:linear-gradient(135deg,#FF8F00,#FFB74D);color:#fff;padding:0.6rem 1.4rem;border-radius:8px;font-weight:700;text-decoration:none;font-size:0.9rem;">
-                                <i class="fas fa-users"></i> Explorar Saídas Partilhadas
+<div id="contadoresPartilhaDashboard" style="display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:1rem;">
+<div style="background:rgba(255,255,255,0.06);border-radius:10px;padding:0.75rem 1.2rem;text-align:center;min-width:110px;">
+<div id="dashCountBarcos" style="font-size:1.8rem;font-weight:800;color:#FFB74D;">—</div>
+<div style="font-size:0.78rem;color:rgba(255,255,255,0.6);">Barcos Disponíveis</div>
+</div>
+<div style="background:rgba(255,255,255,0.06);border-radius:10px;padding:0.75rem 1.2rem;text-align:center;min-width:110px;">
+<div id="dashCountEmCurso" style="font-size:1.8rem;font-weight:800;color:#10B981;">—</div>
+<div style="font-size:0.78rem;color:rgba(255,255,255,0.6);">Saídas com Vagas</div>
+</div>
+</div>
+<a href="#" onclick="event.preventDefault();navegarSecao('partilhadas')" style="display:inline-flex;align-items:center;gap:0.5rem;background:linear-gradient(135deg,#FF8F00,#FFB74D);color:#fff;padding:0.6rem 1.4rem;border-radius:8px;font-weight:700;text-decoration:none;font-size:0.9rem;">
+<i class="fas fa-users"></i> Explorar Saídas Partilhadas
                             </a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="dashboard-secao" style="margin-top:2rem;">
-                    <div class="dashboard-secao-header">
-                        <h2 class="dashboard-secao-titulo">
-                            <i class="fas fa-compass"></i> Descobrir Saídas
+</div>
+</div>
+</div>
+<div class="dashboard-secao" style="margin-top:2rem;">
+<div class="dashboard-secao-header">
+<h2 class="dashboard-secao-titulo">
+<i class="fas fa-compass"></i> Descobrir Saídas
                         </h2>
-                    </div>
-                    <div style="text-align:center;padding:2rem;">
-                        <p style="color:rgba(245,245,245,0.7);margin-bottom:1rem;">Explore as melhores saídas de pesca disponíveis no Algarve.</p>
-                        <a href="explorar.html" class="btn btn-primario">
-                            <i class="fas fa-search"></i> Explorar Saídas
+</div>
+<div style="text-align:center;padding:2rem;">
+<p style="color:rgba(245,245,245,0.7);margin-bottom:1rem;">Explore as melhores saídas de pesca disponíveis no Algarve.</p>
+<a class="btn btn-primario" href="explorar.html">
+<i class="fas fa-search"></i> Explorar Saídas
                         </a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- ========== RESERVAS ========== -->
-            <div class="dashboard-secao-wrapper oculto" id="secao-reservas">
-                <div class="dashboard-header">
-                    <h1 class="dashboard-titulo">Minhas Reservas</h1>
-                    <p style="color:rgba(245,245,245,0.8);margin-top:0.5rem;">Os seus pedidos de reserva de saídas de pesca</p>
-                </div>
-                <div id="listaReservasCliente">
-                    <!-- Preenchido dinamicamente -->
-                </div>
-            </div>
-
-            <!-- ========== HISTÓRICO ========== -->
-            <div class="dashboard-secao-wrapper oculto" id="secao-historico">
-                <div class="dashboard-header">
-                    <h1 class="dashboard-titulo">Histórico de Saídas</h1>
-                </div>
-                <div class="estado-vazio">
-                    <i class="fas fa-history estado-vazio-icon"></i>
-                    <h3 class="estado-vazio-titulo">Sem Histórico</h3>
-                    <p class="estado-vazio-texto">Ainda não realizou nenhuma saída de pesca.<br>As suas experiências aparecerão aqui após conclusão.</p>
-                </div>
-            </div>
-
-            <!-- ========== FAVORITOS ========== -->
-            <div class="dashboard-secao-wrapper oculto" id="secao-favoritos">
-                <div class="dashboard-header">
-                    <h1 class="dashboard-titulo">Favoritos</h1>
-                </div>
-                <div class="estado-vazio">
-                    <i class="fas fa-heart estado-vazio-icon"></i>
-                    <h3 class="estado-vazio-titulo">Sem Favoritos</h3>
-                    <p class="estado-vazio-texto">Ainda não adicionou nenhuma saída aos favoritos.<br>Explore e guarde as suas saídas preferidas!</p>
-                    <a href="explorar.html" class="btn btn-primario" style="margin-top:1.5rem;">
-                        <i class="fas fa-compass"></i> Descobrir Saídas
+</div>
+</div>
+</div>
+<!-- ========== RESERVAS ========== -->
+<div class="dashboard-secao-wrapper oculto" id="secao-reservas">
+<div class="dashboard-header">
+<h1 class="dashboard-titulo">Minhas Reservas</h1>
+<p style="color:rgba(245,245,245,0.8);margin-top:0.5rem;">Os seus pedidos de reserva de saídas de pesca</p>
+</div>
+<div id="listaReservasCliente">
+<!-- Preenchido dinamicamente -->
+</div>
+</div>
+<!-- ========== HISTÓRICO ========== -->
+<div class="dashboard-secao-wrapper oculto" id="secao-historico">
+<div class="dashboard-header">
+<h1 class="dashboard-titulo">Histórico de Saídas</h1>
+</div>
+<div class="estado-vazio">
+<i class="fas fa-history estado-vazio-icon"></i>
+<h3 class="estado-vazio-titulo">Sem Histórico</h3>
+<p class="estado-vazio-texto">Ainda não realizou nenhuma saída de pesca.<br/>As suas experiências aparecerão aqui após conclusão.</p>
+</div>
+</div>
+<!-- ========== FAVORITOS ========== -->
+<div class="dashboard-secao-wrapper oculto" id="secao-favoritos">
+<div class="dashboard-header">
+<h1 class="dashboard-titulo">Favoritos</h1>
+</div>
+<div class="estado-vazio">
+<i class="fas fa-heart estado-vazio-icon"></i>
+<h3 class="estado-vazio-titulo">Sem Favoritos</h3>
+<p class="estado-vazio-texto">Ainda não adicionou nenhuma saída aos favoritos.<br/>Explore e guarde as suas saídas preferidas!</p>
+<a class="btn btn-primario" href="explorar.html" style="margin-top:1.5rem;">
+<i class="fas fa-compass"></i> Descobrir Saídas
                     </a>
-                </div>
-            </div>
-
-
-            <!-- ========== SAÍDAS PARTILHADAS ========== -->
-            <div class="dashboard-secao-wrapper oculto" id="secao-partilhadas">
-                <div class="dashboard-header">
-                    <h1 class="dashboard-titulo">🤝 Saídas Partilhadas</h1>
-                    <p style="color:rgba(245,245,245,0.8);margin-top:0.5rem;">Junte-se a outros pescadores ou reserve lugares em saídas já agendadas</p>
-                </div>
-
-                <!-- Hero explicativo -->
-                <div class="partilhadas-hero">
-                    <h3 style="color:#FFB74D;font-size:1.15rem;margin-bottom:0.5rem;">O que são Saídas Partilhadas?</h3>
-                    <p style="color:rgba(255,255,255,0.8);font-size:0.9rem;line-height:1.6;max-width:600px;">
+</div>
+</div>
+<!-- ========== SAÍDAS PARTILHADAS ========== -->
+<div class="dashboard-secao-wrapper oculto" id="secao-partilhadas">
+<div class="dashboard-header">
+<h1 class="dashboard-titulo">🤝 Saídas Partilhadas</h1>
+<p style="color:rgba(245,245,245,0.8);margin-top:0.5rem;">Junte-se a outros pescadores ou reserve lugares em saídas já agendadas</p>
+</div>
+<!-- Hero explicativo -->
+<div class="partilhadas-hero">
+<h3 style="color:#FFB74D;font-size:1.15rem;margin-bottom:0.5rem;">O que são Saídas Partilhadas?</h3>
+<p style="color:rgba(255,255,255,0.8);font-size:0.9rem;line-height:1.6;max-width:600px;">
                         Existem dois tipos: <strong style="color:#FFB74D;">barcos disponíveis para agendar</strong> (o capitão aceita partilha e aguarda reservas) e 
                         <strong style="color:#F59E0B;">saídas já em curso</strong> com lugares ainda disponíveis para se juntar. Pague apenas a sua parte!
                     </p>
-                </div>
+</div>
+<!-- Filtros -->
+<div class="partilhadas-filtros">
+<select id="filtroPartilhaZona" onchange="carregarSaidasPartilhadas()">
 
-                <!-- Filtros -->
-                <div class="partilhadas-filtros">
-                    <select id="filtroPartilhaZona" onchange="carregarSaidasPartilhadas()">
-<option value="">🌊 Todas as Zonas do Algarve</option>
-<option value="Vila Real de Santo António">Vila Real de Santo António</option>
-<option value="Monte Gordo">Monte Gordo</option>
-<option value="Cabanas de Tavira">Cabanas de Tavira</option>
-<option value="Tavira">Tavira (Rio Gilão)</option>
-<option value="Santa Luzia">Santa Luzia (Capital do Polvo)</option>
-<option value="Fuseta">Fuseta</option>
-<option value="Olhão">Olhão (Porto de Pesca)</option>
-<option value="Faro">Faro (Marina de Faro)</option>
-<option value="Quarteira">Quarteira</option>
-<option value="Vilamoura">Vilamoura (Marina de Vilamoura)</option>
-<option value="Albufeira">Albufeira (Marina de Albufeira)</option>
-<option value="Armação de Pêra">Armação de Pêra</option>
-<option value="Portimão">Portimão (Marina de Portimão)</option>
-<option value="Alvor">Alvor</option>
-<option value="Lagos">Lagos (Marina de Lagos)</option>
-<option value="Luz">Luz (Praia da Luz)</option>
-<option value="Burgau">Burgau</option>
-<option value="Salema">Salema</option>
-<option value="Baleeira">Baleeira (Sagres)</option>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<option value="">🌊 Todas as Zonas do Algarve</option><option value="Vila Real de Santo António">Vila Real de Santo António</option><option value="Tavira">Tavira (Rio Gilão)</option><option value="Olhão">Olhão (Porto de Pesca)</option><option value="Faro">Faro (Marina de Faro)</option><option value="Quarteira">Quarteira</option><option value="Vilamoura">Vilamoura (Marina de Vilamoura)</option><option value="Albufeira">Albufeira (Marina de Albufeira)</option><option value="Portimão">Portimão (Marina de Portimão)</option><option value="Lagos">Lagos (Marina de Lagos)</option><option value="Sagres">Baleeira (Sagres)</option></select>
+<select id="filtroPartilhaTipo" onchange="carregarSaidasPartilhadas()">
+<option value="">🎣 Todos os Tipos</option>
+<option value="fundo">🐟 Pesca de Fundo</option>
+<option value="altoMar">🌊 Alto Mar</option>
+<option value="jigging">🎣 Jigging</option>
+<option value="atum">🐟 Pesca de Atum</option>
+<option value="costeira">⚓ Pesca Costeira</option>
+<option value="desportiva">🏆 Desportiva</option>
 </select>
-                    <select id="filtroPartilhaTipo" onchange="carregarSaidasPartilhadas()">
-                        <option value="">🎣 Todos os Tipos</option>
-                        <option value="fundo">🐟 Pesca de Fundo</option>
-                        <option value="altoMar">🌊 Alto Mar</option>
-                        <option value="jigging">🎣 Jigging</option>
-                        <option value="atum">🐟 Pesca de Atum</option>
-                        <option value="costeira">⚓ Pesca Costeira</option>
-                        <option value="desportiva">🏆 Desportiva</option>
-                    </select>
-                    <button onclick="carregarSaidasPartilhadas()" style="background:linear-gradient(135deg,#FF8F00,#FFB74D);color:#fff;border:none;padding:0.6rem 1.2rem;border-radius:8px;font-weight:700;cursor:pointer;">
-                        <i class="fas fa-sync"></i> Atualizar
+<button onclick="carregarSaidasPartilhadas()" style="background:linear-gradient(135deg,#FF8F00,#FFB74D);color:#fff;border:none;padding:0.6rem 1.2rem;border-radius:8px;font-weight:700;cursor:pointer;">
+<i class="fas fa-sync"></i> Atualizar
                     </button>
-                </div>
-
-                <!-- Tabs: Barcos Disponíveis | Saídas em Curso -->
-                <div class="partilhadas-tabs">
-                    <button class="partilhadas-tab ativa" id="tabBarcos" onclick="mudarTabPartilha('barcos')">
-                        <i class="fas fa-ship"></i> Barcos Disponíveis
+</div>
+<!-- Tabs: Barcos Disponíveis | Saídas em Curso -->
+<div class="partilhadas-tabs">
+<button class="partilhadas-tab ativa" id="tabBarcos" onclick="mudarTabPartilha('barcos')">
+<i class="fas fa-ship"></i> Barcos Disponíveis
                         <span id="countBarcos" style="background:rgba(255,255,255,0.2);padding:0.1rem 0.5rem;border-radius:10px;font-size:0.75rem;margin-left:0.4rem;">0</span>
-                    </button>
-                    <button class="partilhadas-tab" id="tabEmCurso" onclick="mudarTabPartilha('emcurso')">
-                        <i class="fas fa-anchor"></i> Saídas com Vagas
+</button>
+<button class="partilhadas-tab" id="tabEmCurso" onclick="mudarTabPartilha('emcurso')">
+<i class="fas fa-anchor"></i> Saídas com Vagas
                         <span id="countEmCurso" style="background:rgba(255,255,255,0.2);padding:0.1rem 0.5rem;border-radius:10px;font-size:0.75rem;margin-left:0.4rem;">0</span>
-                    </button>
-                </div>
-
-                <!-- Grid de Barcos Disponíveis -->
-                <div id="gridBarcosPartilha" class="partilhadas-grid">
-                    <div class="partilhadas-vazia">
-                        <i class="fas fa-ship"></i>
-                        <p>A carregar barcos disponíveis...</p>
-                    </div>
-                </div>
-
-                <!-- Grid de Saídas Em Curso com Vagas -->
-                <div id="gridSaidasEmCurso" class="partilhadas-grid" style="display:none;">
-                    <div class="partilhadas-vazia">
-                        <i class="fas fa-anchor"></i>
-                        <p>A carregar saídas com vagas...</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- ========== PERFIL ========== -->
-            <div class="dashboard-secao-wrapper oculto" id="secao-perfil">
-                <div class="dashboard-header">
-                    <h1 class="dashboard-titulo">Meu Perfil</h1>
-                    <p style="color:rgba(245,245,245,0.8);margin-top:0.5rem;">Gerir as suas informações pessoais</p>
-                </div>
-
-                <div class="card" style="max-width:100%;width:100%;box-sizing:border-box;padding:2rem;">
-                    <form id="formEditarPerfil">
-                        <div class="form-grid">
-                            <div class="form-grupo">
-                                <label class="form-label"><i class="fas fa-user"></i> Nome Completo *</label>
-                                <input type="text" id="perfilNome" class="form-input" placeholder="Seu nome completo" required>
-                            </div>
-                            <div class="form-grupo">
-                                <label class="form-label"><i class="fas fa-envelope"></i> Email</label>
-                                <input type="email" id="perfilEmail" class="form-input" disabled>
-                                <small><i class="fas fa-info-circle"></i> O email não pode ser alterado</small>
-                            </div>
-                            <div class="form-grupo">
-                                <label class="form-label"><i class="fas fa-phone"></i> Telefone</label>
-                                <input type="tel" id="perfilTelefone" class="form-input" placeholder="+351 912 345 678">
-                            </div>
-                            <div class="form-grupo">
-                                <label class="form-label"><i class="fas fa-map-marker-alt"></i> Morada</label>
-                                <input type="text" id="perfilMorada" class="form-input" placeholder="Rua, número, andar">
-                            </div>
-                            <div class="form-grupo">
-                                <label class="form-label"><i class="fas fa-city"></i> Cidade</label>
-                                <input type="text" id="perfilCidade" class="form-input" placeholder="Cidade">
-                            </div>
-                            <div class="form-grupo">
-                                <label class="form-label"><i class="fas fa-mail-bulk"></i> Código Postal</label>
-                                <input type="text" id="perfilCodigoPostal" class="form-input" placeholder="0000-000">
-                            </div>
-                        </div>
-
-                        <div class="form-grupo" style="margin-top:1.5rem;">
-                            <label class="form-label"><i class="fas fa-id-card"></i> NIF (Opcional)</label>
-                            <input type="text" id="perfilNIF" class="form-input" placeholder="000000000" maxlength="9">
-                        </div>
-
-                        <hr style="margin:2rem 0;">
-
-                        <h3 style="margin-bottom:1rem;"><i class="fas fa-lock"></i> Alterar Password (Opcional)</h3>
-
-                        <div class="form-grid">
-                            <div class="form-grupo">
-                                <label class="form-label">Password Atual</label>
-                                <input type="password" id="perfilPasswordAtual" class="form-input" placeholder="••••••••">
-                            </div>
-                            <div class="form-grupo">
-                                <label class="form-label">Nova Password</label>
-                                <input type="password" id="perfilNovaPassword" class="form-input" placeholder="••••••••">
-                            </div>
-                            <div class="form-grupo">
-                                <label class="form-label">Confirmar Nova Password</label>
-                                <input type="password" id="perfilConfirmarPassword" class="form-input" placeholder="••••••••">
-                            </div>
-                        </div>
-
-                        <div class="form-acoes" style="margin-top:2rem;">
-                            <button type="submit" class="btn btn-primario">
-                                <i class="fas fa-save"></i> Guardar Alterações
+</button>
+</div>
+<!-- Grid de Barcos Disponíveis -->
+<div class="partilhadas-grid" id="gridBarcosPartilha">
+<div class="partilhadas-vazia">
+<i class="fas fa-ship"></i>
+<p>A carregar barcos disponíveis...</p>
+</div>
+</div>
+<!-- Grid de Saídas Em Curso com Vagas -->
+<div class="partilhadas-grid" id="gridSaidasEmCurso" style="display:none;">
+<div class="partilhadas-vazia">
+<i class="fas fa-anchor"></i>
+<p>A carregar saídas com vagas...</p>
+</div>
+</div>
+</div>
+<!-- ========== PERFIL ========== -->
+<div class="dashboard-secao-wrapper oculto" id="secao-perfil">
+<div class="dashboard-header">
+<h1 class="dashboard-titulo">Meu Perfil</h1>
+<p style="color:rgba(245,245,245,0.8);margin-top:0.5rem;">Gerir as suas informações pessoais</p>
+</div>
+<div class="card" style="max-width:100%;width:100%;box-sizing:border-box;padding:2rem;">
+<form id="formEditarPerfil">
+<div class="form-grid">
+<div class="form-grupo">
+<label class="form-label"><i class="fas fa-user"></i> Nome Completo *</label>
+<input class="form-input" id="perfilNome" placeholder="Seu nome completo" required="" type="text"/>
+</div>
+<div class="form-grupo">
+<label class="form-label"><i class="fas fa-envelope"></i> Email</label>
+<input class="form-input" disabled="" id="perfilEmail" type="email"/>
+<small><i class="fas fa-info-circle"></i> O email não pode ser alterado</small>
+</div>
+<div class="form-grupo">
+<label class="form-label"><i class="fas fa-phone"></i> Telefone</label>
+<input class="form-input" id="perfilTelefone" placeholder="+351 912 345 678" type="tel"/>
+</div>
+<div class="form-grupo">
+<label class="form-label"><i class="fas fa-map-marker-alt"></i> Morada</label>
+<input class="form-input" id="perfilMorada" placeholder="Rua, número, andar" type="text"/>
+</div>
+<div class="form-grupo">
+<label class="form-label"><i class="fas fa-city"></i> Cidade</label>
+<input class="form-input" id="perfilCidade" placeholder="Cidade" type="text"/>
+</div>
+<div class="form-grupo">
+<label class="form-label"><i class="fas fa-mail-bulk"></i> Código Postal</label>
+<input class="form-input" id="perfilCodigoPostal" placeholder="0000-000" type="text"/>
+</div>
+</div>
+<div class="form-grupo" style="margin-top:1.5rem;">
+<label class="form-label"><i class="fas fa-id-card"></i> NIF (Opcional)</label>
+<input class="form-input" id="perfilNIF" maxlength="9" placeholder="000000000" type="text"/>
+</div>
+<hr style="margin:2rem 0;"/>
+<h3 style="margin-bottom:1rem;"><i class="fas fa-lock"></i> Alterar Password (Opcional)</h3>
+<div class="form-grid">
+<div class="form-grupo">
+<label class="form-label">Password Atual</label>
+<input class="form-input" id="perfilPasswordAtual" placeholder="••••••••" type="password"/>
+</div>
+<div class="form-grupo">
+<label class="form-label">Nova Password</label>
+<input class="form-input" id="perfilNovaPassword" placeholder="••••••••" type="password"/>
+</div>
+<div class="form-grupo">
+<label class="form-label">Confirmar Nova Password</label>
+<input class="form-input" id="perfilConfirmarPassword" placeholder="••••••••" type="password"/>
+</div>
+</div>
+<div class="form-acoes" style="margin-top:2rem;">
+<button class="btn btn-primario" type="submit">
+<i class="fas fa-save"></i> Guardar Alterações
                             </button>
-                            <button type="button" class="btn btn-outline" onclick="carregarDadosPerfil()">
-                                <i class="fas fa-undo"></i> Cancelar
+<button class="btn btn-outline" onclick="carregarDadosPerfil()" type="button">
+<i class="fas fa-undo"></i> Cancelar
                             </button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-
-        </main>
-    </div>
-
-    <script src="js/main.js"></script>
-    <script>
+</div>
+</form>
+</div>
+</div>
+</main>
+</div>
+<script src="js/main.js"></script>
+<script>
         let utilizadorLogado = null;
 
         // ============================
@@ -1122,45 +1095,39 @@
         }
 
 </script>
-
-    <!-- Modal de Feedback / Avaliação -->
-    <div class="modal-feedback" id="modalFeedback">
-        <div class="modal-feedback-card">
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;">
-                <div class="modal-feedback-titulo">⭐ Avaliar Saída</div>
-                <button onclick="fecharModalFeedback()" style="background:none;border:none;font-size:1.4rem;cursor:pointer;color:#6B7280;">✕</button>
-            </div>
-            <p id="feedbackSaidaTitulo" style="color:#6B7280;font-size:0.9rem;margin-bottom:1rem;"></p>
-
-            <label style="font-weight:600;color:#374151;display:block;margin-bottom:0.4rem;">A sua avaliação *</label>
-            <div class="feedback-stars" id="feedbackStars">
-                <span class="feedback-star" data-val="1">★</span>
-                <span class="feedback-star" data-val="2">★</span>
-                <span class="feedback-star" data-val="3">★</span>
-                <span class="feedback-star" data-val="4">★</span>
-                <span class="feedback-star" data-val="5">★</span>
-            </div>
-            <p id="feedbackLabel" style="font-size:0.85rem;color:#9CA3AF;margin-bottom:1rem;">Clique para avaliar</p>
-
-            <label style="font-weight:600;color:#374151;display:block;margin-bottom:0.4rem;">Comentário (opcional)</label>
-            <textarea id="feedbackComentario" rows="3" style="width:100%;padding:0.7rem;border:1.5px solid #D1D5DB;border-radius:8px;resize:vertical;font-family:inherit;font-size:0.9rem;" placeholder="Conte como foi a sua experiência..."></textarea>
-
-            <label style="font-weight:600;color:#374151;display:block;margin-top:1rem;margin-bottom:0.4rem;">📸 Fotos da experiência (opcional)</label>
-            <div class="upload-fotos-area" onclick="document.getElementById('inputFotos').click()">
-                <i class="fas fa-camera" style="font-size:1.5rem;color:#9CA3AF;"></i>
-                <p style="color:#9CA3AF;font-size:0.85rem;margin:0.4rem 0 0;">Clique para adicionar fotos</p>
-            </div>
-            <input type="file" id="inputFotos" multiple accept="image/*" style="display:none;" onchange="previewFotos(this)">
-            <div class="fotos-preview" id="fotosPreview"></div>
-
-            <div style="display:flex;gap:1rem;margin-top:1.5rem;">
-                <button onclick="fecharModalFeedback()" style="flex:1;padding:0.7rem;border:1.5px solid #D1D5DB;border-radius:8px;background:#fff;cursor:pointer;font-weight:600;color:#6B7280;">Cancelar</button>
-                <button onclick="submeterFeedback()" style="flex:2;padding:0.7rem;background:linear-gradient(135deg,#F59E0B,#FBBF24);color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:700;font-size:1rem;">⭐ Publicar Avaliação</button>
-            </div>
-        </div>
-    </div>
-
-    <script>
+<!-- Modal de Feedback / Avaliação -->
+<div class="modal-feedback" id="modalFeedback">
+<div class="modal-feedback-card">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;">
+<div class="modal-feedback-titulo">⭐ Avaliar Saída</div>
+<button onclick="fecharModalFeedback()" style="background:none;border:none;font-size:1.4rem;cursor:pointer;color:#6B7280;">✕</button>
+</div>
+<p id="feedbackSaidaTitulo" style="color:#6B7280;font-size:0.9rem;margin-bottom:1rem;"></p>
+<label style="font-weight:600;color:#374151;display:block;margin-bottom:0.4rem;">A sua avaliação *</label>
+<div class="feedback-stars" id="feedbackStars">
+<span class="feedback-star" data-val="1">★</span>
+<span class="feedback-star" data-val="2">★</span>
+<span class="feedback-star" data-val="3">★</span>
+<span class="feedback-star" data-val="4">★</span>
+<span class="feedback-star" data-val="5">★</span>
+</div>
+<p id="feedbackLabel" style="font-size:0.85rem;color:#9CA3AF;margin-bottom:1rem;">Clique para avaliar</p>
+<label style="font-weight:600;color:#374151;display:block;margin-bottom:0.4rem;">Comentário (opcional)</label>
+<textarea id="feedbackComentario" placeholder="Conte como foi a sua experiência..." rows="3" style="width:100%;padding:0.7rem;border:1.5px solid #D1D5DB;border-radius:8px;resize:vertical;font-family:inherit;font-size:0.9rem;"></textarea>
+<label style="font-weight:600;color:#374151;display:block;margin-top:1rem;margin-bottom:0.4rem;">📸 Fotos da experiência (opcional)</label>
+<div class="upload-fotos-area" onclick="document.getElementById('inputFotos').click()">
+<i class="fas fa-camera" style="font-size:1.5rem;color:#9CA3AF;"></i>
+<p style="color:#9CA3AF;font-size:0.85rem;margin:0.4rem 0 0;">Clique para adicionar fotos</p>
+</div>
+<input accept="image/*" id="inputFotos" multiple="" onchange="previewFotos(this)" style="display:none;" type="file"/>
+<div class="fotos-preview" id="fotosPreview"></div>
+<div style="display:flex;gap:1rem;margin-top:1.5rem;">
+<button onclick="fecharModalFeedback()" style="flex:1;padding:0.7rem;border:1.5px solid #D1D5DB;border-radius:8px;background:#fff;cursor:pointer;font-weight:600;color:#6B7280;">Cancelar</button>
+<button onclick="submeterFeedback()" style="flex:2;padding:0.7rem;background:linear-gradient(135deg,#F59E0B,#FBBF24);color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:700;font-size:1rem;">⭐ Publicar Avaliação</button>
+</div>
+</div>
+</div>
+<script>
     // ── Sistema de Feedback / Avaliação ──
     let _feedbackReservaId = null;
     let _feedbackSaidaId = null;
@@ -1267,7 +1234,6 @@
         setTimeout(() => location.reload(), 1500);
     }
     </script>
-
-    <script src="js/i18n.js?v=1.32"></script>
+<script src="js/i18n.js?v=1.35"></script>
 </body>
 </html>

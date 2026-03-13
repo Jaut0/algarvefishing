@@ -1,14 +1,15 @@
 <!DOCTYPE html>
+
 <html lang="pt">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Entrar / Registar - Algarve Tuna Charter</title>
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎣</text></svg>">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="css/wicked-tuna.css?v=1.32">
-    <link rel="stylesheet" href="css/algarve-tuna.css">
-    <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Entrar / Registar - Algarve Tuna Charter</title>
+<link href="data:image/svg+xml,&lt;svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22&gt;&lt;text y=%22.9em%22 font-size=%2290%22&gt;🎣&lt;/text&gt;&lt;/svg&gt;" rel="icon"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<link href="css/wicked-tuna.css?v=1.35" rel="stylesheet"/>
+<link href="css/algarve-tuna.css" rel="stylesheet"/>
+<style>
         .auth-container {
             min-height: 100vh;
             display: flex;
@@ -162,179 +163,155 @@
     </style>
 </head>
 <body>
-    <div class="auth-container">
-        <div style="max-width: 500px; width: 100%;">
-            <div class="voltar-home">
-                <a href="index.html">
-                    <i class="fas fa-arrow-left"></i>
+<div class="auth-container">
+<div style="max-width: 500px; width: 100%;">
+<div class="voltar-home">
+<a href="index.html">
+<i class="fas fa-arrow-left"></i>
                     Voltar ao Início
                 </a>
-            </div>
-            
-            <div class="auth-card">
-                <div class="auth-tabs">
-                    <div class="auth-tab ativo" data-tab="login">
-                        <i class="fas fa-sign-in-alt"></i> Entrar
+</div>
+<div class="auth-card">
+<div class="auth-tabs">
+<div class="auth-tab ativo" data-tab="login">
+<i class="fas fa-sign-in-alt"></i> Entrar
                     </div>
-                    <div class="auth-tab" data-tab="registar">
-                        <i class="fas fa-user-plus"></i> Registar
+<div class="auth-tab" data-tab="registar">
+<i class="fas fa-user-plus"></i> Registar
                     </div>
-                </div>
-                
-                <div class="auth-content">
-                    <!-- FORMULÁRIO DE LOGIN -->
-                    <form class="auth-form ativo" id="formLogin">
-                        <h2 class="mb-3 texto-centro">Bem-vindo de Volta!</h2>
-                        <p class="texto-centro texto-cinza mb-4">Entre na sua conta para continuar</p>
-                        
-                        <div class="form-grupo">
-                            <label class="form-label obrigatorio">Email</label>
-                            <input type="email" class="form-input" placeholder="o-seu-email@exemplo.com" required>
-                        </div>
-                        
-                        <div class="form-grupo">
-                            <label class="form-label obrigatorio">Password</label>
-                            <input type="password" class="form-input" placeholder="••••••••" required>
-                        </div>
-                        
-                        <div class="form-grupo">
-                            <label class="form-checkbox-label">
-                                <input type="checkbox" class="form-checkbox">
-                                <span>Lembrar-me</span>
-                            </label>
-                        </div>
-                        
-                        <button type="submit" class="btn btn-primario btn-bloco btn-grande">
-                            <i class="fas fa-sign-in-alt"></i>
+</div>
+<div class="auth-content">
+<!-- FORMULÁRIO DE LOGIN -->
+<form class="auth-form ativo" id="formLogin">
+<h2 class="mb-3 texto-centro">Bem-vindo de Volta!</h2>
+<p class="texto-centro texto-cinza mb-4">Entre na sua conta para continuar</p>
+<div class="form-grupo">
+<label class="form-label obrigatorio">Email</label>
+<input class="form-input" placeholder="o-seu-email@exemplo.com" required="" type="email"/>
+</div>
+<div class="form-grupo">
+<label class="form-label obrigatorio">Password</label>
+<input class="form-input" placeholder="••••••••" required="" type="password"/>
+</div>
+<div class="form-grupo">
+<label class="form-checkbox-label">
+<input class="form-checkbox" type="checkbox"/>
+<span>Lembrar-me</span>
+</label>
+</div>
+<button class="btn btn-primario btn-bloco btn-grande" type="submit">
+<i class="fas fa-sign-in-alt"></i>
                             Entrar
                         </button>
-                        
-                        <div class="auth-link">
-                            <a href="#">Esqueceu-se da password?</a>
-                        </div>
-                    </form>
-                    
-                    <!-- FORMULÁRIO DE REGISTO -->
-                    <form class="auth-form" id="formRegistar">
-                        <h2 class="mb-3 texto-centro">Criar Conta</h2>
-                        <p class="texto-centro texto-cinza mb-4">Escolha o tipo de conta</p>
-                        
-                        <div class="tipo-conta-selector">
-                            <div class="tipo-conta-opcao">
-                                <input type="radio" name="tipoConta" id="tipoPrivado" value="privado" checked>
-                                <label for="tipoPrivado" class="tipo-conta-label">
-                                    <i class="fas fa-user tipo-conta-icon"></i>
-                                    <span class="tipo-conta-nome">Privado</span>
-                                    <span class="tipo-conta-desc">Quero ir à pesca</span>
-                                </label>
-                            </div>
-                            
-                            <div class="tipo-conta-opcao">
-                                <input type="radio" name="tipoConta" id="tipoCapitao" value="capitao">
-                                <label for="tipoCapitao" class="tipo-conta-label">
-                                    <i class="fas fa-ship tipo-conta-icon"></i>
-                                    <span class="tipo-conta-nome">Capitão</span>
-                                    <span class="tipo-conta-desc">Tenho um barco</span>
-                                </label>
-                            </div>
-                        </div>
-                        
-                        <div class="form-grupo">
-                            <label class="form-label obrigatorio">Nome Completo</label>
-                            <input type="text" id="registarNome" class="form-input" placeholder="João Silva" required>
-                        </div>
-                        
-                        <div class="form-grupo">
-                            <label class="form-label obrigatorio">Email</label>
-                            <input type="email" id="registarEmail" class="form-input" placeholder="o-seu-email@exemplo.com" required>
-                        </div>
-                        
-                        <div class="form-grupo">
-                            <label class="form-label obrigatorio">Telefone</label>
-                            <input type="tel" id="registarTelefone" class="form-input" placeholder="+351 912 345 678" required>
-                        </div>
-                        
-                        <div class="campos-capitao" id="camposCapitao">
-                            <div style="background: linear-gradient(135deg, #FEF2F2 0%, #FEE2E2 100%); border: 2px solid #DC2626; border-left: 5px solid #B91C1C; padding: 1.5rem; border-radius: 8px; margin-bottom: 1.5rem; box-shadow: 0 4px 12px rgba(220, 38, 38, 0.25);">
-                                <h4 style="margin-bottom: 0.75rem; font-size: 1.1rem; color: #991B1B; font-weight: 700; display: flex; align-items: center; gap: 0.5rem;">
-                                    <i class="fas fa-exclamation-triangle" style="color: #DC2626; font-size: 1.3rem;"></i>
+<div class="auth-link">
+<a href="#">Esqueceu-se da password?</a>
+</div>
+</form>
+<!-- FORMULÁRIO DE REGISTO -->
+<form class="auth-form" id="formRegistar">
+<h2 class="mb-3 texto-centro">Criar Conta</h2>
+<p class="texto-centro texto-cinza mb-4">Escolha o tipo de conta</p>
+<div class="tipo-conta-selector">
+<div class="tipo-conta-opcao">
+<input checked="" id="tipoPrivado" name="tipoConta" type="radio" value="privado"/>
+<label class="tipo-conta-label" for="tipoPrivado">
+<i class="fas fa-user tipo-conta-icon"></i>
+<span class="tipo-conta-nome">Privado</span>
+<span class="tipo-conta-desc">Quero ir à pesca</span>
+</label>
+</div>
+<div class="tipo-conta-opcao">
+<input id="tipoCapitao" name="tipoConta" type="radio" value="capitao"/>
+<label class="tipo-conta-label" for="tipoCapitao">
+<i class="fas fa-ship tipo-conta-icon"></i>
+<span class="tipo-conta-nome">Capitão</span>
+<span class="tipo-conta-desc">Tenho um barco</span>
+</label>
+</div>
+</div>
+<div class="form-grupo">
+<label class="form-label obrigatorio">Nome Completo</label>
+<input class="form-input" id="registarNome" placeholder="João Silva" required="" type="text"/>
+</div>
+<div class="form-grupo">
+<label class="form-label obrigatorio">Email</label>
+<input class="form-input" id="registarEmail" placeholder="o-seu-email@exemplo.com" required="" type="email"/>
+</div>
+<div class="form-grupo">
+<label class="form-label obrigatorio">Telefone</label>
+<input class="form-input" id="registarTelefone" placeholder="+351 912 345 678" required="" type="tel"/>
+</div>
+<div class="campos-capitao" id="camposCapitao">
+<div style="background: linear-gradient(135deg, #FEF2F2 0%, #FEE2E2 100%); border: 2px solid #DC2626; border-left: 5px solid #B91C1C; padding: 1.5rem; border-radius: 8px; margin-bottom: 1.5rem; box-shadow: 0 4px 12px rgba(220, 38, 38, 0.25);">
+<h4 style="margin-bottom: 0.75rem; font-size: 1.1rem; color: #991B1B; font-weight: 700; display: flex; align-items: center; gap: 0.5rem;">
+<i class="fas fa-exclamation-triangle" style="color: #DC2626; font-size: 1.3rem;"></i>
                                     Documentação Obrigatória
                                 </h4>
-                                <p style="margin: 0; color: #7F1D1D; font-size: 0.95rem; line-height: 1.6; font-weight: 500;">
+<p style="margin: 0; color: #7F1D1D; font-size: 0.95rem; line-height: 1.6; font-weight: 500;">
                                     A sua conta ficará <strong style="color: #450A0A; font-weight: 700;">pendente</strong> até validação dos <strong style="color: #450A0A; font-weight: 700;">3 documentos</strong> pela administração.
                                 </p>
-                            </div>
-                            
-                            <div class="form-grupo">
-                                <label class="form-label obrigatorio" style="color: var(--cor-branco); font-weight: 600;">
-                                    <i class="fas fa-file-pdf"></i> Livrete (PDF/Imagem)
+</div>
+<div class="form-grupo">
+<label class="form-label obrigatorio" style="color: var(--cor-branco); font-weight: 600;">
+<i class="fas fa-file-pdf"></i> Livrete (PDF/Imagem)
                                 </label>
-                                <input type="file" class="form-input" id="uploadLivrete" accept=".pdf,.jpg,.jpeg,.png">
-                                <small style="color: rgba(245, 245, 245, 0.8); display: block; margin-top: 0.5rem; font-weight: 500;">
+<input accept=".pdf,.jpg,.jpeg,.png" class="form-input" id="uploadLivrete" type="file"/>
+<small style="color: rgba(245, 245, 245, 0.8); display: block; margin-top: 0.5rem; font-weight: 500;">
                                     📄 Livrete da embarcação
                                 </small>
-                            </div>
-                            
-                            <div class="form-grupo">
-                                <label class="form-label obrigatorio" style="color: var(--cor-branco); font-weight: 600;">
-                                    <i class="fas fa-file-pdf"></i> RNAAT (PDF/Imagem)
+</div>
+<div class="form-grupo">
+<label class="form-label obrigatorio" style="color: var(--cor-branco); font-weight: 600;">
+<i class="fas fa-file-pdf"></i> RNAAT (PDF/Imagem)
                                 </label>
-                                <input type="file" class="form-input" id="uploadRNAAT" accept=".pdf,.jpg,.jpeg,.png">
-                                <small style="color: rgba(245, 245, 245, 0.8); display: block; margin-top: 0.5rem; font-weight: 500;">
+<input accept=".pdf,.jpg,.jpeg,.png" class="form-input" id="uploadRNAAT" type="file"/>
+<small style="color: rgba(245, 245, 245, 0.8); display: block; margin-top: 0.5rem; font-weight: 500;">
                                     📄 Registo Nacional de Aluguer de Atividades Turísticas
                                 </small>
-                            </div>
-                            
-                            <div class="form-grupo">
-                                <label class="form-label obrigatorio" style="color: var(--cor-branco); font-weight: 600;">
-                                    <i class="fas fa-file-pdf"></i> Certificado de Seguro (PDF/Imagem)
+</div>
+<div class="form-grupo">
+<label class="form-label obrigatorio" style="color: var(--cor-branco); font-weight: 600;">
+<i class="fas fa-file-pdf"></i> Certificado de Seguro (PDF/Imagem)
                                 </label>
-                                <input type="file" class="form-input" id="uploadSeguro" accept=".pdf,.jpg,.jpeg,.png">
-                                <small style="color: rgba(245, 245, 245, 0.8); display: block; margin-top: 0.5rem; font-weight: 500;">
+<input accept=".pdf,.jpg,.jpeg,.png" class="form-input" id="uploadSeguro" type="file"/>
+<small style="color: rgba(245, 245, 245, 0.8); display: block; margin-top: 0.5rem; font-weight: 500;">
                                     📄 Seguro marítimo válido
                                 </small>
-                            </div>
-                            
-                            <div class="form-grupo">
-                                <label class="form-label obrigatorio" style="color: var(--cor-branco); font-weight: 600;">Anos de Experiência</label>
-                                <input type="number" id="registarExperiencia" class="form-input" placeholder="10" min="0">
-                            </div>
-                            
-                            <div class="form-grupo">
-                                <label class="form-label obrigatorio" style="color: var(--cor-branco); font-weight: 600;">Porto de Origem</label>
-                                <input type="text" id="registarPorto" class="form-input" placeholder="Porto de Lisboa">
-                            </div>
-                        </div>
-                        
-                        <div class="form-grupo">
-                            <label class="form-label obrigatorio">Password</label>
-                            <input type="password" id="registarPassword" class="form-input" placeholder="••••••••" required>
-                        </div>
-                        
-                        <div class="form-grupo">
-                            <label class="form-label obrigatorio">Confirmar Password</label>
-                            <input type="password" id="registarPasswordConfirm" class="form-input" placeholder="••••••••" required>
-                        </div>
-                        
-                        <div class="form-grupo">
-                            <label class="form-checkbox-label">
-                                <input type="checkbox" class="form-checkbox" required>
-                                <span>Aceito os <a href="#" style="color: var(--cor-secundaria);">Termos e Condições</a></span>
-                            </label>
-                        </div>
-                        
-                        <button type="submit" class="btn btn-primario btn-bloco btn-grande">
-                            <i class="fas fa-user-plus"></i>
+</div>
+<div class="form-grupo">
+<label class="form-label obrigatorio" style="color: var(--cor-branco); font-weight: 600;">Anos de Experiência</label>
+<input class="form-input" id="registarExperiencia" min="0" placeholder="10" type="number"/>
+</div>
+<div class="form-grupo">
+<label class="form-label obrigatorio" style="color: var(--cor-branco); font-weight: 600;">Porto de Origem</label>
+<input class="form-input" id="registarPorto" placeholder="Porto de Lisboa" type="text"/>
+</div>
+</div>
+<div class="form-grupo">
+<label class="form-label obrigatorio">Password</label>
+<input class="form-input" id="registarPassword" placeholder="••••••••" required="" type="password"/>
+</div>
+<div class="form-grupo">
+<label class="form-label obrigatorio">Confirmar Password</label>
+<input class="form-input" id="registarPasswordConfirm" placeholder="••••••••" required="" type="password"/>
+</div>
+<div class="form-grupo">
+<label class="form-checkbox-label">
+<input class="form-checkbox" required="" type="checkbox"/>
+<span>Aceito os <a href="#" style="color: var(--cor-secundaria);">Termos e Condições</a></span>
+</label>
+</div>
+<button class="btn btn-primario btn-bloco btn-grande" type="submit">
+<i class="fas fa-user-plus"></i>
                             Criar Conta
                         </button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <script src="js/main.js"></script>
-    <script>
+</form>
+</div>
+</div>
+</div>
+</div>
+<script src="js/main.js"></script>
+<script>
         // Tabs de Login/Registar
         const tabs = document.querySelectorAll('.auth-tab');
         const forms = document.querySelectorAll('.auth-form');
@@ -450,7 +427,7 @@ A sua certificação como Charter Oficial expirou.
 • Certificado de Seguro  
 • Cédula Marítima (se aplicável)
 
-📧 Contacte a administração: servico@jauto.pt
+📧 Contacte a administração: geral@algarvetunacharter.pt
 
 Não pode aceder à plataforma até renovar a certificação.`);
                 return;
@@ -462,7 +439,7 @@ Não pode aceder à plataforma até renovar a certificação.`);
 
 A sua conta foi bloqueada pela administração.
 
-Para mais informações, contacte: servico@jauto.pt`);
+Para mais informações, contacte: geral@algarvetunacharter.pt`);
                 return;
             }
             
