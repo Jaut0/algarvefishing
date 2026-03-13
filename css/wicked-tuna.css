@@ -227,3 +227,11 @@ footer.footer {
   border: 1px solid rgba(255,255,255,0.22) !important;
   color: rgba(234,242,255,0.80) !important;
 }
+
+
+/* ============================================================
+   Global selection (v1.30)
+   Improves readability when text is selected on dark theme.
+   ============================================================ */
+::selection { background: rgba(0,194,255,0.25); color: var(--wt-text); }
+::-moz-selection { background: rgba(0,194,255,0.25); color: var(--wt-text); }

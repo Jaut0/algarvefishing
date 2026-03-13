@@ -7,7 +7,7 @@
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>⚓</text></svg>">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/wicked-tuna.css?v=1.29">
+    <link rel="stylesheet" href="css/wicked-tuna.css?v=1.30">
     <link rel="stylesheet" href="css/dashboard.css">
     <style>
         /* ===== CORRECÇÃO: Secção Perfil — texto visível sobre fundo claro ===== */
@@ -288,6 +288,12 @@
         #secao-partilhadas select { background: rgba(255,255,255,0.08) !important; color: #fff !important; border: 1px solid rgba(255,255,255,0.22) !important; }
         #secao-partilhadas select option,
         #secao-partilhadas optgroup { background: #0F233D !important; color:#fff !important; }
+        
+        /* ===== Selection fix (v1.30) ===== */
+        /* Keeps text readable when user selects by accident */
+        #secao-partilhadas ::selection { background: rgba(255,143,0,0.35); color: #ffffff; }
+        #secao-partilhadas ::-moz-selection { background: rgba(255,143,0,0.35); color: #ffffff; }
+        #secao-partilhadas { -webkit-tap-highlight-color: rgba(255,143,0,0.20); }
         </style>
 </head>
 <body>
@@ -1266,6 +1272,6 @@
     }
     </script>
 
-    <script src="js/i18n.js?v=1.29"></script>
+    <script src="js/i18n.js?v=1.30"></script>
 </body>
 </html>
