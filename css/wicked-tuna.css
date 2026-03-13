@@ -142,3 +142,34 @@ button[type="submit"]:hover{
   filter: grayscale(.15);
   opacity: .95;
 }
+
+
+/* ============================================================
+   Footer compatibility (footer-content/footer-section)
+   Some pages use .footer-content/.footer-section instead of
+   .footer-conteudo/.footer-secao. Ensure legibility in dark theme.
+   ============================================================ */
+.footer { background-color: var(--wt-navy-800); color: var(--wt-text); }
+.footer-content {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+.footer-section h3,
+.footer-section h4 {
+  color: var(--wt-text);
+  margin-bottom: 1rem;
+}
+.footer-section p { color: var(--wt-text-dim); }
+.footer-section a {
+  color: rgba(234,242,255,0.82);
+  text-decoration: none;
+}
+.footer-section a:hover { color: var(--wt-amber-400); }
+.footer-bottom {
+  border-top: 1px solid rgba(255,255,255,0.12);
+  color: rgba(234,242,255,0.70);
+}
+.footer-bottom a { color: rgba(234,242,255,0.78) !important; }
+.footer-bottom a:hover { color: var(--wt-amber-400) !important; }
