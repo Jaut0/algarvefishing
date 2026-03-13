@@ -4102,6 +4102,52 @@
     }
   }
 
+  // ------------------------------------------------------------
+  // Auto-translate dynamic content (cards/lists rendered via JS)
+  // ------------------------------------------------------------
+  function startI18nObserver() {
+    if (window.__i18nObserverStarted) return;
+    if (typeof MutationObserver === 'undefined') return;
+
+    let timer = null;
+    const run = () => {
+      try {
+        const lang = getLang();
+        annotateElementsWithKeys();
+        applyTranslations(lang);
+        updateSwitcherUI(lang);
+      } catch (_) {}
+    };
+
+    const schedule = () => {
+      clearTimeout(timer);
+      timer = setTimeout(run, 120);
+    };
+
+    const obs = new MutationObserver((mutations) => {
+      // Only react to added nodes / text changes
+      for (const m of mutations) {
+        if (m.type === 'childList' && (m.addedNodes && m.addedNodes.length)) {
+          schedule();
+          return;
+        }
+        if (m.type === 'characterData') {
+          schedule();
+          return;
+        }
+      }
+    });
+
+    obs.observe(document.documentElement, {
+      childList: true,
+      subtree: true,
+      characterData: true
+    });
+
+    window.__i18nObserverStarted = true;
+  }
+
+
   function applyI18n(lang) {
     const l = normalizeLang(lang);
     if (/admin-/.test(location.pathname)) return;
@@ -4122,5 +4168,6 @@
   document.addEventListener('DOMContentLoaded', () => {
     sanitizeDict();
     applyI18n(getLang());
+    startI18nObserver();
   });
 })();
