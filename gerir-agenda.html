@@ -1,15 +1,16 @@
 <!DOCTYPE html>
+
 <html lang="pt">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gerir Agenda - Algarve Tuna Charter</title>
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>⚓</text></svg>">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/wicked-tuna.css?v=1.42">
-    <link rel="stylesheet" href="css/dashboard.css">
-    <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Gerir Agenda - Algarve Tuna Charter</title>
+<link href="data:image/svg+xml,&lt;svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'&gt;&lt;text y='0.9em' font-size='90'&gt;⚓&lt;/text&gt;&lt;/svg&gt;" rel="icon"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<link href="css/style.css" rel="stylesheet"/>
+<link href="css/wicked-tuna.css?v=1.43" rel="stylesheet"/>
+<link href="css/dashboard.css" rel="stylesheet"/>
+<style>
         .calendario-container {
             background: white;
             padding: 2rem;
@@ -202,264 +203,265 @@
     </style>
 </head>
 <body>
-    <header class="header">
-        <div class="header-content container">
-            <a href="index.html" class="logo">
-                <span class="logo-icon">⚓</span>
-                <span>Algarve Tuna Charter</span>
-            </a>
-            <nav class="nav-menu">
-                <a href="dashboard-capitao.html" class="nav-link">
-                    <i class="fas fa-arrow-left"></i> Voltar ao Dashboard
+<header class="header">
+<div class="header-content container">
+<a class="logo" href="index.html">
+<span class="logo-icon">⚓</span>
+<span>Algarve Tuna Charter</span>
+</a>
+<nav class="nav-menu">
+<a class="nav-link" href="dashboard-capitao.html">
+<i class="fas fa-arrow-left"></i> Voltar ao Dashboard
                 </a>
-            </nav>
-        </div>
-    </header>
-    
-    <section class="secao" style="margin-top: 90px; background-color: var(--cor-cinza-claro);">
-        <div class="container container-largo">
-            <h1 class="mb-3">
-                <i class="fas fa-calendar-alt"></i> Gerir Agenda
+</nav>
+</div>
+</header>
+<section class="secao" style="margin-top: 90px; background-color: var(--cor-cinza-claro);">
+<div class="container container-largo">
+<h1 class="mb-3">
+<i class="fas fa-calendar-alt"></i> Gerir Agenda
             </h1>
-            <p class="texto-cinza mb-4">
+<p class="texto-cinza mb-4">
                 Bloqueie datas, marque reservas e gerencie a sua disponibilidade
             </p>
-            
-            <!-- Ações Rápidas -->
-            <div class="acoes-rapidas">
-                <div class="acao-rapida" onclick="abrirModalBloquearDia()">
-                    <i class="fas fa-ban" style="color: var(--cor-erro);"></i>
-                    <div style="font-weight: 600;">Bloquear Dia</div>
-                    <div class="texto-pequeno texto-cinza">Bloqueio individual</div>
-                </div>
-                
-                <div class="acao-rapida" onclick="abrirModalBloquearPeriodo()">
-                    <i class="fas fa-calendar-times" style="color: var(--cor-erro);"></i>
-                    <div style="font-weight: 600;">Bloquear Período</div>
-                    <div class="texto-pequeno texto-cinza">Férias ou semanas</div>
-                </div>
-                
-                <div class="acao-rapida" onclick="abrirModalMarcarReservado()">
-                    <i class="fas fa-check-circle" style="color: var(--cor-secundaria);"></i>
-                    <div style="font-weight: 600;">Marcar Reservado</div>
-                    <div class="texto-pequeno texto-cinza">Cliente contactou direto</div>
-                </div>
-                
-                <div class="acao-rapida" onclick="abrirModalVerBloqueios()">
-                    <i class="fas fa-list" style="color: var(--cor-primaria);"></i>
-                    <div style="font-weight: 600;">Ver Bloqueios</div>
-                    <div class="texto-pequeno texto-cinza">Gerir bloqueios ativos</div>
-                </div>
-            </div>
-            
-            <!-- Calendário -->
-            <div class="calendario-container">
-                <div class="calendario-header">
-                    <div class="calendario-mes" id="calendarioMes">
+<!-- Ações Rápidas -->
+<div class="acoes-rapidas">
+<div class="acao-rapida" onclick="abrirModalBloquearDia()">
+<i class="fas fa-ban" style="color: var(--cor-erro);"></i>
+<div style="font-weight: 600;">Bloquear Dia</div>
+<div class="texto-pequeno texto-cinza">Bloqueio individual</div>
+</div>
+<div class="acao-rapida" onclick="abrirModalBloquearPeriodo()">
+<i class="fas fa-calendar-times" style="color: var(--cor-erro);"></i>
+<div style="font-weight: 600;">Bloquear Período</div>
+<div class="texto-pequeno texto-cinza">Férias ou semanas</div>
+</div>
+<div class="acao-rapida" onclick="abrirModalMarcarReservado()">
+<i class="fas fa-check-circle" style="color: var(--cor-secundaria);"></i>
+<div style="font-weight: 600;">Marcar Reservado</div>
+<div class="texto-pequeno texto-cinza">Cliente contactou direto</div>
+</div>
+<div class="acao-rapida" onclick="abrirModalVerBloqueios()">
+<i class="fas fa-list" style="color: var(--cor-primaria);"></i>
+<div style="font-weight: 600;">Ver Bloqueios</div>
+<div class="texto-pequeno texto-cinza">Gerir bloqueios ativos</div>
+</div>
+</div>
+<!-- Calendário -->
+<div class="calendario-container">
+<div class="calendario-header">
+<div class="calendario-mes" id="calendarioMes">
                         Março 2026
                     </div>
-                    <div class="calendario-nav">
-                        <button class="btn btn-outline btn-pequeno" onclick="mesAnterior()">
-                            <i class="fas fa-chevron-left"></i>
-                        </button>
-                        <button class="btn btn-outline btn-pequeno" onclick="hoje()">
+<div class="calendario-nav">
+<button class="btn btn-outline btn-pequeno" onclick="mesAnterior()">
+<i class="fas fa-chevron-left"></i>
+</button>
+<button class="btn btn-outline btn-pequeno" onclick="hoje()">
                             Hoje
                         </button>
-                        <button class="btn btn-outline btn-pequeno" onclick="mesSeguinte()">
-                            <i class="fas fa-chevron-right"></i>
-                        </button>
-                    </div>
-                </div>
-                
-                <div class="calendario-grid">
-                    <!-- Dias da semana -->
-                    <div class="calendario-dia-semana">Dom</div>
-                    <div class="calendario-dia-semana">Seg</div>
-                    <div class="calendario-dia-semana">Ter</div>
-                    <div class="calendario-dia-semana">Qua</div>
-                    <div class="calendario-dia-semana">Qui</div>
-                    <div class="calendario-dia-semana">Sex</div>
-                    <div class="calendario-dia-semana">Sáb</div>
-                    
-                    <!-- Dias do mês (gerados por JavaScript) -->
-                </div>
-                
-                <!-- Legenda -->
-                <div class="legenda">
-                    <div class="legenda-item">
-                        <div class="legenda-cor" style="background: white; border-color: var(--cor-cinza);"></div>
-                        <span>Disponível</span>
-                    </div>
-                    <div class="legenda-item">
-                        <div class="legenda-cor" style="background: linear-gradient(135deg, #FEE2E2, #FECACA); border-color: var(--cor-erro);"></div>
-                        <span>Bloqueado</span>
-                    </div>
-                    <div class="legenda-item">
-                        <div class="legenda-cor" style="background: linear-gradient(135deg, #DBEAFE, #BFDBFE); border-color: var(--cor-secundaria);"></div>
-                        <span>Reservado</span>
-                    </div>
-                    <div class="legenda-item">
-                        <div class="legenda-cor" style="background: linear-gradient(135deg, #FEF3C7, #FDE68A); border-color: var(--cor-destaque);"></div>
-                        <span>Férias</span>
-                    </div>
-                    <div class="legenda-item">
-                        <div class="legenda-cor" style="background: white; border-color: var(--cor-destaque); border-width: 3px;"></div>
-                        <span>Hoje</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    
-    <!-- Modal Detalhes do Dia -->
-    <div class="modal" id="modalDia">
-        <div class="modal-conteudo">
-            <button class="modal-fechar" onclick="fecharModal('modalDia')">&times;</button>
-            <h2 class="mb-3" id="modalDiaTitulo">15 de Março, 2026</h2>
-            
-            <div id="modalDiaConteudo">
-                <div class="form-grupo">
-                    <label class="form-label">Estado Atual</label>
-                    <select class="form-select" id="diaEstado">
-                        <option value="disponivel">Disponível</option>
-                        <option value="bloqueado">Bloqueado</option>
-                        <option value="reservado">Reservado (Cliente Direto)</option>
-                        <option value="ferias">Férias</option>
-                    </select>
-                </div>
-                
-                <div class="form-grupo">
-                    <label class="form-label">Notas / Observações</label>
-                    <textarea class="form-textarea" id="diaNotas" placeholder="Ex: Cliente João reservou por telefone, Manutenção do barco, etc."></textarea>
-                </div>
-                
-                <div class="flex gap-md">
-                    <button class="btn btn-outline" onclick="fecharModal('modalDia')">
+<button class="btn btn-outline btn-pequeno" onclick="mesSeguinte()">
+<i class="fas fa-chevron-right"></i>
+</button>
+</div>
+</div>
+<div class="calendario-grid">
+<!-- Dias da semana -->
+<div class="calendario-dia-semana">Dom</div>
+<div class="calendario-dia-semana">Seg</div>
+<div class="calendario-dia-semana">Ter</div>
+<div class="calendario-dia-semana">Qua</div>
+<div class="calendario-dia-semana">Qui</div>
+<div class="calendario-dia-semana">Sex</div>
+<div class="calendario-dia-semana">Sáb</div>
+<!-- Dias do mês (gerados por JavaScript) -->
+</div>
+<!-- Legenda -->
+<div class="legenda">
+<div class="legenda-item">
+<div class="legenda-cor" style="background: white; border-color: var(--cor-cinza);"></div>
+<span>Disponível</span>
+</div>
+<div class="legenda-item">
+<div class="legenda-cor" style="background: linear-gradient(135deg, #FEE2E2, #FECACA); border-color: var(--cor-erro);"></div>
+<span>Bloqueado</span>
+</div>
+<div class="legenda-item">
+<div class="legenda-cor" style="background: linear-gradient(135deg, #DBEAFE, #BFDBFE); border-color: var(--cor-secundaria);"></div>
+<span>Reservado</span>
+</div>
+<div class="legenda-item">
+<div class="legenda-cor" style="background: linear-gradient(135deg, #FEF3C7, #FDE68A); border-color: var(--cor-destaque);"></div>
+<span>Férias</span>
+</div>
+<div class="legenda-item">
+<div class="legenda-cor" style="background: white; border-color: var(--cor-destaque); border-width: 3px;"></div>
+<span>Hoje</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Modal Detalhes do Dia -->
+<div class="modal" id="modalDia">
+<div class="modal-conteudo">
+<button class="modal-fechar" onclick="fecharModal('modalDia')">×</button>
+<h2 class="mb-3" id="modalDiaTitulo">15 de Março, 2026</h2>
+<div id="modalDiaConteudo">
+<div class="form-grupo">
+<label class="form-label">Estado Atual</label>
+<select class="form-select" id="diaEstado">
+<option value="disponivel">Disponível</option>
+<option value="bloqueado">Bloqueado</option>
+<option value="reservado">Reservado (Cliente Direto)</option>
+<option value="ferias">Férias</option>
+</select>
+</div>
+<div class="form-grupo">
+<label class="form-label">Notas / Observações</label>
+<textarea class="form-textarea" id="diaNotas" placeholder="Ex: Cliente João reservou por telefone, Manutenção do barco, etc."></textarea>
+</div>
+<div class="flex gap-md">
+<button class="btn btn-outline" onclick="fecharModal('modalDia')">
                         Cancelar
                     </button>
-                    <button class="btn btn-primario" style="flex: 1;" onclick="guardarDia()">
-                        <i class="fas fa-save"></i> Guardar
+<button class="btn btn-primario" onclick="guardarDia()" style="flex: 1;">
+<i class="fas fa-save"></i> Guardar
                     </button>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Modal Bloquear Período -->
-    <div class="modal" id="modalBloquearPeriodo">
-        <div class="modal-conteudo">
-            <button class="modal-fechar" onclick="fecharModal('modalBloquearPeriodo')">&times;</button>
-            <h2 class="mb-3">
-                <i class="fas fa-calendar-times"></i> Bloquear Período
+</div>
+</div>
+</div>
+</div>
+<!-- Modal Bloquear Período -->
+<div class="modal" id="modalBloquearPeriodo">
+<div class="modal-conteudo">
+<button class="modal-fechar" onclick="fecharModal('modalBloquearPeriodo')">×</button>
+<h2 class="mb-3">
+<i class="fas fa-calendar-times"></i> Bloquear Período
             </h2>
-            <p class="texto-cinza mb-4">Bloqueie múltiplos dias de uma vez (férias, semanas, etc.)</p>
-            
-            <form id="formBloquearPeriodo">
-                <div class="form-grupo">
-                    <label class="form-label obrigatorio">Data de Início</label>
-                    <input type="date" class="form-input" id="periodoInicio" required>
-                </div>
-                
-                <div class="form-grupo">
-                    <label class="form-label obrigatorio">Data de Fim</label>
-                    <input type="date" class="form-input" id="periodoFim" required>
-                </div>
-                
-                <div class="form-grupo">
-                    <label class="form-label obrigatorio">Motivo</label>
-                    <select class="form-select" id="periodoMotivo" required>
-                        <option value="">Selecione...</option>
-                        <option value="ferias">Férias</option>
-                        <option value="manutencao">Manutenção do Barco</option>
-                        <option value="pessoal">Motivos Pessoais</option>
-                        <option value="outro">Outro</option>
-                    </select>
-                </div>
-                
-                <div class="form-grupo">
-                    <label class="form-label">Observações</label>
-                    <textarea class="form-textarea" id="periodoNotas" placeholder="Detalhes adicionais..."></textarea>
-                </div>
-                
-                <div style="background: var(--cor-cinza-claro); padding: 1rem; border-radius: var(--radius-pequeno); margin-bottom: 1rem;">
-                    <i class="fas fa-info-circle" style="color: var(--cor-secundaria);"></i>
+<p class="texto-cinza mb-4">Bloqueie múltiplos dias de uma vez (férias, semanas, etc.)</p>
+<form id="formBloquearPeriodo">
+<div class="form-grupo">
+<label class="form-label obrigatorio">Data de Início</label>
+<input class="form-input" id="periodoInicio" required="" type="date"/>
+</div>
+<div class="form-grupo">
+<label class="form-label obrigatorio">Data de Fim</label>
+<input class="form-input" id="periodoFim" required="" type="date"/>
+</div>
+<div class="form-grupo">
+<label class="form-label obrigatorio">Motivo</label>
+<select class="form-select" id="periodoMotivo" required="">
+<option value="">Selecione...</option>
+<option value="ferias">Férias</option>
+<option value="manutencao">Manutenção do Barco</option>
+<option value="pessoal">Motivos Pessoais</option>
+<option value="outro">Outro</option>
+</select>
+</div>
+<div class="form-grupo">
+<label class="form-label">Observações</label>
+<textarea class="form-textarea" id="periodoNotas" placeholder="Detalhes adicionais..."></textarea>
+</div>
+<div style="background: var(--cor-cinza-claro); padding: 1rem; border-radius: var(--radius-pequeno); margin-bottom: 1rem;">
+<i class="fas fa-info-circle" style="color: var(--cor-secundaria);"></i>
                     Todos os dias entre as datas selecionadas ficarão bloqueados.
                 </div>
-                
-                <div class="flex gap-md">
-                    <button type="button" class="btn btn-outline" onclick="fecharModal('modalBloquearPeriodo')">
+<div class="flex gap-md">
+<button class="btn btn-outline" onclick="fecharModal('modalBloquearPeriodo')" type="button">
                         Cancelar
                     </button>
-                    <button type="submit" class="btn" style="flex: 1; background-color: var(--cor-erro); color: white;">
-                        <i class="fas fa-ban"></i> Bloquear Período
+<button class="btn" style="flex: 1; background-color: var(--cor-erro); color: white;" type="submit">
+<i class="fas fa-ban"></i> Bloquear Período
                     </button>
-                </div>
-            </form>
-        </div>
-    </div>
-    
-    <!-- Modal Ver Bloqueios -->
-    <div class="modal" id="modalVerBloqueios">
-        <div class="modal-conteudo" style="max-width: 700px;">
-            <button class="modal-fechar" onclick="fecharModal('modalVerBloqueios')">&times;</button>
-            <h2 class="mb-3">
-                <i class="fas fa-list"></i> Bloqueios Ativos
+</div>
+</form>
+</div>
+</div>
+<!-- Modal Ver Bloqueios -->
+<div class="modal" id="modalVerBloqueios">
+<div class="modal-conteudo" style="max-width: 700px;">
+<button class="modal-fechar" onclick="fecharModal('modalVerBloqueios')">×</button>
+<h2 class="mb-3">
+<i class="fas fa-list"></i> Bloqueios Ativos
             </h2>
-            <p class="texto-cinza mb-4">Gerir e remover bloqueios existentes</p>
-            
-            <div style="display: flex; flex-direction: column; gap: 1rem;">
-                <!-- Bloqueio 1 -->
-                <div class="card">
-                    <div class="card-conteudo">
-                        <div style="display: flex; justify-content: space-between; align-items: start;">
-                            <div>
-                                <div class="badge badge-destaque mb-2">Férias</div>
-                                <h4 style="margin-bottom: 0.5rem;">20/03/2026 - 27/03/2026</h4>
-                                <p class="texto-pequeno texto-cinza">8 dias bloqueados</p>
-                                <p style="margin-top: 0.5rem;">Férias na Madeira</p>
-                            </div>
-                            <button class="btn" style="background-color: var(--cor-erro); color: white;" onclick="removerBloqueio(1)">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Bloqueio 2 -->
-                <div class="card">
-                    <div class="card-conteudo">
-                        <div style="display: flex; justify-content: space-between; align-items: start;">
-                            <div>
-                                <div class="badge badge-primario mb-2">Manutenção</div>
-                                <h4 style="margin-bottom: 0.5rem;">15/03/2026</h4>
-                                <p class="texto-pequeno texto-cinza">1 dia bloqueado</p>
-                                <p style="margin-top: 0.5rem;">Revisão do motor</p>
-                            </div>
-                            <button class="btn" style="background-color: var(--cor-erro); color: white;" onclick="removerBloqueio(2)">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="estado-vazio" style="display: none;" id="semBloqueios">
-                    <i class="fas fa-check-circle estado-vazio-icon" style="color: var(--cor-sucesso);"></i>
-                    <h3 class="estado-vazio-titulo">Sem Bloqueios</h3>
-                    <p class="estado-vazio-texto">Não há bloqueios ativos no momento</p>
-                </div>
-            </div>
-            
-            <button class="btn btn-outline btn-bloco" style="margin-top: 1rem;" onclick="fecharModal('modalVerBloqueios')">
+<p class="texto-cinza mb-4">Gerir e remover bloqueios existentes</p>
+<div style="display: flex; flex-direction: column; gap: 1rem;">
+<!-- Bloqueio 1 -->
+<div class="card">
+<div class="card-conteudo">
+<div style="display: flex; justify-content: space-between; align-items: start;">
+<div>
+<div class="badge badge-destaque mb-2">Férias</div>
+<h4 style="margin-bottom: 0.5rem;">20/03/2026 - 27/03/2026</h4>
+<p class="texto-pequeno texto-cinza">8 dias bloqueados</p>
+<p style="margin-top: 0.5rem;">Férias na Madeira</p>
+</div>
+<button class="btn" onclick="removerBloqueio(1)" style="background-color: var(--cor-erro); color: white;">
+<i class="fas fa-trash"></i>
+</button>
+</div>
+</div>
+</div>
+<!-- Bloqueio 2 -->
+<div class="card">
+<div class="card-conteudo">
+<div style="display: flex; justify-content: space-between; align-items: start;">
+<div>
+<div class="badge badge-primario mb-2">Manutenção</div>
+<h4 style="margin-bottom: 0.5rem;">15/03/2026</h4>
+<p class="texto-pequeno texto-cinza">1 dia bloqueado</p>
+<p style="margin-top: 0.5rem;">Revisão do motor</p>
+</div>
+<button class="btn" onclick="removerBloqueio(2)" style="background-color: var(--cor-erro); color: white;">
+<i class="fas fa-trash"></i>
+</button>
+</div>
+</div>
+</div>
+<div class="estado-vazio" id="semBloqueios" style="display: none;">
+<i class="fas fa-check-circle estado-vazio-icon" style="color: var(--cor-sucesso);"></i>
+<h3 class="estado-vazio-titulo">Sem Bloqueios</h3>
+<p class="estado-vazio-texto">Não há bloqueios ativos no momento</p>
+</div>
+</div>
+<button class="btn btn-outline btn-bloco" onclick="fecharModal('modalVerBloqueios')" style="margin-top: 1rem;">
                 Fechar
             </button>
-        </div>
-    </div>
-    
-    <script src="js/main.js"></script>
-    <script src="js/calendario.js"></script>
-
-    <p style="text-align:center;margin-top:1.5rem;font-size:0.72rem;color:rgba(100,116,139,0.7);font-family:monospace;"><span class=\"site-version-badge\"><i class="fas fa-code-branch"></i> v</span></p>
-
-    <script src="js/i18n.js?v=1.42"></script>
+</div>
+</div>
+<script src="js/main.js"></script>
+<script src="js/calendario.js"></script>
+<p style="text-align:center;margin-top:1.5rem;font-size:0.72rem;color:rgba(100,116,139,0.7);font-family:monospace;"><span class='\"site-version-badge\"'><i class="fas fa-code-branch"></i> v</span></p>
+<footer class="footer">
+<div class="container">
+<div class="footer-conteudo">
+<div class="footer-secao">
+<div class="logo mb-3">
+<span class="logo-icon">⚓</span>
+<span>Algarve Tuna Charter</span>
+</div>
+<p style="color: rgba(255, 255, 255, 0.8);">
+                        A sua plataforma de confiança para encontrar as melhores experiências de pesca.
+                    </p>
+</div>
+<div class="footer-secao">
+<h3>Links Rápidos</h3>
+<div class="footer-links">
+<a class="footer-link" href="index.html">Início</a>
+<a class="footer-link" href="explorar.html">Explorar</a>
+<a class="footer-link" href="cancelamentos.html">Cancelamentos</a>
+<a class="footer-link" href="termos.html">Termos</a>
+<a class="footer-link" href="privacidade.html">Privacidade</a>
+<a class="footer-link" href="auth.html">Entrar</a>
+</div>
+</div>
+</div>
+<div class="footer-bottom">
+<p>© 2026 Algarve Tuna Charter. Todos os direitos reservados.</p>
+<p><span class="site-version-badge"><i class="fas fa-code-branch"></i> v</span></p>
+</div>
+</div>
+</footer><script src="js/i18n.js?v=1.43"></script>
 </body>
 </html>

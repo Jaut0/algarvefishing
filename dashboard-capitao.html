@@ -1,15 +1,16 @@
 <!DOCTYPE html>
+
 <html lang="pt">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard do Capitão - Algarve Tuna Charter</title>
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>⚓</text></svg>">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/wicked-tuna.css?v=1.42">
-    <link rel="stylesheet" href="css/dashboard.css">
-    <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Dashboard do Capitão - Algarve Tuna Charter</title>
+<link href="data:image/svg+xml,&lt;svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'&gt;&lt;text y='0.9em' font-size='90'&gt;⚓&lt;/text&gt;&lt;/svg&gt;" rel="icon"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<link href="css/style.css" rel="stylesheet"/>
+<link href="css/wicked-tuna.css?v=1.43" rel="stylesheet"/>
+<link href="css/dashboard.css" rel="stylesheet"/>
+<style>
         /* ── Fix total: perfil do capitão – campos visíveis ── */
         #secao-perfil .card,
         #secao-perfil .card * {
@@ -58,429 +59,382 @@
     </style>
 </head>
 <body>
-    
-    <!-- HEADER -->
-    <header class="header">
-        <div class="header-content container">
-            <a href="#dashboard" class="logo" onclick="event.preventDefault(); window.location.href='dashboard-capitao.html';">
-                <span class="logo-icon">⚓</span>
-                <span>Algarve Tuna Charter</span>
-            </a>
-            
-            <nav class="nav-menu">
-                <a href="index.html" class="nav-link" onclick="event.preventDefault(); abrirPaginaComSessao('index.html');">Início</a>
-                <a href="explorar.html" class="nav-link" onclick="event.preventDefault(); abrirPaginaComSessao('explorar.html');">Explorar</a>
-                <a href="dashboard-capitao.html" class="nav-link ativo">Dashboard</a>
-                <button class="btn btn-outline btn-pequeno" onclick="logout()">
-                    <i class="fas fa-sign-out-alt"></i> Sair
+<!-- HEADER -->
+<header class="header">
+<div class="header-content container">
+<a class="logo" href="#dashboard" onclick="event.preventDefault(); window.location.href='dashboard-capitao.html';">
+<span class="logo-icon">⚓</span>
+<span>Algarve Tuna Charter</span>
+</a>
+<nav class="nav-menu">
+<a class="nav-link" href="index.html" onclick="event.preventDefault(); abrirPaginaComSessao('index.html');">Início</a>
+<a class="nav-link" href="explorar.html" onclick="event.preventDefault(); abrirPaginaComSessao('explorar.html');">Explorar</a>
+<a class="nav-link ativo" href="dashboard-capitao.html">Dashboard</a>
+<button class="btn btn-outline btn-pequeno" onclick="logout()">
+<i class="fas fa-sign-out-alt"></i> Sair
                 </button>
-            </nav>
-            
-            <div class="menu-toggle" id="menuToggle">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-        </div>
-    </header>
-    
-    <!-- DASHBOARD -->
-    <div class="dashboard">
-        <!-- SIDEBAR -->
-        <aside class="sidebar" id="sidebar">
-            <div class="sidebar-perfil">
-                <div class="sidebar-perfil-avatar" id="sidebarAvatar">?</div>
-                <div class="sidebar-perfil-nome" id="sidebarNome">A carregar...</div>
-                <div class="sidebar-perfil-tipo">Capitão</div>
-            </div>
-            
-            <nav class="sidebar-menu">
-                <a href="#dashboard" class="sidebar-menu-item ativo" data-section="dashboard">
-                    <i class="fas fa-chart-line"></i>
-                    <span>Dashboard</span>
-                </a>
-                <a href="#agenda" class="sidebar-menu-item" data-section="agenda">
-                    <i class="fas fa-calendar-alt"></i>
-                    <span>Gerir Agenda</span>
-                </a>
-                <a href="#barcos" class="sidebar-menu-item" data-section="barcos">
-                    <i class="fas fa-ship"></i>
-                    <span>Os Meus Barcos</span>
-                </a>
-                <a href="#saidas" class="sidebar-menu-item" data-section="saidas">
-                    <i class="fas fa-calendar-check"></i>
-                    <span>As Minhas Saídas</span>
-                </a>
-                <a href="#pedidos" class="sidebar-menu-item" data-section="pedidos">
-                    <i class="fas fa-clock"></i>
-                    <span>Pedidos Pendentes</span>
-                    <span class="badge badge-destaque" id="badgePendentes" style="margin-left: auto; display: none;">0</span>
-                </a>
-                <a href="#reservas" class="sidebar-menu-item" data-section="reservas">
-                    <i class="fas fa-check-circle"></i>
-                    <span>Reservas Confirmadas</span>
-                </a>
-                <a href="#avaliacoes" class="sidebar-menu-item" data-section="avaliacoes">
-                    <i class="fas fa-star"></i>
-                    <span>Avaliações</span>
-                </a>
-                <a href="#perfil" class="sidebar-menu-item" data-section="perfil">
-                    <i class="fas fa-user-cog"></i>
-                    <span>Perfil</span>
-                </a>
-            
-        <!-- Versão do site -->
-        <div style="text-align:center;padding:1rem 0 0.5rem;border-top:1px solid rgba(255,255,255,0.08);margin-top:1rem;">
-            <span style="font-size:0.72rem;color:rgba(255,255,255,0.35);font-family:monospace;letter-spacing:0.05em;" class=\"site-version-badge\"><i class=\"fas fa-code-branch\"></i> v</span>
-        </div>
-        </nav>
-        </aside>
-        
-        <button class="sidebar-toggle" id="sidebarToggle">
-            <i class="fas fa-bars"></i>
-        </button>
-        
-        <!-- CONTEÚDO -->
-        <main class="dashboard-conteudo">
-            
-            <!-- SECÇÃO DASHBOARD -->
-            <div class="dashboard-secao-wrapper" id="secao-dashboard">
-                <div class="dashboard-header">
-                    <div class="dashboard-header-top">
-                        <h1 class="dashboard-titulo">Dashboard</h1>
-                        <div class="dashboard-breadcrumb">
-                            <a href="index.html">Início</a>
-                            <i class="fas fa-chevron-right"></i>
-                            <span>Dashboard</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- ALERTA DE CERTIFICAÇÃO -->
-                <div id="alertaCertificacao" style="display: none; margin-bottom: 2rem;"></div>
-                
-                <!-- ESTATÍSTICAS -->
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <div class="stat-icon azul">
-                            <i class="fas fa-ship"></i>
-                        </div>
-                        <div class="stat-info">
-                            <div class="stat-label">Barcos Registados</div>
-                            <div class="stat-valor" id="totalBarcos">0</div>
-                            <div class="stat-mudanca" id="mudancaBarcos">
-                                <i class="fas fa-minus"></i> --
+</nav>
+<div class="menu-toggle" id="menuToggle">
+<span></span>
+<span></span>
+<span></span>
+</div>
+</div>
+</header>
+<!-- DASHBOARD -->
+<div class="dashboard">
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+<div class="sidebar-perfil">
+<div class="sidebar-perfil-avatar" id="sidebarAvatar">?</div>
+<div class="sidebar-perfil-nome" id="sidebarNome">A carregar...</div>
+<div class="sidebar-perfil-tipo">Capitão</div>
+</div>
+<nav class="sidebar-menu">
+<a class="sidebar-menu-item ativo" data-section="dashboard" href="#dashboard">
+<i class="fas fa-chart-line"></i>
+<span>Dashboard</span>
+</a>
+<a class="sidebar-menu-item" data-section="agenda" href="#agenda">
+<i class="fas fa-calendar-alt"></i>
+<span>Gerir Agenda</span>
+</a>
+<a class="sidebar-menu-item" data-section="barcos" href="#barcos">
+<i class="fas fa-ship"></i>
+<span>Os Meus Barcos</span>
+</a>
+<a class="sidebar-menu-item" data-section="saidas" href="#saidas">
+<i class="fas fa-calendar-check"></i>
+<span>As Minhas Saídas</span>
+</a>
+<a class="sidebar-menu-item" data-section="pedidos" href="#pedidos">
+<i class="fas fa-clock"></i>
+<span>Pedidos Pendentes</span>
+<span class="badge badge-destaque" id="badgePendentes" style="margin-left: auto; display: none;">0</span>
+</a>
+<a class="sidebar-menu-item" data-section="reservas" href="#reservas">
+<i class="fas fa-check-circle"></i>
+<span>Reservas Confirmadas</span>
+</a>
+<a class="sidebar-menu-item" data-section="avaliacoes" href="#avaliacoes">
+<i class="fas fa-star"></i>
+<span>Avaliações</span>
+</a>
+<a class="sidebar-menu-item" data-section="perfil" href="#perfil">
+<i class="fas fa-user-cog"></i>
+<span>Perfil</span>
+</a>
+<!-- Versão do site -->
+<div style="text-align:center;padding:1rem 0 0.5rem;border-top:1px solid rgba(255,255,255,0.08);margin-top:1rem;">
+<span class='\"site-version-badge\"' style="font-size:0.72rem;color:rgba(255,255,255,0.35);font-family:monospace;letter-spacing:0.05em;"><i class='\"fas' fa-code-branch\"=""></i> v</span>
+</div>
+</nav>
+</aside>
+<button class="sidebar-toggle" id="sidebarToggle">
+<i class="fas fa-bars"></i>
+</button>
+<!-- CONTEÚDO -->
+<main class="dashboard-conteudo">
+<!-- SECÇÃO DASHBOARD -->
+<div class="dashboard-secao-wrapper" id="secao-dashboard">
+<div class="dashboard-header">
+<div class="dashboard-header-top">
+<h1 class="dashboard-titulo">Dashboard</h1>
+<div class="dashboard-breadcrumb">
+<a href="index.html">Início</a>
+<i class="fas fa-chevron-right"></i>
+<span>Dashboard</span>
+</div>
+</div>
+</div>
+<!-- ALERTA DE CERTIFICAÇÃO -->
+<div id="alertaCertificacao" style="display: none; margin-bottom: 2rem;"></div>
+<!-- ESTATÍSTICAS -->
+<div class="stats-grid">
+<div class="stat-card">
+<div class="stat-icon azul">
+<i class="fas fa-ship"></i>
+</div>
+<div class="stat-info">
+<div class="stat-label">Barcos Registados</div>
+<div class="stat-valor" id="totalBarcos">0</div>
+<div class="stat-mudanca" id="mudancaBarcos">
+<i class="fas fa-minus"></i> --
                             </div>
-                        </div>
-                    </div>
-                    
-                    <div class="stat-card">
-                        <div class="stat-icon laranja">
-                            <i class="fas fa-calendar-check"></i>
-                        </div>
-                        <div class="stat-info">
-                            <div class="stat-label">Saídas Agendadas</div>
-                            <div class="stat-valor" id="totalSaidas">0</div>
-                            <div class="stat-mudanca" id="mudancaSaidas">
-                                <i class="fas fa-minus"></i> --
+</div>
+</div>
+<div class="stat-card">
+<div class="stat-icon laranja">
+<i class="fas fa-calendar-check"></i>
+</div>
+<div class="stat-info">
+<div class="stat-label">Saídas Agendadas</div>
+<div class="stat-valor" id="totalSaidas">0</div>
+<div class="stat-mudanca" id="mudancaSaidas">
+<i class="fas fa-minus"></i> --
                             </div>
-                        </div>
-                    </div>
-                    
-                    <div class="stat-card">
-                        <div class="stat-icon verde">
-                            <i class="fas fa-handshake"></i>
-                        </div>
-                        <div class="stat-info">
-                            <div class="stat-label">Contactos Este Mês</div>
-                            <div class="stat-valor" id="totalContactos">0</div>
-                            <div class="stat-mudanca" id="mudancaContactos">
-                                <i class="fas fa-minus"></i> --
+</div>
+</div>
+<div class="stat-card">
+<div class="stat-icon verde">
+<i class="fas fa-handshake"></i>
+</div>
+<div class="stat-info">
+<div class="stat-label">Contactos Este Mês</div>
+<div class="stat-valor" id="totalContactos">0</div>
+<div class="stat-mudanca" id="mudancaContactos">
+<i class="fas fa-minus"></i> --
                             </div>
-                        </div>
-                    </div>
-                    
-                    <div class="stat-card">
-                        <div class="stat-icon roxo">
-                            <i class="fas fa-star"></i>
-                        </div>
-                        <div class="stat-info">
-                            <div class="stat-label">Avaliação Média</div>
-                            <div class="stat-valor" id="avaliacaoMedia">--</div>
-                            <div class="stat-mudanca" id="totalAvaliacoes">
-                                <i class="fas fa-star"></i> 0 avaliações
+</div>
+</div>
+<div class="stat-card">
+<div class="stat-icon roxo">
+<i class="fas fa-star"></i>
+</div>
+<div class="stat-info">
+<div class="stat-label">Avaliação Média</div>
+<div class="stat-valor" id="avaliacaoMedia">--</div>
+<div class="stat-mudanca" id="totalAvaliacoes">
+<i class="fas fa-star"></i> 0 avaliações
                             </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- NOTIFICAÇÕES -->
-                <div class="dashboard-secao">
-                    <div class="dashboard-secao-header">
-                        <h2 class="dashboard-secao-titulo">
-                            <i class="fas fa-calendar-check"></i>
+</div>
+</div>
+</div>
+<!-- NOTIFICAÇÕES -->
+<div class="dashboard-secao">
+<div class="dashboard-secao-header">
+<h2 class="dashboard-secao-titulo">
+<i class="fas fa-calendar-check"></i>
                             Acesso Rápido
                         </h2>
-                    </div>
-                    
-                    <div class="grid grid-3 gap-md mb-4">
-                        <a href="gerir-agenda.html" class="card" style="cursor: pointer; transition: var(--transicao-normal); text-decoration: none;">
-                            <div class="card-conteudo" style="text-align: center; padding: 2rem;">
-                                <i class="fas fa-calendar-alt" style="font-size: 3rem; color: var(--cor-secundaria); margin-bottom: 1rem;"></i>
-                                <h3 style="margin-bottom: 0.5rem; color: var(--cor-primaria);">Gerir Agenda</h3>
-                                <p class="texto-cinza">Bloquear datas e gerir disponibilidade</p>
-                            </div>
-                        </a>
-                        
-                        <a href="criar-saida.html" class="card" style="cursor: pointer; transition: var(--transicao-normal); text-decoration: none;">
-                            <div class="card-conteudo" style="text-align: center; padding: 2rem;">
-                                <i class="fas fa-plus-circle" style="font-size: 3rem; color: var(--cor-destaque); margin-bottom: 1rem;"></i>
-                                <h3 style="margin-bottom: 0.5rem; color: var(--cor-primaria);">Criar Saída</h3>
-                                <p class="texto-cinza">Adicionar nova saída de pesca</p>
-                            </div>
-                        </a>
-                        
-                        <a href="alertas-seguranca.html" class="card" style="cursor: pointer; transition: var(--transicao-normal); text-decoration: none; border: 2px solid #EF4444;">
-                            <div class="card-conteudo" style="text-align: center; padding: 2rem;">
-                                <i class="fas fa-shield-alt" style="font-size: 3rem; color: #EF4444; margin-bottom: 1rem;"></i>
-                                <h3 style="margin-bottom: 0.5rem; color: #EF4444;">Alertas de Segurança</h3>
-                                <p class="texto-cinza">Consultar e reportar incidentes</p>
-                                <span class="badge badge-error" style="margin-top: 0.5rem; font-size: 0.75rem;">🔒 Apenas Capitães</span>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-                
-                <!-- PEDIDOS DE RESERVA PENDENTES -->
-                <div class="dashboard-secao" id="secaoPedidosPendentes">
-                    <div class="dashboard-secao-header">
-                        <h2 class="dashboard-secao-titulo">
-                            <i class="fas fa-calendar-check"></i>
+</div>
+<div class="grid grid-3 gap-md mb-4">
+<a class="card" href="gerir-agenda.html" style="cursor: pointer; transition: var(--transicao-normal); text-decoration: none;">
+<div class="card-conteudo" style="text-align: center; padding: 2rem;">
+<i class="fas fa-calendar-alt" style="font-size: 3rem; color: var(--cor-secundaria); margin-bottom: 1rem;"></i>
+<h3 style="margin-bottom: 0.5rem; color: var(--cor-primaria);">Gerir Agenda</h3>
+<p class="texto-cinza">Bloquear datas e gerir disponibilidade</p>
+</div>
+</a>
+<a class="card" href="criar-saida.html" style="cursor: pointer; transition: var(--transicao-normal); text-decoration: none;">
+<div class="card-conteudo" style="text-align: center; padding: 2rem;">
+<i class="fas fa-plus-circle" style="font-size: 3rem; color: var(--cor-destaque); margin-bottom: 1rem;"></i>
+<h3 style="margin-bottom: 0.5rem; color: var(--cor-primaria);">Criar Saída</h3>
+<p class="texto-cinza">Adicionar nova saída de pesca</p>
+</div>
+</a>
+<a class="card" href="alertas-seguranca.html" style="cursor: pointer; transition: var(--transicao-normal); text-decoration: none; border: 2px solid #EF4444;">
+<div class="card-conteudo" style="text-align: center; padding: 2rem;">
+<i class="fas fa-shield-alt" style="font-size: 3rem; color: #EF4444; margin-bottom: 1rem;"></i>
+<h3 style="margin-bottom: 0.5rem; color: #EF4444;">Alertas de Segurança</h3>
+<p class="texto-cinza">Consultar e reportar incidentes</p>
+<span class="badge badge-error" style="margin-top: 0.5rem; font-size: 0.75rem;">🔒 Apenas Capitães</span>
+</div>
+</a>
+</div>
+</div>
+<!-- PEDIDOS DE RESERVA PENDENTES -->
+<div class="dashboard-secao" id="secaoPedidosPendentes">
+<div class="dashboard-secao-header">
+<h2 class="dashboard-secao-titulo">
+<i class="fas fa-calendar-check"></i>
                             Pedidos de Reserva Pendentes
                             <span class="badge badge-warning" id="badgePendentes">0</span>
-                        </h2>
-                    </div>
-                    
-                    <div id="pedidosPendentesList">
-                        <!-- Loaded by JavaScript -->
-                    </div>
-                </div>
-                
-                <!-- NOTIFICAÇÕES DINÂMICAS -->
-                <div class="dashboard-secao">
-                    <div class="dashboard-secao-header">
-                        <h2 class="dashboard-secao-titulo">
-                            <i class="fas fa-bell"></i>
+</h2>
+</div>
+<div id="pedidosPendentesList">
+<!-- Loaded by JavaScript -->
+</div>
+</div>
+<!-- NOTIFICAÇÕES DINÂMICAS -->
+<div class="dashboard-secao">
+<div class="dashboard-secao-header">
+<h2 class="dashboard-secao-titulo">
+<i class="fas fa-bell"></i>
                             Notificações Recentes
                         </h2>
-                    </div>
-                    <div id="notificacoesDinamicas">
-                        <!-- Carregado por JavaScript -->
-                    </div>
-                </div>
-            </div>
-            
-            <!-- SECÇÃO BARCOS -->
-            <div class="dashboard-secao-wrapper oculto" id="secao-barcos">
-                <div class="dashboard-header">
-                    <div class="dashboard-header-top">
-                        <h1 class="dashboard-titulo">Os Meus Barcos</h1>
-                        <a href="registar-barco.html" class="btn btn-primario">
-                            <i class="fas fa-plus"></i>
+</div>
+<div id="notificacoesDinamicas">
+<!-- Carregado por JavaScript -->
+</div>
+</div>
+</div>
+<!-- SECÇÃO BARCOS -->
+<div class="dashboard-secao-wrapper oculto" id="secao-barcos">
+<div class="dashboard-header">
+<div class="dashboard-header-top">
+<h1 class="dashboard-titulo">Os Meus Barcos</h1>
+<a class="btn btn-primario" href="registar-barco.html">
+<i class="fas fa-plus"></i>
                             Adicionar Barco
                         </a>
-                    </div>
-                </div>
-                
-                <div class="barcos-grid" id="gridMeusBarcos">
-                    <!-- Carregado dinamicamente por JavaScript -->
-                </div>
-            </div>
-            
-            <!-- SECÇÃO SAÍDAS -->
-            <div class="dashboard-secao-wrapper oculto" id="secao-saidas">
-                <div class="dashboard-header">
-                    <div class="dashboard-header-top">
-                        <h1 class="dashboard-titulo">As Minhas Saídas</h1>
-                        <a href="criar-saida.html" class="btn btn-primario">
-                            <i class="fas fa-plus"></i>
+</div>
+</div>
+<div class="barcos-grid" id="gridMeusBarcos">
+<!-- Carregado dinamicamente por JavaScript -->
+</div>
+</div>
+<!-- SECÇÃO SAÍDAS -->
+<div class="dashboard-secao-wrapper oculto" id="secao-saidas">
+<div class="dashboard-header">
+<div class="dashboard-header-top">
+<h1 class="dashboard-titulo">As Minhas Saídas</h1>
+<a class="btn btn-primario" href="criar-saida.html">
+<i class="fas fa-plus"></i>
                             Criar Saída
                         </a>
-                    </div>
-                </div>
-                
-                <div class="dashboard-secao">
-                    <div id="minhasSaidasContainer">
-                        <!-- Carregado dinamicamente por JavaScript -->
-                    </div>
-                </div>
-            </div>
-            
-            <!-- SECÇÃO RESERVAS -->
-            <div class="dashboard-secao-wrapper oculto" id="secao-reservas">
-                <div class="dashboard-header">
-                    <h1 class="dashboard-titulo">📅 Reservas Pendentes</h1>
-                    <p style="color: rgba(245,245,245,0.8); margin-top: 0.5rem;">
+</div>
+</div>
+<div class="dashboard-secao">
+<div id="minhasSaidasContainer">
+<!-- Carregado dinamicamente por JavaScript -->
+</div>
+</div>
+</div>
+<!-- SECÇÃO RESERVAS -->
+<div class="dashboard-secao-wrapper oculto" id="secao-reservas">
+<div class="dashboard-header">
+<h1 class="dashboard-titulo">📅 Reservas Pendentes</h1>
+<p style="color: rgba(245,245,245,0.8); margin-top: 0.5rem;">
                         Pedidos de reserva dos seus barcos
                     </p>
-                </div>
-                
-                <div class="estado-vazio" id="estado-vazio-reservas" style="display: none;">
-                    <i class="fas fa-ticket-alt estado-vazio-icon"></i>
-                    <h3 class="estado-vazio-titulo">Sem Reservas Pendentes</h3>
-                    <p class="estado-vazio-texto">Não há pedidos de reserva aguardando resposta</p>
-                </div>
-                
-                <div id="container-reservas" class="cards-grid" style="gap: 1.5rem;">
-                    <!-- Reservas serão carregadas aqui -->
-                </div>
-            </div>
-            
-            <div class="dashboard-secao-wrapper oculto" id="secao-avaliacoes">
-                <div class="dashboard-header">
-                    <h1 class="dashboard-titulo">Avaliações</h1>
-                </div>
-                <div class="estado-vazio">
-                    <i class="fas fa-star estado-vazio-icon"></i>
-                    <h3 class="estado-vazio-titulo">Avaliações dos Clientes</h3>
-                    <p class="estado-vazio-texto">As avaliações dos seus clientes aparecerão aqui</p>
-                </div>
-            </div>
-            
-            <!-- SECÇÃO AGENDA -->
-            <div class="dashboard-secao-wrapper oculto" id="secao-agenda">
-                <div class="dashboard-header">
-                    <h1 class="dashboard-titulo">
-                        <i class="fas fa-calendar-alt"></i> Gerir Agenda
+</div>
+<div class="estado-vazio" id="estado-vazio-reservas" style="display: none;">
+<i class="fas fa-ticket-alt estado-vazio-icon"></i>
+<h3 class="estado-vazio-titulo">Sem Reservas Pendentes</h3>
+<p class="estado-vazio-texto">Não há pedidos de reserva aguardando resposta</p>
+</div>
+<div class="cards-grid" id="container-reservas" style="gap: 1.5rem;">
+<!-- Reservas serão carregadas aqui -->
+</div>
+</div>
+<div class="dashboard-secao-wrapper oculto" id="secao-avaliacoes">
+<div class="dashboard-header">
+<h1 class="dashboard-titulo">Avaliações</h1>
+</div>
+<div class="estado-vazio">
+<i class="fas fa-star estado-vazio-icon"></i>
+<h3 class="estado-vazio-titulo">Avaliações dos Clientes</h3>
+<p class="estado-vazio-texto">As avaliações dos seus clientes aparecerão aqui</p>
+</div>
+</div>
+<!-- SECÇÃO AGENDA -->
+<div class="dashboard-secao-wrapper oculto" id="secao-agenda">
+<div class="dashboard-header">
+<h1 class="dashboard-titulo">
+<i class="fas fa-calendar-alt"></i> Gerir Agenda
                     </h1>
-                    <p style="color: rgba(245,245,245,0.8); margin-top: 0.5rem;">Bloqueie datas e gerir a disponibilidade dos seus barcos</p>
-                </div>
-                
-                <div class="card">
-                    <div style="text-align: center; padding: 3rem;">
-                        <i class="fas fa-calendar" style="font-size: 4rem; color: var(--cor-destaque); margin-bottom: 1rem; opacity: 0.5;"></i>
-                        <h3 style="color: var(--cor-branco); margin-bottom: 1rem;">Sistema de Agenda</h3>
-                        <p style="color: rgba(245,245,245,0.7); margin-bottom: 2rem; max-width: 500px; margin-left: auto; margin-right: auto;">
+<p style="color: rgba(245,245,245,0.8); margin-top: 0.5rem;">Bloqueie datas e gerir a disponibilidade dos seus barcos</p>
+</div>
+<div class="card">
+<div style="text-align: center; padding: 3rem;">
+<i class="fas fa-calendar" style="font-size: 4rem; color: var(--cor-destaque); margin-bottom: 1rem; opacity: 0.5;"></i>
+<h3 style="color: var(--cor-branco); margin-bottom: 1rem;">Sistema de Agenda</h3>
+<p style="color: rgba(245,245,245,0.7); margin-bottom: 2rem; max-width: 500px; margin-left: auto; margin-right: auto;">
                             Utilize a agenda para bloquear datas indisponíveis, gerir reservas e visualizar compromissos futuros.
                         </p>
-                        <a href="gerir-agenda.html" class="btn btn-primario btn-grande">
-                            <i class="fas fa-calendar-alt"></i> Abrir Agenda Completa
+<a class="btn btn-primario btn-grande" href="gerir-agenda.html">
+<i class="fas fa-calendar-alt"></i> Abrir Agenda Completa
                         </a>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="dashboard-secao-wrapper oculto" id="secao-perfil">
-                <div class="dashboard-header">
-                    <h1 class="dashboard-titulo">Perfil do Capitão</h1>
-                    <p style="color: rgba(245,245,245,0.8); margin-top: 0.5rem;">Gerir as suas informações pessoais e profissionais</p>
-                </div>
-                
-                <div class="card" style="max-width: 800px;">
-                    <form id="formEditarPerfilCapitao">
-                        <div class="form-grid">
-                            <div class="form-grupo">
-                                <label class="form-label">
-                                    <i class="fas fa-user"></i> Nome Completo *
+</div>
+</div>
+</div>
+<div class="dashboard-secao-wrapper oculto" id="secao-perfil">
+<div class="dashboard-header">
+<h1 class="dashboard-titulo">Perfil do Capitão</h1>
+<p style="color: rgba(245,245,245,0.8); margin-top: 0.5rem;">Gerir as suas informações pessoais e profissionais</p>
+</div>
+<div class="card" style="max-width: 800px;">
+<form id="formEditarPerfilCapitao">
+<div class="form-grid">
+<div class="form-grupo">
+<label class="form-label">
+<i class="fas fa-user"></i> Nome Completo *
                                 </label>
-                                <input type="text" id="capitaoPerfilNome" class="form-input" placeholder="Seu nome completo" required>
-                            </div>
-                            
-                            <div class="form-grupo">
-                                <label class="form-label">
-                                    <i class="fas fa-envelope"></i> Email *
+<input class="form-input" id="capitaoPerfilNome" placeholder="Seu nome completo" required="" type="text"/>
+</div>
+<div class="form-grupo">
+<label class="form-label">
+<i class="fas fa-envelope"></i> Email *
                                 </label>
-                                <input type="email" id="capitaoPerfilEmail" class="form-input" placeholder="seu@email.com" disabled style="opacity: 0.7; cursor: not-allowed;">
-                                <small style="color: rgba(245,245,245,0.6); font-size: 0.85rem;">
-                                    <i class="fas fa-info-circle"></i> O email não pode ser alterado
+<input class="form-input" disabled="" id="capitaoPerfilEmail" placeholder="seu@email.com" style="opacity: 0.7; cursor: not-allowed;" type="email"/>
+<small style="color: rgba(245,245,245,0.6); font-size: 0.85rem;">
+<i class="fas fa-info-circle"></i> O email não pode ser alterado
                                 </small>
-                            </div>
-                            
-                            <div class="form-grupo">
-                                <label class="form-label">
-                                    <i class="fas fa-phone"></i> Telefone *
+</div>
+<div class="form-grupo">
+<label class="form-label">
+<i class="fas fa-phone"></i> Telefone *
                                 </label>
-                                <input type="tel" id="capitaoPerfilTelefone" class="form-input" placeholder="+351 912 345 678" required>
-                            </div>
-                            
-                            <div class="form-grupo">
-                                <label class="form-label">
-                                    <i class="fas fa-map-marker-alt"></i> Morada
+<input class="form-input" id="capitaoPerfilTelefone" placeholder="+351 912 345 678" required="" type="tel"/>
+</div>
+<div class="form-grupo">
+<label class="form-label">
+<i class="fas fa-map-marker-alt"></i> Morada
                                 </label>
-                                <input type="text" id="capitaoPerfilMorada" class="form-input" placeholder="Rua, número, andar">
-                            </div>
-                            
-                            <div class="form-grupo">
-                                <label class="form-label">
-                                    <i class="fas fa-city"></i> Cidade
+<input class="form-input" id="capitaoPerfilMorada" placeholder="Rua, número, andar" type="text"/>
+</div>
+<div class="form-grupo">
+<label class="form-label">
+<i class="fas fa-city"></i> Cidade
                                 </label>
-                                <input type="text" id="capitaoPerfilCidade" class="form-input" placeholder="Cidade">
-                            </div>
-                            
-                            <div class="form-grupo">
-                                <label class="form-label">
-                                    <i class="fas fa-mail-bulk"></i> Código Postal
+<input class="form-input" id="capitaoPerfilCidade" placeholder="Cidade" type="text"/>
+</div>
+<div class="form-grupo">
+<label class="form-label">
+<i class="fas fa-mail-bulk"></i> Código Postal
                                 </label>
-                                <input type="text" id="capitaoPerfilCodigoPostal" class="form-input" placeholder="0000-000">
-                            </div>
-                        </div>
-                        
-                        <hr style="margin: 2rem 0; border: none; border-top: 1px solid rgba(245,245,245,0.1);">
-                        
-                        <h3 style="color: var(--cor-texto); margin-bottom: 1rem;">
-                            <i class="fas fa-anchor"></i> Informações Profissionais
+<input class="form-input" id="capitaoPerfilCodigoPostal" placeholder="0000-000" type="text"/>
+</div>
+</div>
+<hr style="margin: 2rem 0; border: none; border-top: 1px solid rgba(245,245,245,0.1);"/>
+<h3 style="color: var(--cor-texto); margin-bottom: 1rem;">
+<i class="fas fa-anchor"></i> Informações Profissionais
                         </h3>
-                        
-                        <div class="form-grid">
-                            <div class="form-grupo">
-                                <label class="form-label">
-                                    <i class="fas fa-calendar"></i> Anos de Experiência *
+<div class="form-grid">
+<div class="form-grupo">
+<label class="form-label">
+<i class="fas fa-calendar"></i> Anos de Experiência *
                                 </label>
-                                <input type="number" id="capitaoPerfilExperiencia" class="form-input" placeholder="15" min="0" required>
-                            </div>
-                            
-                            <div class="form-grupo">
-                                <label class="form-label">
-                                    <i class="fas fa-ship"></i> Porto de Origem
+<input class="form-input" id="capitaoPerfilExperiencia" min="0" placeholder="15" required="" type="number"/>
+</div>
+<div class="form-grupo">
+<label class="form-label">
+<i class="fas fa-ship"></i> Porto de Origem
                                 </label>
-                                <input type="text" id="capitaoPerfilPorto" class="form-input" placeholder="Porto de Lisboa">
-                            </div>
-                            
-                            <div class="form-grupo">
-                                <label class="form-label">
-                                    <i class="fas fa-id-card-alt"></i> NIF
+<input class="form-input" id="capitaoPerfilPorto" placeholder="Porto de Lisboa" type="text"/>
+</div>
+<div class="form-grupo">
+<label class="form-label">
+<i class="fas fa-id-card-alt"></i> NIF
                                 </label>
-                                <input type="text" id="capitaoPerfilNIF" class="form-input" placeholder="000000000" maxlength="9">
-                            </div>
-                        </div>
-                        
-                        <div class="form-grupo" style="margin-top: 1.5rem;">
-                            <label class="form-label">
-                                <i class="fas fa-info-circle"></i> Biografia
+<input class="form-input" id="capitaoPerfilNIF" maxlength="9" placeholder="000000000" type="text"/>
+</div>
+</div>
+<div class="form-grupo" style="margin-top: 1.5rem;">
+<label class="form-label">
+<i class="fas fa-info-circle"></i> Biografia
                             </label>
-                            <textarea id="capitaoPerfilBio" class="form-input" rows="4" placeholder="Conte um pouco sobre a sua experiência como capitão..."></textarea>
-                        </div>
-                        
-                        <div style="display: flex; gap: 1rem; margin-top: 2rem;">
-                            <button type="submit" class="btn btn-primario">
-                                <i class="fas fa-save"></i> Guardar Alterações
+<textarea class="form-input" id="capitaoPerfilBio" placeholder="Conte um pouco sobre a sua experiência como capitão..." rows="4"></textarea>
+</div>
+<div style="display: flex; gap: 1rem; margin-top: 2rem;">
+<button class="btn btn-primario" type="submit">
+<i class="fas fa-save"></i> Guardar Alterações
                             </button>
-                            <button type="button" class="btn btn-outline" onclick="carregarPerfilCapitao()">
-                                <i class="fas fa-undo"></i> Cancelar
+<button class="btn btn-outline" onclick="carregarPerfilCapitao()" type="button">
+<i class="fas fa-undo"></i> Cancelar
                             </button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-            
-        </main>
-    </div>
-    
-    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-    <script src="js/email-config.js"></script>
-    <script src="js/main.js"></script>
-    <script src="js/pedidos-capitao.js"></script>
-    <script>
+</div>
+</form>
+</div>
+</div>
+</main>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+<script src="js/email-config.js"></script>
+<script src="js/main.js"></script>
+<script src="js/pedidos-capitao.js"></script>
+<script>
         // Navegação sidebar
         const menuItems = document.querySelectorAll('.sidebar-menu-item');
         const sections = document.querySelectorAll('.dashboard-secao-wrapper');
@@ -1338,7 +1292,35 @@ Deseja ATIVAR a Saída Partilhada?
             carregarEstatisticas();
         }
     </script>
-
-    <script src="js/i18n.js?v=1.42"></script>
+<footer class="footer">
+<div class="container">
+<div class="footer-conteudo">
+<div class="footer-secao">
+<div class="logo mb-3">
+<span class="logo-icon">⚓</span>
+<span>Algarve Tuna Charter</span>
+</div>
+<p style="color: rgba(255, 255, 255, 0.8);">
+                        A sua plataforma de confiança para encontrar as melhores experiências de pesca.
+                    </p>
+</div>
+<div class="footer-secao">
+<h3>Links Rápidos</h3>
+<div class="footer-links">
+<a class="footer-link" href="index.html">Início</a>
+<a class="footer-link" href="explorar.html">Explorar</a>
+<a class="footer-link" href="cancelamentos.html">Cancelamentos</a>
+<a class="footer-link" href="termos.html">Termos</a>
+<a class="footer-link" href="privacidade.html">Privacidade</a>
+<a class="footer-link" href="auth.html">Entrar</a>
+</div>
+</div>
+</div>
+<div class="footer-bottom">
+<p>© 2026 Algarve Tuna Charter. Todos os direitos reservados.</p>
+<p><span class="site-version-badge"><i class="fas fa-code-branch"></i> v</span></p>
+</div>
+</div>
+</footer><script src="js/i18n.js?v=1.43"></script>
 </body>
 </html>

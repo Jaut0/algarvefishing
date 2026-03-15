@@ -1,14 +1,15 @@
 <!DOCTYPE html>
+
 <html lang="pt">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Suporte e Reclamações - Algarve Tuna Charter</title>
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚓</text></svg>">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/wicked-tuna.css?v=1.42">
-    <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Suporte e Reclamações - Algarve Tuna Charter</title>
+<link href="data:image/svg+xml,&lt;svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'&gt;&lt;text y='.9em' font-size='90'&gt;⚓&lt;/text&gt;&lt;/svg&gt;" rel="icon"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<link href="css/style.css" rel="stylesheet"/>
+<link href="css/wicked-tuna.css?v=1.43" rel="stylesheet"/>
+<style>
         /* ===== SUPORTE — fundo claro, totalmente legível ===== */
         body { background:#F8FAFC; }
         .suporte-wrapper { max-width: 860px; margin: 0 auto; padding: 2rem 1rem 4rem; }
@@ -165,216 +166,202 @@
     </style>
 </head>
 <body>
-    <header class="header">
-        <div class="header-content container">
-            <a href="index.html" class="logo">
-                <span class="logo-icon">⚓</span>
-                <span>Algarve Tuna Charter</span>
-            </a>
-            <nav class="nav-menu">
-                <a href="index.html" class="nav-link">Início</a>
-                <a href="explorar.html" class="nav-link">Explorar</a>
-                <a href="suporte.html" class="nav-link ativo">Suporte</a>
-                <span id="navDashboardLink"></span>
-            </nav>
-        </div>
-    </header>
-
-    <main style="padding-top:80px;">
-        <div class="suporte-wrapper">
-
-            <!-- BLOCO: Não logado -->
-            <div id="blocoLoginNecessario" style="display:none;">
-                <i class="fas fa-lock"></i>
-                <h2>Acesso Restrito</h2>
-                <p>O suporte e reclamações está disponível apenas para clientes registados.<br>
+<header class="header">
+<div class="header-content container">
+<a class="logo" href="index.html">
+<span class="logo-icon">⚓</span>
+<span>Algarve Tuna Charter</span>
+</a>
+<nav class="nav-menu">
+<a class="nav-link" href="index.html">Início</a>
+<a class="nav-link" href="explorar.html">Explorar</a>
+<a class="nav-link ativo" href="suporte.html">Suporte</a>
+<span id="navDashboardLink"></span>
+</nav>
+</div>
+</header>
+<main style="padding-top:80px;">
+<div class="suporte-wrapper">
+<!-- BLOCO: Não logado -->
+<div id="blocoLoginNecessario" style="display:none;">
+<i class="fas fa-lock"></i>
+<h2>Acesso Restrito</h2>
+<p>O suporte e reclamações está disponível apenas para clientes registados.<br/>
                 Faça login para continuar.</p>
-                <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
-                    <a href="auth.html" class="btn btn-primario"><i class="fas fa-sign-in-alt"></i> Entrar na Conta</a>
-                    <a href="index.html" class="btn btn-outline"><i class="fas fa-home"></i> Início</a>
-                </div>
-            </div>
-
-            <!-- BLOCO: Logado -->
-            <div id="blocoLogado" style="display:none;">
-                <div class="suporte-hero">
-                    <i class="fas fa-headset"></i>
-                    <h1>Suporte e Reclamações</h1>
-                    <p>Estamos aqui para ajudar. Conte-nos o que aconteceu.</p>
-                </div>
-
-                <div style="text-align:center;">
-                    <span class="user-badge">
-                        <i class="fas fa-user-check"></i>
-                        <span id="badgeNomeUser">—</span>
-                    </span>
-                </div>
-
-                <!-- Tipo de reclamação -->
-                <h2 style="color:#0A1628;font-size:1.1rem;margin-bottom:0.75rem;">
-                    <i class="fas fa-list-ul" style="color:#FF8F00;"></i> Motivo do contacto
+<div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
+<a class="btn btn-primario" href="auth.html"><i class="fas fa-sign-in-alt"></i> Entrar na Conta</a>
+<a class="btn btn-outline" href="index.html"><i class="fas fa-home"></i> Início</a>
+</div>
+</div>
+<!-- BLOCO: Logado -->
+<div id="blocoLogado" style="display:none;">
+<div class="suporte-hero">
+<i class="fas fa-headset"></i>
+<h1>Suporte e Reclamações</h1>
+<p>Estamos aqui para ajudar. Conte-nos o que aconteceu.</p>
+</div>
+<div style="text-align:center;">
+<span class="user-badge">
+<i class="fas fa-user-check"></i>
+<span id="badgeNomeUser">—</span>
+</span>
+</div>
+<!-- Tipo de reclamação -->
+<h2 style="color:#0A1628;font-size:1.1rem;margin-bottom:0.75rem;">
+<i class="fas fa-list-ul" style="color:#FF8F00;"></i> Motivo do contacto
                 </h2>
-                <div class="tipo-grid" id="tiposGrid">
-                    <div class="tipo-card" data-tipo="cancelamento">
-                        <i class="fas fa-calendar-times"></i>
-                        <h3>Cancelamento</h3>
-                        <p>Capitão cancelou a saída</p>
-                    </div>
-                    <div class="tipo-card" data-tipo="reembolso">
-                        <i class="fas fa-money-bill-wave"></i>
-                        <h3>Reembolso</h3>
-                        <p>Problemas com pagamento</p>
-                    </div>
-                    <div class="tipo-card" data-tipo="comportamento">
-                        <i class="fas fa-user-times"></i>
-                        <h3>Comportamento</h3>
-                        <p>Conduta inadequada</p>
-                    </div>
-                    <div class="tipo-card" data-tipo="condicoes">
-                        <i class="fas fa-ship"></i>
-                        <h3>Condições do Barco</h3>
-                        <p>Barco não corresponde</p>
-                    </div>
-                    <div class="tipo-card" data-tipo="seguranca">
-                        <i class="fas fa-exclamation-triangle"></i>
-                        <h3>Segurança</h3>
-                        <p>Questões de segurança</p>
-                    </div>
-                    <div class="tipo-card" data-tipo="outro">
-                        <i class="fas fa-question-circle"></i>
-                        <h3>Outro Motivo</h3>
-                        <p>Outra situação</p>
-                    </div>
-                </div>
-
-                <!-- Formulário (oculto até seleccionar tipo) -->
-                <form id="formReclamacao" class="suporte-form" style="display:none;">
-                    <input type="hidden" id="tipoReclamacao">
-
-                    <!-- Dados pessoais (pré-preenchidos) -->
-                    <div class="form-section">
-                        <h3 class="form-section-title"><i class="fas fa-user"></i> Os Seus Dados</h3>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label>Nome Completo <span class="required">*</span></label>
-                                <input type="text" id="nomeCliente" readonly>
-                            </div>
-                            <div class="form-group">
-                                <label>Email <span class="required">*</span></label>
-                                <input type="email" id="emailCliente" readonly>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label>Telefone <span class="required">*</span></label>
-                                <input type="tel" id="telefoneCliente" placeholder="+351 912 345 678">
-                            </div>
-                            <div class="form-group">
-                                <label>NIF (opcional)</label>
-                                <input type="text" id="nifCliente" placeholder="000000000">
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Reserva relacionada -->
-                    <div class="form-section">
-                        <h3 class="form-section-title"><i class="fas fa-ticket-alt"></i> Reserva Relacionada</h3>
-                        <div class="alerta-info">
-                            <i class="fas fa-info-circle" style="margin-top:2px;flex-shrink:0;"></i>
-                            <span>Seleccione a reserva em causa (se aplicável). Os dados serão preenchidos automaticamente.</span>
-                        </div>
-                        <div class="form-group">
-                            <label>Escolher Reserva</label>
-                            <select id="selectReserva" onchange="preencherDadosReserva()">
-                                <option value="">— Seleccionar reserva (opcional) —</option>
-                            </select>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label>Nome do Barco</label>
-                                <input type="text" id="nomeBarco" placeholder="Ex: Mar Azul">
-                            </div>
-                            <div class="form-group">
-                                <label>Nome do Capitão</label>
-                                <input type="text" id="nomeCapitao" placeholder="Se souber o nome">
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label>Data da Reserva</label>
-                                <input type="date" id="dataReserva">
-                            </div>
-                            <div class="form-group">
-                                <label>Valor Pago (€)</label>
-                                <input type="number" id="valorPago" placeholder="0.00" step="0.01" min="0">
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Descrição -->
-                    <div class="form-section">
-                        <h3 class="form-section-title"><i class="fas fa-file-alt"></i> Descrição do Problema</h3>
-                        <div class="form-group">
-                            <label>Tipo de Reclamação (seleccionado)</label>
-                            <input type="text" id="tipoReclamacaoLabel" readonly>
-                        </div>
-                        <div class="form-group">
-                            <label>Assunto <span class="required">*</span></label>
-                            <input type="text" id="assunto" placeholder="Resumo do problema" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Descrição Detalhada <span class="required">*</span></label>
-                            <textarea id="descricao" placeholder="Descreva em detalhe o que aconteceu: datas, valores, comunicações relevantes..." required></textarea>
-                        </div>
-                    </div>
-
-                    <!-- Botões -->
-                    <div class="form-actions">
-                        <button type="button" class="btn btn-outline" onclick="resetForm()">
-                            <i class="fas fa-times"></i> Cancelar
+<div class="tipo-grid" id="tiposGrid">
+<div class="tipo-card" data-tipo="cancelamento">
+<i class="fas fa-calendar-times"></i>
+<h3>Cancelamento</h3>
+<p>Capitão cancelou a saída</p>
+</div>
+<div class="tipo-card" data-tipo="reembolso">
+<i class="fas fa-money-bill-wave"></i>
+<h3>Reembolso</h3>
+<p>Problemas com pagamento</p>
+</div>
+<div class="tipo-card" data-tipo="comportamento">
+<i class="fas fa-user-times"></i>
+<h3>Comportamento</h3>
+<p>Conduta inadequada</p>
+</div>
+<div class="tipo-card" data-tipo="condicoes">
+<i class="fas fa-ship"></i>
+<h3>Condições do Barco</h3>
+<p>Barco não corresponde</p>
+</div>
+<div class="tipo-card" data-tipo="seguranca">
+<i class="fas fa-exclamation-triangle"></i>
+<h3>Segurança</h3>
+<p>Questões de segurança</p>
+</div>
+<div class="tipo-card" data-tipo="outro">
+<i class="fas fa-question-circle"></i>
+<h3>Outro Motivo</h3>
+<p>Outra situação</p>
+</div>
+</div>
+<!-- Formulário (oculto até seleccionar tipo) -->
+<form class="suporte-form" id="formReclamacao" style="display:none;">
+<input id="tipoReclamacao" type="hidden"/>
+<!-- Dados pessoais (pré-preenchidos) -->
+<div class="form-section">
+<h3 class="form-section-title"><i class="fas fa-user"></i> Os Seus Dados</h3>
+<div class="form-row">
+<div class="form-group">
+<label>Nome Completo <span class="required">*</span></label>
+<input id="nomeCliente" readonly="" type="text"/>
+</div>
+<div class="form-group">
+<label>Email <span class="required">*</span></label>
+<input id="emailCliente" readonly="" type="email"/>
+</div>
+</div>
+<div class="form-row">
+<div class="form-group">
+<label>Telefone <span class="required">*</span></label>
+<input id="telefoneCliente" placeholder="+351 912 345 678" type="tel"/>
+</div>
+<div class="form-group">
+<label>NIF (opcional)</label>
+<input id="nifCliente" placeholder="000000000" type="text"/>
+</div>
+</div>
+</div>
+<!-- Reserva relacionada -->
+<div class="form-section">
+<h3 class="form-section-title"><i class="fas fa-ticket-alt"></i> Reserva Relacionada</h3>
+<div class="alerta-info">
+<i class="fas fa-info-circle" style="margin-top:2px;flex-shrink:0;"></i>
+<span>Seleccione a reserva em causa (se aplicável). Os dados serão preenchidos automaticamente.</span>
+</div>
+<div class="form-group">
+<label>Escolher Reserva</label>
+<select id="selectReserva" onchange="preencherDadosReserva()">
+<option value="">— Seleccionar reserva (opcional) —</option>
+</select>
+</div>
+<div class="form-row">
+<div class="form-group">
+<label>Nome do Barco</label>
+<input id="nomeBarco" placeholder="Ex: Mar Azul" type="text"/>
+</div>
+<div class="form-group">
+<label>Nome do Capitão</label>
+<input id="nomeCapitao" placeholder="Se souber o nome" type="text"/>
+</div>
+</div>
+<div class="form-row">
+<div class="form-group">
+<label>Data da Reserva</label>
+<input id="dataReserva" type="date"/>
+</div>
+<div class="form-group">
+<label>Valor Pago (€)</label>
+<input id="valorPago" min="0" placeholder="0.00" step="0.01" type="number"/>
+</div>
+</div>
+</div>
+<!-- Descrição -->
+<div class="form-section">
+<h3 class="form-section-title"><i class="fas fa-file-alt"></i> Descrição do Problema</h3>
+<div class="form-group">
+<label>Tipo de Reclamação (seleccionado)</label>
+<input id="tipoReclamacaoLabel" readonly="" type="text"/>
+</div>
+<div class="form-group">
+<label>Assunto <span class="required">*</span></label>
+<input id="assunto" placeholder="Resumo do problema" required="" type="text"/>
+</div>
+<div class="form-group">
+<label>Descrição Detalhada <span class="required">*</span></label>
+<textarea id="descricao" placeholder="Descreva em detalhe o que aconteceu: datas, valores, comunicações relevantes..." required=""></textarea>
+</div>
+</div>
+<!-- Botões -->
+<div class="form-actions">
+<button class="btn btn-outline" onclick="resetForm()" type="button">
+<i class="fas fa-times"></i> Cancelar
                         </button>
-                        <button type="submit" class="btn btn-primario">
-                            <i class="fas fa-paper-plane"></i> Enviar Reclamação
+<button class="btn btn-primario" type="submit">
+<i class="fas fa-paper-plane"></i> Enviar Reclamação
                         </button>
-                    </div>
-                </form>
-
-                <!-- Sucesso -->
-                <div id="blocoSucesso" style="display:none;">
-                    <i class="fas fa-check-circle"></i>
-                    <h2>Reclamação Enviada!</h2>
-                    <p>A sua reclamação foi registada com sucesso.<br>
+</div>
+</form>
+<!-- Sucesso -->
+<div id="blocoSucesso" style="display:none;">
+<i class="fas fa-check-circle"></i>
+<h2>Reclamação Enviada!</h2>
+<p>A sua reclamação foi registada com sucesso.<br/>
                     A nossa equipa irá analisá-la e responder em breve.</p>
-                    <button onclick="resetForm()" class="btn btn-primario" style="margin-top:1.5rem;">
-                        <i class="fas fa-plus"></i> Nova Reclamação
+<button class="btn btn-primario" onclick="resetForm()" style="margin-top:1.5rem;">
+<i class="fas fa-plus"></i> Nova Reclamação
                     </button>
-                    <a href="dashboard-usuario.html" class="btn btn-outline" style="margin-top:1.5rem;">
-                        <i class="fas fa-home"></i> Ir para Dashboard
+<a class="btn btn-outline" href="dashboard-usuario.html" style="margin-top:1.5rem;">
+<i class="fas fa-home"></i> Ir para Dashboard
                     </a>
-                </div>
-
-                <!-- Contacto directo -->
-                <div style="background:#fff;border:1px solid #E5E7EB;border-radius:12px;padding:1.5rem;margin-top:2rem;">
-                    <h3 style="color:#0A1628;margin-bottom:1rem;"><i class="fas fa-phone-alt" style="color:#FF8F00;"></i> Contactos Diretos</h3>
-                    <p style="color:#6B7280;font-size:0.9rem;margin-bottom:1rem;">Prefere falar directamente connosco?</p>
-                    <div style="display:flex;align-items:center;gap:0.75rem;padding:0.75rem;background:#F9FAFB;border-radius:8px;margin-bottom:0.75rem;">
-                        <i class="fas fa-envelope" style="color:#1565C0;font-size:1.25rem;width:24px;"></i>
-                        <div>
-                            <div style="font-weight:600;color:#0A1628;font-size:0.875rem;">Email</div>
-                            <a href="mailto:geral@algarvetunacharter.pt" style="color:#1565C0;font-size:0.875rem;">geral@algarvetunacharter.pt</a>
-                        </div>
+</div>
+<!-- Contacto directo -->
+<div style="background:#fff;border:1px solid #E5E7EB;border-radius:12px;padding:1.5rem;margin-top:2rem;">
+<h3 style="color:#0A1628;margin-bottom:1rem;"><i class="fas fa-phone-alt" style="color:#FF8F00;"></i> Contactos Diretos</h3>
+<p style="color:#6B7280;font-size:0.9rem;margin-bottom:1rem;">Prefere falar directamente connosco?</p>
+<div style="display:flex;align-items:center;gap:0.75rem;padding:0.75rem;background:#F9FAFB;border-radius:8px;margin-bottom:0.75rem;">
+<i class="fas fa-envelope" style="color:#1565C0;font-size:1.25rem;width:24px;"></i>
+<div>
+<div style="font-weight:600;color:#0A1628;font-size:0.875rem;">Email</div>
+<a href="mailto:geral@algarvetunacharter.pt" style="color:#1565C0;font-size:0.875rem;">geral@algarvetunacharter.pt</a>
+</div>
+</div>
+<div style="background:#FEF3C7;border-radius:8px;padding:0.75rem;font-size:0.85rem;color:#92400E;">
+<i class="fas fa-clock"></i> Horário: Segunda a Sexta, 09:00 – 18:00
                     </div>
-                    <div style="background:#FEF3C7;border-radius:8px;padding:0.75rem;font-size:0.85rem;color:#92400E;">
-                        <i class="fas fa-clock"></i> Horário: Segunda a Sexta, 09:00 – 18:00
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </main>
-
-    <script src="js/main.js"></script>
-    <script>
+</div>
+</div>
+</div>
+</main>
+<script src="js/main.js"></script>
+<script>
         let utilizadorLogado = null;
         const TIPOS_LABEL = {
             cancelamento: 'Cancelamento de Saída',
@@ -513,9 +500,36 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
     </script>
-
-    <p style="text-align:center;padding:1rem 0;font-size:0.72rem;color:rgba(100,116,139,0.6);font-family:monospace;"><span class=\"site-version-badge\"><i class="fas fa-code-branch"></i> v</span></p>
-
-    <script src="js/i18n.js?v=1.42"></script>
+<p style="text-align:center;padding:1rem 0;font-size:0.72rem;color:rgba(100,116,139,0.6);font-family:monospace;"><span class='\"site-version-badge\"'><i class="fas fa-code-branch"></i> v</span></p>
+<footer class="footer">
+<div class="container">
+<div class="footer-conteudo">
+<div class="footer-secao">
+<div class="logo mb-3">
+<span class="logo-icon">⚓</span>
+<span>Algarve Tuna Charter</span>
+</div>
+<p style="color: rgba(255, 255, 255, 0.8);">
+                        A sua plataforma de confiança para encontrar as melhores experiências de pesca.
+                    </p>
+</div>
+<div class="footer-secao">
+<h3>Links Rápidos</h3>
+<div class="footer-links">
+<a class="footer-link" href="index.html">Início</a>
+<a class="footer-link" href="explorar.html">Explorar</a>
+<a class="footer-link" href="cancelamentos.html">Cancelamentos</a>
+<a class="footer-link" href="termos.html">Termos</a>
+<a class="footer-link" href="privacidade.html">Privacidade</a>
+<a class="footer-link" href="auth.html">Entrar</a>
+</div>
+</div>
+</div>
+<div class="footer-bottom">
+<p>© 2026 Algarve Tuna Charter. Todos os direitos reservados.</p>
+<p><span class="site-version-badge"><i class="fas fa-code-branch"></i> v</span></p>
+</div>
+</div>
+</footer><script src="js/i18n.js?v=1.43"></script>
 </body>
 </html>
