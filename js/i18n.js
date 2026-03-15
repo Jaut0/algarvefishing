@@ -1010,6 +1010,24 @@
       '${(() => { if ((r.status || \'pendente\') !== \'confirmada\') return \'\'; const telRaw = (r.capitaoTelefone || \'\').toString(); const digits = telRaw.replace(/[^0-9]/g,\'\'); if (!digits) return \'\'; let wa = digits; // Se for número PT (9 dígitos), prefixar 351 if (wa.length === 9) wa = \'351\' + wa; const msg = encodeURIComponent(`Olá ${r.capitaoNome || \'Capitão\'}! Estou a confirmar detalhes da minha reserva: ${r.saidaTitulo || \'Saída\'}.`); return `': '${(() => { if ((r.status || \'pendente\') !== \'confirmada\') return \'\'; const telRaw = (r.capitaoTelefone || \'\').toString(); const digits = telRaw.replace(/[^0-9]/g,\'\'); if (!digits) return \'\'; let wa = digits; // Se for número PT (9 dígitos), prefixar 351 if (wa.length === 9) wa = \'351\' + wa; const msg = encodeURIComponent(`Olá ${r.capitaoNome || \'Capitão\'}! Estou a confirmar detalhes da minha reserva: ${r.saidaTitulo || \'Saída\'}.`); return `'
     },
     en: {
+      '4) Proteção de dados e privacidade': '4) Data protection and privacy',
+      '5) Cancelamentos e reembolsos': '5) Cancellations and refunds',
+      '6) Lei aplicável': '6) Applicable law',
+      'A Algarve Tuna Charter é um serviço autónomo para gestão de pedidos de reserva e divulgação de saídas de pesca anunciadas por Capitães. A Plataforma não executa a saída no mar.': 'Algarve Tuna Charter is an independent service for managing booking requests and showcasing fishing trips announced by Captains. The Platform does not operate the trip at sea.',
+      'A Plataforma não processa pagamentos , não recebe valores e não emite faturas . Qualquer pagamento é combinado diretamente entre Cliente e Capitão. Qualquer fatura/recibo (quando aplicável) é emitida pela atividade/empresa do Capitão.': 'The Platform does not process payments, does not receive funds and does not issue invoices. Any payment is arranged directly between Client and Captain. Any invoice/receipt (when applicable) is issued by the Captain’s activity/company.',
+      'Capitão: pode exigir documentos e ficar pendente de aprovação administrativa.': 'Captain: may require documents and remain pending administrative approval.',
+      'Cliente: só pode fazer login após confirmar o e-mail pelo link recebido.': 'Client: can only log in after confirming the email via the received link.',
+      'Consulte as regras na página: Cancelamentos e Reembolsos .': 'See the rules on the page: Cancellations and Refunds.',
+      'Mais detalhes: consulte a nossa Política de Privacidade .': 'For more details, see our Privacy Policy.',
+      'O tratamento de dados pessoais (por exemplo, nome, e-mail, telefone e dados relacionados com pedidos de reserva) é realizado apenas para operar a plataforma, gerir reservas e permitir comunicação entre Cliente e Capitão.': 'Personal data processing (e.g., name, email, phone and booking-related data) is carried out only to operate the platform, manage bookings and enable communication between Client and Captain.',
+      'Partilha mínima necessária: dados podem ser partilhados com o Capitão apenas quando necessário para gerir/confirmar uma reserva.': 'Minimum necessary sharing: data may be shared with the Captain only when needed to manage/confirm a booking.',
+      'Responsável pelo contacto:': 'Contact person:',
+      'Até 7 dias antes da data da saída: o Cliente pode solicitar cancelamento dentro do prazo máximo.': 'Up to 7 days before the trip date: the Client may request cancellation within the maximum deadline.',
+      'Com menos de 7 dias : o Capitão decide se há direito a devolução (total ou parcial), conforme o caso.': 'Less than 7 days: the Captain decides whether a full or partial refund applies, depending on the case.',
+      'Nas saídas partilhadas, o barco sai com a lotação que o Capitão entender. A política de reembolso/cancelamento é exatamente a mesma das demais reservas.': 'For shared trips, the boat departs with the occupancy the Captain deems appropriate. The refund/cancellation policy is exactly the same as for other bookings.',
+      'Se a saída não puder ocorrer por mau tempo (segurança) ou por avaria do barco , aplica-se reembolso total do valor pago referente à saída (ou remarcação, se ambas as partes concordarem).': 'If the trip cannot take place due to bad weather (safety) or a boat breakdown, a full refund of the amount paid for the trip applies (or rescheduling, if both parties agree).',
+      'Documento:': 'Document:',
+
       'Barcos Serão Adicionados em Breve': 'Boats will be added soon',
       'A nossa frota está a ser preparada! Se é capitão de barco e quer juntar-se à nossa equipa de pesca profissional ao atum, registe-se agora e adicione o seu barco.': 'Our fleet is being prepared! If you are a boat captain and want to join our professional tuna fishing team, register now and add your boat.',
 
@@ -4121,10 +4139,19 @@
   }
 
   function applyTranslations(lang) {
+    const shouldSkip = (el) => {
+      try {
+        return !!(el && (el.closest && el.closest('[data-i18n-skip]')));
+      } catch (_) {
+        return false;
+      }
+    };
+
     const l = normalizeLang(lang);
     if (l === 'pt') return;
 
     document.querySelectorAll('[data-i18n]').forEach(el => {
+      if (shouldSkip(el)) return;
       const key = el.getAttribute('data-i18n');
       const translated = t(key, l);
 
@@ -4179,11 +4206,13 @@
     });
 
     document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+      if (shouldSkip(el)) return;
       const key = el.getAttribute('data-i18n-placeholder');
       el.setAttribute('placeholder', t(key, l));
     });
 
     document.querySelectorAll('[data-i18n-title]').forEach(el => {
+      if (shouldSkip(el)) return;
       const key = el.getAttribute('data-i18n-title');
       el.setAttribute('title', t(key, l));
     });
