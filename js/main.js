@@ -1,5 +1,5 @@
 // Versão do portal
-const SITE_VERSION = 'v1.53';
+const SITE_VERSION = 'v1.54';
 
 // Debug flag (set true in console to enable logs)
 window.__DEBUG = window.__DEBUG || false;
