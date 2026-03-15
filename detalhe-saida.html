@@ -8,7 +8,7 @@
 <link href="data:image/svg+xml,&lt;svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'&gt;&lt;text y='0.9em' font-size='90'&gt;⚓&lt;/text&gt;&lt;/svg&gt;" rel="icon"/>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
 <link href="css/style.css" rel="stylesheet"/>
-<link href="css/wicked-tuna.css?v=1.59" rel="stylesheet"/>
+<link href="css/wicked-tuna.css?v=1.60" rel="stylesheet"/>
 <style>
         .detalhe-hero {
             position: relative;
@@ -452,7 +452,7 @@
 <p>© 2026 Algarve Tuna Charter. Todos os direitos reservados.</p>
 <p style="margin-top:0.5rem;"><span style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.2);border-radius:20px;padding:0.2rem 0.6rem;font-size:0.75rem;color:rgba(255,255,255,0.5);font-family:monospace;" class=\"site-version-badge\"><i class=\"fas fa-code-branch\"></i> v</span></p>
 </footer>
-<script src="js/main.js?v=1.59"></script>
+<script src="js/main.js?v=1.60"></script>
 <script>
         const saidaId = new URLSearchParams(window.location.search).get('id');
         let saidaAtual = null;
@@ -506,13 +506,7 @@
         function renderizarSaida(s) {
             document.getElementById('conteudoPrincipal').style.display = 'block';
             document.title = `${s.titulo} - Algarve Tuna Charter`;
-
             // Hero
-            if (s.imagem) {
-                const img = document.getElementById('heroImg');
-                img.src = s.imagem;
-                img.style.display = 'block';
-            }
             if (s.partilhada) {
                 document.getElementById('heroBadge').style.display = 'inline-block';
             }
@@ -550,6 +544,9 @@
             // Barco
             const barcos = JSON.parse(localStorage.getItem('barcos') || '[]');
             const barco = barcos.find(b => b.id == s.barcoId) || {};
+            const heroImagemFinal = (s.imagem && String(s.imagem).trim()) ? s.imagem : (barco.fotoPrincipal || '');
+            const heroImgEl = document.getElementById('heroImg');
+            if (heroImgEl && heroImagemFinal) { heroImgEl.src = heroImagemFinal; heroImgEl.style.display = 'block'; }
             document.getElementById('infoBarco').innerHTML = `
                 <div><div style="color:#6B7280;font-size:0.85rem;margin-bottom:0.2rem;">Barco</div><div style="font-weight:600;">${s.barco || barco.nome || '—'}</div></div>
                 <div><div style="color:#6B7280;font-size:0.85rem;margin-bottom:0.2rem;">Comprimento</div><div style="font-weight:600;">${barco.comprimento ? barco.comprimento + ' m' : '—'}</div></div>
@@ -823,6 +820,6 @@
     </script>
 
 
-<script src="js/i18n.js?v=1.59"></script>
+<script src="js/i18n.js?v=1.60"></script>
 </body>
 </html>

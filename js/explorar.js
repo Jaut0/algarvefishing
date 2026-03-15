@@ -69,8 +69,18 @@ function renderizarSaidas() {
     // Imagem placeholder caso não tenha
     const placeholderImg = 'https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=600&h=400&fit=crop';
     
+    // Fallback: buscar imagem do barco pelo barcoId (evita duplicar base64 dentro de saidasData)
+    function getBoatPhotoById(barcoId) {
+        try {
+            const barcos = JSON.parse(localStorage.getItem('barcos') || '[]');
+            const b = barcos.find(x => String(x.id) === String(barcoId));
+            return b && b.fotoPrincipal ? b.fotoPrincipal : '';
+        } catch (e) { return ''; }
+    }
+
+    
     container.innerHTML = saidasFiltradas.map(saida => {
-        const imagem = saida.imagem || placeholderImg;
+        const imagem = (saida.imagem && String(saida.imagem).trim()) ? saida.imagem : (getBoatPhotoById(saida.barcoId) || placeholderImg);
         const vagas = saida.vagas !== undefined ? saida.vagas : (saida.lotacao || 0);
         const esgotado = vagas <= 0;
         

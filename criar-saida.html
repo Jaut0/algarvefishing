@@ -8,7 +8,7 @@
 <link href="data:image/svg+xml,&lt;svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'&gt;&lt;text y='0.9em' font-size='90'&gt;⚓&lt;/text&gt;&lt;/svg&gt;" rel="icon"/>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
 <link href="css/style.css" rel="stylesheet"/>
-<link href="css/wicked-tuna.css?v=1.59" rel="stylesheet"/>
+<link href="css/wicked-tuna.css?v=1.60" rel="stylesheet"/>
 <style>
         /* ── Reset total de visibilidade dos forms ── */
         body { background: #F5F7FA; color: #1F2937; }
@@ -457,7 +457,7 @@ A saída só acontece se atingir este mínimo. Se não atingir, o capitão poder
 </form>
 </div>
 </div>
-<script src="js/main.js?v=1.59"></script>
+<script src="js/main.js?v=1.60"></script>
 <script>
         // ── Toggle visual dos tipos de pesca ──
         document.querySelectorAll('.tipo-cb').forEach(label => {
@@ -641,9 +641,17 @@ A saída só acontece se atingir este mínimo. Se não atingir, o capitão poder
                 return;
             }
 
-            const imagemFinal = barcoImagem && barcoImagem !== 'undefined' && barcoImagem !== ''
-                ? barcoImagem
-                : 'https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=600&h=400&fit=crop';
+            // Evitar guardar imagens muito grandes (base64) dentro de saidasData (estoura quota do localStorage)
+            let imagemFinal = '';
+            try {
+                const imgCandidate = (barcoImagem || '').trim();
+                const isBase64 = imgCandidate.startsWith('data:image') || imgCandidate.includes('base64,') || imgCandidate.length > 1500;
+                // Se for URL normal curta, podemos guardar. Se for base64 (muito grande), não guardamos na saída.
+                imagemFinal = (!isBase64 && imgCandidate && imgCandidate !== 'undefined')
+                    ? imgCandidate
+                    : '';
+            } catch (e) { imagemFinal = ''; }
+
 
             const saida = {
                 id: Date.now(),
@@ -684,7 +692,31 @@ A saída só acontece se atingir este mínimo. Se não atingir, o capitão poder
 
             const saidas = JSON.parse(localStorage.getItem('saidasData') || '[]');
             saidas.push(saida);
-            localStorage.setItem('saidasData', JSON.stringify(saidas));
+            try {
+                localStorage.setItem('saidasData', JSON.stringify(saidas));
+            } catch (e) {
+                // Fallback para QuotaExceededError: tentar salvar sem campos pesados
+                const msg = String(e && (e.name || e.message) || '');
+                const isQuota = msg.toLowerCase().includes('quota') || msg.toLowerCase().includes('exceeded');
+                if (isQuota) {
+                    try {
+                        // Remover imagem da última saída e truncar textos longos
+                        const last = saidas[saidas.length - 1];
+                        if (last) {
+                            last.imagem = '';
+                            if (last.descricao && last.descricao.length > 1200) last.descricao = last.descricao.slice(0, 1200);
+                            if (last.regras && last.regras.length > 800) last.regras = last.regras.slice(0, 800);
+                            if (last.inclui && last.inclui.length > 1200) last.inclui = last.inclui.slice(0, 1200);
+                        }
+                        localStorage.setItem('saidasData', JSON.stringify(saidas));
+                        try { mostrarToast('⚠️ Armazenamento quase cheio: a saída foi criada, mas sem imagem para poupar espaço.', 'aviso'); } catch (x) {}
+                    } catch (e2) {
+                        throw e; // deixa o catch principal mostrar erro
+                    }
+                } else {
+                    throw e;
+                }
+            }
 
             const btnCriar = document.getElementById('btnCriar');
             btnCriar.disabled = true;
@@ -741,6 +773,6 @@ A saída só acontece se atingir este mínimo. Se não atingir, o capitão poder
 <p><span class="site-version-badge"><i class="fas fa-code-branch"></i> v</span></p>
 </div>
 </div>
-</footer><script src="js/i18n.js?v=1.59"></script>
+</footer><script src="js/i18n.js?v=1.60"></script>
 </body>
 </html>
