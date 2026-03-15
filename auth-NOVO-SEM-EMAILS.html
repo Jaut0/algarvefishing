@@ -8,7 +8,7 @@
 <title>Entrar / Registar - Algarve Tuna Charter</title>
 <link href="data:image/svg+xml,&lt;svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22&gt;&lt;text y=%22.9em%22 font-size=%2290%22&gt;🎣&lt;/text&gt;&lt;/svg&gt;" rel="icon"/>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
-<link href="css/wicked-tuna.css?v=1.51" rel="stylesheet"/>
+<link href="css/wicked-tuna.css?v=1.53" rel="stylesheet"/>
 <link href="css/algarve-tuna.css" rel="stylesheet"/>
 <style>
         .auth-container {
@@ -479,6 +479,9 @@ Para mais informações, contacte: geral@algarvetunacharter.pt`);
 
             formRegistar.addEventListener('submit', async (e) => {
                 e.preventDefault();
+
+                // Safeguard: never leave button stuck on errors
+                try {
                 
                 console.log('🔍 Estado flag:', registoEmProcessamento);
                 
@@ -507,6 +510,13 @@ Para mais informações, contacte: geral@algarvetunacharter.pt`);
             const password = document.getElementById('registarPassword').value;
     if (!__validarPasswordForte(password)) {
       alert('Password fraca. ' + 'Mínimo 8 caracteres, com 1 maiúscula, 1 minúscula, 1 número e 1 caractere especial.');
+      registoEmProcessamento = false;
+      if (btnSubmit) {
+        btnSubmit.disabled = false;
+        btnSubmit.innerHTML = textoOriginal;
+        btnSubmit.style.opacity = '1';
+        btnSubmit.style.pointerEvents = 'auto';
+      }
       return;
     }
 
@@ -725,7 +735,19 @@ Equipa Algarve Tuna Charter`);
                 
                 window.location.href = 'index.html';
             }, 2000);
-            }); // FIM do formRegistar.addEventListener('submit')
+            }
+                } catch (err) {
+                    console.error('❌ Erro no registo:', err);
+                    try { mostrarToast('❌ Erro inesperado no registo. Veja o console (F12).', 'erro'); } catch(e) {}
+                    registoEmProcessamento = false;
+                    if (btnSubmit) {
+                        btnSubmit.disabled = false;
+                        btnSubmit.innerHTML = textoOriginal || btnSubmit.innerHTML;
+                        btnSubmit.style.opacity = '1';
+                        btnSubmit.style.pointerEvents = 'auto';
+                    }
+                }
+); // FIM do formRegistar.addEventListener('submit')
         
         }); // FIM do DOMContentLoaded
             // Também guarda no localStorage como backup
@@ -758,14 +780,6 @@ Equipa Algarve Tuna Charter`);
             });
         }
     </script>
-<script src="js/i18n.js?v=1.51">
-
-// PWD_POLICY_V1_46
-const __PWD_RE = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9]).{8,}$/;
-function __validarPasswordForte(pwd){
-  return __PWD_RE.test(pwd || '');
-}
-
-</script>
+<script src=\"js/i18n.js?v=1.53\"></script>
 </body>
 </html>
