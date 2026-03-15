@@ -396,6 +396,12 @@
         // Estado inicial do fundo
         updateCaptainBackground();
         
+        // Função auxiliar: validar password forte (evita ReferenceError)
+        function __validarPasswordForte(password) {
+            const re = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9]).{8,}$/;
+            return re.test(String(password || ''));
+        }
+
         // Submissão de formulários
         // Login
         document.getElementById('formLogin').addEventListener('submit', (e) => {
@@ -504,6 +510,10 @@ Para mais informações, contacte: geral@algarvetunacharter.pt`);
             formRegistar.addEventListener('submit', async (e) => {
                 e.preventDefault();
 
+                // Botão submit (declarado fora do try para o catch conseguir restaurar)
+                let btnSubmit = null;
+                let textoOriginal = '';
+
                 // Safeguard: never leave button stuck on errors
                 try {
                 
@@ -518,8 +528,8 @@ Para mais informações, contacte: geral@algarvetunacharter.pt`);
                 console.log('✅ Iniciando registo...');
                 registoEmProcessamento = true;
             
-            const btnSubmit = e.target.querySelector('button[type="submit"]');
-            const textoOriginal = btnSubmit.innerHTML;
+            btnSubmit = e.target.querySelector('button[type="submit"]');
+            textoOriginal = btnSubmit ? btnSubmit.innerHTML : '';
             btnSubmit.disabled = true;
             btnSubmit.innerHTML = '<i class="fas fa-spinner fa-spin"></i> A processar...';
             btnSubmit.style.opacity = '0.5';
@@ -617,8 +627,13 @@ Para mais informações, contacte: geral@algarvetunacharter.pt`);
                 
                 if (!experiencia || !porto) {
                     mostrarToast('❌ Capitães devem preencher experiência e porto!', 'erro');
-                    btnSubmit.disabled = false;
-                    btnSubmit.innerHTML = '<i class="fas fa-user-plus"></i> Criar Conta';
+                    registoEmProcessamento = false;
+                    if (btnSubmit) {
+                        btnSubmit.disabled = false;
+                        btnSubmit.innerHTML = textoOriginal || btnSubmit.innerHTML;
+                        btnSubmit.style.opacity = '1';
+                        btnSubmit.style.pointerEvents = 'auto';
+                    }
                     return;
                 }
                 
@@ -629,8 +644,13 @@ Para mais informações, contacte: geral@algarvetunacharter.pt`);
                 // Verificar se os ficheiros foram selecionados
                 if (!livreteFile || !rnaatFile || !seguroFile) {
                     mostrarToast('❌ Por favor, faça upload dos 3 documentos obrigatórios!', 'erro');
-                    btnSubmit.disabled = false;
-                    btnSubmit.innerHTML = '<i class="fas fa-user-plus"></i> Criar Conta';
+                    registoEmProcessamento = false;
+                    if (btnSubmit) {
+                        btnSubmit.disabled = false;
+                        btnSubmit.innerHTML = textoOriginal || btnSubmit.innerHTML;
+                        btnSubmit.style.opacity = '1';
+                        btnSubmit.style.pointerEvents = 'auto';
+                    }
                     return;
                 }
                 
