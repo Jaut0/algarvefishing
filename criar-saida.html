@@ -8,7 +8,7 @@
 <link href="data:image/svg+xml,&lt;svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'&gt;&lt;text y='0.9em' font-size='90'&gt;⚓&lt;/text&gt;&lt;/svg&gt;" rel="icon"/>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
 <link href="css/style.css" rel="stylesheet"/>
-<link href="css/wicked-tuna.css?v=1.60" rel="stylesheet"/>
+<link href="css/wicked-tuna.css?v=1.62" rel="stylesheet"/>
 <style>
         /* ── Reset total de visibilidade dos forms ── */
         body { background: #F5F7FA; color: #1F2937; }
@@ -348,6 +348,14 @@
                         Tempo total da saída, da partida ao regresso (ex: 4h, 8h, 12h)
                     </small>
 </div>
+<div class="form-grupo" style="max-width:320px;margin-top:1rem;">
+  <label class="form-label req">⏰ Hora de Partida (definida pelo Capitão)</label>
+  <input class="form-input" id="horaPartida" required type="time" value="08:00" />
+  <small style="color:#6B7280;font-size:0.8rem;margin-top:0.3rem;display:block;">
+    Esta é a hora oficial de abalada. O cliente verá esta hora ao reservar.
+  </small>
+</div>
+
 <div class="form-grupo">
 <label class="form-label req">Porto de Saída</label>
 <select class="form-select" id="selectPorto" required="">
@@ -440,6 +448,50 @@ A saída só acontece se atingir este mínimo. Se não atingir, o capitão poder
 </div>
 </div>
 <!-- ══ 7. OBSERVAÇÕES ══ -->
+
+
+<!-- ══ 7. POLÍTICA DE CANCELAMENTO ══ -->
+<div class="sec-title" style="margin-top:2rem;"><i class="fa-solid fa-ban"></i> <span data-i18n="Política de cancelamento">Política de cancelamento</span></div>
+<div class="card-partilha" style="border-left:6px solid rgba(239,68,68,0.35);">
+  <label class="toggle-row">
+    <input id="permiteCancelamento" type="checkbox" checked />
+    <div>
+      <div class="toggle-label-text"><i class="fas fa-calendar-times"></i> <span data-i18n="Permitir cancelamento do cliente">Permitir cancelamento do cliente</span></div>
+    </div>
+  </label>
+  <p class="toggle-desc" style="margin-top:0.35rem;">
+    <span data-i18n="Defina com quanto tempo de antecedência o Cliente pode cancelar. Se desativar, não aceitamos desistências e a reserva mantém-se.">Defina com quanto tempo de antecedência o Cliente pode cancelar. Se desativar, não aceitamos desistências e a reserva mantém-se.</span>
+  </p>
+
+  <div class="partilha-extra" id="cancelamentoExtra" style="display:block;">
+    <div style="display:flex; gap:0.9rem; flex-wrap:wrap; align-items:flex-end;">
+      <div class="form-grupo" style="margin-bottom:0; max-width:220px;">
+        <label class="form-label" style="color:#B91C1C !important;"><span data-i18n="Unidade">Unidade</span></label>
+        <select class="form-input" id="cancelamentoUnidade">
+          <option value="horas" data-i18n="Horas">Horas</option>
+          <option value="dias" selected data-i18n="Dias">Dias</option>
+          <option value="meses" data-i18n="Meses">Meses</option>
+        </select>
+        <small style="color:#7F1D1D;margin-top:0.4rem;display:block;">
+          <span data-i18n="Ex: 48 horas, 7 dias, 1 mês">Ex: 48 horas, 7 dias, 1 mês</span>
+        </small>
+      </div>
+
+      <div class="form-grupo" style="margin-bottom:0; max-width:220px;">
+        <label class="form-label" style="color:#B91C1C !important;"><span data-i18n="Quantidade">Quantidade</span></label>
+        <input class="form-input" id="cancelamentoValor" type="number" min="1" max="365" value="7" />
+      </div>
+    </div>
+
+    <div class="info-box" style="margin-top:1rem; background:rgba(239,68,68,0.06); border:1px solid rgba(239,68,68,0.18);">
+      <i class="fas fa-info-circle" style="margin-top:0.1rem;flex-shrink:0;color:#B91C1C;"></i>
+      <span style="color:#7F1D1D;">
+        <span data-i18n="Dentro do prazo, o Cliente deverá justificar o cancelamento. Fora do prazo, não será possível cancelar na plataforma.">Dentro do prazo, o Cliente deverá justificar o cancelamento. Fora do prazo, não será possível cancelar na plataforma.</span>
+      </span>
+    </div>
+  </div>
+</div>
+
 <div class="sec-title" style="margin-top:2rem;"><i class="fa-solid fa-pen"></i> Observações</div>
 <div class="form-grupo">
 <label class="form-label">Regras e Observações <span style="font-weight:400;color:#9CA3AF;">(opcional)</span></label>
@@ -457,7 +509,7 @@ A saída só acontece se atingir este mínimo. Se não atingir, o capitão poder
 </form>
 </div>
 </div>
-<script src="js/main.js?v=1.60"></script>
+<script src="js/main.js?v=1.62"></script>
 <script>
         // ── Toggle visual dos tipos de pesca ──
         document.querySelectorAll('.tipo-cb').forEach(label => {
@@ -476,7 +528,27 @@ A saída só acontece se atingir este mínimo. Se não atingir, o capitão poder
         });
 
         // ── Toggle saída partilhada ──
-        function __syncPartilhaLimits() {
+        
+
+        // ── Política de Cancelamento (toggle) ──
+        function __syncCancelamentoPolicy() {
+            const permite = document.getElementById('permiteCancelamento');
+            const extra = document.getElementById('cancelamentoExtra');
+            const unidade = document.getElementById('cancelamentoUnidade');
+            const valor = document.getElementById('cancelamentoValor');
+            if (!permite || !extra) return;
+
+            if (permite.checked) {
+                extra.style.display = 'block';
+                if (unidade) unidade.disabled = false;
+                if (valor) valor.disabled = false;
+            } else {
+                extra.style.display = 'none';
+                if (unidade) unidade.disabled = true;
+                if (valor) valor.disabled = true;
+            }
+        }
+function __syncPartilhaLimits() {
             const permite = document.getElementById('permitePartilha');
             const extra = document.getElementById('partilhaExtra');
             const maxEl = document.getElementById('maxPartilha');
@@ -511,6 +583,7 @@ A saída só acontece se atingir este mínimo. Se não atingir, o capitão poder
         }
 
         document.getElementById('permitePartilha').addEventListener('change', __syncPartilhaLimits);
+        document.getElementById('permiteCancelamento').addEventListener('change', __syncCancelamentoPolicy);
 
         // ── Inicialização ──
         document.addEventListener('DOMContentLoaded', () => {
@@ -554,6 +627,7 @@ A saída só acontece se atingir este mínimo. Se não atingir, o capitão poder
                     const lot = opt.getAttribute('data-lotacao');
                     if (lot) document.getElementById('capacidade').value = lot;
                     try { if (typeof __syncPartilhaLimits === 'function') __syncPartilhaLimits(); } catch (e) {}
+                    try { if (typeof __syncCancelamentoPolicy === 'function') __syncCancelamentoPolicy(); } catch (e) {}
                 });
             }
         });
@@ -603,6 +677,7 @@ A saída só acontece se atingir este mínimo. Se não atingir, o capitão poder
             const titulo = document.getElementById('titulo').value.trim();
             const descricao = document.getElementById('descricao').value.trim();
             const duracao = parseInt(document.getElementById('duracao').value) || 0;
+            const horaPartida = (document.getElementById('horaPartida') ? document.getElementById('horaPartida').value : '').trim();
             const porto = document.getElementById('selectPorto').value;
             const licenca = document.getElementById('licenca').value;
             const capacidade = parseInt(document.getElementById('capacidade').value) || barcoLotacao;
@@ -612,6 +687,11 @@ A saída só acontece se atingir este mínimo. Se não atingir, o capitão poder
             const tiposSelecionados = Array.from(document.querySelectorAll('[name="tipos_pesca"]:checked')).map(c => c.value);
             const incluiSelecionados = Array.from(document.querySelectorAll('[name="inclui"]:checked')).map(c => c.value);
             const permitePartilha = document.getElementById('permitePartilha').checked;
+            const permiteCancelamento = document.getElementById('permiteCancelamento') ? document.getElementById('permiteCancelamento').checked : true;
+            const cancelamentoUnidade = permiteCancelamento ? (document.getElementById('cancelamentoUnidade') ? document.getElementById('cancelamentoUnidade').value : 'dias') : null;
+            const cancelamentoValor = permiteCancelamento ? (parseInt(document.getElementById('cancelamentoValor') ? document.getElementById('cancelamentoValor').value : '7') || 0) : null;
+
+
             const maxPartilha = permitePartilha ? (parseInt(document.getElementById('maxPartilha').value) || capacidade) : null;
             const minTripulacao = permitePartilha ? (parseInt((document.getElementById('minTripulacao')||{}).value) || 0) : null;
 
@@ -621,6 +701,7 @@ A saída só acontece se atingir este mínimo. Se não atingir, o capitão poder
             if (!titulo) erros.push('Preencha o título da saída');
             if (tiposSelecionados.length === 0) erros.push('Selecione pelo menos um tipo de pesca');
             if (!duracao || duracao < 1) erros.push('Indique a duração total em horas');
+            if (!horaPartida) erros.push('Defina a hora de partida (abalada)');
             if (!porto) erros.push('Selecione o porto de saída');
             if (!licenca) erros.push('Selecione o tipo de licença exigida');
             if (!capacidade || capacidade < 1) erros.push('Indique o nº máximo de pescadores');
@@ -640,6 +721,17 @@ A saída só acontece se atingir este mínimo. Se não atingir, o capitão poder
                 mostrarToast('⚠️ ' + erros[0], 'erro');
                 return;
             }
+
+            // Validação Política de Cancelamento
+            if (permiteCancelamento) {
+                if (!cancelamentoUnidade) { mostrarToast('⚠️ Selecione a unidade do cancelamento', 'erro'); return; }
+                if (!cancelamentoValor || cancelamentoValor <= 0) { mostrarToast('⚠️ Indique a quantidade do cancelamento', 'erro'); return; }
+                // limites simples para evitar valores absurdos
+                if (cancelamentoUnidade === 'horas' && cancelamentoValor > 720) { mostrarToast('⚠️ Máximo recomendado: 720 horas', 'erro'); return; }
+                if (cancelamentoUnidade === 'dias' && cancelamentoValor > 365) { mostrarToast('⚠️ Máximo recomendado: 365 dias', 'erro'); return; }
+                if (cancelamentoUnidade === 'meses' && cancelamentoValor > 24) { mostrarToast('⚠️ Máximo recomendado: 24 meses', 'erro'); return; }
+            }
+
 
             // Evitar guardar imagens muito grandes (base64) dentro de saidasData (estoura quota do localStorage)
             let imagemFinal = '';
@@ -663,6 +755,7 @@ A saída só acontece se atingir este mínimo. Se não atingir, o capitão poder
                 capitaoEmail: capitao.email,
                 localizacao: porto,
                 duracao,
+                horaPartida,
                 preco,
                 lotacao: capacidade,
                 vagas: capacidade,
@@ -678,6 +771,10 @@ A saída só acontece se atingir este mínimo. Se não atingir, o capitão poder
                 permitePartilha,
                 maxPartilha,
                 minTripulacao,
+                cancelamentoPermitido: permiteCancelamento,
+                cancelamentoUnidade: cancelamentoUnidade,
+                cancelamentoValor: cancelamentoValor,
+
                 partilhada: false,          // activado pelo capitão ao confirmar uma reserva
                 vagasPartilhadas: 0,
                 precoPartilhado: null,
@@ -773,6 +870,6 @@ A saída só acontece se atingir este mínimo. Se não atingir, o capitão poder
 <p><span class="site-version-badge"><i class="fas fa-code-branch"></i> v</span></p>
 </div>
 </div>
-</footer><script src="js/i18n.js?v=1.60"></script>
+</footer><script src="js/i18n.js?v=1.62"></script>
 </body>
 </html>

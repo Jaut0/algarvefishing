@@ -240,6 +240,7 @@ function submeterFormulario() {
         ano: parseInt(formData.get('ano')) || new Date().getFullYear(),
         marcaModelo: formData.get('marcaModelo') || '',
         porto: portoValor,
+        mapsUrl: (formData.get('mapsUrl') || '').trim(),
         lotacao: parseInt(formData.get('lotacao')) || 8,
         tipoMotor: formData.get('tipoMotor') || '',
         numeroMotores: parseInt(formData.get('numeroMotores')) || 1,
@@ -262,6 +263,7 @@ function submeterFormulario() {
     if (!barco.nome) { mostrarToast('Preencha o nome do barco', 'erro'); return; }
     if (!barco.tipo) { mostrarToast('Selecione o tipo de barco', 'erro'); return; }
     if (!barco.porto) { mostrarToast('Selecione o porto de amarração', 'erro'); return; }
+    if (!barco.mapsUrl) { mostrarToast('Cole a localização exata do barco (Google Maps)', 'erro'); return; }
     
     window.__log('🚢 A registar barco:', barco);
     

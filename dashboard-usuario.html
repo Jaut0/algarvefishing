@@ -8,7 +8,7 @@
 <link href="data:image/svg+xml,&lt;svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'&gt;&lt;text y='0.9em' font-size='90'&gt;⚓&lt;/text&gt;&lt;/svg&gt;" rel="icon"/>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
 <link href="css/style.css" rel="stylesheet"/>
-<link href="css/wicked-tuna.css?v=1.60" rel="stylesheet"/>
+<link href="css/wicked-tuna.css?v=1.62" rel="stylesheet"/>
 <link href="css/dashboard.css" rel="stylesheet"/>
 <style>
         /* ===== CORRECÇÃO: Secção Perfil — texto visível sobre fundo claro ===== */
@@ -611,7 +611,7 @@
 </div>
 </main>
 </div>
-<script src="js/main.js?v=1.60"></script>
+<script src="js/main.js?v=1.62"></script>
 <script>
         let utilizadorLogado = null;
 
@@ -774,21 +774,84 @@
         // ============================
         // CANCELAR RESERVA
         // ============================
-        function cancelarReserva(id) {
-            if (!confirm('Tem a certeza que deseja cancelar esta reserva?')) return;
+        
+
+        function _t(txt){ try{ return (window.PortalI18n && PortalI18n.t) ? PortalI18n.t(txt) : txt; } catch(e){ return txt; } }
+
+        function getCancelPolicyFromSaida(saida){
+            const permite = (saida && saida.cancelamentoPermitido === false) ? false : true;
+            if (!permite) return { permite:false };
+            const unidade = (saida && saida.cancelamentoUnidade) ? saida.cancelamentoUnidade : 'dias';
+            const valor = (saida && parseInt(saida.cancelamentoValor)) ? parseInt(saida.cancelamentoValor) : 7;
+            return { permite:true, unidade, valor };
+        }
+
+        function calcCancelDeadline(dataISO, horaHHMM, policy){
+            if (!dataISO) return null;
+            const time = (horaHHMM && /^\d{2}:\d{2}$/.test(horaHHMM)) ? horaHHMM : '08:00';
+            const trip = new Date(`${dataISO}T${time}:00`);
+            if (isNaN(trip.getTime())) return null;
+            const d = new Date(trip);
+            if (policy.unidade === 'horas') d.setHours(d.getHours() - policy.valor);
+            else if (policy.unidade === 'meses') d.setMonth(d.getMonth() - policy.valor);
+            else d.setDate(d.getDate() - policy.valor);
+            return d;
+        }
+
+        function canCancelReservaByPolicy(reserva, saida){
+            const policy = getCancelPolicyFromSaida(saida);
+            if (!policy.permite) return { ok:false, reason:_t('Sem cancelamento (não aceito desistências).') };
+            const deadline = calcCancelDeadline(reserva.saidaData, reserva.saidaHora, policy);
+            if (!deadline) return { ok:true, reason:'' }; // se não conseguir calcular, não bloqueia
+            const now = new Date();
+            if (now.getTime() > deadline.getTime()) {
+                return { ok:false, reason:_t('Cancelamento fora do prazo definido pelo capitão.') };
+            }
+            return { ok:true, reason:'' };
+        }
+function cancelarReserva(id) {
             const reservas = JSON.parse(localStorage.getItem('reservasPendentes') || '[]');
             const idx = reservas.findIndex(r => r.id === id);
-            if (idx !== -1) {
+            if (idx === -1) return;
+
+            // Política de cancelamento definida pelo capitão
+            const saidas = JSON.parse(localStorage.getItem('saidasData') || '[]');
+            const saidaObj = saidas.find(s => String(s.id) === String(reservas2[idx2].saidaId));
+            const policyCheck = canCancelReservaByPolicy(reservas2[idx2], saidaObj);
+            if (!policyCheck.ok) {
+                if (window.mostrarToast) mostrarToast(policyCheck.reason, 'erro');
+                return;
+            }
+
+            if (!confirm(_t('Tem a certeza que deseja cancelar esta reserva?'))) return;
+
+            // Justificação obrigatória
+            const motivo = window.prompt(_t('Indique o motivo do cancelamento:'), '');
+            if (!motivo || String(motivo).trim().length < 10) {
+                if (window.mostrarToast) mostrarToast(_t('O motivo do cancelamento é obrigatório (mínimo 10 caracteres).'), 'erro');
+                return;
+            }
+
+            // Recarregar reservas (por segurança) e aplicar cancelamento
+            const reservas2 = JSON.parse(localStorage.getItem('reservasPendentes') || '[]');
+            const idx2 = reservas2.findIndex(r => r.id === id);
+            if (idx2 === -1) return;
+
+            // (reservas2/idx2 já calculados acima)
+            if (idx2 !== -1) {
                 // Devolver vaga
                 const saidas = JSON.parse(localStorage.getItem('saidasData') || '[]');
-                const saidaIdx = saidas.findIndex(s => String(s.id) === String(reservas[idx].saidaId));
+                const saidaIdx = saidas.findIndex(s => String(s.id) === String(reservas2[idx2].saidaId));
                 if (saidaIdx !== -1 && saidas[saidaIdx].vagasOcupadas > 0) {
-                    saidas[saidaIdx].vagasOcupadas -= (reservas[idx].numPessoas || 1);
+                    saidas[saidaIdx].vagasOcupadas -= (reservas2[idx2].numPessoas || 1);
                     if (saidas[saidaIdx].vagasOcupadas < 0) saidas[saidaIdx].vagasOcupadas = 0;
                     localStorage.setItem('saidasData', JSON.stringify(saidas));
                 }
-                reservas[idx].status = 'cancelada';
-                localStorage.setItem('reservasPendentes', JSON.stringify(reservas));
+                reservas2[idx2].cancelamentoMotivo = String(motivo).trim();
+                reservas2[idx2].cancelamentoData = new Date().toISOString();
+                reservas2[idx2].cancelamentoPor = 'cliente';
+                reservas2[idx2].status = 'cancelada';
+                localStorage.setItem('reservasPendentes', JSON.stringify(reservas2));
                 if (window.mostrarToast) mostrarToast('Reserva cancelada.', 'aviso');
                 carregarMinhasReservas();
                 atualizarStats();
@@ -1214,7 +1277,7 @@
         // Marcar reserva como avaliada
         const reservas = JSON.parse(localStorage.getItem('reservasPendentes') || '[]');
         const rIdx = reservas.findIndex(r => String(r.id) === String(_feedbackReservaId));
-        if (rIdx !== -1) { reservas[rIdx].avaliada = true; localStorage.setItem('reservasPendentes', JSON.stringify(reservas)); }
+        if (rIdx !== -1) { reservas[rIdx].avaliada = true; localStorage.setItem('reservasPendentes', JSON.stringify(reservas2)); }
 
         fecharModalFeedback();
         if (window.mostrarToast) mostrarToast('⭐ Obrigado pela sua avaliação!', 'sucesso');
@@ -1250,6 +1313,6 @@
 <p><span class="site-version-badge"><i class="fas fa-code-branch"></i> v</span></p>
 </div>
 </div>
-</footer><script src="js/i18n.js?v=1.60"></script>
+</footer><script src="js/i18n.js?v=1.62"></script>
 </body>
 </html>

@@ -8,7 +8,7 @@
 <link href="data:image/svg+xml,&lt;svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'&gt;&lt;text y='0.9em' font-size='90'&gt;⚓&lt;/text&gt;&lt;/svg&gt;" rel="icon"/>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
 <link href="css/style.css" rel="stylesheet"/>
-<link href="css/wicked-tuna.css?v=1.60" rel="stylesheet"/>
+<link href="css/wicked-tuna.css?v=1.62" rel="stylesheet"/>
 <style>
         .detalhe-hero {
             position: relative;
@@ -391,19 +391,15 @@
 <input id="modalDataEscolhida" required="" style="width:100%;padding:0.7rem;border:1.5px solid #D1D5DB;border-radius:8px;font-size:0.95rem;" type="date"/>
 <div id="modalAvisoTemporada" style="display:none;background:#FEF3C7;border:1px solid #FCD34D;border-radius:6px;padding:0.4rem 0.7rem;font-size:0.82rem;color:#92400E;margin-top:0.4rem;"></div>
 </div>
+
 <div style="margin-bottom:1rem;">
-<label style="font-weight:600;color:#374151;display:block;margin-bottom:0.4rem;">🕐 Hora preferida</label>
-<select id="modalHoraEscolhida" style="width:100%;padding:0.7rem;border:1.5px solid #D1D5DB;border-radius:8px;font-size:0.95rem;">
-<option value="06:00">06:00 (Madrugada)</option>
-<option value="07:00">07:00</option>
-<option selected="" value="08:00">08:00 (Manhã)</option>
-<option value="09:00">09:00</option>
-<option value="10:00">10:00</option>
-<option value="12:00">12:00 (Meio-dia)</option>
-<option value="14:00">14:00 (Tarde)</option>
-<option value="16:00">16:00</option>
-</select>
+  <label style="font-weight:600;color:#374151;display:block;margin-bottom:0.4rem;">🕐 Hora de Partida</label>
+  <select id="modalHoraEscolhida" disabled style="width:100%;padding:0.7rem;border:1.5px solid #D1D5DB;border-radius:8px;font-size:0.95rem;background:#F9FAFB;color:#111827;">
+    <option value="08:00">08:00</option>
+  </select>
+  <small style="color:#6B7280;font-size:0.78rem;margin-top:0.35rem;display:block;">Hora definida pelo capitão. Se precisar de ajuste, use a mensagem ao capitão.</small>
 </div>
+
 <!-- Info cliente logado -->
 <div id="modalInfoCliente" style="display:none;background:#F0FDF4;border:1.5px solid #86EFAC;border-radius:10px;padding:1rem;margin-bottom:1.2rem;">
 <p style="font-size:0.82rem;font-weight:700;color:#166534;margin-bottom:0.5rem;">👤 A reservar como:</p>
@@ -433,7 +429,7 @@
 <div>
 <div style="font-weight:800; color:#1E40AF; margin-bottom:0.25rem;">Política de cancelamentos</div>
 <div style="font-size:0.9rem; color:#1F2937; line-height:1.45;">
-<strong>Até 7 dias</strong>: pode cancelar. <strong>Menos de 7 dias</strong>: decisão do capitão.
+<span id="cancelPolicyText" data-i18n-skip="1"></span>
                             <br/>
 <strong>Mau tempo</strong> ou <strong>avaria do barco</strong>: <strong>reembolso total</strong>.
                             <br/>
@@ -452,7 +448,7 @@
 <p>© 2026 Algarve Tuna Charter. Todos os direitos reservados.</p>
 <p style="margin-top:0.5rem;"><span style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.2);border-radius:20px;padding:0.2rem 0.6rem;font-size:0.75rem;color:rgba(255,255,255,0.5);font-family:monospace;" class=\"site-version-badge\"><i class=\"fas fa-code-branch\"></i> v</span></p>
 </footer>
-<script src="js/main.js?v=1.60"></script>
+<script src="js/main.js?v=1.62"></script>
 <script>
         const saidaId = new URLSearchParams(window.location.search).get('id');
         let saidaAtual = null;
@@ -554,7 +550,12 @@
                 <div><div style="color:#6B7280;font-size:0.85rem;margin-bottom:0.2rem;">Motor</div><div style="font-weight:600;">${barco.motorPotencia ? barco.motorPotencia + ' CV' : '—'}</div></div>
                 <div><div style="color:#6B7280;font-size:0.85rem;margin-bottom:0.2rem;">Tipo</div><div style="font-weight:600;">${barco.tipo || '—'}</div></div>
                 <div><div style="color:#6B7280;font-size:0.85rem;margin-bottom:0.2rem;">Ano</div><div style="font-weight:600;">${barco.ano || '—'}</div></div>
-            `;
+            
+                ${barco.mapsUrl ? '<div style="grid-column:1/-1;">'
+                    + '<div style="color:#6B7280;font-size:0.85rem;margin-bottom:0.2rem;">Localização do Barco</div>'
+                    + '<a href="' + barco.mapsUrl + '" target="_blank" rel="noopener" style="font-weight:700;color:var(--cor-secundaria);text-decoration:underline;">'
+                    + '<i class="fas fa-map-marker-alt"></i> Abrir no Google Maps</a></div>' : ''}
+`;
 
             // Incluído
             if (s.inclui) {
@@ -725,7 +726,7 @@
             const numPessoas = parseInt(document.getElementById('modalNumPessoas').value) || 1;
             const mensagem = document.getElementById('modalMensagem').value;
             const dataEscolhida = document.getElementById('modalDataEscolhida') ? document.getElementById('modalDataEscolhida').value : '';
-            const horaEscolhida = document.getElementById('modalHoraEscolhida') ? document.getElementById('modalHoraEscolhida').value : '08:00';
+            const horaEscolhida = (saidaAtual && saidaAtual.horaPartida) ? saidaAtual.horaPartida : '08:00';
             if (!dataEscolhida) {
                 if (window.mostrarToast) mostrarToast('⚠️ Selecione a data pretendida', 'erro');
                 return;
@@ -740,7 +741,31 @@
                 telCapitao = cap?.telefone || '';
             } catch(e) {}
 
-            // Criar reserva
+            
+
+            function _t(txt){ try{ return (window.PortalI18n && PortalI18n.t) ? PortalI18n.t(txt) : txt; } catch(e){ return txt; } }
+
+            function getCancelPolicy(saida) {
+                // Compatibilidade: se não existir política, assume 7 dias
+                const permite = (saida && saida.cancelamentoPermitido === false) ? false : true;
+                if (!permite) return { permite: false };
+                const unidade = (saida && saida.cancelamentoUnidade) ? saida.cancelamentoUnidade : 'dias';
+                const valor = (saida && parseInt(saida.cancelamentoValor)) ? parseInt(saida.cancelamentoValor) : 7;
+                return { permite: true, unidade, valor };
+            }
+
+            function renderCancelPolicyUI() {
+                const el = document.getElementById('cancelPolicyText');
+                if (!el || !saidaAtual) return;
+                const p = getCancelPolicy(saidaAtual);
+                if (!p.permite) {
+                    el.textContent = _t('Sem cancelamento (não aceito desistências).');
+                    return;
+                }
+                const unitLabel = p.unidade === 'horas' ? _t('hora(s)') : (p.unidade === 'meses' ? _t('mês(es)') : _t('dia(s)'));
+                el.textContent = `${_t('Cancelamento permitido até')} ${p.valor} ${unitLabel} ${_t('antes da data da saída')}.`;
+            }
+// Criar reserva
             const reserva = {
                 id: Date.now(),
                 saidaId: saidaAtual.id,
@@ -820,6 +845,6 @@
     </script>
 
 
-<script src="js/i18n.js?v=1.60"></script>
+<script src="js/i18n.js?v=1.62"></script>
 </body>
 </html>
