@@ -8,7 +8,7 @@
 <link href="data:image/svg+xml,&lt;svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'&gt;&lt;text y='0.9em' font-size='90'&gt;⚓&lt;/text&gt;&lt;/svg&gt;" rel="icon"/>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
 <link href="css/style.css" rel="stylesheet"/>
-<link href="css/wicked-tuna.css?v=1.58" rel="stylesheet"/>
+<link href="css/wicked-tuna.css?v=1.59" rel="stylesheet"/>
 <link href="css/dashboard.css" rel="stylesheet"/>
 <style>
         /* ===== CORRECÇÃO: Secção Perfil — texto visível sobre fundo claro ===== */
@@ -611,7 +611,7 @@
 </div>
 </main>
 </div>
-<script src="js/main.js"></script>
+<script src="js/main.js?v=1.59"></script>
 <script>
         let utilizadorLogado = null;
 
@@ -997,6 +997,7 @@
                                 <span><i class="fas fa-map-marker-alt"></i> ${saida.localizacao}</span>
                                 <span><i class="fas fa-clock"></i> ${saida.duracao ? saida.duracao + 'h' : 'A combinar'}</span>
                                 <span><i class="fas fa-users"></i> Até ${maxP} pescadores</span>
+                                ${saida.minTripulacao ? `<span><i class="fas fa-shield-alt"></i> Mín.: ${saida.minTripulacao}</span>` : ''}
                             </div>
                             <div style="margin:0.5rem 0;">
                                 ${(saida.tipos||[]).slice(0,3).map(t=>`<span style="background:rgba(255,143,0,0.15);color:#FFB74D;font-size:0.75rem;padding:0.2rem 0.5rem;border-radius:12px;margin-right:0.3rem;">${formatarTipoPescaPartilha(t)}</span>`).join('')}
@@ -1241,6 +1242,6 @@
 <p><span class="site-version-badge"><i class="fas fa-code-branch"></i> v</span></p>
 </div>
 </div>
-</footer><script src="js/i18n.js?v=1.58"></script>
+</footer><script src="js/i18n.js?v=1.59"></script>
 </body>
 </html>

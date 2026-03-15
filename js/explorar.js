@@ -81,7 +81,7 @@ function renderizarSaidas() {
 
         return `
         <div class="saida-card fade-in" style="${cardStyle}">
-            ${saida.partilhada ? `<div style="background:linear-gradient(90deg,#F59E0B,#D97706);color:white;text-align:center;padding:0.3rem 0.75rem;font-size:0.8rem;font-weight:700;letter-spacing:0.03em;">🤝 ${TT('SAÍDA PARTILHADA – Lugares disponíveis!')}</div>` : (saida.permitePartilha ? `<div style="background:#EFF6FF;color:#1D4ED8;text-align:center;padding:0.25rem;font-size:0.78rem;font-weight:600;">✓ ${TT('Pode ser partilhada')}</div>` : '')}
+            ${saida.partilhada ? `<div style="background:linear-gradient(90deg,#F59E0B,#D97706);color:white;text-align:center;padding:0.3rem 0.75rem;font-size:0.8rem;font-weight:700;letter-spacing:0.03em;">🤝 ${TT('SAÍDA PARTILHADA – Lugares disponíveis!')}</div>` : (saida.permitePartilha ? `<div style="background:#EFF6FF;color:#1D4ED8;text-align:center;padding:0.25rem;font-size:0.78rem;font-weight:600;">✓ ${TT('Pode ser partilhada')}${(saida.minTripulacao ? ' — Mín. ' + saida.minTripulacao + ' pessoa(s)' : '')}</div>` : '')}
             <img src="${imagem}" alt="${saida.titulo}" class="saida-card-imagem" onerror="this.src='${placeholderImg}'">
             <div class="saida-card-conteudo">
                 <h3 class="saida-card-titulo">${saida.titulo}</h3>

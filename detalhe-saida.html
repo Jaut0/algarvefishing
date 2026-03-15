@@ -8,7 +8,7 @@
 <link href="data:image/svg+xml,&lt;svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'&gt;&lt;text y='0.9em' font-size='90'&gt;⚓&lt;/text&gt;&lt;/svg&gt;" rel="icon"/>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
 <link href="css/style.css" rel="stylesheet"/>
-<link href="css/wicked-tuna.css?v=1.58" rel="stylesheet"/>
+<link href="css/wicked-tuna.css?v=1.59" rel="stylesheet"/>
 <style>
         .detalhe-hero {
             position: relative;
@@ -337,6 +337,7 @@
 <div style="margin-bottom: 1.5rem;">
 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.4rem;">
 <span class="info-label">Disponibilidade</span>
+                                    <div id="cardMinTrip" style="display:none;margin-top:0.35rem;font-size:0.82rem;color:#92400E;font-weight:700;">⚠️</div>
 <span id="cardVagasTexto" style="font-weight:600; font-size:0.9rem;"></span>
 </div>
 <div class="vagas-barra">
@@ -451,7 +452,7 @@
 <p>© 2026 Algarve Tuna Charter. Todos os direitos reservados.</p>
 <p style="margin-top:0.5rem;"><span style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.2);border-radius:20px;padding:0.2rem 0.6rem;font-size:0.75rem;color:rgba(255,255,255,0.5);font-family:monospace;" class=\"site-version-badge\"><i class=\"fas fa-code-branch\"></i> v</span></p>
 </footer>
-<script src="js/main.js"></script>
+<script src="js/main.js?v=1.59"></script>
 <script>
         const saidaId = new URLSearchParams(window.location.search).get('id');
         let saidaAtual = null;
@@ -634,6 +635,18 @@
             if (pctOcup >= 100) barraCard.className = 'vagas-fill cheio';
             else if (pctOcup >= 70) barraCard.className = 'vagas-fill quase-cheio';
 
+            // Mínimo de tripulação (visível ao cliente quando a saída aceita partilha)
+            const minTripEl = document.getElementById('cardMinTrip');
+            if (minTripEl) {
+                const minT = parseInt(s.minTripulacao || 0) || 0;
+                if (s.permitePartilha && minT > 0) {
+                    minTripEl.style.display = 'block';
+                    minTripEl.textContent = `🔒 Esta saída só sai com mínimo ${minT} pessoa(s). Se não atingir, o capitão pode cancelar e deverá devolver a reserva.`;
+                } else {
+                    minTripEl.style.display = 'none';
+                }
+            }
+
             // Botão reservar
             const btnReservar = document.getElementById('btnReservar');
             if (vagasDisp <= 0) {
@@ -810,6 +823,6 @@
     </script>
 
 
-<script src="js/i18n.js?v=1.58"></script>
+<script src="js/i18n.js?v=1.59"></script>
 </body>
 </html>
