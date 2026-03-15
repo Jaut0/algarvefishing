@@ -1,0 +1,21 @@
+1) Natureza do serviço
+2) Contas e ativação
+3) Pagamentos e faturas
+4) Proteção de dados e privacidade
+5) Cancelamentos e reembolsos
+6) Lei aplicável
+A Algarve Tuna Charter é um serviço autónomo para gestão de pedidos de reserva e divulgação de saídas de pesca anunciadas por Capitães. A Plataforma não executa a saída no mar.
+A Plataforma não processa pagamentos , não recebe valores e não emite faturas . Qualquer pagamento é combinado diretamente entre Cliente e Capitão. Qualquer fatura/recibo (quando aplicável) é emitida pela atividade/empresa do Capitão.
+Capitão: pode exigir documentos e ficar pendente de aprovação administrativa.
+Cliente: só pode fazer login após confirmar o e-mail pelo link recebido.
+Consulte as regras na página: Cancelamentos e Reembolsos .
+Contato
+Documento: v1.36 | Última atualização: 2026-03-13
+Dúvidas sobre estes textos? Escreva para
+Informação essencial sobre o uso da plataforma.
+Mais detalhes: consulte a nossa Política de Privacidade .
+O tratamento de dados pessoais (por exemplo, nome, e-mail, telefone e dados relacionados com pedidos de reserva) é realizado apenas para operar a plataforma, gerir reservas e permitir comunicação entre Cliente e Capitão.
+Partilha mínima necessária: dados podem ser partilhados com o Capitão apenas quando necessário para gerir/confirmar uma reserva.
+Portugal.
+Responsável pelo contacto:
+Termos e Condições

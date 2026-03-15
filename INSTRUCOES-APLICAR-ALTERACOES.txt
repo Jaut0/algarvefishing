@@ -1,0 +1,57 @@
+# 🚀 INSTRUÇÕES PARA APLICAR AS ALTERAÇÕES
+
+## ⚠️ PROBLEMA:
+Os ficheiros na tua pasta local estão DESATUALIZADOS (versão antiga do GitHub).
+
+## ✅ SOLUÇÃO:
+
+### **PASSO 1: SUBSTITUIR FICHEIROS**
+
+Na pasta `C:\Users\servi\Desktop\algarvefishing`:
+
+1. **APAGA** o ficheiro: `auth.html`
+2. **RENOMEIA**: `auth-NOVO-SEM-EMAILS.html` → `auth.html`
+
+3. **APAGA** o ficheiro: `dashboard-capitao.html`
+4. **RENOMEIA**: `dashboard-capitao-NOVO.html` → `dashboard-capitao.html`
+
+5. **Vai à pasta `js/`**
+6. **APAGA** o ficheiro: `reserva-cliente.js`
+7. **RENOMEIA**: `reserva-cliente-NOVO.js` → `reserva-cliente.js`
+
+---
+
+### **PASSO 2: FAZER COMMIT E PUSH**
+
+Abre CMD e executa:
+
+```bash
+cd C:\Users\servi\Desktop\algarvefishing
+git add .
+git commit -m "🎉 Sistema SEM EMAILS - Reservas + WhatsApp gratuito"
+git push
+```
+
+---
+
+### **PASSO 3: AGUARDAR E TESTAR**
+
+1. Aguarda 2-3 minutos (deploy Vercel)
+2. Testa: https://algarvefishing.vercel.app/
+
+---
+
+## 📋 CHECKLIST:
+
+- [ ] Renomeei auth-NOVO-SEM-EMAILS.html → auth.html
+- [ ] Renomeei dashboard-capitao-NOVO.html → dashboard-capitao.html
+- [ ] Renomeei js/reserva-cliente-NOVO.js → reserva-cliente.js
+- [ ] Executei git add .
+- [ ] Executei git commit
+- [ ] Executei git push
+- [ ] Aguardei 2-3 min
+- [ ] Testei o site
+
+---
+
+💡 **DEPOIS DE RENOMEAR E FAZER PUSH, RESPONDE "FEITO"!**

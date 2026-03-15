@@ -1,0 +1,10 @@
+QA_REPORT_WRITTEN qa_report.json
+Pages tested: 7
+auth.html errors 0
+admin-login.html errors 0
+reservar-barco.html errors 0
+dashboard-usuario.html errors 0
+dashboard-capitao.html errors 0
+dashboard-capitao-NOVO.html errors 0
+admin-dashboard.html errors 0
+Static issues: 1

@@ -8,7 +8,7 @@
 <title>Entrar / Registar - Algarve Tuna Charter</title>
 <link href="data:image/svg+xml,&lt;svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22&gt;&lt;text y=%22.9em%22 font-size=%2290%22&gt;🎣&lt;/text&gt;&lt;/svg&gt;" rel="icon"/>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
-<link href="css/wicked-tuna.css?v=1.45" rel="stylesheet"/>
+<link href="css/wicked-tuna.css?v=1.47" rel="stylesheet"/>
 <link href="css/algarve-tuna.css" rel="stylesheet"/>
 <style>
         .auth-container {
@@ -295,16 +295,16 @@
 </div>
 <div class="form-grupo">
 <label class="form-label obrigatorio">Password</label>
-<input class="form-input" id="registarPassword" placeholder="••••••••" required="" type="password"/>
-</div>
+<input autocomplete="new-password" class="form-input" id="registarPassword" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^A-Za-z0-9]).{8,}$" placeholder="••••••••" required="" title="Mínimo 8 caracteres, com 1 maiúscula, 1 minúscula, 1 número e 1 caractere especial." type="password"/>
+<small data-i18n="Mínimo 8 caracteres, com 1 maiúscula, 1 minúscula, 1 número e 1 caractere especial." style="display:block;margin-top:0.35rem;color:rgba(255,255,255,0.75);font-size:0.85rem;">Mínimo 8 caracteres, com 1 maiúscula, 1 minúscula, 1 número e 1 caractere especial.</small></div>
 <div class="form-grupo">
 <label class="form-label obrigatorio">Confirmar Password</label>
-<input class="form-input" id="registarPasswordConfirm" placeholder="••••••••" required="" type="password"/>
+<input autocomplete="new-password" class="form-input" id="registarPasswordConfirm" placeholder="••••••••" required="" type="password"/>
 </div>
 <div class="form-grupo">
 <label class="form-checkbox-label">
 <input class="form-checkbox" required="" type="checkbox"/>
-<span>Aceito os <a href=\"termos.html\" style="color: var(--cor-secundaria);">Termos e Condições</a></span>
+<span>Aceito os <a href="/termos.html" style="color: var(--cor-secundaria);">Termos e Condições</a></span>
 </label>
 </div>
 <button class="btn btn-primario btn-bloco btn-grande" type="submit">
@@ -505,6 +505,11 @@ Para mais informações, contacte: geral@algarvetunacharter.pt`);
             const email = document.getElementById('registarEmail').value.trim();
             const telefone = document.getElementById('registarTelefone').value.trim();
             const password = document.getElementById('registarPassword').value;
+    if (!__validarPasswordForte(password)) {
+      alert('Password fraca. ' + 'Mínimo 8 caracteres, com 1 maiúscula, 1 minúscula, 1 número e 1 caractere especial.');
+      return;
+    }
+
             const passwordConfirm = document.getElementById('registarPasswordConfirm').value;
             
             // Verificar se email já existe
@@ -753,6 +758,14 @@ Equipa Algarve Tuna Charter`);
             });
         }
     </script>
-<script src="js/i18n.js?v=1.45"></script>
+<script src="js/i18n.js?v=1.47">
+
+// PWD_POLICY_V1_46
+const __PWD_RE = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^A-Za-z0-9]).{8,}$/;
+function __validarPasswordForte(pwd){
+  return __PWD_RE.test(pwd || '');
+}
+
+</script>
 </body>
 </html>
