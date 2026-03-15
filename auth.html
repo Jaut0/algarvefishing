@@ -166,6 +166,13 @@
         .voltar-home a:hover {
             background-color: rgba(255, 255, 255, 0.2);
         }
+    
+
+        /* Fundo exclusivo para REGISTAR + tipo Capitão */
+        .auth-container.bg-capitao {
+            background: linear-gradient(135deg, rgba(11, 25, 41, 0.90), rgba(27, 73, 101, 0.85)),
+                        url('assets/img/bg-captain.jpg') center/cover fixed;
+        }
     </style>
 <!-- EmailJS SDK -->
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
@@ -324,6 +331,16 @@
         // Tabs de Login/Registar
         const tabs = document.querySelectorAll('.auth-tab');
         const forms = document.querySelectorAll('.auth-form');
+        const authContainer = document.querySelector('.auth-container');
+
+        function updateCaptainBackground() {
+            const tabRegistar = document.querySelector('.auth-tab[data-tab="registar"]');
+            const isRegistarAtivo = tabRegistar && tabRegistar.classList.contains('ativo');
+            const isCapitaoSelecionado = !!(document.getElementById('tipoCapitao') && document.getElementById('tipoCapitao').checked);
+            const deveMostrar = isRegistarAtivo && isCapitaoSelecionado;
+
+            if (authContainer) authContainer.classList.toggle('bg-capitao', deveMostrar);
+        }
         
         tabs.forEach(tab => {
             tab.addEventListener('click', () => {
@@ -333,6 +350,8 @@
                 tab.classList.add('ativo');
                 const formId = tab.dataset.tab === 'login' ? 'formLogin' : 'formRegistar';
                 document.getElementById(formId).classList.add('ativo');
+
+                updateCaptainBackground();
             });
         });
         
@@ -364,6 +383,8 @@
                         if (input) input.required = false;
                     });
                 }
+
+                updateCaptainBackground();
             });
         });
         
@@ -374,6 +395,9 @@
             camposCapitao.classList.add('visivel');
             document.querySelector('[data-tab="registar"]').click();
         }
+
+        // Estado inicial do fundo
+        updateCaptainBackground();
         
         // Submissão de formulários
         // Login
@@ -776,7 +800,6 @@ Equipa Algarve Tuna Charter`);
                 // Redirecionar para página de aviso "verifique o email"
                 window.location.href = 'confirmar-email.html?email=' + encodeURIComponent(novoUtilizador.email) + '&tipo=pendente';
             }, 2500);
-            }
                 } catch (err) {
                     console.error('❌ Erro no registo:', err);
                     try { mostrarToast('❌ Erro inesperado no registo. Veja o console (F12).', 'erro'); } catch(e) {}
@@ -788,7 +811,7 @@ Equipa Algarve Tuna Charter`);
                         btnSubmit.style.pointerEvents = 'auto';
                     }
                 }
-); // FIM do formRegistar.addEventListener('submit')
+}); // FIM do formRegistar.addEventListener('submit')
         
         }); // FIM do DOMContentLoaded
         
