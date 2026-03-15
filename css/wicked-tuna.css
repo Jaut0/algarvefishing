@@ -235,3 +235,22 @@ footer.footer {
    ============================================================ */
 ::selection { background: rgba(0,194,255,0.25); color: var(--wt-text); }
 ::-moz-selection { background: rgba(0,194,255,0.25); color: var(--wt-text); }
+
+
+/* v1.40 - FIX visibilidade marca no rodapé */
+
+footer .footer-logo,
+footer .footer-brand,
+footer .logo,
+footer .footer-content .logo {
+  color: #ffffff !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+footer .footer-logo i,
+footer .footer-brand i {
+  color: #ffffff !important;
+  opacity: 1 !important;
+}
+footer .footer-content { position: relative; z-index: 2; }
+footer::before { z-index: 1; }

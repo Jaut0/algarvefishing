@@ -1010,6 +1010,9 @@
       '${(() => { if ((r.status || \'pendente\') !== \'confirmada\') return \'\'; const telRaw = (r.capitaoTelefone || \'\').toString(); const digits = telRaw.replace(/[^0-9]/g,\'\'); if (!digits) return \'\'; let wa = digits; // Se for número PT (9 dígitos), prefixar 351 if (wa.length === 9) wa = \'351\' + wa; const msg = encodeURIComponent(`Olá ${r.capitaoNome || \'Capitão\'}! Estou a confirmar detalhes da minha reserva: ${r.saidaTitulo || \'Saída\'}.`); return `': '${(() => { if ((r.status || \'pendente\') !== \'confirmada\') return \'\'; const telRaw = (r.capitaoTelefone || \'\').toString(); const digits = telRaw.replace(/[^0-9]/g,\'\'); if (!digits) return \'\'; let wa = digits; // Se for número PT (9 dígitos), prefixar 351 if (wa.length === 9) wa = \'351\' + wa; const msg = encodeURIComponent(`Olá ${r.capitaoNome || \'Capitão\'}! Estou a confirmar detalhes da minha reserva: ${r.saidaTitulo || \'Saída\'}.`); return `'
     },
     en: {
+      'Barcos Serão Adicionados em Breve': 'Boats will be added soon',
+      'A nossa frota está a ser preparada! Se é capitão de barco e quer juntar-se à nossa equipa de pesca profissional ao atum, registe-se agora e adicione o seu barco.': 'Our fleet is being prepared! If you are a boat captain and want to join our professional tuna fishing team, register now and add your boat.',
+
       'saída encontrada': 'trip found',
       'saídas encontradas': 'trips found',
       'Classe': 'Class',
@@ -2013,6 +2016,9 @@
       '${(() => { if ((r.status || \'pendente\') !== \'confirmada\') return \'\'; const telRaw = (r.capitaoTelefone || \'\').toString(); const digits = telRaw.replace(/[^0-9]/g,\'\'); if (!digits) return \'\'; let wa = digits; // Se for número PT (9 dígitos), prefixar 351 if (wa.length === 9) wa = \'351\' + wa; const msg = encodeURIComponent(`Olá ${r.capitaoNome || \'Capitão\'}! Estou a confirmar detalhes da minha reserva: ${r.saidaTitulo || \'Saída\'}.`); return `': '${(() => { if ((r.status || \'pending\') !== \'confirmed\') return \'\'; const telRaw = (r.capitaoTelefone || \'\').toString(); const digits = telRaw.replace(/[^0-9]/g,\'\'); if (!digits) return \'\'; let wa = digits; // If PT number (9 digits), prefix'
     },
     fr: {
+      'Barcos Serão Adicionados em Breve': 'Des bateaux seront ajoutés bientôt',
+      'A nossa frota está a ser preparada! Se é capitão de barco e quer juntar-se à nossa equipa de pesca profissional ao atum, registe-se agora e adicione o seu barco.': 'Notre flotte est en préparation ! Si vous êtes capitaine et souhaitez rejoindre notre équipe de pêche professionnelle au thon, inscrivez-vous dès maintenant et ajoutez votre bateau.',
+
       'saída encontrada': 'sortie trouvée',
       'saídas encontradas': 'sorties trouvées',
       'Classe': 'Classe',
@@ -3016,6 +3022,9 @@
       '${(() => { if ((r.status || \'pendente\') !== \'confirmada\') return \'\'; const telRaw = (r.capitaoTelefone || \'\').toString(); const digits = telRaw.replace(/[^0-9]/g,\'\'); if (!digits) return \'\'; let wa = digits; // Se for número PT (9 dígitos), prefixar 351 if (wa.length === 9) wa = \'351\' + wa; const msg = encodeURIComponent(`Olá ${r.capitaoNome || \'Capitão\'}! Estou a confirmar detalhes da minha reserva: ${r.saidaTitulo || \'Saída\'}.`); return `': '${(() => { if ((r.status || \'ending\') !== \'confirmed\') return \'\'; const telRaw = (r.capitaoTelefone || \'\').toString(); const digits = telRaw.replace(/[^0-9]/g,\'\'); if (!digits) return \'\'; let wa = chiffres; // Si numéro PT (9 chiffres), préfixe 351 if (wa.length === 9) wa = \'351\' + wa; const msg = encodeURIComponent(`Bonjour ${r.capitaoName || \'Captain\'} ! Je confirme les détails de ma réservation : ${r.saidaTitulo || \'Exit\'}.`);'
     },
     de: {
+      'Barcos Serão Adicionados em Breve': 'Boote werden bald hinzugefügt',
+      'A nossa frota está a ser preparada! Se é capitão de barco e quer juntar-se à nossa equipa de pesca profissional ao atum, registe-se agora e adicione o seu barco.': 'Unsere Flotte wird gerade vorbereitet! Wenn Sie Kapitän sind und unserem professionellen Thunfisch-Angelteam beitreten möchten, registrieren Sie sich jetzt und fügen Sie Ihr Boot hinzu.',
+
       'saída encontrada': 'Ausfahrt gefunden',
       'saídas encontradas': 'Ausfahrten gefunden',
       'Classe': 'Klasse',
@@ -4062,7 +4071,14 @@
 
   function setLang(lang) {
     const l = normalizeLang(lang);
-    try { localStorage.setItem(LANG_STORAGE_KEY, l); } catch (_) {}
+    try { localStorage.setItem(LANG_STORAGE_KEY, l);
+
+    // v1.40: ensure Portuguese restores original content
+    if (l === 'pt') {
+      location.reload();
+      return;
+    }
+ } catch (_) {}
     applyI18n(l);
     updateSwitcherUI(l);
   }
@@ -4133,14 +4149,27 @@
         }
       } catch (_) {}
 
+      // If there are multiple non-empty text nodes (e.g., sentences split by <br/>),
+      // replace only once and clear the remaining ones to avoid duplicated sentences.
+      let _textNodes = [];
+      try {
+        _textNodes = Array.from(el.childNodes || []).filter(n => n && n.nodeType === Node.TEXT_NODE && (n.nodeValue || '').replace(/\s+/g,' ').trim());
+      } catch (_) {}
+
+
       el.childNodes.forEach(n => {
-        if (replaced) return;
         if (n.nodeType === Node.TEXT_NODE) {
           const raw = n.nodeValue || '';
           const trimmed = raw.replace(/\s+/g, ' ').trim();
           if (!trimmed) return;
-          n.nodeValue = raw.replace(trimmed, translatedRemainder);
-          replaced = true;
+
+          if (!replaced) {
+            n.nodeValue = raw.replace(trimmed, translatedRemainder);
+            replaced = true;
+          } else {
+            // clear subsequent text nodes to prevent duplicated content
+            n.nodeValue = raw.replace(trimmed, '');
+          }
         }
       });
 
