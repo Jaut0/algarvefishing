@@ -1,5 +1,11 @@
 // Versão do portal
-const SITE_VERSION = 'v1.37';
+const SITE_VERSION = 'v1.39';
+
+// Debug flag (set true in console to enable logs)
+window.__DEBUG = window.__DEBUG || false;
+window.__log = (...args) => { if (window.__DEBUG) console.log(...args); };
+window.__err = (...args) => { if (window.__DEBUG) console.error(...args); };
+
 
 // ============================================
 // FishingHub - JavaScript Principal
@@ -11,6 +17,8 @@ document.addEventListener('DOMContentLoaded', () => {
     initHeader();
     initMobileMenu();
     initScrollAnimations();
+    updateAuthLinksForSession();
+    trackVisitStats();
 });
 
 // ============================================
@@ -31,7 +39,7 @@ function limparDadosMockAntigos() {
     chavesParaLimpar.forEach(chave => {
         if (localStorage.getItem(chave)) {
             localStorage.removeItem(chave);
-            console.log(`🧹 Removido: ${chave}`);
+            window.__log(`🧹 Removido: ${chave}`);
         }
     });
     
@@ -47,7 +55,7 @@ function limparDadosMockAntigos() {
     
     if (utilizadores.length !== utilizadoresReais.length) {
         localStorage.setItem('utilizadores', JSON.stringify(utilizadoresReais));
-        console.log(`🧹 Utilizadores: ${utilizadores.length} → ${utilizadoresReais.length}`);
+        window.__log(`🧹 Utilizadores: ${utilizadores.length} → ${utilizadoresReais.length}`);
     }
 }
 
@@ -319,3 +327,62 @@ window.fecharModal = fecharModal;
 window.validarFormulario = validarFormulario;
 window.mostrarLoading = mostrarLoading;
 window.esconderLoading = esconderLoading;
+
+function updateSiteVersionBadges() {
+  try {
+    document.querySelectorAll('.site-version-badge').forEach(el => {
+      // preserve icon if present
+      const icon = el.querySelector('i');
+      if (icon) {
+        // remove text nodes and set to icon + version
+        el.innerHTML = icon.outerHTML + ' ' + SITE_VERSION;
+      } else {
+        el.textContent = SITE_VERSION;
+      }
+    });
+  } catch (e) {}
+}
+
+document.addEventListener('DOMContentLoaded', updateSiteVersionBadges);
+
+
+// ============================================
+// Sessão: trocar links de auth por Dashboard
+// (evita código inline repetido em várias páginas)
+// ============================================
+function updateAuthLinksForSession() {
+  try {
+    const raw = localStorage.getItem('usuarioLogado');
+    if (!raw) return;
+    const usuario = JSON.parse(raw);
+    if (!usuario || !usuario.email) return;
+
+    const dashboardUrl = usuario.tipo === 'capitao' ? 'dashboard-capitao.html' : 'dashboard-usuario.html';
+
+    document.querySelectorAll('a[href="auth.html"], a[href="./auth.html"]').forEach(btn => {
+      btn.textContent = '🔐 Dashboard';
+      btn.href = dashboardUrl;
+      if (btn.classList.contains('btn') || btn.classList.contains('btn-primario') || btn.classList.contains('btn-outline')) {
+        btn.style.background = 'linear-gradient(135deg, #FF8F00, #FFB74D)';
+        btn.style.border = '2px solid #FF8F00';
+        btn.style.color = '#fff';
+      }
+    });
+  } catch (_) {}
+}
+
+// ============================================
+// Métricas simples: visitas (localStorage)
+// (evita código inline repetido)
+// ============================================
+function trackVisitStats() {
+  try {
+    const hoje = new Date().toISOString().slice(0,10);
+    let stats = JSON.parse(localStorage.getItem('siteVisitStats') || '{}');
+    stats.total = (stats.total || 0) + 1;
+    if (!stats.porDia) stats.porDia = {};
+    stats.porDia[hoje] = (stats.porDia[hoje] || 0) + 1;
+    stats.ultimaVisita = new Date().toISOString();
+    localStorage.setItem('siteVisitStats', JSON.stringify(stats));
+  } catch (_) {}
+}

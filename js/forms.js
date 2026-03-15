@@ -204,7 +204,7 @@ function validarStepAtual() {
 function submeterFormulario() {
     const form = document.querySelector('.form-multistep form') || document.getElementById('formRegistarBarco');
     if (!form) {
-        console.error('Formulário não encontrado!');
+        window.__err('Formulário não encontrado!');
         return;
     }
     
@@ -263,7 +263,7 @@ function submeterFormulario() {
     if (!barco.tipo) { mostrarToast('Selecione o tipo de barco', 'erro'); return; }
     if (!barco.porto) { mostrarToast('Selecione o porto de amarração', 'erro'); return; }
     
-    console.log('🚢 A registar barco:', barco);
+    window.__log('🚢 A registar barco:', barco);
     
     // Mostrar loading
     const btnSubmit = document.getElementById('btnSubmit');
@@ -278,7 +278,7 @@ function submeterFormulario() {
         barcos.push(barco);
         localStorage.setItem('barcos', JSON.stringify(barcos));
         
-        console.log('✅ Barco guardado:', barco.nome, '| Total barcos:', barcos.length);
+        window.__log('✅ Barco guardado:', barco.nome, '| Total barcos:', barcos.length);
         
         mostrarToast('✅ Barco registado com sucesso! Aguarda aprovação.', 'sucesso');
         
@@ -297,7 +297,7 @@ function submeterFormulario() {
         }, 1000);
         
     } catch (err) {
-        console.error('Erro ao guardar barco:', err);
+        window.__err('Erro ao guardar barco:', err);
         mostrarToast('Erro ao guardar barco. Tente novamente.', 'erro');
         if (btnSubmit) {
             btnSubmit.disabled = false;

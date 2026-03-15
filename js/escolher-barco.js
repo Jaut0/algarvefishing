@@ -19,7 +19,7 @@ function getBarcos() {
         const stored = JSON.parse(localStorage.getItem('barcos') || '[]');
         return stored.filter(b => b.status === 'aprovado');
     } catch(e) {
-        console.error('Erro ao carregar barcos:', e);
+        window.__err('Erro ao carregar barcos:', e);
         return [];
     }
 }

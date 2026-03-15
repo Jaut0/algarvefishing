@@ -46,7 +46,7 @@ function carregarSaidasDoStorage() {
 function renderizarSaidas() {
     const container = document.getElementById('resultadosSaidas');
     if (!container) {
-        console.error('Container #resultadosSaidas não encontrado!');
+        window.__err('Container #resultadosSaidas não encontrado!');
         return;
     }
     

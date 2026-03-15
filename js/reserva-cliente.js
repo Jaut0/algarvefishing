@@ -292,7 +292,7 @@ function initFormReserva() {
             reservas.push(dados);
             localStorage.setItem('reservas', JSON.stringify(reservas));
             
-            console.log('✅ Reserva guardada:', dados);
+            window.__log('✅ Reserva guardada:', dados);
             
             // Simular envio
             mostrarLoading();

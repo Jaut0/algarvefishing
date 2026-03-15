@@ -313,9 +313,9 @@ document.getElementById('reservaForm').addEventListener('submit', (e) => {
             mensagem: formData.cliente.mensagem || 'Sem mensagem adicional'
         }).then(result => {
             if (result.success) {
-                console.log('✅ Email enviado ao capitão:', formData.capitaoEmail);
+                window.__log('✅ Email enviado ao capitão:', formData.capitaoEmail);
             } else {
-                console.error('❌ Erro ao enviar email ao capitão:', result.error);
+                window.__err('❌ Erro ao enviar email ao capitão:', result.error);
             }
         });
     }
@@ -331,9 +331,9 @@ document.getElementById('reservaForm').addEventListener('submit', (e) => {
             numPescadores: formData.cliente.numPescadores
         }).then(result => {
             if (result.success) {
-                console.log('✅ Email de confirmação enviado ao cliente:', formData.cliente.email);
+                window.__log('✅ Email de confirmação enviado ao cliente:', formData.cliente.email);
             } else {
-                console.error('❌ Erro ao enviar email ao cliente:', result.error);
+                window.__err('❌ Erro ao enviar email ao cliente:', result.error);
             }
         });
     }

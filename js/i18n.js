@@ -4021,6 +4021,8 @@
   };
 
   // Guard: prevent polluted auto-translations (quota warnings)
+  const BAD_TEMPLATE_KEY_RE = /\$\{\(\(\)\s*=>/i;
+
   const BAD_TRANSLATION_RE = /MYMEMORY WARNING|USED ALL AVAILABLE FREE TRANSLATIONS|mymemory\.translated\.net|NEXT AVAILABLE IN/i;
   function isBadAutoTranslation(str) {
     if (!str || typeof str !== 'string') return false;
@@ -4033,6 +4035,7 @@
         Object.keys(DICT[l]).forEach(k => {
           const v = DICT[l][k];
           if (isBadAutoTranslation(v)) delete DICT[l][k];
+          if (BAD_TEMPLATE_KEY_RE.test(k) || (typeof v === 'string' && BAD_TEMPLATE_KEY_RE.test(v))) delete DICT[l][k];
         });
       });
     } catch (_) {}

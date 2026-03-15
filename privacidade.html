@@ -8,7 +8,7 @@
 <link href="data:image/svg+xml,&lt;svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'&gt;&lt;text y='0.9em' font-size='90'&gt;⚓&lt;/text&gt;&lt;/svg&gt;" rel="icon"/>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
 <link href="css/style.css" rel="stylesheet"/>
-<link href="css/wicked-tuna.css?v=1.37" rel="stylesheet"/>
+<link href="css/wicked-tuna.css?v=1.39" rel="stylesheet"/>
 </head>
 <body>
 <header class="header" id="header">
@@ -79,48 +79,15 @@
 </div>
 <div class="footer-bottom">
 <p>© 2026 Algarve Tuna Charter. Todos os direitos reservados.</p>
-<p><span class="site-version-badge"><i class="fas fa-code-branch"></i> v1.27</span></p>
+<p><span class="site-version-badge"><i class="fas fa-code-branch"></i> v</span></p>
 </div>
 </div>
 </footer>
 <script src="js/main.js"></script>
-<script>
-        // 🔐 VERIFICAR SESSÃO ATIVA
-        (function verificarSessaoActiva() {
-            try {
-                const raw = localStorage.getItem('usuarioLogado');
-                if (!raw) return;
-                const usuario = JSON.parse(raw);
-                if (!usuario || !usuario.email) return;
-                
-                const dashboardUrl = usuario.tipo === 'capitao' ? 'dashboard-capitao.html' : 'dashboard-usuario.html';
-                
-                // Actualizar TODOS os links de auth.html
-                document.querySelectorAll('a[href="auth.html"], a[href="./auth.html"]').forEach(btn => {
-                    btn.textContent = '🔐 Dashboard';
-                    btn.href = dashboardUrl;
-                    if (btn.classList.contains('btn') || btn.classList.contains('btn-primario') || btn.classList.contains('btn-outline')) {
-                        btn.style.background = 'linear-gradient(135deg, #FF8F00, #FFB74D)';
-                        btn.style.border = '2px solid #FF8F00';
-                        btn.style.color = '#fff';
-                    }
-                });
-            } catch(e) { console.error('Erro sessão:', e); }
-        })();
-    </script>
-<script>
-    (function() {
-        try {
-            const hoje = new Date().toISOString().slice(0,10);
-            let stats = JSON.parse(localStorage.getItem('siteVisitStats') || '{}');
-            stats.total = (stats.total || 0) + 1;
-            if (!stats.porDia) stats.porDia = {};
-            stats.porDia[hoje] = (stats.porDia[hoje] || 0) + 1;
-            stats.ultimaVisita = new Date().toISOString();
-            localStorage.setItem('siteVisitStats', JSON.stringify(stats));
-        } catch(e) {}
-    })();
-    </script>
-<script src="js/i18n.js?v=1.37"></script>
+
+
+
+
+<script src="js/i18n.js?v=1.39"></script>
 </body>
 </html>

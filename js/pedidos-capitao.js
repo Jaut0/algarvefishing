@@ -15,7 +15,7 @@
     });
     
     if (reservas.length !== reservasReais.length) {
-        console.log(`🧹 Limpeza: ${reservas.length - reservasReais.length} reservas inválidas removidas`);
+        window.__log(`🧹 Limpeza: ${reservas.length - reservasReais.length} reservas inválidas removidas`);
         localStorage.setItem('reservasPendentes', JSON.stringify(reservasReais));
     }
 })();

@@ -295,25 +295,25 @@ window.marcarEmAnalise = function(id) {
 
 // Resolver reclamação
 window.resolverReclamacao = function(id) {
-    console.log('🔵 resolverReclamacao chamada, ID:', id, 'Tipo:', typeof id);
+    window.__log('🔵 resolverReclamacao chamada, ID:', id, 'Tipo:', typeof id);
     
     const reclamacoes = JSON.parse(localStorage.getItem('reclamacoes') || '[]');
-    console.log('📋 Total de reclamações:', reclamacoes.length);
-    console.log('📋 IDs disponíveis:', reclamacoes.map(r => r.id));
+    window.__log('📋 Total de reclamações:', reclamacoes.length);
+    window.__log('📋 IDs disponíveis:', reclamacoes.map(r => r.id));
     
     // Usar == em vez de === para comparação flexível (string/number)
     const rec = reclamacoes.find(r => r.id == id);
     
     if (!rec) {
-        console.error('❌ Reclamação não encontrada:', id);
-        console.error('Buscando ID:', id, 'Tipo:', typeof id);
+        window.__err('❌ Reclamação não encontrada:', id);
+        window.__err('Buscando ID:', id, 'Tipo:', typeof id);
         if (typeof mostrarToast === 'function') {
             mostrarToast('Reclamação não encontrada!', 'erro');
         }
         return;
     }
     
-    console.log('✅ Reclamação encontrada:', rec);
+    window.__log('✅ Reclamação encontrada:', rec);
     
     const modal = document.createElement('div');
     modal.className = 'modal active';
@@ -340,11 +340,11 @@ window.resolverReclamacao = function(id) {
         </div>
     `;
     document.body.appendChild(modal);
-    console.log('✅ Modal adicionado ao DOM');
+    window.__log('✅ Modal adicionado ao DOM');
 };
 
 window.confirmarResolucao = function(id) {
-    console.log('✅ confirmarResolucao chamada, ID:', id);
+    window.__log('✅ confirmarResolucao chamada, ID:', id);
     const nota = document.getElementById('notaResolucao').value;
     const reclamacoes = JSON.parse(localStorage.getItem('reclamacoes') || '[]');
     const rec = reclamacoes.find(r => r.id == id);
@@ -355,7 +355,7 @@ window.confirmarResolucao = function(id) {
         rec.notaResolucao = nota;
         rec.dataAtualizacao = new Date().toISOString();
         localStorage.setItem('reclamacoes', JSON.stringify(reclamacoes));
-        console.log('✅ Reclamação atualizada:', rec);
+        window.__log('✅ Reclamação atualizada:', rec);
         document.querySelector('.modal')?.remove();
         if (typeof mostrarToast === 'function') {
             mostrarToast('Reclamação marcada como resolvida!', 'sucesso');
@@ -364,29 +364,29 @@ window.confirmarResolucao = function(id) {
         }
         loadReclamacoes();
     } else {
-        console.error('❌ Reclamação não encontrada no confirmar:', id);
+        window.__err('❌ Reclamação não encontrada no confirmar:', id);
     }
 };
 
 // Rejeitar reclamação
 window.rejeitarReclamacao = function(id) {
-    console.log('🔴 rejeitarReclamacao chamada, ID:', id, 'Tipo:', typeof id);
+    window.__log('🔴 rejeitarReclamacao chamada, ID:', id, 'Tipo:', typeof id);
     
     const reclamacoes = JSON.parse(localStorage.getItem('reclamacoes') || '[]');
-    console.log('📋 Total de reclamações:', reclamacoes.length);
+    window.__log('📋 Total de reclamações:', reclamacoes.length);
     
     // Usar == em vez de === para comparação flexível
     const rec = reclamacoes.find(r => r.id == id);
     
     if (!rec) {
-        console.error('❌ Reclamação não encontrada:', id);
+        window.__err('❌ Reclamação não encontrada:', id);
         if (typeof mostrarToast === 'function') {
             mostrarToast('Reclamação não encontrada!', 'erro');
         }
         return;
     }
     
-    console.log('✅ Reclamação encontrada:', rec);
+    window.__log('✅ Reclamação encontrada:', rec);
     
     const modal = document.createElement('div');
     modal.className = 'modal active';
@@ -413,11 +413,11 @@ window.rejeitarReclamacao = function(id) {
         </div>
     `;
     document.body.appendChild(modal);
-    console.log('✅ Modal adicionado ao DOM');
+    window.__log('✅ Modal adicionado ao DOM');
 };
 
 window.confirmarRejeicaoRec = function(id) {
-    console.log('❌ confirmarRejeicaoRec chamada, ID:', id);
+    window.__log('❌ confirmarRejeicaoRec chamada, ID:', id);
     const motivo = document.getElementById('motivoRejeicao').value;
     const reclamacoes = JSON.parse(localStorage.getItem('reclamacoes') || '[]');
     const rec = reclamacoes.find(r => r.id == id);
@@ -428,7 +428,7 @@ window.confirmarRejeicaoRec = function(id) {
         rec.motivoRejeicao = motivo;
         rec.dataAtualizacao = new Date().toISOString();
         localStorage.setItem('reclamacoes', JSON.stringify(reclamacoes));
-        console.log('✅ Reclamação rejeitada:', rec);
+        window.__log('✅ Reclamação rejeitada:', rec);
         document.querySelector('.modal')?.remove();
         if (typeof mostrarToast === 'function') {
             mostrarToast('Reclamação rejeitada', 'aviso');
@@ -437,7 +437,7 @@ window.confirmarRejeicaoRec = function(id) {
         }
         loadReclamacoes();
     } else {
-        console.error('❌ Reclamação não encontrada no confirmar:', id);
+        window.__err('❌ Reclamação não encontrada no confirmar:', id);
     }
 };
 

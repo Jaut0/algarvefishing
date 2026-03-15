@@ -40,12 +40,12 @@ const EMAIL_CONFIG = {
  */
 function initEmailJS() {
     if (typeof emailjs === 'undefined') {
-        console.error('❌ EmailJS não carregado! Adicione o script: https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js');
+        window.__err('❌ EmailJS não carregado! Adicione o script: https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js');
         return false;
     }
     
     emailjs.init(EMAIL_CONFIG.publicKey);
-    console.log('✅ EmailJS inicializado com sucesso.');
+    window.__log('✅ EmailJS inicializado com sucesso.');
     return true;
 }
 
@@ -179,10 +179,10 @@ async function enviarEmailAtivacaoCapitao(dados, token) {
             EMAIL_CONFIG.templates.ativacaoCapitao,
             params
         );
-        console.log('✅ Email de ativação enviado para:', dados.email);
+        window.__log('✅ Email de ativação enviado para:', dados.email);
         return { success: true, response };
     } catch (error) {
-        console.error('❌ Erro ao enviar email de ativação:', error);
+        window.__err('❌ Erro ao enviar email de ativação:', error);
         return { success: false, error };
     }
 }
@@ -208,10 +208,10 @@ async function enviarEmailAtivacaoCliente(dados, token) {
             EMAIL_CONFIG.templates.ativacaoCliente,
             params
         );
-        console.log('✅ Email de ativação enviado para:', dados.email);
+        window.__log('✅ Email de ativação enviado para:', dados.email);
         return { success: true, response };
     } catch (error) {
-        console.error('❌ Erro ao enviar email de ativação:', error);
+        window.__err('❌ Erro ao enviar email de ativação:', error);
         return { success: false, error };
     }
 }
@@ -246,10 +246,10 @@ async function enviarEmailReservaCapitao(dados) {
             EMAIL_CONFIG.templates.reservaCapitao,
             params
         );
-        console.log('✅ Email de reserva enviado ao capitão:', dados.capitaoEmail);
+        window.__log('✅ Email de reserva enviado ao capitão:', dados.capitaoEmail);
         return { success: true, response };
     } catch (error) {
-        console.error('❌ Erro ao enviar email ao capitão:', error);
+        window.__err('❌ Erro ao enviar email ao capitão:', error);
         return { success: false, error };
     }
 }
@@ -284,10 +284,10 @@ async function enviarEmailReservaCliente(dados) {
             EMAIL_CONFIG.templates.reservaCliente,
             params
         );
-        console.log('✅ Email de confirmação enviado ao cliente:', dados.clienteEmail);
+        window.__log('✅ Email de confirmação enviado ao cliente:', dados.clienteEmail);
         return { success: true, response };
     } catch (error) {
-        console.error('❌ Erro ao enviar email ao cliente:', error);
+        window.__err('❌ Erro ao enviar email ao cliente:', error);
         return { success: false, error };
     }
 }
@@ -330,10 +330,10 @@ async function enviarEmailReservaAceiteCliente(dados) {
             EMAIL_CONFIG.templates.reservaCliente,
             params
         );
-        console.log('✅ Email de reserva confirmada enviado ao cliente:', dados.clienteEmail);
+        window.__log('✅ Email de reserva confirmada enviado ao cliente:', dados.clienteEmail);
         return { success: true, response };
     } catch (error) {
-        console.error('❌ Erro ao enviar email de reserva confirmada ao cliente:', error);
+        window.__err('❌ Erro ao enviar email de reserva confirmada ao cliente:', error);
         return { success: false, error };
     }
 }
@@ -360,10 +360,10 @@ async function enviarEmailSuporte(dados) {
             EMAIL_CONFIG.templates.suporte,
             params
         );
-        console.log('✅ Email de suporte enviado:', response);
+        window.__log('✅ Email de suporte enviado:', response);
         return { success: true, response };
     } catch (error) {
-        console.error('❌ Erro ao enviar email de suporte:', error);
+        window.__err('❌ Erro ao enviar email de suporte:', error);
         return { success: false, error };
     }
 }
@@ -442,7 +442,7 @@ Big Game Fishing no Algarve
             EMAIL_CONFIG.templates.ativacaoCliente,
             params
         );
-        console.log('✅ Email de ativação de conta enviado ao cliente:', cliente.email);
+        window.__log('✅ Email de ativação de conta enviado ao cliente:', cliente.email);
         return { success: true, response };
     } catch (error) {
         console.warn('⚠️ EmailJS falhou (email guardado localmente):', error);

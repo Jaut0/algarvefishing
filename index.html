@@ -11,7 +11,7 @@
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&amp;family=Montserrat:wght@400;600;700;900&amp;family=Roboto:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
-<link href="css/wicked-tuna.css?v=1.37" rel="stylesheet"/>
+<link href="css/wicked-tuna.css?v=1.39" rel="stylesheet"/>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
 <link href="css/algarve-tuna.css" rel="stylesheet"/>
 <style>
@@ -579,34 +579,8 @@
             }
         })();
     </script>
-<script>
-    // ===== CONTADOR DE VISITAS DO SITE =====
-    (function() {
-        try {
-            const hoje = new Date().toISOString().slice(0,10); // YYYY-MM-DD
-            let stats = JSON.parse(localStorage.getItem('siteVisitStats') || '{}');
-            
-            // Total visitas
-            stats.total = (stats.total || 0) + 1;
-            
-            // Visitas hoje
-            if (!stats.porDia) stats.porDia = {};
-            stats.porDia[hoje] = (stats.porDia[hoje] || 0) + 1;
-            
-            // Última visita
-            stats.ultimaVisita = new Date().toISOString();
-            
-            // Manter apenas últimos 30 dias
-            const limite = new Date();
-            limite.setDate(limite.getDate() - 30);
-            Object.keys(stats.porDia).forEach(d => {
-                if (new Date(d) < limite) delete stats.porDia[d];
-            });
-            
-            localStorage.setItem('siteVisitStats', JSON.stringify(stats));
-        } catch(e) {}
-    })();
-    </script>
-<script src="js/i18n.js?v=1.37"></script>
+
+
+<script src="js/i18n.js?v=1.39"></script>
 </body>
 </html>

@@ -21,15 +21,15 @@ function limparTokensExpirados() {
         const removidos = pendentes.length - ativos.length;
         
         if (removidos > 0) {
-            console.log(`🧹 Limpeza automática: ${removidos} token(s) expirado(s) removido(s)`);
+            window.__log(`🧹 Limpeza automática: ${removidos} token(s) expirado(s) removido(s)`);
             localStorage.setItem('usuariosPendentes', JSON.stringify(ativos));
         } else {
-            console.log('✅ Nenhum token expirado encontrado');
+            window.__log('✅ Nenhum token expirado encontrado');
         }
         
         return { removidos, restantes: ativos.length };
     } catch (error) {
-        console.error('❌ Erro ao limpar tokens:', error);
+        window.__err('❌ Erro ao limpar tokens:', error);
         return { removidos: 0, restantes: 0 };
     }
 }
@@ -49,7 +49,7 @@ function verificarTokensPendentes() {
         
         return pendentes.length;
     } catch (error) {
-        console.error('❌ Erro ao verificar tokens:', error);
+        window.__err('❌ Erro ao verificar tokens:', error);
         return 0;
     }
 }
@@ -74,7 +74,7 @@ function estatisticasAtivacao() {
         console.table(stats);
         return stats;
     } catch (error) {
-        console.error('❌ Erro ao obter estatísticas:', error);
+        window.__err('❌ Erro ao obter estatísticas:', error);
         return null;
     }
 }
@@ -91,7 +91,7 @@ function ativarContaManualmente(email) {
         const usuario = pendentes.find(u => u.email === email);
         
         if (!usuario) {
-            console.error(`❌ Usuário ${email} não encontrado na lista de pendentes`);
+            window.__err(`❌ Usuário ${email} não encontrado na lista de pendentes`);
             return false;
         }
         
@@ -110,10 +110,10 @@ function ativarContaManualmente(email) {
         const novosPendentes = pendentes.filter(u => u.email !== email);
         localStorage.setItem('usuariosPendentes', JSON.stringify(novosPendentes));
         
-        console.log(`✅ Conta ${email} ativada manualmente com sucesso!`);
+        window.__log(`✅ Conta ${email} ativada manualmente com sucesso!`);
         return true;
     } catch (error) {
-        console.error('❌ Erro ao ativar conta:', error);
+        window.__err('❌ Erro ao ativar conta:', error);
         return false;
     }
 }
@@ -144,9 +144,9 @@ if (typeof window !== 'undefined') {
     window.ativarContaManualmente = ativarContaManualmente;
 }
 
-console.log('🧹 Sistema de limpeza automática carregado!');
-console.log('💡 Comandos disponíveis no console:');
-console.log('   - limparTokensExpirados()');
-console.log('   - verificarTokensPendentes()');
-console.log('   - estatisticasAtivacao()');
-console.log('   - ativarContaManualmente("email@exemplo.com")');
+window.__log('🧹 Sistema de limpeza automática carregado!');
+window.__log('💡 Comandos disponíveis no console:');
+window.__log('   - limparTokensExpirados()');
+window.__log('   - verificarTokensPendentes()');
+window.__log('   - estatisticasAtivacao()');
+window.__log('   - ativarContaManualmente("email@exemplo.com")');
