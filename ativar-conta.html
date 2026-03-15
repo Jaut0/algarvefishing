@@ -144,6 +144,42 @@
         .erro-detalhes li {
             margin: 0.25rem 0;
         }
+
+        /* Avisos & Boas-vindas (Capitão) no painel da direita */
+        .capitao-welcome {
+            display: none;
+            margin-top: 0.75rem;
+            padding: 0.9rem 1rem;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+        }
+
+        .capitao-welcome h4 {
+            margin: 0 0 0.5rem 0;
+            font-size: 1.05rem;
+            font-weight: 800;
+            color: rgba(255, 255, 255, 0.95);
+        }
+
+        .capitao-welcome p {
+            margin: 0.5rem 0;
+            color: rgba(255, 255, 255, 0.88);
+            font-size: 0.95rem;
+            line-height: 1.45;
+        }
+
+        .capitao-welcome .destaque {
+            color: rgba(255, 255, 255, 1);
+            font-weight: 900;
+            letter-spacing: 0.2px;
+            text-transform: uppercase;
+        }
+
+        .capitao-welcome .alerta {
+            color: rgba(255, 255, 255, 0.96);
+            font-weight: 700;
+        }
     </style>
 </head>
 <body>
@@ -322,6 +358,24 @@
                     <i class="fas fa-home"></i> Página Inicial
                 </a>
             `;
+
+            // Ajustar painel da direita (boas-vindas + avisos) apenas para Capitão
+            try {
+                const box = document.getElementById('capitaoWelcome');
+                const links = document.getElementById('linksPadrao');
+                const nomeSpan = document.getElementById('capitaoNomeFooter');
+
+                if (usuario && usuario.tipo === 'capitao') {
+                    if (nomeSpan) nomeSpan.textContent = (usuario.nome || '').trim();
+                    if (box) box.style.display = 'block';
+                    if (links) links.style.display = 'none';
+                } else {
+                    if (box) box.style.display = 'none';
+                    if (links) links.style.display = 'block';
+                }
+            } catch (e) {
+                console.warn('⚠️ Não foi possível atualizar o menu de boas-vindas:', e);
+            }
         }
 
         function mostrarErro(titulo, mensagem, detalhes = []) {
@@ -393,13 +447,34 @@
 </div>
 <div class="footer-secao">
 <h3>Links Rápidos</h3>
-<div class="footer-links">
+
+<!-- Menu padrão (Cliente / Geral) -->
+<div class="footer-links" id="linksPadrao">
 <a class="footer-link" href="index.html">Início</a>
 <a class="footer-link" href="explorar.html">Explorar</a>
 <a class="footer-link" href="cancelamentos.html">Cancelamentos</a>
 <a class="footer-link" href="termos.html">Termos</a>
 <a class="footer-link" href="privacidade.html">Privacidade</a>
 <a class="footer-link" href="auth.html">Entrar</a>
+</div>
+
+<!-- Menu Boas-vindas (Capitão) - aparece apenas após ativação/registro de Capitão -->
+<div class="capitao-welcome" id="capitaoWelcome">
+<h4>Boas-vindas, Capitão <span id="capitaoNomeFooter"></span>!</h4>
+<p class="destaque">RESPEITO É OBRIGATÓRIO.</p>
+<p class="alerta">Falta de respeito entre capitães e clientes não será tolerada.</p>
+<p>Cancelamentos, devoluções e qualquer tipo de acerto relacionado às saídas são <strong>responsabilidade exclusiva</strong> das partes envolvidas (capitão e cliente).</p>
+<p>A plataforma <strong>não processa pagamentos</strong> e <strong>não se responsabiliza</strong> por pagamentos, cobranças, devoluções ou disputas financeiras.</p>
+
+<div class="footer-links" style="margin-top: 0.65rem;">
+<a class="footer-link" href="dashboard-capitao.html">Dashboard do Capitão</a>
+<a class="footer-link" href="criar-saida.html">Criar Saída</a>
+<a class="footer-link" href="gerir-agenda.html">Gerir Agenda</a>
+<a class="footer-link" href="cancelamentos.html">Cancelamentos</a>
+<a class="footer-link" href="suporte.html">Suporte</a>
+<a class="footer-link" href="termos.html">Termos</a>
+<a class="footer-link" href="privacidade.html">Privacidade</a>
+</div>
 </div>
 </div>
 </div>
